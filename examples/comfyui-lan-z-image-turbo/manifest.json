@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.example.comfyui-lan-z-image",
+  "displayName": "LAN ComfyUI Z-Image Turbo",
+  "version": "0.1.0",
+  "language": "rust",
+  "entry": "adapter.wasm",
+  "capabilitySlots": [
+    {
+      "slot": "image",
+      "taskType": "text_to_image",
+      "models": [
+        { "modelId": "z.turbo", "displayName": "Z-Image Turbo" },
+        { "modelId": "z.turbo.1080", "displayName": "Z-Image Turbo 1080" },
+        { "modelId": "z.turbo.4k", "displayName": "Z-Image Turbo 4K" }
+      ],
+      "supportsAsync": true
+    }
+  ],
+  "requestedCapabilities": {
+    "endpointPolicy": ["userConfigurable", "allowPrivateNetwork"],
+    "allowPrivateNetwork": true,
+    "auth": ["none"]
+  }
+}

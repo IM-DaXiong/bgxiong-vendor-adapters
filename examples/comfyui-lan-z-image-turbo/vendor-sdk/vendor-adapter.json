@@ -1,0 +1,134 @@
+{
+  "schemaVersion": 1,
+  "protocolMin": 1,
+  "protocolMax": 1,
+  "protocolHostMajor": 1,
+  "compatibleMajorWindow": 2,
+  "optionalFeatures": [
+    "partial-outputs",
+    "public-media"
+  ],
+  "capabilitySlots": [
+    "image",
+    "imageToImage",
+    "video",
+    "keyframe",
+    "text",
+    "speech",
+    "voiceDesign",
+    "sfx",
+    "avatar",
+    "lipsync",
+    "videoUpscale",
+    "videoFaceRefine",
+    "imageUpscale"
+  ],
+  "operations": [
+    "capabilities",
+    "probe",
+    "upload",
+    "submit",
+    "query",
+    "cancel"
+  ],
+  "taskStatuses": [
+    "queued",
+    "running",
+    "succeeded",
+    "failed",
+    "cancelled",
+    "expired"
+  ],
+  "outputSources": [
+    "url",
+    "host-media",
+    "inline-base64",
+    "inline-binary"
+  ],
+  "authModes": [
+    "none",
+    "bearer",
+    "custom-header",
+    "jwt-hs256",
+    "volc-signature-v4",
+    "aws-sigv4",
+    "oauth2-device-code",
+    "hmac-sha256"
+  ],
+  "errorCodes": [
+    "adapterPackageInvalid",
+    "adapterHashMismatch",
+    "adapterSignatureInvalid",
+    "adapterPublisherUntrusted",
+    "adapterNamespaceViolation",
+    "adapterPluginRevoked",
+    "adapterPublisherRevoked",
+    "adapterTrustListStale",
+    "adapterHostDenylisted",
+    "adapterProtocolUnsupported",
+    "adapterLanguageRuntimeMissing",
+    "adapterSourceRejected",
+    "adapterCapabilityDenied",
+    "adapterRuntimeUnavailable",
+    "adapterFuelExhausted",
+    "adapterMemoryLimit",
+    "adapterTimeout",
+    "adapterTrap",
+    "adapterBadOutput",
+    "adapterOutboundUrlBlocked",
+    "adapterCredentialMissing",
+    "adapterSignatureRejected",
+    "adapterVendorHttpError",
+    "adapterVendorTaskFailed",
+    "adapterOutputDownloadFailed"
+  ],
+  "trustRefreshIntervalSeconds": 3600,
+  "trustGracePeriodSeconds": 604800,
+  "trustPullPath": "/client/v1/vendor-adapter/trust/pull",
+  "trustMaxBodyBytes": 262144,
+  "diagnosticTtlSeconds": 86400,
+  "languageTiers": {
+    "rust": {
+      "memoryBytes": 33554432,
+      "fuel": 400000000,
+      "wallMs": 15000,
+      "maxComponentBytes": 4194304
+    },
+    "tinygo": {
+      "memoryBytes": 16777216,
+      "fuel": 50000000,
+      "wallMs": 15000,
+      "maxComponentBytes": 8388608
+    },
+    "typescript": {
+      "memoryBytes": 67108864,
+      "fuel": 200000000,
+      "wallMs": 30000,
+      "maxComponentBytes": 2097152
+    },
+    "python": {
+      "memoryBytes": 268435456,
+      "fuel": 400000000,
+      "wallMs": 60000,
+      "maxComponentBytes": 16777216
+    }
+  },
+  "providerKinds": {
+    "image": "image_vendor_adapter",
+    "imageToImage": "image_vendor_adapter",
+    "video": "video_vendor_adapter",
+    "keyframe": "video_vendor_adapter",
+    "text": "text_vendor_adapter",
+    "speech": "speech_vendor_adapter",
+    "voiceDesign": "voice_design_vendor_adapter",
+    "sfx": "sfx_vendor_adapter",
+    "avatar": "avatar_vendor_adapter",
+    "lipsync": "lipsync_vendor_adapter",
+    "videoUpscale": "video_upscale_vendor_adapter",
+    "videoFaceRefine": "video_face_refine_vendor_adapter",
+    "imageUpscale": "image_upscale_vendor_adapter"
+  },
+  "modelIdPrefix": "adapter:",
+  "unsignedNamespacePrefix": "local.",
+  "diagnosticLogPrefix": "adapter-diag-"
+}
