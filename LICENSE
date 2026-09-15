@@ -1,0 +1,22 @@
+BGXiong Vendor Adapters License
+比格熊第三方适配器开源许可（自定义）
+
+Copyright (c) 2026 BGXiong / 比格熊（天途影像）
+
+Permitted / 允许：
+1. Personal use（个人使用）
+2. Commercial use in your own projects and products（在自有项目/产品中商用使用）
+3. Copy, study, and contribute improvements back to this repository under this same license
+
+Prohibited / 禁止：
+1. Selling this repository’s materials (original or modified) as a standalone commercial product, paid pack, paid mirror, or paid adapter library（将本仓库内容原样或改造后作为独立商业产品/付费包/付费适配器库出售）
+2. Relicensing under terms that remove the above prohibition
+3. Removing or altering this copyright and license notice in redistributed copies
+
+Notes / 说明：
+- Using adapters inside BGXiong Digital Director / 比格熊数字导演工作站 does not by itself violate this license.
+- For white-label / redistribution rights, contact WeChat Official Account「天途影像」(backend message).
+- This is NOT the MIT License. Third-party vendor APIs remain under their own terms.
+
+THE MATERIALS ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.
+本材料按「现状」提供，不作任何明示或暗示担保。

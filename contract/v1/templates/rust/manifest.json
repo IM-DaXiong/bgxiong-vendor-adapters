@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.example.starter",
+  "displayName": "Starter",
+  "version": "0.1.0",
+  "language": "rust",
+  "entry": "adapter.wasm",
+  "capabilitySlots": [
+    {
+      "slot": "image",
+      "taskType": "text_to_image",
+      "models": [{ "modelId": "echo", "displayName": "Echo" }]
+    }
+  ],
+  "requestedCapabilities": {
+    "endpointPolicy": ["staticHosts"],
+    "networkHosts": ["api.example.invalid"],
+    "auth": ["none"]
+  }
+}

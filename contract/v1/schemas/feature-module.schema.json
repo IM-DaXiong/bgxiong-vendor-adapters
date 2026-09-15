@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v1/feature-module.schema.json",
+  "title": "VendorAdapterFeatureModule",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "labelKey", "paramSchema", "appliesToSlots"],
+  "properties": {
+    "id": { "type": "string", "minLength": 1 },
+    "labelKey": { "type": "string", "minLength": 1 },
+    "paramSchema": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "type"],
+        "properties": {
+          "name": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": ["string", "number", "boolean", "enum", "object"]
+          },
+          "enumValues": {
+            "type": "array",
+            "items": { "type": "string" }
+          },
+          "nested": { "type": "boolean" }
+        }
+      }
+    },
+    "appliesToSlots": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "projection": {
+      "type": "string",
+      "enum": ["flat", "nested"]
+    },
+    "mutex": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}

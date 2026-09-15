@@ -1,0 +1,11 @@
+[package]
+name = "bgx-vendor-adapter-sdk"
+version = "1.0.0"
+edition = "2021"
+description = "Envelope helpers for BigBear vendor adapter plugins (protocol v1)"
+license = "MIT"
+publish = false
+
+[dependencies]
+serde = { version = "1.0", default-features = false, features = ["derive", "alloc"] }
+serde_json = { version = "1.0", default-features = false, features = ["alloc"] }

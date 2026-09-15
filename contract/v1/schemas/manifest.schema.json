@@ -1,0 +1,104 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v1/manifest.schema.json",
+  "title": "VendorAdapterManifestV2",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "pluginId",
+    "displayName",
+    "version",
+    "language",
+    "entry",
+    "capabilitySlots",
+    "requestedCapabilities"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 2 },
+    "pluginId": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "displayName": { "type": "string", "minLength": 1, "maxLength": 80 },
+    "version": { "type": "string", "minLength": 1, "maxLength": 32 },
+    "protocolVersion": { "type": "integer", "minimum": 1 },
+    "protocolRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["min", "max"],
+      "properties": {
+        "min": { "type": "integer", "minimum": 1 },
+        "max": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "requiredFeatures": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "optionalFeatures": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "language": {
+      "type": "string",
+      "enum": ["profile", "python", "typescript", "rust", "tinygo"]
+    },
+    "entry": { "type": "string", "minLength": 1 },
+    "artifactSha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "publisherId": { "type": "string" },
+    "publisherKeyId": { "type": "string" },
+    "capabilitySlots": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "capability-slot.schema.json" }
+    },
+    "requestedCapabilities": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["endpointPolicy", "auth"],
+      "properties": {
+        "endpointPolicy": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string",
+            "enum": ["staticHosts", "userConfigurable", "allowPrivateNetwork"]
+          }
+        },
+        "networkHosts": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "allowPrivateNetwork": { "type": "boolean" },
+        "auth": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "mediaSlots": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "stateBytes": { "type": "integer", "minimum": 0, "maximum": 1048576 },
+        "embeddedHeaders": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["authorization"]
+          }
+        }
+      }
+    },
+    "featureModules": {
+      "type": "array",
+      "items": { "$ref": "feature-module.schema.json" }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "memoryBytes": { "type": "integer", "minimum": 65536 },
+        "fuel": { "type": "integer", "minimum": 1000 },
+        "wallMs": { "type": "integer", "minimum": 100 },
+        "outputBytes": { "type": "integer", "minimum": 256 }
+      }
+    }
+  }
+}

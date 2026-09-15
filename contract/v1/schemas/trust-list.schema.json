@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v1/trust-list.schema.json",
+  "title": "VendorAdapterTrustListPayload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["issuedAt", "revocations", "denylist", "publishers"],
+  "properties": {
+    "issuedAt": { "type": "integer", "minimum": 1 },
+    "revocations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["kind", "target", "reason", "issuedAt"],
+        "properties": {
+          "kind": { "enum": ["pluginVersion", "plugin", "publisherKey"] },
+          "target": { "type": "string", "minLength": 1 },
+          "reason": { "type": "string", "minLength": 1 },
+          "issuedAt": { "type": "integer", "minimum": 1 }
+        }
+      }
+    },
+    "denylist": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["hosts", "cidrs"],
+      "properties": {
+        "hosts": { "type": "array", "items": { "type": "string" } },
+        "cidrs": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "publishers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["keyId", "publicKeyB64", "prefixes"],
+        "properties": {
+          "keyId": { "type": "string", "minLength": 1 },
+          "publicKeyB64": { "type": "string", "minLength": 1 },
+          "prefixes": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.example.specimen",
+  "displayName": "Isolated video workflow specimen",
+  "version": "0.1.0",
+  "language": "rust",
+  "entry": "adapter.wasm",
+  "capabilitySlots": [
+    {
+      "slot": "video",
+      "taskType": "text_to_video",
+      "models": [{ "modelId": "workflow", "displayName": "Workflow" }],
+      "supportsAsync": true,
+      "maxReferenceImages": 0,
+      "maxDurationSeconds": 15
+    }
+  ],
+  "requestedCapabilities": {
+    "endpointPolicy": ["staticHosts"],
+    "networkHosts": ["www.runninghub.ai", "www.runninghub.cn"],
+    "auth": ["none"],
+    "embeddedHeaders": ["authorization"]
+  }
+}

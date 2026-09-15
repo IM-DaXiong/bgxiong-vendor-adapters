@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.example.runninghub-h3",
+  "displayName": "RunningHub MiniMax H3 (V2 workflow)",
+  "version": "0.1.0",
+  "language": "rust",
+  "entry": "adapter.wasm",
+  "capabilitySlots": [
+    {
+      "slot": "video",
+      "taskType": "text_to_video",
+      "models": [{ "modelId": "workflow", "displayName": "MiniMax H3 workflow" }],
+      "supportsAsync": true,
+      "maxReferenceImages": 2,
+      "maxDurationSeconds": 15
+    }
+  ],
+  "requestedCapabilities": {
+    "endpointPolicy": ["staticHosts"],
+    "networkHosts": ["www.runninghub.ai", "www.runninghub.cn"],
+    "auth": ["none"],
+    "embeddedHeaders": ["authorization"]
+  }
+}

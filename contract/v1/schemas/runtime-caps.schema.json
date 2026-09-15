@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v1/runtime-caps.schema.json",
+  "title": "VendorAdapterRuntimeCapsV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "pluginId", "pluginVersion", "slots"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "pluginId": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "pluginVersion": { "type": "string", "minLength": 1, "maxLength": 32 },
+    "slots": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/slot" }
+    }
+  },
+  "$defs": {
+    "enumOption": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "value"],
+      "properties": {
+        "id": { "type": "string", "minLength": 1 },
+        "label": { "type": "string", "minLength": 1 },
+        "value": { "type": ["string", "number"] }
+      }
+    },
+    "param": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode"],
+      "properties": {
+        "mode": { "type": "string", "enum": ["fixed", "range", "enum"] },
+        "value": { "type": ["string", "number"] },
+        "min": { "type": "number" },
+        "max": { "type": "number" },
+        "step": { "type": "number" },
+        "default": { "type": ["string", "number"] },
+        "bindingId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "options": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/enumOption" }
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "mode": { "const": "fixed" } }, "required": ["mode"] },
+          "then": { "required": ["value"] }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "range" } }, "required": ["mode"] },
+          "then": { "required": ["min", "max", "step", "default", "bindingId"] }
+        },
+        {
+          "if": { "properties": { "mode": { "const": "enum" } }, "required": ["mode"] },
+          "then": { "required": ["options", "default", "bindingId"] }
+        }
+      ]
+    },
+    "slot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slot", "modelId"],
+      "properties": {
+        "slot": {
+          "type": "string",
+          "enum": [
+            "image",
+            "imageToImage",
+            "video",
+            "keyframe",
+            "text",
+            "speech",
+            "voiceDesign",
+            "sfx",
+            "avatar",
+            "lipsync",
+            "videoUpscale",
+            "videoFaceRefine",
+            "imageUpscale"
+          ]
+        },
+        "modelId": { "type": "string", "minLength": 1 },
+        "duration": { "$ref": "#/$defs/param" },
+        "fps": { "$ref": "#/$defs/param" },
+        "resolution": { "$ref": "#/$defs/param" },
+        "aspect": { "$ref": "#/$defs/param" },
+        "maxReferenceImages": { "type": "integer", "minimum": 0 },
+        "supportsFirstLastFrame": { "type": "boolean" },
+        "implementedModeIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "text_to_video",
+              "image_to_video",
+              "multi_image_to_video",
+              "first_last_frame",
+              "last_frame_only",
+              "reference_to_video"
+            ]
+          }
+        },
+        "featureModules": {
+          "type": "array",
+          "items": { "$ref": "feature-module.schema.json" }
+        }
+      }
+    }
+  }
+}

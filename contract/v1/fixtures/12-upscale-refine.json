@@ -1,0 +1,10 @@
+﻿{
+  "id": "12-upscale-refine",
+  "kind": "transcript",
+  "schemaVersion": 1,
+  "requestShape": { "operation": "submit" },
+  "stateMachine": ["queued", "running", "succeeded"],
+  "authMode": "bearer",
+  "secrets": [],
+  "resume": { "vendorTaskId": "t1", "pluginId": "local.example.12-upscale-refine", "pluginVersion": "1.0.0", "capabilitySlot": "video", "profileId": "b1", "resumeCredentialRef": { "credentialId": "c1" } }
+}

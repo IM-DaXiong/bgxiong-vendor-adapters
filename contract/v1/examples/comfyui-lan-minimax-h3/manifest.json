@@ -1,0 +1,27 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.example.comfyui-lan-h3",
+  "displayName": "LAN ComfyUI MiniMax H3",
+  "version": "0.2.0",
+  "language": "rust",
+  "entry": "adapter.wasm",
+  "capabilitySlots": [
+    {
+      "slot": "video",
+      "taskType": "text_to_video",
+      "models": [
+        { "modelId": "h3.t2v", "displayName": "MiniMax H3 text to video" },
+        { "modelId": "h3.i2v.turbo", "displayName": "MiniMax H3 turbo single-image reference" },
+        { "modelId": "h3.r2v.turbo", "displayName": "MiniMax H3 turbo multi-reference" }
+      ],
+      "supportsAsync": true,
+      "maxReferenceImages": 3,
+      "maxDurationSeconds": 15
+    }
+  ],
+  "requestedCapabilities": {
+    "endpointPolicy": ["userConfigurable", "allowPrivateNetwork"],
+    "allowPrivateNetwork": true,
+    "auth": ["none"]
+  }
+}

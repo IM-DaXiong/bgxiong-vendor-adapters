@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v1/profile.schema.json",
+  "title": "VendorAdapterProfile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "method", "urlTemplate", "statusMap"],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "method": {
+      "type": "string",
+      "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"]
+    },
+    "urlTemplate": { "type": "string", "minLength": 1 },
+    "placeholders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "kind", "pointer"],
+        "properties": {
+          "name": { "type": "string" },
+          "kind": {
+            "type": "string",
+            "enum": ["prompt", "model", "string", "number", "boolean", "mediaHandle"]
+          },
+          "pointer": { "type": "string", "pattern": "^/" }
+        }
+      }
+    },
+    "headers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "value"],
+        "properties": {
+          "name": { "type": "string" },
+          "value": { "type": "string" }
+        }
+      }
+    },
+    "auth": {
+      "type": "string",
+      "enum": ["none", "bearer", "custom-header"]
+    },
+    "customHeaderName": { "type": "string" },
+    "statusMap": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "enum": ["queued", "running", "succeeded", "failed", "cancelled", "expired"]
+      }
+    },
+    "vendorTaskIdPointer": { "type": "string", "pattern": "^/" },
+    "outputUrlPointer": { "type": "string", "pattern": "^/" }
+  }
+}
