@@ -56,6 +56,7 @@ community/
 | `examples/runninghub-workflow` | RunningHub 工作流类适配标本 |
 | `examples/runninghub-minimax-h3` | RunningHub + MiniMax H3 视频标本 |
 | `examples/comfyui-lan-minimax-h3` | 局域网 ComfyUI + MiniMax H3 标本 |
+| examples/comfyui-lan-z-image-turbo | LAN ComfyUI + Z-Image Turbo specimen / 局域网 ComfyUI + Z-Image Turbo 标本 |
 
 标本仅供对照，**不是**标准本身；标准以 `HOST_PAYLOAD` + `wit` + `schemas` 为准。
 
