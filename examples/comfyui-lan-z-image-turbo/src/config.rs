@@ -4,14 +4,13 @@
 //! built-in `image_comfyui` path and not the MiniMax H3 video guest.
 //! Host `src-tauri/**` must not name Z-Image or this crate.
 //!
-//! ## Models
-//! | modelId | Pin | Native latent |
+//! ## Model
+//! | modelId | Pin | Size |
 //! |---|---|---|
-//! | `z.turbo` | `workflows/z.turbo.api.json` | 1920x1088 |
-//! | `z.turbo.1080` | `workflows/z.turbo.1080.api.json` | 1920x1088 |
-//! | `z.turbo.4k` | `workflows/z.turbo.4k.api.json` | 3840x2160 |
+//! | `z.turbo` | `workflows/z.turbo.api.json` | 10 enum WxH presets (2K/4K x 5 aspects) |
 //!
 //! Pure t2i. Reference images hard-fail. Do not guess node ids.
+//! `size` writes `EmptySD3LatentImage` `57:13` width/height. Default 1920x1088.
 //!
 //! ## HTTP
 //! Probe: `GET {base}/system_stats` (only when `endpointBaseUrl` is set).
@@ -27,10 +26,8 @@ use alloc::format;
 use alloc::string::String;
 
 pub const PLUGIN_ID: &str = "local.example.comfyui-lan-z-image";
-pub const PLUGIN_VERSION: &str = "0.1.0";
+pub const PLUGIN_VERSION: &str = "0.2.0";
 pub const MODEL_ID_TURBO: &str = "z.turbo";
-pub const MODEL_ID_1080: &str = "z.turbo.1080";
-pub const MODEL_ID_4K: &str = "z.turbo.4k";
 
 /// Shipped example origin (product: not sensitive; may ship in packs).
 /// Live machines may override via adapter credential `baseUrl`.
@@ -39,27 +36,32 @@ pub const COMFY_BASE_URL: &str = "http://192.168.18.8:8188";
 /// SHA-256 of `workflows/z.turbo.api.json`.
 pub const WORKFLOW_PIN_TURBO: &str =
     "74bc91eecf411bb2b1f541bd9432b8e184a3ab34661885ffcca4b63cf283831c";
-/// SHA-256 of `workflows/z.turbo.1080.api.json`.
-pub const WORKFLOW_PIN_1080: &str =
-    "74f22c2d80362289cc94fb4fc01396bcc304049562c677070605a20141d1f1ba";
-/// SHA-256 of `workflows/z.turbo.4k.api.json`.
-pub const WORKFLOW_PIN_4K: &str =
-    "952dc46dde09ab3675b2a6abadfcc256307c7638b6a77b5466b4fef861cc56a0";
 
 pub const SUBMIT_MODE: &str = "mapped_run";
 
 pub const PROMPT_NODE_ID: &str = "57:27";
 pub const PROMPT_FIELD_NAME: &str = "text";
 pub const LATENT_NODE_ID: &str = "57:13";
+pub const LATENT_SIZE_BINDING: &str = "57:13.size";
 pub const SAMPLER_NODE_ID: &str = "57:3";
 pub const SAVE_IMAGE_NODE_ID: &str = "9";
 
-pub const NATIVE_W_TURBO: u32 = 1920;
-pub const NATIVE_H_TURBO: u32 = 1088;
-pub const NATIVE_W_1080: u32 = 1920;
-pub const NATIVE_H_1080: u32 = 1088;
-pub const NATIVE_W_4K: u32 = 3840;
-pub const NATIVE_H_4K: u32 = 2160;
+pub const DEFAULT_W: u32 = 1920;
+pub const DEFAULT_H: u32 = 1088;
+
+/// Closed size presets: 2K/4K x five UI aspects. Width and height are multiples of 8.
+pub const SIZE_PRESETS: &[(&str, u32, u32, &str)] = &[
+    ("2k-16-9", 1920, 1088, "16:9"),
+    ("2k-9-16", 1088, 1920, "9:16"),
+    ("2k-1-1", 1408, 1408, "1:1"),
+    ("2k-4-3", 1664, 1248, "4:3"),
+    ("2k-3-4", 1248, 1664, "3:4"),
+    ("4k-16-9", 3840, 2160, "16:9"),
+    ("4k-9-16", 2160, 3840, "9:16"),
+    ("4k-1-1", 2880, 2880, "1:1"),
+    ("4k-4-3", 3328, 2496, "4:3"),
+    ("4k-3-4", 2496, 3328, "3:4"),
+];
 
 pub fn join_url(base: &str, path: &str) -> String {
     let b = base.trim().trim_end_matches('/');
@@ -73,4 +75,8 @@ pub fn join_url(base: &str, path: &str) -> String {
 
 pub fn size_label(w: u32, h: u32) -> String {
     format!("{w}x{h}")
+}
+
+pub fn lookup_size(w: u32, h: u32) -> Option<&'static (&'static str, u32, u32, &'static str)> {
+    SIZE_PRESETS.iter().find(|p| p.1 == w && p.2 == h)
 }

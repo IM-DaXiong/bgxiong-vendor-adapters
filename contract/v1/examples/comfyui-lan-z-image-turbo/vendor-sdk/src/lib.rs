@@ -217,6 +217,8 @@ impl RcdParam {
         }
     }
 
+    /// Image `resolution` options should include `aspectRatio` via
+    /// [`RcdEnumOption::with_aspect`] so the host can drive the two-column size UI.
     pub fn enum_of(
         options: Vec<serde_json::Value>,
         default: serde_json::Value,
@@ -232,6 +234,47 @@ impl RcdParam {
             options: Some(options),
             binding_id: Some(binding.as_str().to_string()),
         }
+    }
+}
+
+/// One RCD `enum` option. Image size presets set `aspectRatio` (closed set:
+/// 16:9 / 9:16 / 1:1 / 4:3 / 3:4). Video options may omit it.
+#[derive(Debug, Clone)]
+pub struct RcdEnumOption {
+    pub id: String,
+    pub label: String,
+    pub value: serde_json::Value,
+    pub aspect_ratio: Option<String>,
+}
+
+impl RcdEnumOption {
+    pub fn new(
+        id: impl Into<String>,
+        label: impl Into<String>,
+        value: serde_json::Value,
+    ) -> Self {
+        Self {
+            id: id.into(),
+            label: label.into(),
+            value,
+            aspect_ratio: None,
+        }
+    }
+
+    pub fn with_aspect(mut self, aspect_ratio: impl Into<String>) -> Self {
+        self.aspect_ratio = Some(aspect_ratio.into());
+        self
+    }
+
+    pub fn to_json(&self) -> serde_json::Value {
+        let mut m = serde_json::Map::new();
+        m.insert("id".into(), serde_json::Value::String(self.id.clone()));
+        m.insert("label".into(), serde_json::Value::String(self.label.clone()));
+        m.insert("value".into(), self.value.clone());
+        if let Some(ar) = &self.aspect_ratio {
+            m.insert("aspectRatio".into(), serde_json::Value::String(ar.clone()));
+        }
+        serde_json::Value::Object(m)
     }
 }
 
@@ -430,6 +473,16 @@ mod tests {
         assert!(ParamBinding::new("node-6").is_ok());
         let p = RcdParam::range(1.0, 15.0, 1.0, 5.0, ParamBinding::new("dur").unwrap());
         assert_eq!(p.binding_id.as_deref(), Some("dur"));
+    }
+
+    #[test]
+    fn enum_option_with_aspect_is_camel_case() {
+        let v = RcdEnumOption::new("2k-16-9", "2K 16:9", serde_json::json!("1920x1088"))
+            .with_aspect("16:9")
+            .to_json();
+        assert_eq!(v["id"], "2k-16-9");
+        assert_eq!(v["aspectRatio"], "16:9");
+        assert!(v.get("aspect_ratio").is_none());
     }
 
     #[test]

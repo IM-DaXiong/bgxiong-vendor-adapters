@@ -125,8 +125,8 @@ mod tests {
         configured_endpoint_base_url, parse_size_wh, patch_prompt, ModelKind,
     };
     use crate::config::{
-        COMFY_BASE_URL, LATENT_NODE_ID, MODEL_ID_1080, MODEL_ID_4K, MODEL_ID_TURBO, PLUGIN_ID,
-        PROMPT_NODE_ID, SAMPLER_NODE_ID, WORKFLOW_PIN_1080, WORKFLOW_PIN_4K, WORKFLOW_PIN_TURBO,
+        size_label, COMFY_BASE_URL, LATENT_NODE_ID, MODEL_ID_TURBO, PLUGIN_ID, PLUGIN_VERSION,
+        PROMPT_NODE_ID, SAMPLER_NODE_ID, SIZE_PRESETS, WORKFLOW_PIN_TURBO,
     };
 
     #[test]
@@ -149,19 +149,22 @@ mod tests {
     }
 
     #[test]
-    fn capabilities_returns_rcd_fixed_resolution() {
+    fn capabilities_returns_rcd_enum_resolution() {
         let v = dispatch_json("capabilities", "{}").expect("caps");
         assert_eq!(v["schemaVersion"], 1);
         assert_eq!(v["pluginId"], PLUGIN_ID);
-        assert_eq!(v["pluginVersion"], crate::config::PLUGIN_VERSION);
-        assert_eq!(v["slots"].as_array().map(|a| a.len()), Some(3));
+        assert_eq!(v["pluginVersion"], PLUGIN_VERSION);
+        assert_eq!(v["slots"].as_array().map(|a| a.len()), Some(1));
         assert_eq!(v["slots"][0]["slot"], "image");
         assert_eq!(v["slots"][0]["modelId"], MODEL_ID_TURBO);
-        assert_eq!(v["slots"][0]["resolution"]["mode"], "fixed");
-        assert_eq!(v["slots"][0]["resolution"]["value"], "1920x1088");
-        assert_eq!(v["slots"][1]["modelId"], MODEL_ID_1080);
-        assert_eq!(v["slots"][2]["modelId"], MODEL_ID_4K);
-        assert_eq!(v["slots"][2]["resolution"]["value"], "3840x2160");
+        assert_eq!(v["slots"][0]["maxReferenceImages"], 0);
+        assert_eq!(v["slots"][0]["resolution"]["mode"], "enum");
+        assert_eq!(v["slots"][0]["resolution"]["default"], "1920x1088");
+        assert_eq!(v["slots"][0]["resolution"]["bindingId"], "57:13.size");
+        let opts = v["slots"][0]["resolution"]["options"].as_array().unwrap();
+        assert_eq!(opts.len(), 10);
+        assert_eq!(opts[0]["aspectRatio"], "16:9");
+        assert_eq!(opts[0]["value"], "1920x1088");
         assert!(v["slots"][0].get("duration").is_none());
         assert!(v["slots"][0].get("fps").is_none());
     }
@@ -190,7 +193,7 @@ mod tests {
     }
 
     #[test]
-    fn size_mismatch_hard_fails() {
+    fn size_unknown_hard_fails() {
         let err = dispatch_json(
             "submit",
             r#"{"model":"z.turbo","prompt":"x","size":"1024x1024"}"#,
@@ -201,7 +204,7 @@ mod tests {
     }
 
     #[test]
-    fn size_match_native_ok_then_live_http_gate() {
+    fn size_match_preset_ok_then_live_http_gate() {
         let err = dispatch_json(
             "submit",
             r#"{"model":"z.turbo","prompt":"a lantern","size":"1920x1088"}"#,
@@ -210,24 +213,45 @@ mod tests {
         assert!(err.contains("host-http"));
         let err4k = dispatch_json(
             "submit",
-            r#"{"model":"z.turbo.4k","prompt":"a lantern","size":"3840x2160"}"#,
+            r#"{"model":"z.turbo","prompt":"a lantern","size":"2160x3840"}"#,
         )
         .unwrap_err();
         assert!(err4k.contains("host-http"));
     }
 
     #[test]
-    fn mapper_writes_prompt_latent_seed() {
-        let g = patch_prompt(ModelKind::Turbo, "hello lan", None, Some(42), "cid").unwrap();
+    fn mapper_writes_prompt_latent_seed_and_applied() {
+        let (g, applied) = patch_prompt(ModelKind::Turbo, "hello lan", None, Some(42), "cid").unwrap();
         assert_eq!(g[PROMPT_NODE_ID]["inputs"]["text"], "hello lan");
         assert_eq!(g[LATENT_NODE_ID]["inputs"]["width"], 1920);
         assert_eq!(g[LATENT_NODE_ID]["inputs"]["height"], 1088);
         assert_eq!(g[SAMPLER_NODE_ID]["inputs"]["seed"], 42);
         assert_eq!(g[SAMPLER_NODE_ID]["inputs"]["steps"], 8);
         assert_eq!(g[SAMPLER_NODE_ID]["inputs"]["cfg"], 1);
-        let g4 = patch_prompt(ModelKind::Turbo4k, "wide", Some("3840x2160"), Some(7), "c").unwrap();
-        assert_eq!(g4[LATENT_NODE_ID]["inputs"]["width"], 3840);
-        assert_eq!(g4[LATENT_NODE_ID]["inputs"]["height"], 2160);
+        assert_eq!(applied.resolution, Some(serde_json::json!("1920x1088")));
+        let (g4, applied4) = patch_prompt(
+            ModelKind::Turbo,
+            "wide",
+            Some("2160x3840"),
+            Some(7),
+            "c",
+        )
+        .unwrap();
+        assert_eq!(g4[LATENT_NODE_ID]["inputs"]["width"], 2160);
+        assert_eq!(g4[LATENT_NODE_ID]["inputs"]["height"], 3840);
+        assert_eq!(applied4.resolution, Some(serde_json::json!("2160x3840")));
+    }
+
+    #[test]
+    fn ten_presets_patch_latent_wh() {
+        for (id, w, h, _ar) in SIZE_PRESETS {
+            let size = size_label(*w, *h);
+            let (g, applied) =
+                patch_prompt(ModelKind::Turbo, "x", Some(&size), Some(1), "c").unwrap();
+            assert_eq!(g[LATENT_NODE_ID]["inputs"]["width"], *w, "preset {id}");
+            assert_eq!(g[LATENT_NODE_ID]["inputs"]["height"], *h, "preset {id}");
+            assert_eq!(applied.resolution, Some(serde_json::json!(size)));
+        }
     }
 
     #[test]
@@ -288,8 +312,6 @@ mod tests {
     fn crate_pins_and_default_url() {
         assert_eq!(COMFY_BASE_URL, "http://192.168.18.8:8188");
         assert_eq!(WORKFLOW_PIN_TURBO.len(), 64);
-        assert_eq!(WORKFLOW_PIN_1080.len(), 64);
-        assert_eq!(WORKFLOW_PIN_4K.len(), 64);
         let src = include_str!("comfy.rs");
         assert!(!src.contains("runninghub"));
         assert!(!src.contains("/upload/image"));
@@ -311,17 +333,11 @@ mod tests {
     }
 
     #[test]
-    fn three_models_remain_distinct_even_if_wh_overlap() {
-        assert_ne!(MODEL_ID_TURBO, MODEL_ID_1080);
-        let a = patch_prompt(ModelKind::Turbo, "x", None, Some(1), "c").unwrap();
-        let b = patch_prompt(ModelKind::Turbo1080, "x", None, Some(1), "c").unwrap();
-        assert_eq!(
-            a[LATENT_NODE_ID]["inputs"]["width"],
-            b[LATENT_NODE_ID]["inputs"]["width"]
-        );
-        assert_eq!(
-            a[LATENT_NODE_ID]["inputs"]["height"],
-            b[LATENT_NODE_ID]["inputs"]["height"]
-        );
+    fn single_model_and_ten_presets() {
+        assert_eq!(MODEL_ID_TURBO, "z.turbo");
+        assert_eq!(SIZE_PRESETS.len(), 10);
+        let (a, _) = patch_prompt(ModelKind::Turbo, "x", None, Some(1), "c").unwrap();
+        assert_eq!(a[LATENT_NODE_ID]["inputs"]["width"], 1920);
+        assert_eq!(a[LATENT_NODE_ID]["inputs"]["height"], 1088);
     }
 }

@@ -77,7 +77,7 @@ fn submit(request: &Invocation) -> Response {
         Ok(v) => v,
         Err(e) => return err(Operation::Submit, "adapterInvalidRequest", &e),
     };
-    let raw = match serde_json::to_string(&body) {
+    let raw = match serde_json::to_string(&body.0) {
         Ok(s) => s,
         Err(e) => return err(Operation::Submit, "adapterBadOutput", &e.to_string()),
     };
@@ -85,7 +85,7 @@ fn submit(request: &Invocation) -> Response {
     match http_json(Operation::Submit, "POST", &url, Some(&raw)) {
         Ok(v) => match parse_submit_prompt_id(&v) {
             Ok(id) => {
-                let sdk = bgx_vendor_adapter_sdk::submit_accepted(id);
+                let sdk = bgx_vendor_adapter_sdk::submit_accepted_with_applied(id, Some(body.1));
                 sdk_resp(Operation::Submit, sdk)
             }
             Err(e) => err(Operation::Submit, "adapterBadOutput", &e),

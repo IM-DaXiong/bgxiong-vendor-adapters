@@ -1,52 +1,32 @@
-//! Comfy `/prompt` mapper for pinned Z-Image-Turbo API graphs (t2i only).
+//! Comfy `/prompt` mapper for pinned Z-Image-Turbo API graph (t2i only).
 
 extern crate alloc;
 use alloc::format;
 use alloc::string::{String, ToString};
 use alloc::vec::Vec;
 
+use bgx_vendor_adapter_sdk::AppliedParams;
 use serde_json::{json, Map, Value};
 
 use crate::config::{
-    join_url, size_label, LATENT_NODE_ID, MODEL_ID_1080, MODEL_ID_4K, MODEL_ID_TURBO,
-    NATIVE_H_1080, NATIVE_H_4K, NATIVE_H_TURBO, NATIVE_W_1080, NATIVE_W_4K, NATIVE_W_TURBO,
-    PROMPT_FIELD_NAME, PROMPT_NODE_ID, SAMPLER_NODE_ID, SAVE_IMAGE_NODE_ID,
+    join_url, lookup_size, size_label, DEFAULT_H, DEFAULT_W, LATENT_NODE_ID, MODEL_ID_TURBO,
+    PROMPT_FIELD_NAME, PROMPT_NODE_ID, SAMPLER_NODE_ID, SAVE_IMAGE_NODE_ID, SIZE_PRESETS,
 };
 
 pub const API_TURBO_JSON: &str = include_str!("../workflows/z.turbo.api.json");
-pub const API_1080_JSON: &str = include_str!("../workflows/z.turbo.1080.api.json");
-pub const API_4K_JSON: &str = include_str!("../workflows/z.turbo.4k.api.json");
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum ModelKind {
     Turbo,
-    Turbo1080,
-    Turbo4k,
 }
 
 impl ModelKind {
-    pub fn native_wh(self) -> (u32, u32) {
-        match self {
-            ModelKind::Turbo => (NATIVE_W_TURBO, NATIVE_H_TURBO),
-            ModelKind::Turbo1080 => (NATIVE_W_1080, NATIVE_H_1080),
-            ModelKind::Turbo4k => (NATIVE_W_4K, NATIVE_H_4K),
-        }
-    }
-
     pub fn pinned_json(self) -> &'static str {
-        match self {
-            ModelKind::Turbo => API_TURBO_JSON,
-            ModelKind::Turbo1080 => API_1080_JSON,
-            ModelKind::Turbo4k => API_4K_JSON,
-        }
+        API_TURBO_JSON
     }
 
     pub fn model_id(self) -> &'static str {
-        match self {
-            ModelKind::Turbo => MODEL_ID_TURBO,
-            ModelKind::Turbo1080 => MODEL_ID_1080,
-            ModelKind::Turbo4k => MODEL_ID_4K,
-        }
+        MODEL_ID_TURBO
     }
 }
 
@@ -118,14 +98,8 @@ fn require_node_inputs<'a>(
 pub fn parse_model_kind(model: Option<&str>) -> Result<ModelKind, String> {
     match model.map(str::trim).filter(|s| !s.is_empty()) {
         Some(m) if m == MODEL_ID_TURBO => Ok(ModelKind::Turbo),
-        Some(m) if m == MODEL_ID_1080 => Ok(ModelKind::Turbo1080),
-        Some(m) if m == MODEL_ID_4K => Ok(ModelKind::Turbo4k),
-        Some(m) => Err(format!(
-            "unknown model {m}; expected {MODEL_ID_TURBO}, {MODEL_ID_1080} or {MODEL_ID_4K}"
-        )),
-        None => Err(format!(
-            "model is required; expected {MODEL_ID_TURBO}, {MODEL_ID_1080} or {MODEL_ID_4K}"
-        )),
+        Some(m) => Err(format!("unknown model {m}; expected {MODEL_ID_TURBO}")),
+        None => Err(format!("model is required; expected {MODEL_ID_TURBO}")),
     }
 }
 
@@ -194,45 +168,65 @@ fn seed_from_client(client_id: &str) -> u64 {
     }
 }
 
+fn resolve_latent_wh(size: Option<&str>) -> Result<(u32, u32), String> {
+    match parse_size_wh(size)? {
+        None => Ok((DEFAULT_W, DEFAULT_H)),
+        Some((w, h)) => {
+            if w % 8 != 0 || h % 8 != 0 {
+                return Err(format!(
+                    "size {}x{} must be multiples of 8",
+                    w, h
+                ));
+            }
+            if lookup_size(w, h).is_none() {
+                let allowed: Vec<String> = SIZE_PRESETS
+                    .iter()
+                    .map(|p| size_label(p.1, p.2))
+                    .collect();
+                return Err(format!(
+                    "size {} is not a declared preset; allowed: {}",
+                    size_label(w, h),
+                    allowed.join(", ")
+                ));
+            }
+            Ok((w, h))
+        }
+    }
+}
+
 pub fn patch_prompt(
     kind: ModelKind,
     prompt: &str,
     size: Option<&str>,
     seed: Option<u64>,
     client_id: &str,
-) -> Result<Value, String> {
+) -> Result<(Value, AppliedParams), String> {
     if prompt.trim().is_empty() {
         return Err("prompt is required".into());
     }
-    let (nw, nh) = kind.native_wh();
-    if let Some((w, h)) = parse_size_wh(size)? {
-        if w != nw || h != nh {
-            return Err(format!(
-                "size {}x{} does not match model {} native {} (no silent resize)",
-                w,
-                h,
-                kind.model_id(),
-                size_label(nw, nh)
-            ));
-        }
-    }
+    let (w, h) = resolve_latent_wh(size)?;
     let mut graph: Value =
         serde_json::from_str(kind.pinned_json()).map_err(|e| format!("pinned API json: {e}"))?;
     require_node_inputs(&mut graph, PROMPT_NODE_ID)?
         .insert(PROMPT_FIELD_NAME.into(), Value::String(prompt.into()));
     {
         let latent = require_node_inputs(&mut graph, LATENT_NODE_ID)?;
-        latent.insert("width".into(), json!(nw));
-        latent.insert("height".into(), json!(nh));
+        latent.insert("width".into(), json!(w));
+        latent.insert("height".into(), json!(h));
     }
     {
         let sampler = require_node_inputs(&mut graph, SAMPLER_NODE_ID)?;
         let seed_v = seed.unwrap_or_else(|| seed_from_client(client_id));
         sampler.insert("seed".into(), json!(seed_v));
-        // Keep pin steps/cfg/sampler/scheduler/denoise as-is (do not rewrite).
         let _ = SAVE_IMAGE_NODE_ID;
     }
-    Ok(graph)
+    let applied = AppliedParams {
+        duration: None,
+        fps: None,
+        resolution: Some(json!(size_label(w, h))),
+        aspect: None,
+    };
+    Ok((graph, applied))
 }
 
 pub fn submit_body(
@@ -241,12 +235,15 @@ pub fn submit_body(
     size: Option<&str>,
     seed: Option<u64>,
     client_id: &str,
-) -> Result<Value, String> {
-    let api = patch_prompt(kind, prompt, size, seed, client_id)?;
-    Ok(json!({
-        "prompt": api,
-        "client_id": client_id
-    }))
+) -> Result<(Value, AppliedParams), String> {
+    let (api, applied) = patch_prompt(kind, prompt, size, seed, client_id)?;
+    Ok((
+        json!({
+            "prompt": api,
+            "client_id": client_id
+        }),
+        applied,
+    ))
 }
 
 pub fn validate_submit_payload(payload: &Value) -> Result<(ModelKind, String, Option<&str>), String> {

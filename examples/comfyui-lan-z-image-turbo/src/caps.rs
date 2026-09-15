@@ -1,16 +1,15 @@
-//! Vendor-neutral RCD: one image slot document per modelId.
-//! resolution is fixed (native WxH) so workbench null size does not force appliedParams.
+//! Vendor-neutral RCD: one image slot, ten WxH enum presets with aspectRatio.
 
 extern crate alloc;
 use alloc::format;
 use alloc::string::String;
+use alloc::vec::Vec;
 
-use bgx_vendor_adapter_sdk::RcdParam;
+use bgx_vendor_adapter_sdk::{ParamBinding, RcdEnumOption, RcdParam};
 use serde_json::{json, Map, Value};
 
 use crate::config::{
-    size_label, MODEL_ID_1080, MODEL_ID_4K, MODEL_ID_TURBO, NATIVE_H_1080, NATIVE_H_4K,
-    NATIVE_H_TURBO, NATIVE_W_1080, NATIVE_W_4K, NATIVE_W_TURBO, PLUGIN_ID, PLUGIN_VERSION,
+    size_label, LATENT_SIZE_BINDING, MODEL_ID_TURBO, PLUGIN_ID, PLUGIN_VERSION, SIZE_PRESETS,
 };
 
 fn insert_param(slot: &mut Map<String, Value>, key: &str, p: RcdParam) -> Result<(), String> {
@@ -19,14 +18,34 @@ fn insert_param(slot: &mut Map<String, Value>, key: &str, p: RcdParam) -> Result
     Ok(())
 }
 
-fn image_slot(model_id: &str, w: u32, h: u32) -> Result<Value, String> {
+fn resolution_options() -> Vec<Value> {
+    SIZE_PRESETS
+        .iter()
+        .map(|(id, w, h, ar)| {
+            let value = size_label(*w, *h);
+            let label = if id.starts_with("2k") {
+                format!("2K {ar}")
+            } else {
+                format!("4K {ar}")
+            };
+            RcdEnumOption::new(*id, label, json!(value))
+                .with_aspect(*ar)
+                .to_json()
+        })
+        .collect()
+}
+
+fn image_slot() -> Result<Value, String> {
     let mut slot = Map::new();
     slot.insert("slot".into(), json!("image"));
-    slot.insert("modelId".into(), json!(model_id));
+    slot.insert("modelId".into(), json!(MODEL_ID_TURBO));
+    slot.insert("maxReferenceImages".into(), json!(0));
+    let binding = ParamBinding::new(LATENT_SIZE_BINDING)
+        .map_err(|e| format!("resolution binding: {e}"))?;
     insert_param(
         &mut slot,
         "resolution",
-        RcdParam::fixed(json!(size_label(w, h))),
+        RcdParam::enum_of(resolution_options(), json!("1920x1088"), binding),
     )?;
     Ok(Value::Object(slot))
 }
@@ -36,10 +55,6 @@ pub fn runtime_caps_doc() -> Result<Value, String> {
         "schemaVersion": 1,
         "pluginId": PLUGIN_ID,
         "pluginVersion": PLUGIN_VERSION,
-        "slots": [
-            image_slot(MODEL_ID_TURBO, NATIVE_W_TURBO, NATIVE_H_TURBO)?,
-            image_slot(MODEL_ID_1080, NATIVE_W_1080, NATIVE_H_1080)?,
-            image_slot(MODEL_ID_4K, NATIVE_W_4K, NATIVE_H_4K)?,
-        ]
+        "slots": [image_slot()?]
     }))
 }
