@@ -71,6 +71,10 @@ fn submit_op(payload_json: &str) -> Result<serde_json::Value, String> {
     let duration = payload.get("durationSeconds").and_then(|v| v.as_f64());
     let fps = payload.get("fps").and_then(|v| v.as_f64());
     let resolution = payload.get("resolution").and_then(|v| v.as_str());
+    let aspect = payload
+        .get("aspect")
+        .and_then(|v| v.as_str())
+        .or_else(|| payload.get("aspectRatio").and_then(|v| v.as_str()));
     let _ = resolve_base_url(&payload);
     let first = match kind {
         ModelKind::I2vTurbo => native_image_name(
@@ -122,6 +126,7 @@ fn submit_op(payload_json: &str) -> Result<serde_json::Value, String> {
         duration,
         fps,
         resolution,
+        aspect,
         first.as_deref(),
         &refs,
         "host-test",
@@ -174,7 +179,7 @@ pub fn map_query_response_json(
     let outputs: Vec<Output> = q
         .outputs
         .into_iter()
-        .map(|o| Output {
+        .map(|o| Output::Media {
             media_kind: o.media_kind,
             source: o.source,
             value: o.value,
@@ -185,6 +190,7 @@ pub fn map_query_response_json(
         status: status.into(),
         outputs,
         progress_text: q.vendor_message,
+        retry_after_ms: None,
     });
     serde_json::from_str(sdk.data_json.as_deref().unwrap_or("{}")).map_err(|e| format!("sdk: {e}"))
 }
@@ -242,7 +248,10 @@ mod tests {
         assert_eq!(v["slots"][0]["duration"]["min"], 1.0);
         assert_eq!(v["slots"][0]["duration"]["bindingId"], DURATION_NODE_ID);
         assert_eq!(v["slots"][0]["fps"]["bindingId"], FPS_NODE_ID);
-        assert_eq!(v["slots"][0]["resolution"]["bindingId"], RESOLUTION_NODE_ID);
+        assert_eq!(v["slots"][0]["resolution"]["bindingId"], "115:megapixels");
+        assert_eq!(v["slots"][0]["aspect"]["bindingId"], "115:aspect_ratio");
+        assert_eq!(v["slots"][0]["resolution"]["default"], "mp:0.4");
+        assert_eq!(v["slots"][0]["aspect"]["default"], "16:9");
     }
 
     #[test]
@@ -267,7 +276,14 @@ mod tests {
 
     #[test]
     fn mapper_writes_prompt_duration_fps_expression_resolution() {
-        let (g, applied) = patch_t2v_prompt("hello lan", Some(7.0), Some(24.0), Some("16:9")).unwrap();
+        let (g, applied) = patch_t2v_prompt(
+            "hello lan",
+            Some(7.0),
+            Some(24.0),
+            Some("mp:0.4"),
+            Some("16:9"),
+        )
+        .unwrap();
         assert_eq!(g[PROMPT_NODE_ID]["inputs"]["prompt"], "hello lan");
         assert_eq!(g[DURATION_NODE_ID]["inputs"]["value"], 7.0);
         assert_eq!(g[FPS_NODE_ID]["inputs"]["fps"], 24.0);
@@ -279,10 +295,27 @@ mod tests {
             g[RESOLUTION_NODE_ID]["inputs"]["aspect_ratio"],
             "16:9 (Widescreen)"
         );
+        assert_eq!(g[RESOLUTION_NODE_ID]["inputs"]["megapixels"], 0.4);
         assert_eq!(applied.duration.unwrap(), serde_json::json!(7.0));
         assert_eq!(applied.fps.unwrap(), serde_json::json!(24.0));
-        assert_eq!(applied.resolution.unwrap(), serde_json::json!("16:9"));
+        assert_eq!(applied.resolution.unwrap(), serde_json::json!("mp:0.4"));
+        assert_eq!(applied.aspect.unwrap(), serde_json::json!("16:9"));
         assert_eq!(g["139"]["inputs"]["value"], false);
+    }
+
+    #[test]
+    fn omitted_fps_keeps_pin_and_does_not_fail() {
+        let (g, applied) = patch_t2v_prompt(
+            "hello lan",
+            Some(7.0),
+            None,
+            Some("mp:0.4"),
+            Some("16:9"),
+        )
+        .unwrap();
+        assert!(applied.fps.is_none());
+        assert_eq!(g[DURATION_NODE_ID]["inputs"]["value"], 7.0);
+        assert_eq!(applied.duration.unwrap(), serde_json::json!(7.0));
     }
 
     #[test]
@@ -291,6 +324,7 @@ mod tests {
             "x",
             Some(5.0),
             Some(24.0),
+            Some("mp:0.4"),
             Some("16:9"),
             "",
         )
@@ -300,6 +334,7 @@ mod tests {
             "keep face",
             Some(5.0),
             Some(24.0),
+            Some("mp:0.4"),
             Some("16:9"),
             "first.png",
         )
@@ -315,6 +350,7 @@ mod tests {
             "x",
             Some(5.0),
             Some(24.0),
+            Some("mp:0.4"),
             Some("16:9"),
             &[],
         )
@@ -327,6 +363,7 @@ mod tests {
             "use <Picture 1>",
             Some(6.0),
             Some(24.0),
+            Some("mp:0.4"),
             Some("16:9"),
             &names,
         )
@@ -372,8 +409,8 @@ mod tests {
 
     #[test]
     fn illegal_fps_hard_fails() {
-        let err = patch_t2v_prompt("x", Some(5.0), Some(23.0), Some("16:9")).unwrap_err();
-        assert!(err.contains("fps"));
+        let err = patch_t2v_prompt("x", Some(5.0), Some(23.0), Some("mp:0.4"), Some("16:9")).unwrap_err();
+        assert!(err.contains("closed_set_fps"));
     }
 
     #[test]
@@ -480,6 +517,7 @@ mod tests {
             "a red lantern hanging still, gentle breeze, cinematic",
             Some(1.0),
             Some(24.0),
+            Some("mp:0.4"),
             Some("16:9"),
             "bgx-lan-live",
         )

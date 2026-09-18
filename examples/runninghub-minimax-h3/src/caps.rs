@@ -9,7 +9,8 @@ use bgx_vendor_adapter_sdk::{ParamBinding, RcdParam};
 use serde_json::{json, Map, Value};
 
 use crate::config::{
-    DURATION_NODE_ID, FPS_NODE_ID, PLUGIN_ID, PLUGIN_VERSION, RESOLUTION_NODE_ID,
+    ASPECT_BINDING_ID, DURATION_NODE_ID, FPS_NODE_ID, PLUGIN_ID, PLUGIN_VERSION,
+    RESOLUTION_BINDING_ID,
 };
 
 fn bound(id: &str) -> Option<ParamBinding> {
@@ -28,6 +29,11 @@ pub fn runtime_caps_doc() -> Result<Value, String> {
     slot.insert("slot".into(), json!("video"));
     slot.insert("modelId".into(), json!("workflow"));
     slot.insert("maxReferenceImages".into(), json!(2));
+    slot.insert("supportsFirstLastFrame".into(), json!(false));
+    slot.insert(
+        "implementedModeIds".into(),
+        json!(["multi_image_to_video"]),
+    );
     if let Some(b) = bound(DURATION_NODE_ID) {
         insert_param(
             &mut slot,
@@ -50,10 +56,10 @@ pub fn runtime_caps_doc() -> Result<Value, String> {
             ),
         )?;
     }
-    if let Some(b) = bound(RESOLUTION_NODE_ID) {
+    if let Some(b) = bound(ASPECT_BINDING_ID) {
         insert_param(
             &mut slot,
-            "resolution",
+            "aspect",
             RcdParam::enum_of(
                 vec![
                     json!({"id": "1:1", "label": "1:1", "value": "1:1"}),
@@ -62,6 +68,22 @@ pub fn runtime_caps_doc() -> Result<Value, String> {
                     json!({"id": "4:3", "label": "4:3", "value": "4:3"}),
                 ],
                 json!("16:9"),
+                b,
+            ),
+        )?;
+    }
+    if let Some(b) = bound(RESOLUTION_BINDING_ID) {
+        insert_param(
+            &mut slot,
+            "resolution",
+            RcdParam::enum_of(
+                vec![
+                    json!({"id": "mp:0.25", "label": "0.25 MP", "value": 0.25}),
+                    json!({"id": "mp:0.4", "label": "0.4 MP", "value": 0.4}),
+                    json!({"id": "mp:0.6", "label": "0.6 MP", "value": 0.6}),
+                    json!({"id": "mp:1", "label": "1 MP", "value": 1.0}),
+                ],
+                json!("mp:0.4"),
                 b,
             ),
         )?;

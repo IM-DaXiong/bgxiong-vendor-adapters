@@ -1,4 +1,4 @@
-package bgxiong:vendor-adapter@1.0.0;
+package bgxiong:vendor-adapter@1.1.0;
 
 interface types {
   enum operation { capabilities, probe, upload, submit, query, cancel }
@@ -12,8 +12,11 @@ interface types {
     profile-id: string,
     capability-slot: string,
     request-id: string,
-    deadline-ms: u64,
-    payload-json: string
+    budget-ms: u64,
+    payload-json: string,
+    binding-id: string,
+    negotiated-version: option<u32>,
+    enabled-features: list<string>
   }
 
   record adapter-error {
@@ -40,7 +43,8 @@ interface host-http {
 
   record generated-header {
     name: string,
-    kind: string
+    kind: string,
+    target-field: string
   }
 
   record field-part { name: string, value: string }

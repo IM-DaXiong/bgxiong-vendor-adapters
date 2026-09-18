@@ -19,7 +19,8 @@ Unknown `model` is an error.
 | `durationSeconds` | 133 PrimitiveFloat | `value` |
 | `fps` | 130 CreateVideo | `fps` |
 | fps expression | 132 ComfyMathExpression | `expression` |
-| `resolution` | 115 ResolutionSelector | `aspect_ratio` |
+| `aspect` | 115 ResolutionSelector | `aspect_ratio` |
+| `resolution` | 115 ResolutionSelector | `megapixels` |
 | lightning | 139 PrimitiveBoolean | stays `false` |
 | output | 92 SaveVideo | history → `/view` |
 
@@ -39,7 +40,8 @@ Same timing/prompt nodes as t2v. Lightning `139` is **true**.
 | `durationSeconds` | 132 PrimitiveFloat | `value` |
 | fps expression | 131 ComfyMathExpression | `expression` |
 | `fps` | 130 CreateVideo | `fps` |
-| `resolution` | 115 | `aspect_ratio` |
+| `aspect` | 115 | `aspect_ratio` |
+| `resolution` | 115 | `megapixels` |
 | references | upload → 137/139/141 → 136 `ref_images.ref_image_*` | `referenceImagesB64` 1..=3; unused keys removed |
 | turbo LoRA | 142 LoraLoaderModelOnly | always on; scheduler steps **8** |
 

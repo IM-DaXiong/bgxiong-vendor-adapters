@@ -3,14 +3,15 @@
 extern crate alloc;
 use alloc::format;
 use alloc::string::{String, ToString};
+use alloc::vec;
 use alloc::vec::Vec;
 
 use serde_json::{json, Value};
 
 use crate::config::{
-    DURATION_FIELD_NAME, DURATION_NODE_ID, FPS_FIELD_NAME, FPS_NODE_ID, IMAGE_FIELD_NAME,
-    IMAGE_NODE_ID, LAST_IMAGE_FIELD_NAME, LAST_IMAGE_NODE_ID, MATH_EXPRESSION_FIELD_NAME,
-    MATH_EXPRESSION_NODE_ID, PROMPT_FIELD_NAME, PROMPT_NODE_ID, RESOLUTION_FIELD_NAME,
+    ASPECT_FIELD_NAME, ASPECT_NODE_ID, DURATION_FIELD_NAME, DURATION_NODE_ID, FPS_FIELD_NAME,
+    FPS_NODE_ID, IMAGE_FIELD_NAME, MATH_EXPRESSION_FIELD_NAME, MATH_EXPRESSION_NODE_ID,
+    PROMPT_FIELD_NAME, PROMPT_NODE_ID, REF_IMAGE_NODE_IDS, RESOLUTION_FIELD_NAME,
     RESOLUTION_NODE_ID, SUBMIT_MODE,
 };
 use bgx_vendor_adapter_sdk::AppliedParams;
@@ -66,7 +67,7 @@ fn h3_length_expression(fps: f64) -> Result<String, String> {
     } else if fps == 30.0 {
         30
     } else {
-        return Err("fps must be 24, 25 or 30".into());
+        return Err("closed_set_fps:24,25,30".into());
     };
     Ok(format!(
         "max(5, round(a * {n})) + (5 - (max(5, round(a * {n})) % 17)) % 17"
@@ -79,8 +80,32 @@ pub fn resolution_combo(resolution: &str) -> Result<String, String> {
         "16:9" | "16:9 (Widescreen)" => Ok("16:9 (Widescreen)".into()),
         "9:16" | "9:16 (Portrait Widescreen)" => Ok("9:16 (Portrait Widescreen)".into()),
         "4:3" | "4:3 (Standard)" => Ok("4:3 (Standard)".into()),
-        other => Err(format!("unsupported resolution {other}")),
+        other => Err(format!("unsupported aspect {other}")),
     }
+}
+
+/// Closed H3 megapixel tiers. Echo `mp:0.4` so RCD-12 matches the workbench id.
+pub fn megapixels_from_resolution(resolution: &str) -> Result<(String, f64), String> {
+    let t = resolution.trim();
+    let n = if let Some(rest) = t.strip_prefix("mp:") {
+        rest.parse::<f64>()
+            .map_err(|_| format!("unsupported resolution {t}"))?
+    } else {
+        t.parse::<f64>()
+            .map_err(|_| format!("unsupported resolution {t}"))?
+    };
+    let (id, mp) = if (n - 0.25).abs() < 1e-9 {
+        ("mp:0.25", 0.25)
+    } else if (n - 0.4).abs() < 1e-9 {
+        ("mp:0.4", 0.4)
+    } else if (n - 0.6).abs() < 1e-9 {
+        ("mp:0.6", 0.6)
+    } else if (n - 1.0).abs() < 1e-9 {
+        ("mp:1", 1.0)
+    } else {
+        return Err(format!("unsupported resolution {t}"));
+    };
+    Ok((id.into(), mp))
 }
 
 /// PNG / JPEG / WebP / GIF magic → filename stem + MIME. Unknown bytes fail.
@@ -111,6 +136,7 @@ pub fn mapped_node_info(
     duration: Option<f64>,
     fps: Option<f64>,
     resolution: Option<&str>,
+    aspect: Option<&str>,
     first_image: Option<&str>,
     last_image: Option<&str>,
 ) -> Result<(Value, AppliedParams), String> {
@@ -133,63 +159,116 @@ pub fn mapped_node_info(
         if d < 1.0 || d > 15.0 {
             return Err("durationSeconds must be 1 to 15".into());
         }
-        // ImpactSwitch floor is 5s: 1..4 → 5s/select=1; 5..15 → select=seconds-4.
-        let seconds = if d < 5.0 { 5 } else { d as i64 };
-        let select = seconds - 4;
         push_node(
             &mut list,
             DURATION_NODE_ID,
             DURATION_FIELD_NAME,
-            json!(select),
+            json!(d),
         );
         applied.duration = Some(json!(d));
     }
     if !FPS_NODE_ID.trim().is_empty() {
-        let Some(f) = fps else {
-            return Err("fps node is configured; fps is required".into());
-        };
-        let expr = h3_length_expression(f)?;
-        push_node(&mut list, FPS_NODE_ID, FPS_FIELD_NAME, json!(f));
-        if MATH_EXPRESSION_NODE_ID.trim().is_empty() {
-            return Err("fps node requires MATH_EXPRESSION_NODE_ID".into());
+        if let Some(f) = fps {
+            let expr = h3_length_expression(f)?;
+            push_node(&mut list, FPS_NODE_ID, FPS_FIELD_NAME, json!(f));
+            if MATH_EXPRESSION_NODE_ID.trim().is_empty() {
+                return Err("fps node requires MATH_EXPRESSION_NODE_ID".into());
+            }
+            push_node(
+                &mut list,
+                MATH_EXPRESSION_NODE_ID,
+                MATH_EXPRESSION_FIELD_NAME,
+                json!(expr),
+            );
+            applied.fps = Some(json!(f));
         }
+    }
+    if !ASPECT_NODE_ID.trim().is_empty() {
+        let Some(a) = aspect.map(str::trim).filter(|s| !s.is_empty()) else {
+            return Err("aspect node is configured; aspect is required".into());
+        };
+        let combo = resolution_combo(a)?;
         push_node(
             &mut list,
-            MATH_EXPRESSION_NODE_ID,
-            MATH_EXPRESSION_FIELD_NAME,
-            json!(expr),
+            ASPECT_NODE_ID,
+            ASPECT_FIELD_NAME,
+            json!(combo),
         );
-        applied.fps = Some(json!(f));
+        applied.aspect = Some(json!(a));
     }
     if !RESOLUTION_NODE_ID.trim().is_empty() {
         let Some(r) = resolution.map(str::trim).filter(|s| !s.is_empty()) else {
             return Err("resolution node is configured; resolution is required".into());
         };
-        let combo = resolution_combo(r)?;
+        let (id, mp) = megapixels_from_resolution(r)?;
         push_node(
             &mut list,
             RESOLUTION_NODE_ID,
             RESOLUTION_FIELD_NAME,
-            json!(combo),
+            json!(mp),
         );
-        applied.resolution = Some(json!(r));
+        applied.resolution = Some(json!(id));
     }
-    if let Some(name) = first_image.map(str::trim).filter(|s| !s.is_empty()) {
-        push_node(&mut list, IMAGE_NODE_ID, IMAGE_FIELD_NAME, json!(name));
+    let refs: [Option<&str>; 2] = [
+        first_image.map(str::trim).filter(|s| !s.is_empty()),
+        last_image.map(str::trim).filter(|s| !s.is_empty()),
+    ];
+    if refs[0].is_none() {
+        return Err("r2v turbo requires referenceImagesB64 (at least one image)".into());
     }
-    if let Some(name) = last_image.map(str::trim).filter(|s| !s.is_empty()) {
-        push_node(
-            &mut list,
-            LAST_IMAGE_NODE_ID,
-            LAST_IMAGE_FIELD_NAME,
-            json!(name),
-        );
+    for (i, name) in refs.iter().enumerate() {
+        if let Some(n) = name {
+            push_node(
+                &mut list,
+                REF_IMAGE_NODE_IDS[i],
+                IMAGE_FIELD_NAME,
+                json!(*n),
+            );
+        }
     }
     Ok((Value::Array(list), applied))
 }
 
+/// r2v turbo: 1..=2 refs. Empty `referenceImagesB64` folds start/end frames
+/// into 137/139. Does not invent I2V first/last semantics.
+pub fn collect_r2v_ref_b64(payload: &Value) -> Result<Vec<String>, String> {
+    let mut refs: Vec<String> = payload
+        .get("referenceImagesB64")
+        .and_then(|v| v.as_array())
+        .map(|a| {
+            a.iter()
+                .filter_map(|v| {
+                    v.as_str()
+                        .map(str::trim)
+                        .filter(|s| !s.is_empty())
+                        .map(str::to_string)
+                })
+                .collect()
+        })
+        .unwrap_or_default();
+    if refs.is_empty() {
+        for key in ["startFrameB64", "lastFrameB64", "endFrameB64"] {
+            if let Some(s) = payload
+                .get(key)
+                .and_then(|v| v.as_str())
+                .map(str::trim)
+                .filter(|s| !s.is_empty())
+            {
+                refs.push(s.to_string());
+            }
+        }
+    }
+    if refs.is_empty() {
+        return Err("r2v turbo requires referenceImagesB64 (at least one image)".into());
+    }
+    if refs.len() > 2 {
+        return Err("r2v turbo accepts at most 2 reference images".into());
+    }
+    Ok(refs)
+}
+
 pub fn submit_body(prompt: &str) -> Result<Value, String> {
-    Ok(submit_body_mapped(prompt, None, None, None, None, None)?.0)
+    Ok(submit_body_mapped(prompt, None, None, None, None, None, None)?.0)
 }
 
 pub fn submit_body_mapped(
@@ -197,11 +276,19 @@ pub fn submit_body_mapped(
     duration: Option<f64>,
     fps: Option<f64>,
     resolution: Option<&str>,
+    aspect: Option<&str>,
     first_image: Option<&str>,
     last_image: Option<&str>,
 ) -> Result<(Value, AppliedParams), String> {
-    let (node_info, applied) =
-        mapped_node_info(prompt, duration, fps, resolution, first_image, last_image)?;
+    let (node_info, applied) = mapped_node_info(
+        prompt,
+        duration,
+        fps,
+        resolution,
+        aspect,
+        first_image,
+        last_image,
+    )?;
     Ok((
         json!({
             "addMetadata": true,
@@ -404,8 +491,8 @@ mod tests {
     fn node_info_keeps_string_field_value() {
         let list = node_info_list("a cat");
         assert_eq!(list[0]["fieldValue"], "a cat");
-        assert_eq!(list[0]["nodeId"], "134");
-        assert_eq!(list[0]["fieldName"], "prompt");
+        assert_eq!(list[0]["nodeId"], "138");
+        assert_eq!(list[0]["fieldName"], "value");
     }
 
     #[test]
@@ -529,63 +616,135 @@ mod tests {
 
     #[test]
     fn mapped_submit_body_is_v2_not_ai_app() {
+        assert!(crate::config::submit_url().contains("2100758868111486978"));
         let (body, applied) = submit_body_mapped(
             "a walking shot",
             Some(5.0),
             Some(25.0),
+            Some("mp:0.4"),
             Some("16:9"),
             Some("openapi/first.jpg"),
-            None,
+            Some("openapi/second.jpg"),
         )
         .expect("mapped");
         assert_eq!(body["addMetadata"], true);
+        assert_eq!(body["usePersonalQueue"], false);
         assert!(body.get("webappId").is_none());
         assert!(body.get("apiKey").is_none());
         let list = body["nodeInfoList"].as_array().expect("list");
-        assert_eq!(list.len(), 6);
-        assert_eq!(list[0]["nodeId"], "134");
-        assert_eq!(list[0]["fieldName"], "prompt");
+        assert_eq!(list.len(), 8);
+        assert!(list.iter().all(|n| n["nodeId"] != "141"));
+        assert_eq!(list[0]["nodeId"], "138");
+        assert_eq!(list[0]["fieldName"], "value");
         assert_eq!(list[0]["fieldValue"], "a walking shot");
-        assert_eq!(list[1]["nodeId"], "205");
-        assert_eq!(list[1]["fieldName"], "select");
-        assert_eq!(list[1]["fieldValue"], 1);
+        assert_eq!(list[1]["nodeId"], "132");
+        assert_eq!(list[1]["fieldName"], "value");
+        assert_eq!(list[1]["fieldValue"], 5.0);
         assert_eq!(list[2]["nodeId"], "130");
         assert_eq!(list[2]["fieldValue"], 25.0);
-        assert_eq!(list[3]["nodeId"], "132");
+        assert_eq!(list[3]["nodeId"], "131");
         assert_eq!(list[3]["fieldName"], "expression");
         assert!(list[3]["fieldValue"].as_str().unwrap().contains("a * 25"));
-        assert_eq!(list[4]["nodeId"], "115");
-        assert_eq!(list[4]["fieldValue"], "16:9 (Widescreen)");
-        assert_eq!(list[5]["nodeId"], "139");
-        assert_eq!(list[5]["fieldValue"], "openapi/first.jpg");
+        let aspect = list
+            .iter()
+            .find(|n| n["nodeId"] == "115" && n["fieldName"] == "aspect_ratio")
+            .expect("aspect");
+        assert_eq!(aspect["fieldValue"], "16:9 (Widescreen)");
+        let mp = list
+            .iter()
+            .find(|n| n["nodeId"] == "115" && n["fieldName"] == "megapixels")
+            .expect("mp");
+        assert_eq!(mp["fieldValue"], 0.4);
+        assert_eq!(list[6]["nodeId"], "137");
+        assert_eq!(list[6]["fieldValue"], "openapi/first.jpg");
+        assert_eq!(list[7]["nodeId"], "139");
+        assert_eq!(list[7]["fieldValue"], "openapi/second.jpg");
         assert_eq!(applied.duration, Some(json!(5.0)));
         assert_eq!(applied.fps, Some(json!(25.0)));
-        assert_eq!(applied.resolution, Some(json!("16:9")));
+        assert_eq!(applied.aspect, Some(json!("16:9")));
+        assert_eq!(applied.resolution, Some(json!("mp:0.4")));
         let q = query_body("tid-1");
         assert_eq!(q["taskId"], "tid-1");
         assert!(q.get("apiKey").is_none());
     }
 
     #[test]
-    fn duration_1_to_4_maps_to_select_1_keeps_user_applied() {
-        for d in [1.0, 4.0] {
-            let (body, applied) =
-                submit_body_mapped("p", Some(d), Some(24.0), Some("16:9"), None, None).expect("ok");
+    fn duration_writes_user_seconds_not_impact_switch() {
+        for d in [1.0, 4.0, 15.0] {
+            let (body, applied) = submit_body_mapped(
+                "p",
+                Some(d),
+                Some(24.0),
+                Some("mp:0.4"),
+                Some("16:9"),
+                Some("openapi/a.png"),
+                None,
+            )
+            .expect("ok");
             let list = body["nodeInfoList"].as_array().expect("list");
-            let dur = list.iter().find(|n| n["nodeId"] == "205").expect("205");
-            assert_eq!(dur["fieldValue"], 1);
+            let dur = list.iter().find(|n| n["nodeId"] == "132").expect("132");
+            assert_eq!(dur["fieldName"], "value");
+            assert_eq!(dur["fieldValue"], d);
             assert_eq!(applied.duration, Some(json!(d)));
+            assert!(list.iter().all(|n| n["nodeId"] != "205"));
+            assert!(list.iter().all(|n| n["nodeId"] != "141"));
         }
-        let (body, applied) =
-            submit_body_mapped("p", Some(15.0), Some(24.0), Some("1:1"), None, None).expect("15");
+        let (body, _) = submit_body_mapped(
+            "p",
+            Some(15.0),
+            Some(24.0),
+            Some("mp:0.25"),
+            Some("1:1"),
+            Some("openapi/a.png"),
+            None,
+        )
+        .expect("15");
         let list = body["nodeInfoList"].as_array().expect("list");
-        let dur = list.iter().find(|n| n["nodeId"] == "205").expect("205");
-        assert_eq!(dur["fieldValue"], 11);
-        assert_eq!(applied.duration, Some(json!(15.0)));
         assert_eq!(
-            list.iter().find(|n| n["nodeId"] == "115").unwrap()["fieldValue"],
+            list.iter()
+                .find(|n| n["nodeId"] == "115" && n["fieldName"] == "aspect_ratio")
+                .unwrap()["fieldValue"],
             "1:1 (Square)"
         );
+        assert_eq!(
+            list.iter()
+                .find(|n| n["nodeId"] == "115" && n["fieldName"] == "megapixels")
+                .unwrap()["fieldValue"],
+            0.25
+        );
+        assert_eq!(list.iter().filter(|n| n["nodeId"] == "137").count(), 1);
+        assert_eq!(list.iter().filter(|n| n["nodeId"] == "139").count(), 0);
+    }
+
+    #[test]
+    fn mapped_submit_requires_reference_image() {
+        let err = submit_body_mapped("p", Some(5.0), Some(24.0), Some("mp:0.4"), Some("16:9"), None, None)
+            .unwrap_err();
+        assert!(err.contains("referenceImagesB64"));
+    }
+
+    #[test]
+    fn collect_refs_allows_one_or_two_and_folds_start_end() {
+        let one = collect_r2v_ref_b64(&json!({"referenceImagesB64": ["aaa"]})).unwrap();
+        assert_eq!(one, vec!["aaa"]);
+        let two = collect_r2v_ref_b64(&json!({"referenceImagesB64": ["aaa", "bbb"]})).unwrap();
+        assert_eq!(two, vec!["aaa", "bbb"]);
+        let folded = collect_r2v_ref_b64(&json!({
+            "startFrameB64": "start",
+            "endFrameB64": "end"
+        }))
+        .unwrap();
+        assert_eq!(folded, vec!["start", "end"]);
+        let start_only = collect_r2v_ref_b64(&json!({"startFrameB64": "only"})).unwrap();
+        assert_eq!(start_only, vec!["only"]);
+        assert!(collect_r2v_ref_b64(&json!({})).is_err());
+        assert!(collect_r2v_ref_b64(&json!({"referenceImagesB64": ["a", "b", "c"]})).is_err());
+        let prefers_refs = collect_r2v_ref_b64(&json!({
+            "referenceImagesB64": ["ref"],
+            "startFrameB64": "ignored"
+        }))
+        .unwrap();
+        assert_eq!(prefers_refs, vec!["ref"]);
     }
 
     #[test]
@@ -595,10 +754,31 @@ mod tests {
 
     #[test]
     fn mapped_submit_requires_timing_when_nodes_bound() {
-        assert!(submit_body_mapped("p", None, None, None, None, None).is_err());
-        assert!(submit_body_mapped("p", Some(5.0), Some(23.0), Some("16:9"), None, None).is_err());
-        assert!(submit_body_mapped("p", Some(5.0), Some(25.0), None, None, None).is_err());
-        assert!(submit_body_mapped("p", Some(16.0), Some(25.0), Some("16:9"), None, None).is_err());
+        let img = Some("openapi/a.png");
+        assert!(submit_body_mapped("p", None, None, None, None, img, None).is_err());
+        assert!(submit_body_mapped("p", Some(5.0), Some(23.0), Some("mp:0.4"), Some("16:9"), img, None).is_err());
+        assert!(submit_body_mapped("p", Some(5.0), Some(25.0), None, Some("16:9"), img, None).is_err());
+        assert!(submit_body_mapped("p", Some(5.0), Some(25.0), Some("mp:0.4"), None, img, None).is_err());
+        assert!(submit_body_mapped("p", Some(16.0), Some(25.0), Some("mp:0.4"), Some("16:9"), img, None).is_err());
+    }
+
+    #[test]
+    fn mapped_submit_omits_fps_nodes_when_unspecified() {
+        let img = Some("openapi/a.png");
+        let (body, applied) = submit_body_mapped(
+            "p",
+            Some(5.0),
+            None,
+            Some("mp:0.4"),
+            Some("16:9"),
+            img,
+            None,
+        )
+        .expect("ok");
+        let list = body["nodeInfoList"].as_array().expect("list");
+        assert!(list.iter().all(|n| n["nodeId"] != "130"));
+        assert!(list.iter().all(|n| n["nodeId"] != "131"));
+        assert!(applied.fps.is_none());
     }
 
     #[test]

@@ -7,31 +7,35 @@
 //! ## Why V2 only
 //! Sibling crate `runninghub-workflow/` is the AI App teaching specimen
 //! (`/task/openapi/ai-app/run` + `/outputs`, empty timing bindings).
-//! This crate is the MiniMax H3 **working** example. The graph id below is a
-//! Comfy **workflow** id: `POST /task/openapi/ai-app/run` returns
-//! `webapp not exists`. Do not add an AI App parse branch to "make it work".
+//! This crate is the MiniMax H3 **r2v turbo** V2 working example. The graph
+//! id below is a Comfy **workflow** id: `POST /task/openapi/ai-app/run`
+//! returns `webapp not exists`. Do not add an AI App parse branch.
 //!
-//! ## Binding table (frozen from an official export of this graph)
+//! ## Binding table (UI dump `video_minimax_h3_r2v_turbo.json` only)
 //! | RCD / host field | node / field | vendor value |
 //! |---|---|---|
-//! | prompt | `134` / `prompt` | workbench text |
-//! | durationSeconds | `205` / `select` | ImpactSwitch: user 1..=4 → 5s / select=1; 5..=15 → select=seconds-4. `appliedParams.duration` stays the user value. |
-//! | fps | `130` / `fps` **and** `132` / `expression` | Closed set 24/25/30. Expression must be rewritten atomically. |
-//! | resolution | `115` / `aspect_ratio` | RCD id `16:9` maps to combo `16:9 (Widescreen)` (see `resolution_combo`). |
-//! | start frame | `139` / `image` | Upload filename after magic-byte sniff |
-//! | end frame | `206` / `image` | Same |
+//! | prompt | `138` / `value` | PrimitiveStringMultiline |
+//! | durationSeconds | `132` / `value` | PrimitiveFloat; write user seconds 1..=15 |
+//! | fps | `130` / `fps` **and** `131` / `expression` | Closed set 24/25/30. Rewrite both. |
+//! | aspect | `115` / `aspect_ratio` | RCD `16:9` → `16:9 (Widescreen)` |
+//! | resolution | `115` / `megapixels` | RCD `mp:0.4` → FLOAT `0.4` |
+//! | refs 1..=2 | `137` / `139` / `image` | After RH upload; magic-byte filename |
+//!
+//! Do **not** copy LAN pin `h3.r2v.turbo.api.json`: that pin treats `141` as
+//! LoadImage. This uploaded UI graph has `141=MiniMaxH3TurboLoRA` and
+//! `142=MiniMaxH3TurboSampler`. Never put `image` on node `141`.
 //!
 //! ## Change the vendor graph
-//! Clone or export the new graph from the vendor. Read real node ids from that
-//! dump or the official API response. Do **not** guess ids. Do **not** reuse
-//! this table on another workflow. Update `WORKFLOW_ID` and every binding
-//! together. This id is not a secret; swapping only the Key does **not**
-//! promise the same graph is runnable on another account.
+//! Clone or export the new graph. Update `WORKFLOW_ID` and every binding
+//! together. Do **not** guess ids. This id is not a secret; swapping only
+//! the Key does **not** promise the same graph on another account.
 //!
 //! ## Images
 //! Decode Base64, sniff png/jpeg/webp/gif, then upload with matching filename
 //! and MIME. Unknown magic → explicit Err. Never default to PNG. Never drop
-//! frames and silently become T2V.
+//! refs and silently become T2V. RCD mode is `multi_image_to_video` only
+//! (LAN H3 r2v same): never declare I2V / first_last_frame. Empty refs fold
+//! `startFrameB64`/`endFrameB64` into 137/139. Need 1..=2 images.
 //!
 //! ## Key / wasm
 //! Put a live Key only in a **writable private copy**. Shipped `API_KEY` must
@@ -64,7 +68,7 @@ use alloc::string::String;
 /// International: `https://www.runninghub.ai`
 /// China: `https://www.runninghub.cn`
 pub const PLUGIN_ID: &str = "local.example.runninghub-h3";
-pub const PLUGIN_VERSION: &str = "0.1.0";
+pub const PLUGIN_VERSION: &str = "0.2.3";
 
 pub const REGION_BASE_URL: &str = "https://www.runninghub.cn";
 
@@ -72,33 +76,34 @@ pub const REGION_BASE_URL: &str = "https://www.runninghub.cn";
 pub const API_KEY: &str = "REPLACE_WITH_DEDICATED_LOW_BALANCE_KEY";
 
 /// Case-source Comfy workflow id (not an AI App webappId).
-pub const WORKFLOW_ID: &str = "2084935567606894593";
+pub const WORKFLOW_ID: &str = "2100758868111486978";
 
-/// Live graph: CR Prompt Text, not CLIPTextEncode "6".
-pub const PROMPT_NODE_ID: &str = "134";
-pub const PROMPT_FIELD_NAME: &str = "prompt";
+/// PrimitiveStringMultiline on the uploaded r2v turbo UI graph.
+pub const PROMPT_NODE_ID: &str = "138";
+pub const PROMPT_FIELD_NAME: &str = "value";
 
 /// Shipped example uses `mapped_run` so the video workbench prompt is submitted.
 pub const SUBMIT_MODE: &str = "mapped_run";
 
-/// MiniMaxH3ImageToVideo first_frame / last_frame LoadImage widgets.
-pub const IMAGE_NODE_ID: &str = "139";
+/// LoadImage slots wired to MiniMaxH3ReferenceToVideo ref_image_0 / ref_image_1.
+/// Node 141 on this graph is TurboLoRA — never treat it as an image.
+pub const REF_IMAGE_NODE_IDS: [&str; 2] = ["137", "139"];
 pub const IMAGE_FIELD_NAME: &str = "image";
-pub const LAST_IMAGE_NODE_ID: &str = "206";
-pub const LAST_IMAGE_FIELD_NAME: &str = "image";
 
-/// Duration seconds 1–15: ImpactSwitch `205` minimum is 5s.
-/// Map `1..4 → 5s / select=1`, `5..15 → select=seconds-4`.
-/// Do not write Math `132/values.a` — that input is wired from 205.
-pub const DURATION_NODE_ID: &str = "205";
-pub const DURATION_FIELD_NAME: &str = "select";
+/// Duration seconds 1–15: PrimitiveFloat `132/value` (not ImpactSwitch 205).
+pub const DURATION_NODE_ID: &str = "132";
+pub const DURATION_FIELD_NAME: &str = "value";
 pub const FPS_NODE_ID: &str = "130";
 pub const FPS_FIELD_NAME: &str = "fps";
+pub const ASPECT_NODE_ID: &str = "115";
+pub const ASPECT_FIELD_NAME: &str = "aspect_ratio";
+pub const ASPECT_BINDING_ID: &str = "115:aspect_ratio";
 pub const RESOLUTION_NODE_ID: &str = "115";
-pub const RESOLUTION_FIELD_NAME: &str = "aspect_ratio";
+pub const RESOLUTION_FIELD_NAME: &str = "megapixels";
+pub const RESOLUTION_BINDING_ID: &str = "115:megapixels";
 
-/// Same Math node as duration: fps must rewrite the frame-count expression.
-pub const MATH_EXPRESSION_NODE_ID: &str = "132";
+/// Math node that consumes duration `132` as `values.a`.
+pub const MATH_EXPRESSION_NODE_ID: &str = "131";
 pub const MATH_EXPRESSION_FIELD_NAME: &str = "expression";
 
 /// Sentinel equal to the shipped `API_KEY` placeholder. Live calls must not use it.

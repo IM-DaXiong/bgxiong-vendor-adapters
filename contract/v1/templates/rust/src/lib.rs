@@ -11,6 +11,8 @@ use alloc::format;
 #[cfg(target_arch = "wasm32")]
 use alloc::string::ToString;
 #[cfg(target_arch = "wasm32")]
+use alloc::vec;
+#[cfg(target_arch = "wasm32")]
 use alloc::vec::Vec;
 
 #[cfg(target_arch = "wasm32")]
@@ -95,6 +97,7 @@ fn query(request: &Invocation) -> Response {
         status: "failed".into(),
         outputs: Vec::<Output>::new(),
         progress_text: Some("starter query is not connected to a vendor".into()),
+        retry_after_ms: None,
     });
     sdk_to_wit(Operation::Query, sdk)
 }

@@ -81,6 +81,10 @@ fn submit(request: &Invocation) -> Response {
     let duration = payload.get("durationSeconds").and_then(|v| v.as_f64());
     let fps = payload.get("fps").and_then(|v| v.as_f64());
     let resolution = payload.get("resolution").and_then(|v| v.as_str());
+    let aspect = payload
+        .get("aspect")
+        .and_then(|v| v.as_str())
+        .or_else(|| payload.get("aspectRatio").and_then(|v| v.as_str()));
     let base = resolve_base_url(&payload);
     let first_name = match kind {
         ModelKind::I2vTurbo => {
@@ -161,6 +165,7 @@ fn submit(request: &Invocation) -> Response {
         duration,
         fps,
         resolution,
+        aspect,
         first_name.as_deref(),
         &ref_names,
         &request.request_id,
@@ -208,7 +213,7 @@ fn query(request: &Invocation) -> Response {
                 let outputs = q
                     .outputs
                     .into_iter()
-                    .map(|o| bgx_vendor_adapter_sdk::Output {
+                    .map(|o| bgx_vendor_adapter_sdk::Output::Media {
                         media_kind: o.media_kind,
                         source: o.source,
                         value: o.value,
@@ -219,6 +224,7 @@ fn query(request: &Invocation) -> Response {
                     status: status.into(),
                     outputs,
                     progress_text: q.vendor_message,
+                    retry_after_ms: None,
                 });
                 sdk_resp(Operation::Query, sdk)
             }
@@ -248,7 +254,7 @@ fn upload_image(
     let url = join_url(base, "/upload/image");
     let plan = bgxiong::vendor_adapter::host_http::RequestPlan {
         method: "POST".into(),
-        url,
+        url: url.clone(),
         headers: vec![],
         generated_headers: vec![],
         body: bgxiong::vendor_adapter::host_http::Body::Multipart(vec![
@@ -270,7 +276,7 @@ fn upload_image(
                 return Err(err(
                     Operation::Submit,
                     "adapterVendorHttpError",
-                    &format!("upload HTTP {}", resp.status),
+                    &format!("upload HTTP {} url={}", resp.status, url),
                 ));
             }
             let bytes = match resp.payload {
@@ -310,9 +316,10 @@ fn http_json(
     } else {
         bgxiong::vendor_adapter::host_http::Body::None
     };
+    let url_owned = url.to_string();
     let plan = bgxiong::vendor_adapter::host_http::RequestPlan {
         method: method.into(),
-        url: url.into(),
+        url: url_owned.clone(),
         headers,
         generated_headers: vec![],
         body: plan_body,
@@ -325,7 +332,7 @@ fn http_json(
                 return Err(err(
                     op,
                     "adapterVendorHttpError",
-                    &format!("HTTP {}", resp.status),
+                    &format!("HTTP {} url={}", resp.status, url_owned),
                 ));
             }
             let bytes = match resp.payload {

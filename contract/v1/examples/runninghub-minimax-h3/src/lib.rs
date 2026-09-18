@@ -1,4 +1,4 @@
-//! Isolated RunningHub V2 MiniMax H3 video example.
+//! Isolated RunningHub V2 MiniMax H3 r2v turbo video example.
 //! Vendor strings stay in this crate. Host `src-tauri/**` must not name RunningHub.
 
 #![cfg_attr(target_arch = "wasm32", no_std)]
@@ -24,7 +24,7 @@ pub mod runninghub;
 use bgx_vendor_adapter_sdk::{query_result, submit_accepted, Output, QueryResult};
 
 #[cfg(not(target_arch = "wasm32"))]
-use crate::config::{require_live_key, query_url, submit_url, API_KEY};
+use crate::config::{query_url, submit_url};
 #[cfg(not(target_arch = "wasm32"))]
 use crate::runninghub::{
     outputs_to_json, parse_query, parse_submit_task_id, submit_body_mapped, MappedStatus,
@@ -52,7 +52,6 @@ pub fn dispatch_json(operation: &str, payload_json: &str) -> Result<serde_json::
 
 #[cfg(not(target_arch = "wasm32"))]
 fn submit_op(payload_json: &str) -> Result<serde_json::Value, String> {
-    require_live_key()?;
     let payload: serde_json::Value =
         serde_json::from_str(payload_json).map_err(|e| format!("payload: {e}"))?;
     let prompt = payload
@@ -60,18 +59,40 @@ fn submit_op(payload_json: &str) -> Result<serde_json::Value, String> {
         .and_then(|v| v.as_str())
         .unwrap_or("")
         .trim();
-    let duration = payload.get("durationSeconds").and_then(|v| v.as_f64());
-    let fps = payload.get("fps").and_then(|v| v.as_f64());
+    let duration = json_opt_f64(payload.get("durationSeconds"));
+    let fps = json_opt_f64(payload.get("fps"));
     let resolution = payload.get("resolution").and_then(|v| v.as_str());
+    let aspect = payload
+        .get("aspect")
+        .and_then(|v| v.as_str())
+        .or_else(|| payload.get("aspectRatio").and_then(|v| v.as_str()));
+    let first = payload
+        .get("startFrameB64")
+        .and_then(|v| v.as_str())
+        .or_else(|| {
+            payload
+                .get("referenceImagesB64")
+                .and_then(|v| v.as_array())
+                .and_then(|a| a.first())
+                .and_then(|v| v.as_str())
+        });
+    let last = payload.get("endFrameB64").and_then(|v| v.as_str());
     let _url = submit_url();
-    let _body = submit_body_mapped(prompt, duration, fps, resolution, None, None)?;
-    let _auth = format!("Bearer {API_KEY}");
+    let _body = submit_body_mapped(prompt, duration, fps, resolution, aspect, first, last)?;
     Err("live HTTP is only available inside the wasm guest via host-http".into())
 }
 
 #[cfg(not(target_arch = "wasm32"))]
+fn json_opt_f64(v: Option<&serde_json::Value>) -> Option<f64> {
+    let v = v?;
+    v.as_f64()
+        .or_else(|| v.as_u64().map(|n| n as f64))
+        .or_else(|| v.as_i64().map(|n| n as f64))
+        .or_else(|| v.as_str().and_then(|s| s.trim().parse().ok()))
+}
+
+#[cfg(not(target_arch = "wasm32"))]
 fn query_op(payload_json: &str) -> Result<serde_json::Value, String> {
-    require_live_key()?;
     let payload: serde_json::Value =
         serde_json::from_str(payload_json).map_err(|e| format!("payload: {e}"))?;
     let _id = payload
@@ -101,7 +122,7 @@ pub fn map_query_response_json(body: &serde_json::Value) -> Result<serde_json::V
     let outputs: Vec<Output> = q
         .outputs
         .into_iter()
-        .map(|o| Output {
+        .map(|o| Output::Media {
             media_kind: o.media_kind,
             source: o.source,
             value: o.value,
@@ -112,6 +133,7 @@ pub fn map_query_response_json(body: &serde_json::Value) -> Result<serde_json::V
         status: status.into(),
         outputs,
         progress_text: q.vendor_message,
+        retry_after_ms: None,
     });
     let mut data: serde_json::Value = serde_json::from_str(sdk.data_json.as_deref().unwrap_or("{}"))
         .map_err(|e| format!("sdk: {e}"))?;
@@ -143,10 +165,14 @@ mod tests {
         let v = dispatch_json("capabilities", "{}").expect("caps");
         assert_eq!(v["schemaVersion"], 1);
         assert_eq!(v["pluginId"], crate::config::PLUGIN_ID);
+        assert_eq!(v["pluginVersion"], "0.2.3");
         assert_eq!(v["slots"][0]["slot"], "video");
         assert_eq!(v["slots"][0]["maxReferenceImages"], 2);
-        assert!(v["slots"][0].get("implementedModeIds").is_none());
-        assert!(v["slots"][0].get("supportsFirstLastFrame").is_none());
+        assert_eq!(
+            v["slots"][0]["implementedModeIds"],
+            serde_json::json!(["multi_image_to_video"])
+        );
+        assert_eq!(v["slots"][0]["supportsFirstLastFrame"], false);
         assert_eq!(v["slots"][0]["duration"]["min"], 1.0);
         assert_eq!(v["slots"][0]["duration"]["max"], 15.0);
         assert_eq!(v["slots"][0]["fps"]["options"].as_array().map(|a| a.len()), Some(3));
@@ -156,17 +182,20 @@ mod tests {
                 .map(|a| a.len()),
             Some(4)
         );
-        assert_eq!(v["slots"][0]["resolution"]["default"], "16:9");
+        assert_eq!(v["slots"][0]["resolution"]["default"], "mp:0.4");
+        assert_eq!(v["slots"][0]["aspect"]["default"], "16:9");
+        assert_eq!(v["slots"][0]["resolution"]["bindingId"], "115:megapixels");
+        assert_eq!(v["slots"][0]["aspect"]["bindingId"], "115:aspect_ratio");
     }
 
     #[test]
     fn submit_without_guest_http_fails_explicitly() {
         let err = dispatch_json(
             "submit",
-            r#"{"prompt":"cat","durationSeconds":5,"fps":25,"resolution":"16:9"}"#,
+            r#"{"prompt":"cat","durationSeconds":5,"fps":25,"resolution":"mp:0.4","aspectRatio":"16:9","startFrameB64":"openapi/a.png"}"#,
         )
         .unwrap_err();
-        assert!(err.contains("placeholder") || err.contains("live HTTP"));
+        assert!(err.contains("live HTTP"));
     }
 
     #[test]

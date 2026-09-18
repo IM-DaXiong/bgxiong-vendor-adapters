@@ -24,7 +24,7 @@ pub mod runninghub;
 use bgx_vendor_adapter_sdk::{query_result, submit_accepted, Output, QueryResult};
 
 #[cfg(not(target_arch = "wasm32"))]
-use crate::config::{require_live_key, query_url, submit_url, API_KEY};
+use crate::config::{query_url, submit_url};
 #[cfg(not(target_arch = "wasm32"))]
 use crate::runninghub::{
     outputs_to_json, parse_query, parse_submit_task_id, submit_body_mapped, MappedStatus,
@@ -52,7 +52,6 @@ pub fn dispatch_json(operation: &str, payload_json: &str) -> Result<serde_json::
 
 #[cfg(not(target_arch = "wasm32"))]
 fn submit_op(payload_json: &str) -> Result<serde_json::Value, String> {
-    require_live_key()?;
     let payload: serde_json::Value =
         serde_json::from_str(payload_json).map_err(|e| format!("payload: {e}"))?;
     let prompt = payload
@@ -65,13 +64,11 @@ fn submit_op(payload_json: &str) -> Result<serde_json::Value, String> {
     let resolution = payload.get("resolution").and_then(|v| v.as_str());
     let _url = submit_url();
     let _body = submit_body_mapped(prompt, duration, fps, resolution)?;
-    let _auth = format!("Bearer {API_KEY}");
     Err("live HTTP is only available inside the wasm guest via host-http".into())
 }
 
 #[cfg(not(target_arch = "wasm32"))]
 fn query_op(payload_json: &str) -> Result<serde_json::Value, String> {
-    require_live_key()?;
     let payload: serde_json::Value =
         serde_json::from_str(payload_json).map_err(|e| format!("payload: {e}"))?;
     let _id = payload
@@ -101,7 +98,7 @@ pub fn map_query_response_json(body: &serde_json::Value) -> Result<serde_json::V
     let outputs: Vec<Output> = q
         .outputs
         .into_iter()
-        .map(|o| Output {
+        .map(|o| Output::Media {
             media_kind: o.media_kind,
             source: o.source,
             value: o.value,
@@ -112,6 +109,7 @@ pub fn map_query_response_json(body: &serde_json::Value) -> Result<serde_json::V
         status: status.into(),
         outputs,
         progress_text: q.vendor_message,
+        retry_after_ms: None,
     });
     let mut data: serde_json::Value = serde_json::from_str(sdk.data_json.as_deref().unwrap_or("{}"))
         .map_err(|e| format!("sdk: {e}"))?;
@@ -152,7 +150,7 @@ mod tests {
     #[test]
     fn submit_without_live_key_fails_explicitly() {
         let err = dispatch_json("submit", r#"{"prompt":"cat"}"#).unwrap_err();
-        assert!(err.contains("placeholder") || err.contains("live HTTP"));
+        assert!(err.contains("live HTTP"));
     }
 
     #[test]

@@ -23,7 +23,11 @@
       "properties": {
         "id": { "type": "string", "minLength": 1 },
         "label": { "type": "string", "minLength": 1 },
-        "value": { "type": ["string", "number"] }
+        "value": { "type": ["string", "number"] },
+        "aspectRatio": {
+          "type": "string",
+          "pattern": "^[0-9]+:[0-9]+$"
+        }
       }
     },
     "param": {

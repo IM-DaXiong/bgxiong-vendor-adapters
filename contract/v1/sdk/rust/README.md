@@ -18,9 +18,8 @@ crate with `wit-bindgen`; this SDK stays free of `wit-bindgen` so the same code 
 host-side tests and for `bgx-adapter dev`.
 
 Closed sets (`protocolHostMajor`, `operations`, `capabilitySlots`) are read from
-`packages/app-contracts/v1/vendor-adapter.json` at compile time, so the SDK cannot drift from
-the client. Keep this crate inside the repo tree, or vendor that JSON at the same relative
-path when you copy the crate out.
+crate-local `vendor-adapter-protocol.json` at compile time. This crate does not
+read host `app-contracts`, so you can copy `sdk/rust` out of the repo.
 
 ## Use
 

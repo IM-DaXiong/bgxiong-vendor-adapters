@@ -3,7 +3,7 @@
 > **Project external developer standard (human-readable field dictionary)**  
 > Third-party adapter authors **must** read this before implementing a plugin.  
 > Wire field names are always **camelCase**.  
-> Closed sets (operations, capabilitySlots, errorCodes, …) live in `packages/app-contracts/v1/vendor-adapter.json` (the Rust SDK embeds a copy as `vendor-adapter.json`).  
+> Closed sets (operations, capabilitySlots, errorCodes, …) live in `protocol/vendor-adapter-protocol.json` (the Rust SDK embeds that file next to `lib.rs`). Host trust paths and providerKinds stay in `packages/app-contracts/v1/vendor-adapter.json`.  
 > 中文版: [`HOST_PAYLOAD.zh-CN.md`](HOST_PAYLOAD.zh-CN.md)
 
 ## Authority map
@@ -16,6 +16,8 @@
 | Envelope & response helpers | `sdk/rust` (`Invocation`, `Response`, `SubmitResult`, `QueryResult`, `Output`) |
 | Manifest & runtime-caps schemas | `schemas/manifest.schema.json`, `schemas/runtime-caps.schema.json` |
 | Host implementation cross-check | `src-tauri/src/vendor_adapter_gateway/bridge/*_provider.rs` |
+| Capability projection | `src-tauri/src/vendor_adapter_gateway/bridge/caps_adapter.rs` |
+| RCD validation | `src-tauri/src/vendor_adapter_gateway/domain/runtime_caps.rs` |
 
 `examples/` are **specimens only**, not the field standard. Standard = this document (or the Chinese edition) + WIT + schemas + SDK types.
 
@@ -47,8 +49,9 @@ Invocation {
   profileId,
   capabilitySlot,      // image|video|text|...
   requestId,
-  deadlineMs,
+  budgetMs,
   payloadJson,         // business JSON, stringified
+  bindingId,
   negotiatedVersion?,
   enabledFeatures?[]
 }
@@ -73,8 +76,9 @@ Outbound HTTP/media/credentials go only through WIT imports: `host-http`, `host-
 | `profileId` | `string` | Host-side profile / binding id. |
 | `capabilitySlot` | `string` | Capability slot; closed set `capabilitySlots`. |
 | `requestId` | `string` | Correlation id for this invoke (often tied to an AI task). |
-| `deadlineMs` | `u64` | Deadline in host-clock milliseconds. |
+| `budgetMs` | `u64` | Remaining execution budget in milliseconds (monotonic remaining, not a wall-clock deadline). |
 | `payloadJson` | `string` | **Stringified** business JSON; interpret by `operation` × `capabilitySlot` (section 3). |
+| `bindingId` | `string` | Host binding id for this invoke (not `ai_tasks.id`; that stays host-private). |
 | `negotiatedVersion` | `u32?` | Negotiated protocol version (optional). |
 | `enabledFeatures` | `string[]?` | Enabled optional features (optional; default empty). |
 
@@ -159,12 +163,22 @@ Same field set. With references the slot is usually `imageToImage`; otherwise `i
 |------------|------|---------|
 | `prompt` | `string` | Prompt. |
 | `model` | `string` | Vendor model id. |
-| `size` | `string?` | Size (e.g. `1024x1024`). |
+| `size` | `string?` | Size (e.g. `1920x1088`). |
 | `negativePrompt` | `string?` | Negative prompt. |
 | `responseFormat` | `string?` | Vendor response format preference. |
 | `watermark` | `bool?` | Watermark flag if applicable. |
 | `referenceImagesB64` | `string[]?` | Reference images; typically non-empty for `imageToImage`. |
 | `extra` | `object?` | Extra context. |
+
+**Image size field map (one name, one meaning)**
+
+| Layer | Field | Meaning |
+|---|---|---|
+| submit `payloadJson` | `size` | Workbench clarity, `WxH` |
+| RCD slot param | `resolution` | `enum` presets; `options[].value` equals `size`. **Do not** declare a separate `aspect` param; aspect is option metadata `aspectRatio` (`16:9` / `9:16` / `1:1` / `4:3` / `3:4`) |
+| submit response | `appliedParams.resolution` | The `WxH` actually written into the vendor request; must match the chosen `size` |
+
+Image slots **must not** use `resolution.mode=range` (a 1-D scalar cannot drive width×height columns). For `fixed`, the host omits `size`; if the guest still receives `size`, return `adapterInvalidRequest`. Missing / unnegotiated RCD is treated as workflow-native size (no `size` on the wire).
 
 **query**
 
@@ -331,6 +345,7 @@ SDK: `submit_accepted_with_applied` / `submit_completed_with_applied` + `Applied
 | Top-level | `schemaVersion` (1), `pluginId`, `pluginVersion`, `slots[]` |
 | Each slot | Required `slot`, `modelId`; optional `duration` / `fps` / `resolution` / `aspect` / `maxReferenceImages` / `supportsFirstLastFrame` / `implementedModeIds` / `featureModules` |
 | Param modes | `fixed` \| `range` \| `enum`; `range`/`enum` **require** non-empty `bindingId` |
+| `enum` option | Required `id` / `label` / `value`; optional `aspectRatio` (closed five aspects). Image `resolution` enum **must** set `aspectRatio` |
 
 The host only understands this document — never a vendor node graph.
 

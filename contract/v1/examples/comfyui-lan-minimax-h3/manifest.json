@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "pluginId": "local.example.comfyui-lan-h3",
   "displayName": "LAN ComfyUI MiniMax H3",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "language": "rust",
   "entry": "adapter.wasm",
   "capabilitySlots": [

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "note": "Declared slot vs host-executable. Unsupported slots must fail closed.",
+  "slots": {
+    "image": { "bridge": true, "worker": true, "status": "supported" },
+    "imageToImage": { "bridge": true, "worker": true, "status": "supported" },
+    "video": { "bridge": true, "worker": true, "status": "supported" },
+    "keyframe": { "bridge": true, "worker": true, "status": "supported" },
+    "text": { "bridge": true, "worker": true, "status": "supported" },
+    "speech": { "bridge": true, "worker": true, "status": "supported" },
+    "voiceDesign": { "bridge": true, "worker": true, "status": "supported" },
+    "sfx": { "bridge": true, "worker": true, "status": "supported" },
+    "avatar": { "bridge": true, "worker": true, "status": "supported" },
+    "lipsync": { "bridge": true, "worker": true, "status": "supported" },
+    "videoUpscale": { "bridge": false, "worker": false, "status": "unsupported" },
+    "videoFaceRefine": { "bridge": false, "worker": false, "status": "unsupported" },
+    "imageUpscale": { "bridge": false, "worker": false, "status": "unsupported" }
+  },
+  "profileRunner": {
+    "status": "devtool-subset",
+    "cancel": "unsupported",
+    "note": "Compile profiles to a standard guest. The in-host profile runner is not the general plugin contract."
+  }
+}

@@ -4,13 +4,14 @@ extern crate alloc;
 use alloc::format;
 use alloc::string::{String, ToString};
 use alloc::vec;
+use alloc::vec::Vec;
 
 wit_bindgen::generate!({
     path: "wit/vendor-adapter.wit",
     world: "vendor-adapter",
 });
 
-use crate::config::{query_url, require_live_key, submit_url, API_KEY};
+use crate::config::{query_url, submit_url};
 use crate::runninghub::{parse_submit_task_id, query_body, MappedStatus};
 use bgxiong::vendor_adapter::types::{AdapterError, Operation};
 
@@ -43,9 +44,6 @@ fn capabilities_op() -> Response {
 }
 
 fn submit(request: &Invocation) -> Response {
-    if let Err(e) = require_live_key() {
-        return err(Operation::Submit, "adapterCredentialMissing", &e);
-    }
     let payload: serde_json::Value = match serde_json::from_str(&request.payload_json) {
         Ok(v) => v,
         Err(e) => return err(Operation::Submit, "adapterBadOutput", &e.to_string()),
@@ -55,8 +53,8 @@ fn submit(request: &Invocation) -> Response {
         .and_then(|v| v.as_str())
         .unwrap_or("")
         .trim();
-    let duration = payload.get("durationSeconds").and_then(|v| v.as_f64());
-    let fps = payload.get("fps").and_then(|v| v.as_f64());
+    let duration = json_opt_f64(payload.get("durationSeconds"));
+    let fps = json_opt_f64(payload.get("fps"));
     let resolution = payload.get("resolution").and_then(|v| v.as_str());
     let body = match crate::runninghub::submit_body_mapped(prompt, duration, fps, resolution) {
         Ok((v, applied)) => (v.to_string(), applied),
@@ -75,9 +73,6 @@ fn submit(request: &Invocation) -> Response {
 }
 
 fn query(request: &Invocation) -> Response {
-    if let Err(e) = require_live_key() {
-        return err(Operation::Query, "adapterCredentialMissing", &e);
-    }
     let payload: serde_json::Value = match serde_json::from_str(&request.payload_json) {
         Ok(v) => v,
         Err(e) => return err(Operation::Query, "adapterBadOutput", &e.to_string()),
@@ -98,7 +93,7 @@ fn query(request: &Invocation) -> Response {
                 let outputs = q
                     .outputs
                     .into_iter()
-                    .map(|o| bgx_vendor_adapter_sdk::Output {
+                    .map(|o| bgx_vendor_adapter_sdk::Output::Media {
                         media_kind: o.media_kind,
                         source: o.source,
                         value: o.value,
@@ -109,6 +104,7 @@ fn query(request: &Invocation) -> Response {
                     status: status.into(),
                     outputs,
                     progress_text: q.vendor_message,
+                    retry_after_ms: None,
                 });
                 sdk_resp(Operation::Query, sdk)
             }
@@ -118,21 +114,31 @@ fn query(request: &Invocation) -> Response {
     }
 }
 
+fn json_opt_f64(v: Option<&serde_json::Value>) -> Option<f64> {
+    let v = v?;
+    v.as_f64()
+        .or_else(|| v.as_u64().map(|n| n as f64))
+        .or_else(|| v.as_i64().map(|n| n as f64))
+        .or_else(|| v.as_str().and_then(|s| s.trim().parse().ok()))
+}
+
+fn bearer_headers() -> Vec<bgxiong::vendor_adapter::host_http::GeneratedHeader> {
+    vec![bgxiong::vendor_adapter::host_http::GeneratedHeader {
+        name: "authorization".into(),
+        kind: "bearer".into(),
+        target_field: "authorization".into(),
+    }]
+}
+
 fn http_json(op: Operation, method: &str, url: &str, body: &str) -> Result<serde_json::Value, Response> {
     let plan = bgxiong::vendor_adapter::host_http::RequestPlan {
         method: method.into(),
         url: url.into(),
-        headers: vec![
-            bgxiong::vendor_adapter::host_http::Header {
-                name: "content-type".into(),
-                value: "application/json".into(),
-            },
-            bgxiong::vendor_adapter::host_http::Header {
-                name: "Authorization".into(),
-                value: format!("Bearer {API_KEY}"),
-            },
-        ],
-        generated_headers: vec![],
+        headers: vec![bgxiong::vendor_adapter::host_http::Header {
+            name: "content-type".into(),
+            value: "application/json".into(),
+        }],
+        generated_headers: bearer_headers(),
         body: bgxiong::vendor_adapter::host_http::Body::Bytes(body.as_bytes().to_vec()),
         sink: bgxiong::vendor_adapter::host_http::ResponseSink::Buffer(1_048_576),
         timeout_ms: 30_000,

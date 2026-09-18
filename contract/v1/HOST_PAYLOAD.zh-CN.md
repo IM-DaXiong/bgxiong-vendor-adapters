@@ -3,7 +3,7 @@
 > **本仓对外开发契约（给人读的字段辞典）**  
 > 第三方适配器作者实现插件前**必读**。  
 > Wire 字段名一律 **camelCase**。  
-> 闭集（operations、capabilitySlots、errorCodes 等）见 `packages/app-contracts/v1/vendor-adapter.json`（Rust SDK 内嵌副本为 `vendor-adapter.json`）。  
+> 闭集（operations、capabilitySlots、errorCodes 等）见 `protocol/vendor-adapter-protocol.json`（Rust SDK 内嵌该文件）。宿主信任路径与 providerKinds 仍在 `packages/app-contracts/v1/vendor-adapter.json`。  
 > English edition: [`HOST_PAYLOAD.en.md`](HOST_PAYLOAD.en.md)
 
 ## 权威地图
@@ -16,6 +16,8 @@
 | 信封与回包辅助类型 | `sdk/rust`（`Invocation`、`Response`、`SubmitResult`、`QueryResult`、`Output`） |
 | Manifest / 运行时能力 Schema | `schemas/manifest.schema.json`、`schemas/runtime-caps.schema.json` |
 | 宿主实现对照（防漂移） | `src-tauri/src/vendor_adapter_gateway/bridge/*_provider.rs` |
+| 能力投影 | `src-tauri/src/vendor_adapter_gateway/bridge/caps_adapter.rs` |
+| RCD 校验 | `src-tauri/src/vendor_adapter_gateway/domain/runtime_caps.rs` |
 
 `examples/` **只是标本**，不是字段标准。标准 = 本文（或英文版）+ WIT + schemas + SDK 类型。
 
@@ -47,8 +49,9 @@ Invocation {
   profileId,
   capabilitySlot,      // image|video|text|...
   requestId,
-  deadlineMs,
+  budgetMs,
   payloadJson,         // 业务 JSON（字符串化）
+  bindingId,
   negotiatedVersion?,
   enabledFeatures?[]
 }
@@ -73,8 +76,9 @@ Invocation {
 | `profileId` | `string` | 宿主侧配置 / 绑定 id |
 | `capabilitySlot` | `string` | 能力槽；闭集见 `capabilitySlots` |
 | `requestId` | `string` | 本次调用关联 id（常与 AI 任务相关） |
-| `deadlineMs` | `u64` | 截止时间（宿主时钟，毫秒） |
+| `budgetMs` | `u64` | 剩余执行预算（毫秒，单调剩余时间，不是墙上时钟截止时刻） |
 | `payloadJson` | `string` | **字符串化**的业务 JSON；按 `operation` × `capabilitySlot` 解释（见第 3 节） |
+| `bindingId` | `string` | 本次调用的宿主绑定 id（不是 `ai_tasks.id`；任务 id 只留在宿主侧） |
 | `negotiatedVersion` | `u32?` | 协商版本（可选） |
 | `enabledFeatures` | `string[]?` | 已启用可选特性（可选；默认空） |
 
@@ -159,12 +163,22 @@ SDK 类型：`Invocation`。业务字段用 `inv.payload::<T>()` 反序列化。
 |-----------|------|------|
 | `prompt` | `string` | 提示词 |
 | `model` | `string` | 厂商模型标识 |
-| `size` | `string?` | 尺寸（如 `1024x1024`） |
+| `size` | `string?` | 尺寸（如 `1920x1088`） |
 | `negativePrompt` | `string?` | 负面提示词 |
 | `responseFormat` | `string?` | 厂商响应格式偏好 |
 | `watermark` | `bool?` | 是否水印等 |
 | `referenceImagesB64` | `string[]?` | 参考图；`imageToImage` 通常非空 |
 | `extra` | `object?` | 附加上下文 |
+
+**图像尺寸字段映射（一人一义）**
+
+| 层 | 字段 | 含义 |
+|---|---|---|
+| submit `payloadJson` | `size` | 工作台所选清晰度，格式 `WxH` |
+| RCD 槽参数 | `resolution` | `enum` 档位；`options[].value` 与 `size` 同值。**不要**再声明独立 `aspect` 参数；画幅是 option 元数据 `aspectRatio`（`16:9` / `9:16` / `1:1` / `4:3` / `3:4`） |
+| submit 回包 | `appliedParams.resolution` | 实际写入厂商请求的 `WxH`，必须与所选 `size` 一致 |
+
+图像槽 **禁止** `resolution.mode=range`（一维标量无法驱动宽高两列）。`fixed` 时宿主不下发 `size`；guest 若仍收到 `size` 应 `adapterInvalidRequest`。无 RCD / 未协商时宿主按工作流原生尺寸处理，同样不下发 `size`。
 
 **query**
 
@@ -331,6 +345,7 @@ SDK：`submit_accepted_with_applied` / `submit_completed_with_applied` + `Applie
 | 顶层 | `schemaVersion`（1）、`pluginId`、`pluginVersion`、`slots[]` |
 | 每个 slot | 必有 `slot`、`modelId`；可选 `duration` / `fps` / `resolution` / `aspect` / `maxReferenceImages` / `supportsFirstLastFrame` / `implementedModeIds` / `featureModules` |
 | 参数三态 | `fixed` \| `range` \| `enum`；`range` / `enum` **必须**非空 `bindingId` |
+| `enum` option | 必有 `id` / `label` / `value`；可选 `aspectRatio`（闭集五画幅）。图像 `resolution` enum **必须**带 `aspectRatio` |
 
 宿主只认这份文档，不认厂商节点图。
 

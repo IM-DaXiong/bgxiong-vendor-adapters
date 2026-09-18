@@ -103,7 +103,7 @@ pub fn map_query_response_json(
     let outputs: Vec<Output> = q
         .outputs
         .into_iter()
-        .map(|o| Output {
+        .map(|o| Output::Media {
             media_kind: o.media_kind,
             source: o.source,
             value: o.value,
@@ -114,6 +114,7 @@ pub fn map_query_response_json(
         status: status.into(),
         outputs,
         progress_text: q.vendor_message,
+        retry_after_ms: None,
     });
     serde_json::from_str(sdk.data_json.as_deref().unwrap_or("{}")).map_err(|e| format!("sdk: {e}"))
 }

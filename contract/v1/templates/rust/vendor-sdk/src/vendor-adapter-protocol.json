@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "witPackage": "bgxiong:vendor-adapter@1.1.0",
+  "protocolMin": 1,
+  "protocolMax": 1,
+  "protocolHostMajor": 1,
+  "compatibleMajorWindow": 2,
+  "timeoutField": "budgetMs",
+  "pluginVersioning": "semver",
+  "optionalFeatures": [
+    "partial-outputs",
+    "public-media"
+  ],
+  "capabilitySlots": [
+    "image",
+    "imageToImage",
+    "video",
+    "keyframe",
+    "text",
+    "speech",
+    "voiceDesign",
+    "sfx",
+    "avatar",
+    "lipsync",
+    "videoUpscale",
+    "videoFaceRefine",
+    "imageUpscale"
+  ],
+  "operations": [
+    "capabilities",
+    "probe",
+    "upload",
+    "submit",
+    "query",
+    "cancel"
+  ],
+  "taskStatuses": [
+    "queued",
+    "running",
+    "succeeded",
+    "failed",
+    "cancelled",
+    "expired"
+  ],
+  "outputKinds": [
+    "text",
+    "media"
+  ],
+  "outputSources": [
+    "url",
+    "host-media",
+    "inline-base64",
+    "inline-binary"
+  ],
+  "authModes": [
+    "none",
+    "bearer",
+    "custom-header",
+    "jwt-hs256",
+    "volc-signature-v4",
+    "aws-sigv4",
+    "oauth2-device-code",
+    "hmac-sha256"
+  ],
+  "unimplementedAuthModes": [
+    "aws-sigv4",
+    "oauth2-device-code"
+  ],
+  "errorCodes": [
+    "adapterPackageInvalid",
+    "adapterHashMismatch",
+    "adapterSignatureInvalid",
+    "adapterPublisherUntrusted",
+    "adapterNamespaceViolation",
+    "adapterPluginRevoked",
+    "adapterPublisherRevoked",
+    "adapterTrustListStale",
+    "adapterHostDenylisted",
+    "adapterProtocolUnsupported",
+    "adapterLanguageRuntimeMissing",
+    "adapterSourceRejected",
+    "adapterCapabilityDenied",
+    "adapterRuntimeUnavailable",
+    "adapterFuelExhausted",
+    "adapterMemoryLimit",
+    "adapterTimeout",
+    "adapterTrap",
+    "adapterBadOutput",
+    "adapterOutboundUrlBlocked",
+    "adapterCredentialMissing",
+    "adapterSignatureRejected",
+    "adapterVendorHttpError",
+    "adapterVendorTaskFailed",
+    "adapterOutputDownloadFailed",
+    "adapterInvalidRequest",
+    "adapterCancelUnsupported"
+  ],
+  "aspectRatioPattern": "^[0-9]+:[0-9]+$",
+  "uiHintAspectRatios": [
+    "16:9",
+    "9:16",
+    "1:1",
+    "4:3",
+    "3:4",
+    "21:9"
+  ]
+}

@@ -3,12 +3,13 @@
 extern crate alloc;
 use alloc::format;
 use alloc::string::{String, ToString};
+use alloc::vec;
 use alloc::vec::Vec;
 
 use serde_json::{json, Value};
 
 use crate::config::{
-    API_KEY, DURATION_FIELD_NAME, DURATION_NODE_ID, FPS_FIELD_NAME, FPS_NODE_ID, PROMPT_FIELD_NAME,
+    DURATION_FIELD_NAME, DURATION_NODE_ID, FPS_FIELD_NAME, FPS_NODE_ID, PROMPT_FIELD_NAME,
     PROMPT_NODE_ID, RESOLUTION_FIELD_NAME, RESOLUTION_NODE_ID, SUBMIT_MODE, WEBAPP_ID,
 };
 use bgx_vendor_adapter_sdk::AppliedParams;
@@ -82,11 +83,10 @@ pub fn mapped_node_info(
         applied.duration = Some(json!(d));
     }
     if !FPS_NODE_ID.trim().is_empty() {
-        let Some(f) = fps else {
-            return Err("fps node is configured; fps is required".into());
-        };
-        push_node(&mut list, FPS_NODE_ID, FPS_FIELD_NAME, json!(f));
-        applied.fps = Some(json!(f));
+        if let Some(f) = fps {
+            push_node(&mut list, FPS_NODE_ID, FPS_FIELD_NAME, json!(f));
+            applied.fps = Some(json!(f));
+        }
     }
     if !RESOLUTION_NODE_ID.trim().is_empty() {
         let Some(r) = resolution.map(str::trim).filter(|s| !s.is_empty()) else {
@@ -117,7 +117,7 @@ pub fn submit_body_mapped(
     Ok((
         json!({
             "webappId": WEBAPP_ID,
-            "apiKey": API_KEY,
+            "apiKey": "",
             "nodeInfoList": node_info
         }),
         applied,
@@ -125,7 +125,7 @@ pub fn submit_body_mapped(
 }
 
 pub fn query_body(task_id: &str) -> Value {
-    json!({ "apiKey": API_KEY, "taskId": task_id })
+    json!({ "apiKey": "", "taskId": task_id })
 }
 
 fn json_i64(v: &Value) -> Option<i64> {
@@ -434,14 +434,14 @@ mod tests {
     fn mapped_submit_body_is_ai_app() {
         let (body, applied) = submit_body_mapped("a walking shot", None, None, None).expect("mapped");
         assert_eq!(body["webappId"], WEBAPP_ID);
-        assert_eq!(body["apiKey"], API_KEY);
+        assert_eq!(body["apiKey"], "");
         assert_eq!(body["nodeInfoList"][0]["fieldValue"], "a walking shot");
         assert_eq!(body["nodeInfoList"][0]["nodeId"], "6");
         assert!(body.get("addMetadata").is_none());
         assert!(body.get("usePersonalQueue").is_none());
         assert!(applied.duration.is_none());
         let q = query_body("tid-1");
-        assert_eq!(q["apiKey"], API_KEY);
+        assert_eq!(q["apiKey"], "");
         assert_eq!(q["taskId"], "tid-1");
     }
 

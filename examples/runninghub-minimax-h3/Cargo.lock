@@ -150,7 +150,7 @@ dependencies = [
 
 [[package]]
 name = "runninghub-minimax-h3-adapter"
-version = "0.1.0"
+version = "0.2.1"
 dependencies = [
  "bgx-vendor-adapter-sdk",
  "dlmalloc",

@@ -4,10 +4,11 @@
   "title": "VendorAdapterFeatureModule",
   "type": "object",
   "additionalProperties": false,
-  "required": ["id", "labelKey", "paramSchema", "appliesToSlots"],
+  "required": ["id", "paramSchema", "appliesToSlots"],
   "properties": {
     "id": { "type": "string", "minLength": 1 },
     "labelKey": { "type": "string", "minLength": 1 },
+    "label": { "type": "string", "minLength": 1 },
     "paramSchema": {
       "type": "array",
       "items": {

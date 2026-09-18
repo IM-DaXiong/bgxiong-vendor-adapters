@@ -3,6 +3,7 @@
 extern crate alloc;
 use alloc::format;
 use alloc::string::String;
+use alloc::vec;
 use alloc::vec::Vec;
 
 use bgx_vendor_adapter_sdk::{ParamBinding, RcdEnumOption, RcdParam};

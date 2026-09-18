@@ -10,8 +10,8 @@ use bgx_vendor_adapter_sdk::{ParamBinding, RcdParam};
 use serde_json::{json, Map, Value};
 
 use crate::config::{
-    DURATION_NODE_ID, FPS_NODE_ID, MODEL_ID, MODEL_ID_I2V_TURBO, MODEL_ID_R2V_TURBO, PLUGIN_ID,
-    PLUGIN_VERSION, R2V_DURATION_NODE_ID, RESOLUTION_NODE_ID,
+    ASPECT_BINDING_ID, DURATION_NODE_ID, FPS_NODE_ID, MODEL_ID, MODEL_ID_I2V_TURBO,
+    MODEL_ID_R2V_TURBO, PLUGIN_ID, PLUGIN_VERSION, R2V_DURATION_NODE_ID, RESOLUTION_BINDING_ID,
 };
 
 fn bound(id: &str) -> Option<ParamBinding> {
@@ -47,10 +47,10 @@ fn timing_params(slot: &mut Map<String, Value>, duration_node: &str) -> Result<(
             ),
         )?;
     }
-    if let Some(b) = bound(RESOLUTION_NODE_ID) {
+    if let Some(b) = bound(ASPECT_BINDING_ID) {
         insert_param(
             slot,
-            "resolution",
+            "aspect",
             RcdParam::enum_of(
                 vec![
                     json!({"id": "1:1", "label": "1:1", "value": "1:1"}),
@@ -59,6 +59,22 @@ fn timing_params(slot: &mut Map<String, Value>, duration_node: &str) -> Result<(
                     json!({"id": "4:3", "label": "4:3", "value": "4:3"}),
                 ],
                 json!("16:9"),
+                b,
+            ),
+        )?;
+    }
+    if let Some(b) = bound(RESOLUTION_BINDING_ID) {
+        insert_param(
+            slot,
+            "resolution",
+            RcdParam::enum_of(
+                vec![
+                    json!({"id": "mp:0.25", "label": "0.25 MP", "value": 0.25}),
+                    json!({"id": "mp:0.4", "label": "0.4 MP", "value": 0.4}),
+                    json!({"id": "mp:0.6", "label": "0.6 MP", "value": 0.6}),
+                    json!({"id": "mp:1", "label": "1 MP", "value": 1.0}),
+                ],
+                json!("mp:0.4"),
                 b,
             ),
         )?;

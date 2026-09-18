@@ -117,7 +117,7 @@ fn query(request: &Invocation) -> Response {
                 let outputs = q
                     .outputs
                     .into_iter()
-                    .map(|o| bgx_vendor_adapter_sdk::Output {
+                    .map(|o| bgx_vendor_adapter_sdk::Output::Media {
                         media_kind: o.media_kind,
                         source: o.source,
                         value: o.value,
@@ -128,6 +128,7 @@ fn query(request: &Invocation) -> Response {
                     status: status.into(),
                     outputs,
                     progress_text: q.vendor_message,
+                    retry_after_ms: None,
                 });
                 sdk_resp(Operation::Query, sdk)
             }
@@ -168,7 +169,7 @@ fn http_json(
                 return Err(err(
                     op,
                     "adapterVendorHttpError",
-                    &format!("HTTP {}", resp.status),
+                    &format!("HTTP {} url={}", resp.status, url),
                 ));
             }
             let bytes = match resp.payload {

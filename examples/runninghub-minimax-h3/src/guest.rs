@@ -11,7 +11,7 @@ wit_bindgen::generate!({
     world: "vendor-adapter",
 });
 
-use crate::config::{query_url, require_live_key, submit_url, upload_url, API_KEY};
+use crate::config::{query_url, submit_url, upload_url};
 use crate::runninghub::{
     parse_submit_task_id, parse_upload_download, query_body, sniff_image_filename_and_mime,
     MappedStatus,
@@ -47,9 +47,6 @@ fn capabilities_op() -> Response {
 }
 
 fn submit(request: &Invocation) -> Response {
-    if let Err(e) = require_live_key() {
-        return err(Operation::Submit, "adapterCredentialMissing", &e);
-    }
     let payload: serde_json::Value = match serde_json::from_str(&request.payload_json) {
         Ok(v) => v,
         Err(e) => return err(Operation::Submit, "adapterBadOutput", &e.to_string()),
@@ -59,45 +56,40 @@ fn submit(request: &Invocation) -> Response {
         .and_then(|v| v.as_str())
         .unwrap_or("")
         .trim();
-    let duration = payload.get("durationSeconds").and_then(|v| v.as_f64());
-    let fps = payload.get("fps").and_then(|v| v.as_f64());
+    let duration = json_opt_f64(payload.get("durationSeconds"));
+    let fps = json_opt_f64(payload.get("fps"));
     let resolution = payload.get("resolution").and_then(|v| v.as_str());
-    let first_name = match upload_optional_image(
-        payload
-            .get("startFrameB64")
-            .and_then(|v| v.as_str())
-            .or_else(|| {
-                payload
-                    .get("referenceImagesB64")
-                    .and_then(|v| v.as_array())
-                    .and_then(|a| a.first())
-                    .and_then(|v| v.as_str())
-            }),
-        "first",
-    ) {
+    let aspect = payload
+        .get("aspect")
+        .and_then(|v| v.as_str())
+        .or_else(|| payload.get("aspectRatio").and_then(|v| v.as_str()));
+    let refs = match crate::runninghub::collect_r2v_ref_b64(&payload) {
         Ok(v) => v,
-        Err(e) => return e,
+        Err(e) => return err(Operation::Submit, "adapterBadOutput", &e),
     };
-    let last_name = match upload_optional_image(
-        payload.get("endFrameB64").and_then(|v| v.as_str()).or_else(|| {
-            payload
-                .get("referenceImagesB64")
-                .and_then(|v| v.as_array())
-                .and_then(|a| a.get(1))
-                .and_then(|v| v.as_str())
-        }),
-        "last",
-    ) {
-        Ok(v) => v,
-        Err(e) => return e,
-    };
+    let mut uploaded: Vec<String> = Vec::new();
+    for (i, b64) in refs.iter().enumerate() {
+        let stem = if i == 0 { "ref0" } else { "ref1" };
+        match upload_optional_image(Some(b64), stem) {
+            Ok(Some(name)) => uploaded.push(name),
+            Ok(None) => {
+                return err(
+                    Operation::Submit,
+                    "adapterBadOutput",
+                    "reference image upload returned empty name",
+                )
+            }
+            Err(e) => return e,
+        }
+    }
     let body = match crate::runninghub::submit_body_mapped(
         prompt,
         duration,
         fps,
         resolution,
-        first_name.as_deref(),
-        last_name.as_deref(),
+        aspect,
+        uploaded.first().map(String::as_str),
+        uploaded.get(1).map(String::as_str),
     ) {
         Ok((v, applied)) => (v.to_string(), applied),
         Err(e) => return err(Operation::Submit, "adapterBadOutput", &e),
@@ -115,9 +107,6 @@ fn submit(request: &Invocation) -> Response {
 }
 
 fn query(request: &Invocation) -> Response {
-    if let Err(e) = require_live_key() {
-        return err(Operation::Query, "adapterCredentialMissing", &e);
-    }
     let payload: serde_json::Value = match serde_json::from_str(&request.payload_json) {
         Ok(v) => v,
         Err(e) => return err(Operation::Query, "adapterBadOutput", &e.to_string()),
@@ -138,7 +127,7 @@ fn query(request: &Invocation) -> Response {
                 let outputs = q
                     .outputs
                     .into_iter()
-                    .map(|o| bgx_vendor_adapter_sdk::Output {
+                    .map(|o| bgx_vendor_adapter_sdk::Output::Media {
                         media_kind: o.media_kind,
                         source: o.source,
                         value: o.value,
@@ -149,6 +138,7 @@ fn query(request: &Invocation) -> Response {
                     status: status.into(),
                     outputs,
                     progress_text: q.vendor_message,
+                    retry_after_ms: None,
                 });
                 sdk_resp(Operation::Query, sdk)
             }
@@ -158,21 +148,31 @@ fn query(request: &Invocation) -> Response {
     }
 }
 
+fn json_opt_f64(v: Option<&serde_json::Value>) -> Option<f64> {
+    let v = v?;
+    v.as_f64()
+        .or_else(|| v.as_u64().map(|n| n as f64))
+        .or_else(|| v.as_i64().map(|n| n as f64))
+        .or_else(|| v.as_str().and_then(|s| s.trim().parse().ok()))
+}
+
+fn bearer_headers() -> Vec<bgxiong::vendor_adapter::host_http::GeneratedHeader> {
+    vec![bgxiong::vendor_adapter::host_http::GeneratedHeader {
+        name: "authorization".into(),
+        kind: "bearer".into(),
+        target_field: "authorization".into(),
+    }]
+}
+
 fn http_json(op: Operation, method: &str, url: &str, body: &str) -> Result<serde_json::Value, Response> {
     let plan = bgxiong::vendor_adapter::host_http::RequestPlan {
         method: method.into(),
         url: url.into(),
-        headers: vec![
-            bgxiong::vendor_adapter::host_http::Header {
-                name: "content-type".into(),
-                value: "application/json".into(),
-            },
-            bgxiong::vendor_adapter::host_http::Header {
-                name: "Authorization".into(),
-                value: format!("Bearer {API_KEY}"),
-            },
-        ],
-        generated_headers: vec![],
+        headers: vec![bgxiong::vendor_adapter::host_http::Header {
+            name: "content-type".into(),
+            value: "application/json".into(),
+        }],
+        generated_headers: bearer_headers(),
         body: bgxiong::vendor_adapter::host_http::Body::Bytes(body.as_bytes().to_vec()),
         sink: bgxiong::vendor_adapter::host_http::ResponseSink::Buffer(1_048_576),
         timeout_ms: 30_000,
@@ -261,11 +261,8 @@ fn upload_optional_image(b64: Option<&str>, stem: &str) -> Result<Option<String>
     let plan = bgxiong::vendor_adapter::host_http::RequestPlan {
         method: "POST".into(),
         url: upload_url(),
-        headers: vec![bgxiong::vendor_adapter::host_http::Header {
-            name: "Authorization".into(),
-            value: format!("Bearer {API_KEY}"),
-        }],
-        generated_headers: vec![],
+        headers: vec![],
+        generated_headers: bearer_headers(),
         body: bgxiong::vendor_adapter::host_http::Body::Multipart(vec![
             bgxiong::vendor_adapter::host_http::MultipartPart::File(
                 bgxiong::vendor_adapter::host_http::FilePart {

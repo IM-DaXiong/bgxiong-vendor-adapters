@@ -18,7 +18,6 @@
   "requestedCapabilities": {
     "endpointPolicy": ["staticHosts"],
     "networkHosts": ["www.runninghub.ai", "www.runninghub.cn"],
-    "auth": ["none"],
-    "embeddedHeaders": ["authorization"]
+    "auth": ["bearer"]
   }
 }

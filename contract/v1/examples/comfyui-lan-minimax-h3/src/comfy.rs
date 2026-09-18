@@ -3,12 +3,13 @@
 extern crate alloc;
 use alloc::format;
 use alloc::string::{String, ToString};
+use alloc::vec;
 use alloc::vec::Vec;
 
 use serde_json::{json, Map, Value};
 
 use crate::config::{
-    join_url, DURATION_FIELD_NAME, DURATION_NODE_ID, FPS_FIELD_NAME, FPS_NODE_ID,
+    join_url,     ASPECT_FIELD_NAME, ASPECT_NODE_ID, DURATION_FIELD_NAME, DURATION_NODE_ID, FPS_FIELD_NAME, FPS_NODE_ID,
     I2V_LOAD_IMAGE_NODE_ID, MATH_EXPRESSION_FIELD_NAME, MATH_EXPRESSION_NODE_ID, MODEL_ID,
     MODEL_ID_I2V_TURBO, MODEL_ID_R2V_TURBO, PROMPT_FIELD_NAME, PROMPT_NODE_ID, R2V_DURATION_NODE_ID,
     R2V_LOAD_IMAGE_NODE_IDS, R2V_LORA_NODE_ID, R2V_MATH_NODE_ID, R2V_PROMPT_NODE_ID, R2V_REF_NODE_ID,
@@ -89,7 +90,7 @@ fn h3_length_expression(fps: f64) -> Result<String, String> {
     } else if fps == 30.0 {
         30
     } else {
-        return Err("fps must be 24, 25 or 30".into());
+        return Err("closed_set_fps:24,25,30".into());
     };
     Ok(format!(
         "max(5, round(a * {n})) + (5 - (max(5, round(a * {n})) % 17)) % 17"
@@ -102,8 +103,31 @@ pub fn resolution_combo(resolution: &str) -> Result<String, String> {
         "16:9" | "16:9 (Widescreen)" => Ok("16:9 (Widescreen)".into()),
         "9:16" | "9:16 (Portrait Widescreen)" => Ok("9:16 (Portrait Widescreen)".into()),
         "4:3" | "4:3 (Standard)" => Ok("4:3 (Standard)".into()),
-        other => Err(format!("unsupported resolution {other}")),
+        other => Err(format!("unsupported aspect {other}")),
     }
+}
+
+pub fn megapixels_from_resolution(resolution: &str) -> Result<(String, f64), String> {
+    let t = resolution.trim();
+    let n = if let Some(rest) = t.strip_prefix("mp:") {
+        rest.parse::<f64>()
+            .map_err(|_| format!("unsupported resolution {t}"))?
+    } else {
+        t.parse::<f64>()
+            .map_err(|_| format!("unsupported resolution {t}"))?
+    };
+    let (id, mp) = if (n - 0.25).abs() < 1e-9 {
+        ("mp:0.25", 0.25)
+    } else if (n - 0.4).abs() < 1e-9 {
+        ("mp:0.4", 0.4)
+    } else if (n - 0.6).abs() < 1e-9 {
+        ("mp:0.6", 0.6)
+    } else if (n - 1.0).abs() < 1e-9 {
+        ("mp:1", 1.0)
+    } else {
+        return Err(format!("unsupported resolution {t}"));
+    };
+    Ok((id.into(), mp))
 }
 
 fn require_node_inputs<'a>(
@@ -122,25 +146,33 @@ fn apply_timing(
     duration_node: &str,
     math_node: &str,
     duration: f64,
-    fps: f64,
+    fps: Option<f64>,
     resolution: &str,
+    aspect: &str,
 ) -> Result<AppliedParams, String> {
     if duration < 1.0 || duration > 15.0 {
         return Err("durationSeconds must be 1..=15".into());
     }
-    let combo = resolution_combo(resolution)?;
-    let expr = h3_length_expression(fps)?;
+    let combo = resolution_combo(aspect)?;
+    let (res_id, mp) = megapixels_from_resolution(resolution)?;
     require_node_inputs(graph, duration_node)?.insert(DURATION_FIELD_NAME.into(), json!(duration));
-    require_node_inputs(graph, FPS_NODE_ID)?.insert(FPS_FIELD_NAME.into(), json!(fps));
-    require_node_inputs(graph, math_node)?
-        .insert(MATH_EXPRESSION_FIELD_NAME.into(), Value::String(expr));
-    require_node_inputs(graph, RESOLUTION_NODE_ID)?
-        .insert(RESOLUTION_FIELD_NAME.into(), Value::String(combo));
+    let applied_fps = if let Some(f) = fps {
+        let expr = h3_length_expression(f)?;
+        require_node_inputs(graph, FPS_NODE_ID)?.insert(FPS_FIELD_NAME.into(), json!(f));
+        require_node_inputs(graph, math_node)?
+            .insert(MATH_EXPRESSION_FIELD_NAME.into(), Value::String(expr));
+        Some(json!(f))
+    } else {
+        None
+    };
+    require_node_inputs(graph, ASPECT_NODE_ID)?
+        .insert(ASPECT_FIELD_NAME.into(), Value::String(combo));
+    require_node_inputs(graph, RESOLUTION_NODE_ID)?.insert(RESOLUTION_FIELD_NAME.into(), json!(mp));
     Ok(AppliedParams {
         duration: Some(json!(duration)),
-        fps: Some(json!(fps)),
-        resolution: Some(json!(resolution.trim())),
-        aspect: None,
+        fps: applied_fps,
+        resolution: Some(json!(res_id)),
+        aspect: Some(json!(aspect.trim())),
     })
 }
 
@@ -241,13 +273,14 @@ pub fn patch_t2v_prompt(
     duration: Option<f64>,
     fps: Option<f64>,
     resolution: Option<&str>,
+    aspect: Option<&str>,
 ) -> Result<(Value, AppliedParams), String> {
     if prompt.trim().is_empty() {
         return Err("prompt is required for h3.t2v".into());
     }
     let duration = duration.ok_or("durationSeconds is required")?;
-    let fps = fps.ok_or("fps is required")?;
     let resolution = resolution.ok_or("resolution is required")?;
+    let aspect = aspect.ok_or("aspect is required")?;
     let mut graph: Value =
         serde_json::from_str(API_PROMPT_JSON).map_err(|e| format!("pinned API json: {e}"))?;
     require_node_inputs(&mut graph, PROMPT_NODE_ID)?
@@ -259,6 +292,7 @@ pub fn patch_t2v_prompt(
         duration,
         fps,
         resolution,
+        aspect,
     )?;
     Ok((graph, applied))
 }
@@ -268,6 +302,7 @@ pub fn patch_i2v_turbo_prompt(
     duration: Option<f64>,
     fps: Option<f64>,
     resolution: Option<&str>,
+    aspect: Option<&str>,
     first_image: &str,
 ) -> Result<(Value, AppliedParams), String> {
     if prompt.trim().is_empty() {
@@ -277,8 +312,8 @@ pub fn patch_i2v_turbo_prompt(
         return Err("h3.i2v.turbo requires a first-frame image".into());
     }
     let duration = duration.ok_or("durationSeconds is required")?;
-    let fps = fps.ok_or("fps is required")?;
     let resolution = resolution.ok_or("resolution is required")?;
+    let aspect = aspect.ok_or("aspect is required")?;
     let mut graph: Value =
         serde_json::from_str(API_I2V_TURBO_JSON).map_err(|e| format!("pinned i2v turbo json: {e}"))?;
     require_node_inputs(&mut graph, PROMPT_NODE_ID)?
@@ -299,6 +334,7 @@ pub fn patch_i2v_turbo_prompt(
         duration,
         fps,
         resolution,
+        aspect,
     )?;
     Ok((graph, applied))
 }
@@ -308,6 +344,7 @@ pub fn patch_r2v_turbo_prompt(
     duration: Option<f64>,
     fps: Option<f64>,
     resolution: Option<&str>,
+    aspect: Option<&str>,
     image_names: &[String],
 ) -> Result<(Value, AppliedParams), String> {
     if prompt.trim().is_empty() {
@@ -320,8 +357,8 @@ pub fn patch_r2v_turbo_prompt(
         return Err("h3.r2v.turbo accepts at most 3 reference images".into());
     }
     let duration = duration.ok_or("durationSeconds is required")?;
-    let fps = fps.ok_or("fps is required")?;
     let resolution = resolution.ok_or("resolution is required")?;
+    let aspect = aspect.ok_or("aspect is required")?;
     let mut graph: Value =
         serde_json::from_str(API_R2V_TURBO_JSON).map_err(|e| format!("pinned r2v turbo json: {e}"))?;
     require_node_inputs(&mut graph, R2V_PROMPT_NODE_ID)?
@@ -363,6 +400,7 @@ pub fn patch_r2v_turbo_prompt(
         duration,
         fps,
         resolution,
+        aspect,
     )?;
     Ok((graph, applied))
 }
@@ -372,9 +410,10 @@ pub fn submit_body(
     duration: Option<f64>,
     fps: Option<f64>,
     resolution: Option<&str>,
+    aspect: Option<&str>,
     client_id: &str,
 ) -> Result<(Value, AppliedParams), String> {
-    let (api, applied) = patch_t2v_prompt(prompt, duration, fps, resolution)?;
+    let (api, applied) = patch_t2v_prompt(prompt, duration, fps, resolution, aspect)?;
     Ok((
         json!({
             "prompt": api,
@@ -390,21 +429,22 @@ pub fn submit_body_for_kind(
     duration: Option<f64>,
     fps: Option<f64>,
     resolution: Option<&str>,
+    aspect: Option<&str>,
     first_image: Option<&str>,
     ref_images: &[String],
     client_id: &str,
 ) -> Result<(Value, AppliedParams), String> {
     let (api, applied) = match kind {
-        ModelKind::T2v => patch_t2v_prompt(prompt, duration, fps, resolution)?,
+        ModelKind::T2v => patch_t2v_prompt(prompt, duration, fps, resolution, aspect)?,
         ModelKind::I2vTurbo => {
             let name = first_image
                 .map(str::trim)
                 .filter(|s| !s.is_empty())
                 .ok_or("h3.i2v.turbo requires a first-frame image")?;
-            patch_i2v_turbo_prompt(prompt, duration, fps, resolution, name)?
+            patch_i2v_turbo_prompt(prompt, duration, fps, resolution, aspect, name)?
         }
         ModelKind::R2vTurbo => {
-            patch_r2v_turbo_prompt(prompt, duration, fps, resolution, ref_images)?
+            patch_r2v_turbo_prompt(prompt, duration, fps, resolution, aspect, ref_images)?
         }
     };
     Ok((
