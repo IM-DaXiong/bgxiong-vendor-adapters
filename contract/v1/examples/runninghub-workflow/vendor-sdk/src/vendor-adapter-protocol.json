@@ -1,5 +1,6 @@
 {
   "schemaVersion": 1,
+  "contractRelease": "1.2.0",
   "witPackage": "bgxiong:vendor-adapter@1.1.0",
   "protocolMin": 1,
   "protocolMax": 1,
@@ -9,7 +10,8 @@
   "pluginVersioning": "semver",
   "optionalFeatures": [
     "partial-outputs",
-    "public-media"
+    "public-media",
+    "video-reference-media-v1"
   ],
   "capabilitySlots": [
     "image",
@@ -57,13 +59,13 @@
     "bearer",
     "custom-header",
     "jwt-hs256",
-    "volc-signature-v4",
-    "aws-sigv4",
+    "hmac-sha256-credential",
+    "http-sigv4",
     "oauth2-device-code",
     "hmac-sha256"
   ],
   "unimplementedAuthModes": [
-    "aws-sigv4",
+    "http-sigv4",
     "oauth2-device-code"
   ],
   "errorCodes": [
@@ -95,6 +97,18 @@
     "adapterInvalidRequest",
     "adapterCancelUnsupported"
   ],
+  "terminalStatuses": [
+    "failed",
+    "cancelled",
+    "expired"
+  ],
+  "terminalFailureCategories": [
+    "vendorTaskFailed",
+    "vendorTaskCancelled",
+    "vendorTaskExpired"
+  ],
+  "terminalFailureMessageMaxChars": 2000,
+  "terminalFailureDetailsMaxBytes": 4096,
   "aspectRatioPattern": "^[0-9]+:[0-9]+$",
   "uiHintAspectRatios": [
     "16:9",

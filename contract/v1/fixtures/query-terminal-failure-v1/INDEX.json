@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "purpose": "INV-ADAPTER-TERMINAL-ERROR fixtures. No API keys, signed URLs, or user prompts.",
+  "files": [
+    "failed-object-reason.json",
+    "failed-string-reason.json",
+    "cancelled.json",
+    "expired.json",
+    "http-200-business-failed.json",
+    "missing-terminal-failure.json",
+    "oversized-reason.json"
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "model": "m",
+  "prompt": "p",
+  "referenceVideos": [
+    {
+      "id": "v1",
+      "kind": "audio",
+      "handle": "h",
+      "mime": "audio/wav",
+      "fileName": "a.wav",
+      "byteLength": "1"
+    }
+  ]
+}

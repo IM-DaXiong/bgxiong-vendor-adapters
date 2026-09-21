@@ -1,0 +1,22 @@
+{
+  "model": "m",
+  "prompt": "p",
+  "referenceImages": [
+    {
+      "id": "dup",
+      "kind": "image",
+      "handle": "h1",
+      "mime": "image/png",
+      "fileName": "a.png",
+      "byteLength": "1"
+    },
+    {
+      "id": "dup",
+      "kind": "image",
+      "handle": "h2",
+      "mime": "image/png",
+      "fileName": "b.png",
+      "byteLength": "1"
+    }
+  ]
+}

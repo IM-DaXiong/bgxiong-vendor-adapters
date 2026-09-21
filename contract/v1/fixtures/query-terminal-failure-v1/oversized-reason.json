@@ -1,0 +1,4 @@
+{
+  "expectValidateError": "ADAPTER_QUERY_TERMINAL_FAILURE_DETAILS_TOO_LARGE",
+  "detailsBytes": 5000
+}

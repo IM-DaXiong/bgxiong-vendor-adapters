@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.example.runninghub-h3-r2v",
+  "displayName": "RunningHub MiniMax H3 r2v (1/2/3 slots)",
+  "version": "0.3.2",
+  "language": "rust",
+  "optionalFeatures": ["video-reference-media-v1"],
+  "entry": "adapter.wasm",
+  "capabilitySlots": [
+    {
+      "slot": "video",
+      "taskType": "text_to_video",
+      "models": [
+        { "modelId": "h3.r2v.1slot", "displayName": "MiniMax H3 r2v 1-slot" },
+        { "modelId": "h3.r2v.2slot", "displayName": "MiniMax H3 r2v 2-slot" },
+        { "modelId": "h3.r2v.3slot", "displayName": "MiniMax H3 r2v 3-slot" }
+      ],
+      "supportsAsync": true,
+      "maxReferenceImages": 3,
+      "maxDurationSeconds": 15,
+      "features": ["video-reference-media-v1"]
+    }
+  ],
+  "requestedCapabilities": {
+    "endpointPolicy": ["staticHosts"],
+    "networkHosts": ["www.runninghub.ai", "www.runninghub.cn"],
+    "auth": ["bearer"]
+  }
+}

@@ -127,8 +127,13 @@ fn query(request: &Invocation) -> Response {
                 let sdk = bgx_vendor_adapter_sdk::query_result(&bgx_vendor_adapter_sdk::QueryResult {
                     status: status.into(),
                     outputs,
-                    progress_text: q.vendor_message,
+                    progress_text: if q.terminal_failure.is_some() {
+                        None
+                    } else {
+                        q.vendor_message
+                    },
                     retry_after_ms: None,
+                    terminal_failure: q.terminal_failure,
                 });
                 sdk_resp(Operation::Query, sdk)
             }
@@ -161,7 +166,7 @@ fn http_json(
         generated_headers: vec![],
         body: plan_body,
         sink: bgxiong::vendor_adapter::host_http::ResponseSink::Buffer(1_048_576),
-        timeout_ms: 30_000,
+        timeout_ms: 0,
     };
     match bgxiong::vendor_adapter::host_http::execute(&plan, None) {
         Ok(resp) => {

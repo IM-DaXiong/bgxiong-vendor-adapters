@@ -44,6 +44,7 @@ pub struct MappedQuery {
     pub status: MappedStatus,
     pub outputs: Vec<CanonicalOutput>,
     pub vendor_message: Option<String>,
+    pub terminal_failure: Option<bgx_vendor_adapter_sdk::TerminalFailure>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -378,6 +379,7 @@ pub fn parse_history(body: &Value, prompt_id: &str, base: &str) -> Result<Mapped
             status: MappedStatus::Queued,
             outputs: Vec::new(),
             vendor_message: None,
+            terminal_failure: None,
         });
     }
     let Some(entry) = inner_history_entry(body, prompt_id) else {
@@ -385,6 +387,7 @@ pub fn parse_history(body: &Value, prompt_id: &str, base: &str) -> Result<Mapped
             status: MappedStatus::Queued,
             outputs: Vec::new(),
             vendor_message: None,
+            terminal_failure: None,
         });
     };
     let status_obj = entry.get("status");
@@ -398,10 +401,26 @@ pub fn parse_history(body: &Value, prompt_id: &str, base: &str) -> Result<Mapped
         .and_then(|v| v.as_bool())
         .unwrap_or(false);
     if status_str.contains("error") || status_str == "failed" {
+        let vendor_code = status_str.clone();
+        let message = status_obj
+            .and_then(|s| s.get("messages"))
+            .and_then(|v| v.as_array())
+            .and_then(|a| a.first())
+            .and_then(|v| v.as_str())
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+            .map(|s| s.to_string())
+            .unwrap_or_else(|| vendor_code.clone());
+        let reason = serde_json::Value::String(message);
         return Ok(MappedQuery {
             status: MappedStatus::Failed,
             outputs: Vec::new(),
-            vendor_message: Some(status_str),
+            vendor_message: None,
+            terminal_failure: Some(bgx_vendor_adapter_sdk::TerminalFailure::from_vendor_reason(
+                "vendorTaskFailed",
+                Some(vendor_code),
+                &reason,
+            )?),
         });
     }
     let outputs = entry.get("outputs").cloned().unwrap_or(json!({}));
@@ -414,11 +433,13 @@ pub fn parse_history(body: &Value, prompt_id: &str, base: &str) -> Result<Mapped
             status: MappedStatus::Succeeded,
             outputs: media,
             vendor_message: None,
+            terminal_failure: None,
         });
     }
     Ok(MappedQuery {
         status: MappedStatus::Running,
         outputs: Vec::new(),
         vendor_message: None,
+        terminal_failure: None,
     })
 }

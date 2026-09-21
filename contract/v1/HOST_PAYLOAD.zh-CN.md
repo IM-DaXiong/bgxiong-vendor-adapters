@@ -151,6 +151,26 @@ SDK 类型：`Invocation`。业务字段用 `inv.payload::<T>()` 反序列化。
 | `model` | `string?` | 与 submit 相同的模型标识 |
 | `endpointBaseUrl` | `string?` | 同 submit：凭证 origin |
 
+
+<!-- video-reference-media-v1 -->
+
+#### 特性 `video-reference-media-v1`（video / keyframe）
+
+启用本特性后，`video` / `keyframe` submit **只**使用下列具名媒体字段（`MediaInputV1` 文件句柄）。**禁止**与旧 `*B64` 字段并存于同一次提交。宿主**不**按 RCD `maxReferenceImages` / 时长 / 大小做业务限量；插件自行校验并返回错误。
+
+| Wire 字段 | 类型 | 含义 |
+|-----------|------|------|
+| `startFrame` | `MediaInputV1?` | 首帧图 |
+| `endFrame` | `MediaInputV1?` | 尾帧图 |
+| `referenceImages` | `MediaInputV1[]?` | 参考图（顺序=会话顺序） |
+| `referenceVideos` | `MediaInputV1[]?` | 参考视频 |
+| `referenceAudios` | `MediaInputV1[]?` | 参考音频 |
+| `pluginParameters` | `object?` | 插件自有 JSON；宿主只校验 JSON 合法性 |
+
+`MediaInputV1` 必填：`id`、`kind`（`image`\|`video`\|`audio`）、`handle`、`mime`、`fileName`、`byteLength`（十进制 u64 字符串）。可选：`label`、`usage`、`associationId`、`metadata`。
+
+权威 schema：`schemas/video-media-input.schema.json`。未声明本特性的插件仍走上文旧 B64 合同。
+
 ---
 
 #### 槽 `image` / `imageToImage`
@@ -305,7 +325,10 @@ SDK 类型：`Invocation`。业务字段用 `inv.payload::<T>()` 反序列化。
 |------|------|
 | `status` | 契约任务状态之一：`queued` / `running` / `succeeded` / `failed` / `cancelled` / `expired` |
 | `outputs` | 完成时的成品（进行中可空） |
-| `progressText` | 可选进度文案 |
+| `progressText` | 仅 `queued` / `running` 的进度文案。**禁止**承载终态失败 |
+| `terminalFailure` | `failed` / `cancelled` / `expired` **必填**。缺省即 `adapterBadOutput` + `ADAPTER_QUERY_TERMINAL_FAILURE_MISSING`，宿主不猜原因 |
+
+`terminalFailure` 字段：`category`（闭集 `vendorTaskFailed` / `vendorTaskCancelled` / `vendorTaskExpired`）、`message`（日志诊断，不进 toast）、`retryable`、可选 `vendorCode` / `vendorRequestId` / `httpStatus` / `details`。`details` 须脱敏且不超过合同字节上限。HTTP 200 不得覆盖业务失败码。
 
 部分宿主路径也会读数值 `progress`；优先实现契约字段。
 

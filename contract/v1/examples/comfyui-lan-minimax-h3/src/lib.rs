@@ -25,8 +25,8 @@ use bgx_vendor_adapter_sdk::{query_result, submit_accepted, Output, QueryResult}
 
 #[cfg(not(target_arch = "wasm32"))]
 use crate::comfy::{
-    decode_b64, parse_history, parse_model_kind, parse_submit_prompt_id, resolve_base_url,
-    sniff_image_filename_and_mime, submit_body_for_kind, MappedStatus, ModelKind,
+    parse_history, parse_model_kind, parse_submit_prompt_id, resolve_base_url, submit_body_for_kind,
+    MappedStatus, ModelKind,
 };
 
 #[cfg(any(target_arch = "wasm32", test))]
@@ -76,47 +76,37 @@ fn submit_op(payload_json: &str) -> Result<serde_json::Value, String> {
         .and_then(|v| v.as_str())
         .or_else(|| payload.get("aspectRatio").and_then(|v| v.as_str()));
     let _ = resolve_base_url(&payload);
+    let images = crate::comfy::collect_lan_images(&payload)?;
     let first = match kind {
-        ModelKind::I2vTurbo => native_image_name(
-            payload.get("startFrameB64").and_then(|v| v.as_str()).or_else(|| {
-                payload
-                    .get("referenceImagesB64")
-                    .and_then(|v| v.as_array())
-                    .and_then(|a| a.first())
-                    .and_then(|v| v.as_str())
-            }),
-            "first",
-        )?,
+        ModelKind::I2vTurbo => Some(
+            images
+                .first()
+                .map(|s| {
+                    if s.file_name.trim().is_empty() {
+                        "first.png".into()
+                    } else {
+                        s.file_name.clone()
+                    }
+                })
+                .ok_or_else(|| "h3.i2v.turbo requires a first-frame image".to_string())?,
+        ),
         _ => None,
     };
     let refs = match kind {
         ModelKind::R2vTurbo => {
-            if payload
-                .get("startFrameB64")
-                .and_then(|v| v.as_str())
-                .map(str::trim)
-                .filter(|s| !s.is_empty())
-                .is_some()
-                && payload
-                    .get("referenceImagesB64")
-                    .and_then(|v| v.as_array())
-                    .map(|a| a.is_empty())
-                    .unwrap_or(true)
-            {
-                return Err("h3.r2v.turbo uses referenceImagesB64, not startFrameB64".into());
+            if images.is_empty() {
+                return Err("h3.r2v.turbo requires at least one reference image".into());
             }
-            let arr = payload
-                .get("referenceImagesB64")
-                .and_then(|v| v.as_array())
-                .cloned()
-                .unwrap_or_default();
-            let mut names = Vec::new();
-            for (i, item) in arr.iter().enumerate() {
-                if let Some(n) = native_image_name(item.as_str(), &format!("ref{i}"))? {
-                    names.push(n);
-                }
-            }
-            names
+            images
+                .iter()
+                .map(|s| {
+                    if s.file_name.trim().is_empty() {
+                        "ref.png".into()
+                    } else {
+                        s.file_name.clone()
+                    }
+                })
+                .collect()
         }
         _ => Vec::new(),
     };
@@ -132,16 +122,6 @@ fn submit_op(payload_json: &str) -> Result<serde_json::Value, String> {
         "host-test",
     )?;
     Err("live HTTP is only available inside the wasm guest via host-http".into())
-}
-
-#[cfg(not(target_arch = "wasm32"))]
-fn native_image_name(b64: Option<&str>, stem: &str) -> Result<Option<String>, String> {
-    let Some(raw) = b64.map(str::trim).filter(|s| !s.is_empty()) else {
-        return Ok(None);
-    };
-    let bytes = decode_b64(raw)?;
-    let (filename, _) = sniff_image_filename_and_mime(&bytes, stem)?;
-    Ok(Some(filename))
 }
 
 #[cfg(not(target_arch = "wasm32"))]
@@ -189,8 +169,13 @@ pub fn map_query_response_json(
     let sdk = query_result(&QueryResult {
         status: status.into(),
         outputs,
-        progress_text: q.vendor_message,
+        progress_text: if q.terminal_failure.is_some() {
+            None
+        } else {
+            q.vendor_message
+        },
         retry_after_ms: None,
+        terminal_failure: q.terminal_failure,
     });
     serde_json::from_str(sdk.data_json.as_deref().unwrap_or("{}")).map_err(|e| format!("sdk: {e}"))
 }
@@ -355,7 +340,7 @@ mod tests {
             &[],
         )
         .unwrap_err();
-        assert!(err.contains("referenceImagesB64"));
+        assert!(err.contains("at least one reference image"));
         let mut names = Vec::new();
         names.push("a.png".into());
         names.push("b.jpg".into());
@@ -379,13 +364,19 @@ mod tests {
     }
 
     #[test]
-    fn r2v_submit_rejects_start_frame_only() {
+    fn r2v_submit_folds_start_frame_handle() {
         let err = dispatch_json(
             "submit",
-            r#"{"model":"h3.r2v.turbo","prompt":"x","durationSeconds":5,"fps":24,"resolution":"16:9","startFrameB64":"abc"}"#,
+            r#"{"model":"h3.r2v.turbo","prompt":"x","durationSeconds":5,"fps":24,"resolution":"mp:0.4","aspect":"16:9","startFrame":{"handle":"h1","fileName":"a.png","mime":"image/png"}}"#,
         )
         .unwrap_err();
-        assert!(err.contains("referenceImagesB64"));
+        assert!(err.contains("live HTTP"));
+        let b64 = dispatch_json(
+            "submit",
+            r#"{"model":"h3.r2v.turbo","prompt":"x","durationSeconds":5,"fps":24,"resolution":"mp:0.4","aspect":"16:9","startFrameB64":"abc"}"#,
+        )
+        .unwrap_err();
+        assert!(b64.contains("legacy B64"));
     }
 
     #[test]

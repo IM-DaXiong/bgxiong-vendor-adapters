@@ -14,7 +14,7 @@
 //! | `EXAMPLE_MODEL_ID` | `example-lan-llm` | Must match `/v1/models` id or probe list. Sync manifest. |
 //! | `MODELS_PATH` | `/v1/models` | Non-OpenAI prefix |
 //! | `CHAT_COMPLETIONS_PATH` | `/v1/chat/completions` | Same |
-//! | `EXAMPLE_TIMEOUT_MS` | `600000` | Slow local models (do not copy an 8h wall clock) |
+//! | `EXAMPLE_TIMEOUT_MS` | `0` | 0 = no reqwest whole-request timeout; worker safety fuse still applies |
 //! | `AUTH_USES_BEARER` | `true` | Set `false` for engines that reject Authorization |
 //!
 //! Do not put unspecified bind hosts in the origin. Do not point this crate
@@ -42,7 +42,7 @@ pub const EXAMPLE_BASE_URL: &str = "http://192.168.0.10:11434";
 
 pub const MODELS_PATH: &str = "/v1/models";
 pub const CHAT_COMPLETIONS_PATH: &str = "/v1/chat/completions";
-pub const EXAMPLE_TIMEOUT_MS: u32 = 600_000;
+pub const EXAMPLE_TIMEOUT_MS: u32 = 0;
 pub const AUTH_USES_BEARER: bool = true;
 
 pub fn join_url(base: &str, path: &str) -> String {

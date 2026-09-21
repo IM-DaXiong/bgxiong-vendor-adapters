@@ -1,4 +1,5 @@
 package bgxiong:vendor-adapter@1.1.0;
+// Query dataJson 1.2.0: failed/cancelled/expired must include terminalFailure (JSON, not a WIT field).
 
 interface types {
   enum operation { capabilities, probe, upload, submit, query, cancel }
@@ -74,6 +75,8 @@ interface host-http {
     generated-headers: list<generated-header>,
     body: body,
     sink: response-sink,
+    /// 0 = no reqwest whole-request timeout (still bounded by the worker safety fuse).
+    /// A positive value is an explicit short request cap; it must not exceed the host contract max.
     timeout-ms: u32
   }
 

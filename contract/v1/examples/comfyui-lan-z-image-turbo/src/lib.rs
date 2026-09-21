@@ -113,8 +113,13 @@ pub fn map_query_response_json(
     let sdk = query_result(&QueryResult {
         status: status.into(),
         outputs,
-        progress_text: q.vendor_message,
+        progress_text: if q.terminal_failure.is_some() {
+            None
+        } else {
+            q.vendor_message
+        },
         retry_after_ms: None,
+        terminal_failure: q.terminal_failure,
     });
     serde_json::from_str(sdk.data_json.as_deref().unwrap_or("{}")).map_err(|e| format!("sdk: {e}"))
 }

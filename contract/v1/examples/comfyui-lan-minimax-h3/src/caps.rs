@@ -97,6 +97,10 @@ fn video_slot(
         "implementedModeIds".into(),
         json!(implemented.into_iter().map(String::from).collect::<Vec<_>>()),
     );
+    slot.insert(
+        "features".into(),
+        json!(["video-reference-media-v1"]),
+    );
     timing_params(&mut slot, duration_node)?;
     Ok(Value::Object(slot))
 }

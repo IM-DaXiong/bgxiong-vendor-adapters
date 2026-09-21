@@ -1,0 +1,24 @@
+[package]
+name = "runninghub-minimax-h3-r2v-adapter"
+version = "0.3.2"
+edition = "2021"
+publish = false
+
+[package.metadata.component]
+package = "local:example-runninghub-h3-r2v"
+
+[package.metadata.component.target]
+path = "wit/vendor-adapter.wit"
+world = "vendor-adapter"
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+bgx-vendor-adapter-sdk = { path = "vendor-sdk" }
+serde = { version = "1.0", default-features = false, features = ["derive", "alloc"] }
+serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
+
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+wit-bindgen = { version = "0.51", default-features = false, features = ["macros", "realloc"] }
+dlmalloc = { version = "0.2", features = ["global"] }

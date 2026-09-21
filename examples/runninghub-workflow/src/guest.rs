@@ -103,8 +103,13 @@ fn query(request: &Invocation) -> Response {
                 let sdk = bgx_vendor_adapter_sdk::query_result(&bgx_vendor_adapter_sdk::QueryResult {
                     status: status.into(),
                     outputs,
-                    progress_text: q.vendor_message,
+                    progress_text: if q.terminal_failure.is_some() {
+                        None
+                    } else {
+                        q.vendor_message
+                    },
                     retry_after_ms: None,
+                    terminal_failure: q.terminal_failure,
                 });
                 sdk_resp(Operation::Query, sdk)
             }
@@ -141,7 +146,7 @@ fn http_json(op: Operation, method: &str, url: &str, body: &str) -> Result<serde
         generated_headers: bearer_headers(),
         body: bgxiong::vendor_adapter::host_http::Body::Bytes(body.as_bytes().to_vec()),
         sink: bgxiong::vendor_adapter::host_http::ResponseSink::Buffer(1_048_576),
-        timeout_ms: 30_000,
+        timeout_ms: 0,
     };
     match bgxiong::vendor_adapter::host_http::execute(&plan, None) {
         Ok(resp) => {
@@ -155,6 +160,13 @@ fn http_json(op: Operation, method: &str, url: &str, body: &str) -> Result<serde
                     ));
                 }
             };
+            if resp.status >= 400 {
+                return Err(err(
+                    op,
+                    "adapterVendorHttpError",
+                    &format!("status={}", resp.status),
+                ));
+            }
             serde_json::from_slice(&bytes).map_err(|e| {
                 err(op, "adapterBadOutput", &format!("vendor json: {e}"))
             })

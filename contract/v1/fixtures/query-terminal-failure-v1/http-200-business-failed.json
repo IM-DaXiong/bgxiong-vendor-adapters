@@ -1,0 +1,18 @@
+{
+  "queryResult": {
+    "status": "failed",
+    "outputs": [],
+    "terminalFailure": {
+      "category": "vendorTaskFailed",
+      "message": "business failed after HTTP 200",
+      "retryable": false,
+      "vendorCode": "805",
+      "httpStatus": 200,
+      "details": { "code": 805 }
+    }
+  },
+  "expectedStatus": "failed",
+  "expectedCategory": "vendorTaskFailed",
+  "expectedVendorCode": "805",
+  "expectedHttpStatus": 200
+}

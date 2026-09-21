@@ -151,6 +151,26 @@ If cancel is unsupported, return a contract error code (e.g. `adapterCapabilityD
 | `model` | `string?` | Same model id as submit. |
 | `endpointBaseUrl` | `string?` | Same as submit: credential origin. |
 
+
+<!-- video-reference-media-v1 -->
+
+#### Feature `video-reference-media-v1` (video / keyframe)
+
+When this feature is enabled, `video` / `keyframe` submit uses **only** the named `MediaInputV1` file-handle fields below. Do **not** combine them with legacy `*B64` fields in the same submit. The host does **not** enforce RCD `maxReferenceImages` / duration / size business quotas; plugins validate and return errors.
+
+| Wire field | Type | Meaning |
+|------------|------|---------|
+| `startFrame` | `MediaInputV1?` | Start frame image |
+| `endFrame` | `MediaInputV1?` | End frame image |
+| `referenceImages` | `MediaInputV1[]?` | Reference images (session order) |
+| `referenceVideos` | `MediaInputV1[]?` | Reference videos |
+| `referenceAudios` | `MediaInputV1[]?` | Reference audios |
+| `pluginParameters` | `object?` | Plugin-owned JSON; host checks JSON only |
+
+`MediaInputV1` required: `id`, `kind` (`image`\|`video`\|`audio`), `handle`, `mime`, `fileName`, `byteLength` (decimal u64 string). Optional: `label`, `usage`, `associationId`, `metadata`.
+
+Authoritative schema: `schemas/video-media-input.schema.json`. Plugins without this feature keep the legacy B64 contract above.
+
 ---
 
 #### Slots `image` / `imageToImage`
@@ -305,7 +325,10 @@ Serialized from SDK `SubmitResult` (`serde` tag = `kind`).
 |-------|---------|
 | `status` | One of `taskStatuses`: `queued` / `running` / `succeeded` / `failed` / `cancelled` / `expired`. |
 | `outputs` | `Output[]` when finished (may be empty while running). |
-| `progressText` | Optional progress text. |
+| `progressText` | Progress text for `queued` / `running` only. Do **not** carry terminal failure. |
+| `terminalFailure` | **Required** for `failed` / `cancelled` / `expired`. Missing => `adapterBadOutput` + `ADAPTER_QUERY_TERMINAL_FAILURE_MISSING`. The host must not guess a reason. |
+
+`terminalFailure` fields: `category` (closed set `vendorTaskFailed` / `vendorTaskCancelled` / `vendorTaskExpired`), `message` (log/diagnostics, never toast), `retryable`, optional `vendorCode` / `vendorRequestId` / `httpStatus` / `details`. `details` must be redacted and within the contract byte cap. HTTP 200 must not overwrite a business failure code.
 
 Some host paths also read numeric `progress`; prefer contract fields first.
 

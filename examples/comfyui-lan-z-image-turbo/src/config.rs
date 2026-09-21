@@ -26,7 +26,7 @@ use alloc::format;
 use alloc::string::String;
 
 pub const PLUGIN_ID: &str = "local.example.comfyui-lan-z-image";
-pub const PLUGIN_VERSION: &str = "0.2.0";
+pub const PLUGIN_VERSION: &str = "0.3.0";
 pub const MODEL_ID_TURBO: &str = "z.turbo";
 
 /// Shipped example origin (product: not sensitive; may ship in packs).

@@ -31,3 +31,12 @@ In-host profile is a **dev-tool subset**. Compile to a standard guest for produc
 ## In-flight tasks
 
 Old 1.0.0 components will not instantiate on a 1.1.0 host. Finish or explicitly cancel running 1.0 tasks before switching the host binary. Do not silently route new work to stale artifacts.
+
+## Host HTTP `timeout-ms` (INV-ADAPTER-HOST-WAIT)
+
+| Value | Meaning |
+|-------|---------|
+| `0` (default for submit/query/cancel/upload/download) | Do **not** set a reqwest whole-request timeout. Guest CPU `budgetMs`/`wallMs` is unrelated. The worker process still has an independent safety fuse from `network-resilience.json`. |
+| Positive | Author-chosen short request cap. Host rejects values above `adapterHostRequestTimeoutMaxMs`. |
+
+Do not copy guest `wallMs` (15s rust tier) into HTTP. Do not copy the 8h poll wall into the worker.

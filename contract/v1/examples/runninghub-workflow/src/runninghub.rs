@@ -27,6 +27,7 @@ pub struct MappedQuery {
     pub outputs: Vec<CanonicalOutput>,
     pub vendor_code: Option<String>,
     pub vendor_message: Option<String>,
+    pub terminal_failure: Option<bgx_vendor_adapter_sdk::TerminalFailure>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -263,22 +264,32 @@ pub fn parse_query_for_slot(body: &Value, slot: &str) -> Result<MappedQuery, Str
         }
     }
     let vendor_code = Some(code.to_string());
-    let mut vendor_message = body
+    let vendor_message = body
         .get("msg")
         .and_then(|v| v.as_str())
         .map(str::trim)
         .filter(|s| !s.is_empty() && *s != "success")
         .map(|s| s.to_string());
-    if matches!(mapped, MappedStatus::Failed) {
-        if let Some(fr) = data.and_then(|d| d.get("failedReason")) {
-            vendor_message = Some(fr.to_string());
-        }
-    }
+    let terminal_failure = if matches!(mapped, MappedStatus::Failed) {
+        let reason = data
+            .and_then(|d| d.get("failedReason"))
+            .cloned()
+            .or_else(|| vendor_message.clone().map(serde_json::Value::String))
+            .unwrap_or_else(|| serde_json::Value::String("vendor task failed".into()));
+        Some(bgx_vendor_adapter_sdk::TerminalFailure::from_vendor_reason(
+            "vendorTaskFailed",
+            vendor_code.clone(),
+            &reason,
+        )?)
+    } else {
+        None
+    };
     Ok(MappedQuery {
         status: mapped,
         outputs,
         vendor_code,
         vendor_message,
+        terminal_failure,
     })
 }
 
@@ -386,7 +397,9 @@ mod tests {
         }))
         .expect("fail");
         assert_eq!(fail.status, MappedStatus::Failed);
-        assert!(fail.vendor_message.unwrap().contains("exception_message"));
+        let tf = fail.terminal_failure.expect("structured failure");
+        assert_eq!(tf.message, "bad");
+        assert_eq!(tf.vendor_code.as_deref(), Some("805"));
         assert!(parse_query(&json!({"code": 999})).is_err());
         assert!(parse_query(&json!({"status": "SUCCESS", "results": []})).is_err());
     }

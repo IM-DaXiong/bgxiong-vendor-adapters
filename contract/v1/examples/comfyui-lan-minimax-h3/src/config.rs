@@ -13,7 +13,7 @@
 //! |---|---|---|
 //! | `h3.t2v` | `workflows/h3.t2v.api.json` | none; turbo switch `139` stays false |
 //! | `h3.i2v.turbo` | `workflows/h3.i2v.turbo.api.json` | required first frame; `139` true |
-//! | `h3.r2v.turbo` | `workflows/h3.r2v.turbo.api.json` | required `referenceImagesB64` (1..=3); LoRA always on |
+//! | `h3.r2v.turbo` | `workflows/h3.r2v.turbo.api.json` | required MediaInputV1 refs (1..=3); LoRA always on |
 //!
 //! Unknown `model` is an error. Do not guess node ids. Do not coerce r2v
 //! start frames into `first_frame`.
@@ -32,7 +32,7 @@ use alloc::format;
 use alloc::string::String;
 
 pub const PLUGIN_ID: &str = "local.example.comfyui-lan-h3";
-pub const PLUGIN_VERSION: &str = "0.2.1";
+pub const PLUGIN_VERSION: &str = "0.3.0";
 pub const MODEL_ID: &str = "h3.t2v";
 pub const MODEL_ID_I2V_TURBO: &str = "h3.i2v.turbo";
 pub const MODEL_ID_R2V_TURBO: &str = "h3.r2v.turbo";

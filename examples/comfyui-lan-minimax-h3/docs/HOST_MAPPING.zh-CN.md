@@ -30,7 +30,7 @@ Same timing/prompt nodes as t2v. Lightning `139` is **true**.
 
 | RCD / HOST_PAYLOAD | API node | field |
 |---|---|---|
-| first frame | upload → 140 LoadImage `image` → 131 `first_frame` | required (`startFrameB64` or `referenceImagesB64[0]`) |
+| first frame | upload → 140 LoadImage `image` → 131 `first_frame` | required (`startFrame` or `referenceImages[0]` handle) |
 
 ## `h3.r2v.turbo`
 
@@ -42,7 +42,7 @@ Same timing/prompt nodes as t2v. Lightning `139` is **true**.
 | `fps` | 130 CreateVideo | `fps` |
 | `aspect` | 115 | `aspect_ratio` |
 | `resolution` | 115 | `megapixels` |
-| references | upload → 137/139/141 → 136 `ref_images.ref_image_*` | `referenceImagesB64` 1..=3; unused keys removed |
+| references | upload → 137/139/141 → 136 `ref_images.ref_image_*` | `referenceImages` 1..=3 handles; unused keys removed |
 | turbo LoRA | 142 LoraLoaderModelOnly | always on; scheduler steps **8** |
 
-`startFrameB64` without `referenceImagesB64` is an error (not I2V).
+Empty `referenceImages` folds `startFrame`/`endFrame` handles. Inline Base64 is forbidden.

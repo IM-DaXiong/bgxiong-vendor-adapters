@@ -93,12 +93,15 @@ fn query(request: &Invocation) -> Response {
         }
     };
     let _ = payload.get("vendorTaskId");
-    let sdk = query_result(&QueryResult {
-        status: "failed".into(),
-        outputs: Vec::<Output>::new(),
-        progress_text: Some("starter query is not connected to a vendor".into()),
-        retry_after_ms: None,
-    });
+    let failure = match bgx_vendor_adapter_sdk::TerminalFailure::vendor_task_failed(
+        Some("STARTER_NOT_CONNECTED".into()),
+        "starter query is not connected to a vendor",
+        None,
+    ) {
+        Ok(v) => v,
+        Err(e) => return err(Operation::Query, "adapterBadOutput", &e),
+    };
+    let sdk = query_result(&QueryResult::terminal("failed", failure));
     sdk_to_wit(Operation::Query, sdk)
 }
 

@@ -12,7 +12,7 @@ use alloc::string::String;
 /// International: `https://www.runninghub.ai`
 /// China: `https://www.runninghub.cn`
 pub const PLUGIN_ID: &str = "local.example.specimen";
-pub const PLUGIN_VERSION: &str = "0.1.0";
+pub const PLUGIN_VERSION: &str = "0.2.1";
 
 pub const REGION_BASE_URL: &str = "https://www.runninghub.cn";
 

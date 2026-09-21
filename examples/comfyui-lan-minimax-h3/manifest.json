@@ -2,8 +2,9 @@
   "schemaVersion": 2,
   "pluginId": "local.example.comfyui-lan-h3",
   "displayName": "LAN ComfyUI MiniMax H3",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "language": "rust",
+  "optionalFeatures": ["video-reference-media-v1"],
   "entry": "adapter.wasm",
   "capabilitySlots": [
     {
@@ -16,7 +17,8 @@
       ],
       "supportsAsync": true,
       "maxReferenceImages": 3,
-      "maxDurationSeconds": 15
+      "maxDurationSeconds": 15,
+      "features": ["video-reference-media-v1"]
     }
   ],
   "requestedCapabilities": {

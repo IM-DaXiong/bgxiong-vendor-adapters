@@ -49,10 +49,11 @@ Edit `src/config.rs`:
 Out of scope: V2 `/openapi/v2/run/workflow`, Model API `imageUrls`, webhook, cancel,
 guessing node ids, Kling-style camera feature modules, local ComfyUI.
 
-Full V2 MiniMax H3 bindings (duration / fps / expression / resolution combo /
-first-last frames, magic-byte upload) live in the sibling crate
-`../runninghub-minimax-h3/`. Do **not** copy those node ids into this teaching
-specimen.
+The current V2 MiniMax H3 **1/2/3-slot working plugin** lives in
+`../runninghub-minimax-h3-r2v/`. Import that sibling when the model picker must
+show the three RunningHub V2 workflows. The old two-slot crate
+`runninghub-minimax-h3` is retired. Do **not** copy V2 bindings into this
+AI App teaching specimen.
 
 ## End-to-end (video workbench only)
 

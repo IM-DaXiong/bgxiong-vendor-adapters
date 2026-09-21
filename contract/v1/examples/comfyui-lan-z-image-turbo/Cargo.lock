@@ -10,7 +10,7 @@ checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
 
 [[package]]
 name = "bgx-vendor-adapter-sdk"
-version = "1.0.0"
+version = "1.1.0"
 dependencies = [
  "serde",
  "serde_json",
@@ -30,7 +30,7 @@ checksum = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
 
 [[package]]
 name = "comfyui-lan-z-image-turbo-adapter"
-version = "0.2.0"
+version = "0.3.0"
 dependencies = [
  "bgx-vendor-adapter-sdk",
  "dlmalloc",

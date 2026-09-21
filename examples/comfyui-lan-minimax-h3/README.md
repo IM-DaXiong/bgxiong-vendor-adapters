@@ -13,7 +13,7 @@ start local ComfyUI and does not call RunningHub.
 |---|---|---|
 | `h3.t2v` | `workflows/h3.t2v.api.json` | none; lightning `139` stays false |
 | `h3.i2v.turbo` | `workflows/h3.i2v.turbo.api.json` | required first frame; `139` true |
-| `h3.r2v.turbo` | `workflows/h3.r2v.turbo.api.json` | required `referenceImagesB64` (1..=3) |
+| `h3.r2v.turbo` | `workflows/h3.r2v.turbo.api.json` | required MediaInputV1 refs (1..=3) |
 
 Unknown `model` is an error. Do not coerce r2v start frames into I2V.
 

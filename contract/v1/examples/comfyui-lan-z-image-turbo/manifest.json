@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "pluginId": "local.example.comfyui-lan-z-image",
   "displayName": "LAN ComfyUI Z-Image Turbo",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "language": "rust",
   "entry": "adapter.wasm",
   "capabilitySlots": [

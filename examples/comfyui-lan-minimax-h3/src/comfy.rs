@@ -41,6 +41,7 @@ pub struct MappedQuery {
     pub status: MappedStatus,
     pub outputs: Vec<CanonicalOutput>,
     pub vendor_message: Option<String>,
+    pub terminal_failure: Option<bgx_vendor_adapter_sdk::TerminalFailure>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -238,6 +239,86 @@ pub fn parse_comfy_upload_name(body: &Value) -> Result<String, String> {
     }
 }
 
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct StagedImage {
+    pub handle: String,
+    pub file_name: String,
+    pub mime: String,
+}
+
+fn reject_legacy_inline_b64(payload: &Value) -> Result<(), String> {
+    for k in [
+        "referenceImagesB64",
+        "reference_images_b64",
+        "startFrameB64",
+        "endFrameB64",
+        "lastFrameB64",
+        "firstFrameB64",
+        "start_frame_b64",
+        "end_frame_b64",
+    ] {
+        if payload.get(k).is_some() {
+            return Err(format!(
+                "legacy B64 field {k} forbidden when using video-reference-media-v1"
+            ));
+        }
+    }
+    Ok(())
+}
+
+fn staged_from_media_object(v: &Value) -> Result<Option<StagedImage>, String> {
+    if v.is_null() {
+        return Ok(None);
+    }
+    let handle = v
+        .get("handle")
+        .and_then(|x| x.as_str())
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+        .ok_or_else(|| "MediaInputV1.handle required".to_string())?;
+    let file_name = v
+        .get("fileName")
+        .and_then(|x| x.as_str())
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+        .unwrap_or("ref.png")
+        .to_string();
+    let mime = v
+        .get("mime")
+        .and_then(|x| x.as_str())
+        .map(str::trim)
+        .filter(|s| !s.is_empty())
+        .unwrap_or("image/png")
+        .to_string();
+    Ok(Some(StagedImage {
+        handle: handle.to_string(),
+        file_name,
+        mime,
+    }))
+}
+
+/// Collect staged image handles. Empty `referenceImages` folds start/end.
+pub fn collect_lan_images(payload: &Value) -> Result<Vec<StagedImage>, String> {
+    reject_legacy_inline_b64(payload)?;
+    let mut refs: Vec<StagedImage> = Vec::new();
+    if let Some(arr) = payload.get("referenceImages").and_then(|v| v.as_array()) {
+        for item in arr {
+            if let Some(s) = staged_from_media_object(item)? {
+                refs.push(s);
+            }
+        }
+    }
+    if refs.is_empty() {
+        for key in ["startFrame", "endFrame"] {
+            if let Some(s) = payload.get(key).map(staged_from_media_object).transpose()?.flatten()
+            {
+                refs.push(s);
+            }
+        }
+    }
+    Ok(refs)
+}
+
 pub fn decode_b64(input: &str) -> Result<Vec<u8>, String> {
     let s = input.split(',').next_back().unwrap_or(input).trim();
     let mut out = Vec::new();
@@ -351,7 +432,7 @@ pub fn patch_r2v_turbo_prompt(
         return Err("prompt is required for h3.r2v.turbo".into());
     }
     if image_names.is_empty() {
-        return Err("h3.r2v.turbo requires referenceImagesB64 (at least one image)".into());
+        return Err("h3.r2v.turbo requires at least one reference image".into());
     }
     if image_names.len() > R2V_LOAD_IMAGE_NODE_IDS.len() {
         return Err("h3.r2v.turbo accepts at most 3 reference images".into());
@@ -562,6 +643,7 @@ pub fn parse_history(body: &Value, prompt_id: &str, base: &str) -> Result<Mapped
             status: MappedStatus::Queued,
             outputs: Vec::new(),
             vendor_message: None,
+            terminal_failure: None,
         });
     }
     let Some(entry) = inner_history_entry(body, prompt_id) else {
@@ -569,6 +651,7 @@ pub fn parse_history(body: &Value, prompt_id: &str, base: &str) -> Result<Mapped
             status: MappedStatus::Queued,
             outputs: Vec::new(),
             vendor_message: None,
+            terminal_failure: None,
         });
     };
     let status_obj = entry.get("status");
@@ -582,10 +665,26 @@ pub fn parse_history(body: &Value, prompt_id: &str, base: &str) -> Result<Mapped
         .and_then(|v| v.as_bool())
         .unwrap_or(false);
     if status_str.contains("error") || status_str == "failed" {
+        let vendor_code = status_str.clone();
+        let message = status_obj
+            .and_then(|s| s.get("messages"))
+            .and_then(|v| v.as_array())
+            .and_then(|a| a.first())
+            .and_then(|v| v.as_str())
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+            .map(|s| s.to_string())
+            .unwrap_or_else(|| vendor_code.clone());
+        let reason = serde_json::Value::String(message);
         return Ok(MappedQuery {
             status: MappedStatus::Failed,
             outputs: Vec::new(),
-            vendor_message: Some(status_str),
+            vendor_message: None,
+            terminal_failure: Some(bgx_vendor_adapter_sdk::TerminalFailure::from_vendor_reason(
+                "vendorTaskFailed",
+                Some(vendor_code),
+                &reason,
+            )?),
         });
     }
     let outputs = entry.get("outputs").cloned().unwrap_or(json!({}));
@@ -598,11 +697,13 @@ pub fn parse_history(body: &Value, prompt_id: &str, base: &str) -> Result<Mapped
             status: MappedStatus::Succeeded,
             outputs: media,
             vendor_message: None,
+            terminal_failure: None,
         });
     }
     Ok(MappedQuery {
         status: MappedStatus::Running,
         outputs: Vec::new(),
         vendor_message: None,
+        terminal_failure: None,
     })
 }

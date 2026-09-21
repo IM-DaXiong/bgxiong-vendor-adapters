@@ -1,0 +1,13 @@
+{
+  "vendorQuery": {
+    "status": "FAILED",
+    "failedReason": {
+      "node_name": "134",
+      "exception_type": "RuntimeError",
+      "exception_message": "sample node rejected the graph"
+    }
+  },
+  "expectedStatus": "failed",
+  "expectedCategory": "vendorTaskFailed",
+  "expectedVendorCode": "FAILED"
+}

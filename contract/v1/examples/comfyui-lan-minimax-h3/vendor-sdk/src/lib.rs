@@ -1,4 +1,4 @@
-//! Envelope helpers for BigBear vendor adapter plugins (protocol v1 / WIT 1.1.0).
+//! Envelope helpers for BigBear vendor adapter plugins (protocol v1 / contract 1.2.0 / WIT 1.1.0).
 //!
 //! Public closed sets come from the crate-local `vendor-adapter-protocol.json`.
 //! This crate must not read host policy JSON, `src-tauri`, or UI trees.
@@ -27,6 +27,14 @@ struct ContractFile {
     output_sources: Vec<String>,
     output_kinds: Vec<String>,
     optional_features: Vec<String>,
+    #[serde(default)]
+    terminal_statuses: Vec<String>,
+    #[serde(default)]
+    terminal_failure_categories: Vec<String>,
+    #[serde(default)]
+    terminal_failure_message_max_chars: u64,
+    #[serde(default)]
+    terminal_failure_details_max_bytes: u64,
 }
 
 fn contract() -> ContractFile {
@@ -60,6 +68,51 @@ pub fn output_sources() -> Vec<String> {
 pub fn optional_features() -> Vec<String> {
     contract().optional_features
 }
+
+pub fn terminal_statuses() -> Vec<String> {
+    let c = contract();
+    if c.terminal_statuses.is_empty() {
+        return vec!["failed".into(), "cancelled".into(), "expired".into()];
+    }
+    c.terminal_statuses
+}
+
+pub fn terminal_failure_categories() -> Vec<String> {
+    let c = contract();
+    if c.terminal_failure_categories.is_empty() {
+        return vec![
+            "vendorTaskFailed".into(),
+            "vendorTaskCancelled".into(),
+            "vendorTaskExpired".into(),
+        ];
+    }
+    c.terminal_failure_categories
+}
+
+pub fn terminal_failure_message_max_chars() -> usize {
+    let n = contract().terminal_failure_message_max_chars;
+    if n == 0 {
+        2000
+    } else {
+        n as usize
+    }
+}
+
+pub fn terminal_failure_details_max_bytes() -> usize {
+    let n = contract().terminal_failure_details_max_bytes;
+    if n == 0 {
+        4096
+    } else {
+        n as usize
+    }
+}
+
+pub const ADAPTER_QUERY_TERMINAL_FAILURE_MISSING: &str = "ADAPTER_QUERY_TERMINAL_FAILURE_MISSING";
+pub const ADAPTER_QUERY_TERMINAL_FAILURE_FORBIDDEN: &str =
+    "ADAPTER_QUERY_TERMINAL_FAILURE_FORBIDDEN";
+pub const ADAPTER_QUERY_TERMINAL_FAILURE_DETAILS_TOO_LARGE: &str =
+    "ADAPTER_QUERY_TERMINAL_FAILURE_DETAILS_TOO_LARGE";
+pub const ADAPTER_QUERY_PROGRESS_ON_TERMINAL: &str = "ADAPTER_QUERY_PROGRESS_ON_TERMINAL";
 
 /// Host -> guest envelope. `budgetMs` is remaining execution budget, not a wall-clock deadline.
 #[derive(Debug, Clone, Serialize, Deserialize)]
@@ -195,8 +248,7 @@ impl Response {
 }
 
 fn validate_operation_data(operation: &str, data: &str) -> Result<(), String> {
-    let v: serde_json::Value =
-        serde_json::from_str(data).map_err(|e| format!("dataJson: {e}"))?;
+    let v: serde_json::Value = serde_json::from_str(data).map_err(|e| format!("dataJson: {e}"))?;
     match operation {
         "submit" => {
             let parsed: SubmitResult =
@@ -209,10 +261,7 @@ fn validate_operation_data(operation: &str, data: &str) -> Result<(), String> {
             parsed.validate()
         }
         "cancel" => {
-            let status = v
-                .get("status")
-                .and_then(|x| x.as_str())
-                .unwrap_or("");
+            let status = v.get("status").and_then(|x| x.as_str()).unwrap_or("");
             if !matches!(status, "unsupported" | "requested" | "confirmed") {
                 return Err("cancel data.status must be unsupported|requested|confirmed".into());
             }
@@ -313,11 +362,7 @@ pub struct RcdEnumOption {
 }
 
 impl RcdEnumOption {
-    pub fn new(
-        id: impl Into<String>,
-        label: impl Into<String>,
-        value: serde_json::Value,
-    ) -> Self {
+    pub fn new(id: impl Into<String>, label: impl Into<String>, value: serde_json::Value) -> Self {
         Self {
             id: id.into(),
             label: label.into(),
@@ -334,7 +379,10 @@ impl RcdEnumOption {
     pub fn to_json(&self) -> serde_json::Value {
         let mut m = serde_json::Map::new();
         m.insert("id".into(), serde_json::Value::String(self.id.clone()));
-        m.insert("label".into(), serde_json::Value::String(self.label.clone()));
+        m.insert(
+            "label".into(),
+            serde_json::Value::String(self.label.clone()),
+        );
         m.insert("value".into(), self.value.clone());
         if let Some(ar) = &self.aspect_ratio {
             m.insert("aspectRatio".into(), serde_json::Value::String(ar.clone()));
@@ -375,7 +423,11 @@ fn ok_serialized(op: &str, value: &impl Serialize) -> Response {
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(rename_all = "camelCase", tag = "kind", rename_all_fields = "camelCase")]
+#[serde(
+    rename_all = "camelCase",
+    tag = "kind",
+    rename_all_fields = "camelCase"
+)]
 pub enum SubmitResult {
     Accepted {
         vendor_task_id: String,
@@ -413,6 +465,163 @@ impl SubmitResult {
     }
 }
 
+#[derive(Debug, Clone, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+pub struct TerminalFailure {
+    pub category: String,
+    pub message: String,
+    pub retryable: bool,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub vendor_code: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub vendor_request_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub http_status: Option<u16>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub details: Option<serde_json::Value>,
+}
+
+impl TerminalFailure {
+    pub fn vendor_task_failed(
+        vendor_code: Option<String>,
+        message: impl Into<String>,
+        details: Option<serde_json::Value>,
+    ) -> Result<Self, String> {
+        Self::new("vendorTaskFailed", vendor_code, message, details, false)
+    }
+
+    pub fn new(
+        category: impl Into<String>,
+        vendor_code: Option<String>,
+        message: impl Into<String>,
+        details: Option<serde_json::Value>,
+        retryable: bool,
+    ) -> Result<Self, String> {
+        let failure = Self {
+            category: category.into(),
+            message: message.into(),
+            retryable,
+            vendor_code,
+            vendor_request_id: None,
+            http_status: None,
+            details: details.map(sanitize_terminal_details),
+        };
+        failure.validate()?;
+        Ok(failure)
+    }
+
+    pub fn from_vendor_reason(
+        category: &str,
+        vendor_code: Option<String>,
+        reason: &serde_json::Value,
+    ) -> Result<Self, String> {
+        let (message, details) = message_and_details_from_reason(reason);
+        Self::new(category, vendor_code, message, details, false)
+    }
+
+    pub fn validate(&self) -> Result<(), String> {
+        if !terminal_failure_categories()
+            .iter()
+            .any(|c| c == &self.category)
+        {
+            return Err(format!("unknown terminalFailure.category: {}", self.category));
+        }
+        let message = self.message.trim();
+        if message.is_empty() {
+            return Err(format!("{ADAPTER_QUERY_TERMINAL_FAILURE_MISSING}: message"));
+        }
+        if message.chars().count() > terminal_failure_message_max_chars() {
+            return Err("ADAPTER_QUERY_TERMINAL_FAILURE_MESSAGE_TOO_LARGE".into());
+        }
+        if let Some(details) = &self.details {
+            let bytes = serde_json::to_vec(details)
+                .map_err(|e| format!("terminalFailure.details: {e}"))?;
+            if bytes.len() > terminal_failure_details_max_bytes() {
+                return Err(ADAPTER_QUERY_TERMINAL_FAILURE_DETAILS_TOO_LARGE.into());
+            }
+        }
+        Ok(())
+    }
+}
+
+fn message_and_details_from_reason(reason: &serde_json::Value) -> (String, Option<serde_json::Value>) {
+    match reason {
+        serde_json::Value::String(s) => (s.trim().to_string(), None),
+        serde_json::Value::Object(map) => {
+            let message = map
+                .get("exception_message")
+                .or_else(|| map.get("exceptionMessage"))
+                .or_else(|| map.get("msg"))
+                .or_else(|| map.get("message"))
+                .or_else(|| map.get("error"))
+                .and_then(|v| v.as_str())
+                .map(str::trim)
+                .filter(|s| !s.is_empty())
+                .map(|s| s.to_string())
+                .unwrap_or_else(|| "vendor task failed".into());
+            (message, Some(sanitize_terminal_details(reason.clone())))
+        }
+        other => (
+            "vendor task failed".into(),
+            Some(sanitize_terminal_details(other.clone())),
+        ),
+    }
+}
+
+fn sanitize_terminal_details(value: serde_json::Value) -> serde_json::Value {
+    sanitize_value(value, 0)
+}
+
+fn is_sensitive_detail_key(key: &str) -> bool {
+    let lower = key.to_ascii_lowercase();
+    lower.contains("apikey")
+        || lower.contains("api_key")
+        || lower.contains("authorization")
+        || lower == "token"
+        || lower.ends_with("token")
+        || lower.contains("secret")
+        || lower.contains("password")
+        || lower == "prompt"
+        || lower.contains("cookie")
+        || lower.contains("signature")
+        || lower.contains("accesskey")
+        || lower.contains("access_key")
+}
+
+fn sanitize_value(value: serde_json::Value, depth: usize) -> serde_json::Value {
+    if depth > 6 {
+        return serde_json::Value::String("[truncated]".into());
+    }
+    match value {
+        serde_json::Value::Object(map) => {
+            let mut out = serde_json::Map::new();
+            for (k, v) in map {
+                if is_sensitive_detail_key(&k) {
+                    continue;
+                }
+                out.insert(k, sanitize_value(v, depth + 1));
+            }
+            serde_json::Value::Object(out)
+        }
+        serde_json::Value::Array(items) => serde_json::Value::Array(
+            items
+                .into_iter()
+                .take(32)
+                .map(|v| sanitize_value(v, depth + 1))
+                .collect(),
+        ),
+        serde_json::Value::String(s) => {
+            if s.chars().count() > 500 {
+                let head: String = s.chars().take(500).collect();
+                serde_json::Value::String(head)
+            } else {
+                serde_json::Value::String(s)
+            }
+        }
+        other => other,
+    }
+}
+
 #[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(rename_all = "camelCase")]
 pub struct QueryResult {
@@ -423,9 +632,41 @@ pub struct QueryResult {
     pub progress_text: Option<String>,
     #[serde(default)]
     pub retry_after_ms: Option<u64>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub terminal_failure: Option<TerminalFailure>,
 }
 
 impl QueryResult {
+    pub fn in_progress(status: impl Into<String>, progress_text: Option<String>) -> Self {
+        Self {
+            status: status.into(),
+            outputs: Vec::new(),
+            progress_text,
+            retry_after_ms: None,
+            terminal_failure: None,
+        }
+    }
+
+    pub fn succeeded(outputs: Vec<Output>) -> Self {
+        Self {
+            status: "succeeded".into(),
+            outputs,
+            progress_text: None,
+            retry_after_ms: None,
+            terminal_failure: None,
+        }
+    }
+
+    pub fn terminal(status: impl Into<String>, failure: TerminalFailure) -> Self {
+        Self {
+            status: status.into(),
+            outputs: Vec::new(),
+            progress_text: None,
+            retry_after_ms: None,
+            terminal_failure: Some(failure),
+        }
+    }
+
     pub fn validate(&self) -> Result<(), String> {
         if !task_statuses().iter().any(|s| s == &self.status) {
             return Err(format!("unknown task status: {}", self.status));
@@ -436,12 +677,45 @@ impl QueryResult {
         if self.status == "succeeded" && self.outputs.is_empty() {
             return Err("succeeded query must include outputs".into());
         }
+        let terminal = terminal_statuses().iter().any(|s| s == &self.status);
+        match (terminal, self.terminal_failure.as_ref()) {
+            (true, None) => {
+                return Err(format!(
+                    "{ADAPTER_QUERY_TERMINAL_FAILURE_MISSING}: status={}",
+                    self.status
+                ));
+            }
+            (true, Some(failure)) => failure.validate()?,
+            (false, Some(_)) => {
+                return Err(format!(
+                    "{ADAPTER_QUERY_TERMINAL_FAILURE_FORBIDDEN}: status={}",
+                    self.status
+                ));
+            }
+            (false, None) => {}
+        }
+        if terminal
+            && self
+                .progress_text
+                .as_deref()
+                .map(str::trim)
+                .filter(|s| !s.is_empty())
+                .is_some()
+        {
+            return Err(format!(
+                "{ADAPTER_QUERY_PROGRESS_ON_TERMINAL}: progressText is running-only"
+            ));
+        }
         Ok(())
     }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
-#[serde(tag = "kind", rename_all = "camelCase", rename_all_fields = "camelCase")]
+#[serde(
+    tag = "kind",
+    rename_all = "camelCase",
+    rename_all_fields = "camelCase"
+)]
 pub enum Output {
     Text {
         text: String,
@@ -465,7 +739,11 @@ impl Output {
         }
     }
 
-    pub fn media(media_kind: impl Into<String>, source: impl Into<String>, value: impl Into<String>) -> Self {
+    pub fn media(
+        media_kind: impl Into<String>,
+        source: impl Into<String>,
+        value: impl Into<String>,
+    ) -> Self {
         Output::Media {
             media_kind: media_kind.into(),
             source: source.into(),
@@ -567,6 +845,9 @@ pub fn submit_completed_with_applied(
 }
 
 pub fn query_result(result: &QueryResult) -> Response {
+    if let Err(e) = result.validate() {
+        return Response::err("query", "adapterBadOutput", &e, false);
+    }
     ok_serialized("query", result)
 }
 
@@ -643,7 +924,10 @@ mod tests {
 
     #[test]
     fn response_rejects_unknown_operation_success() {
-        let resp = Response::ok("not-an-operation", &serde_json::json!({"kind":"completed","outputs":[]}));
+        let resp = Response::ok(
+            "not-an-operation",
+            &serde_json::json!({"kind":"completed","outputs":[]}),
+        );
         assert!(resp.validate().is_err());
     }
 
@@ -687,5 +971,360 @@ mod tests {
         assert!(!CONTRACT_JSON.contains("trustPullPath"));
         assert!(!CONTRACT_JSON.contains("providerKinds"));
         assert!(!CONTRACT_JSON.contains("languageTiers"));
+    }
+
+    #[test]
+    fn query_terminal_fixtures_are_deterministic() {
+        let cancelled: QueryResult = serde_json::from_value(serde_json::json!({
+            "status": "cancelled",
+            "outputs": [],
+            "terminalFailure": {
+                "category": "vendorTaskCancelled",
+                "message": "remote task cancelled",
+                "retryable": false,
+                "vendorCode": "CANCELLED"
+            }
+        }))
+        .expect("cancelled");
+        cancelled.validate().expect("cancelled ok");
+        assert_eq!(
+            cancelled.terminal_failure.as_ref().unwrap().category,
+            "vendorTaskCancelled"
+        );
+
+        let expired: QueryResult = serde_json::from_value(serde_json::json!({
+            "status": "expired",
+            "outputs": [],
+            "terminalFailure": {
+                "category": "vendorTaskExpired",
+                "message": "remote task expired",
+                "retryable": false,
+                "vendorCode": "EXPIRED"
+            }
+        }))
+        .expect("expired");
+        expired.validate().expect("expired ok");
+
+        let http200: QueryResult = serde_json::from_value(serde_json::json!({
+            "status": "failed",
+            "outputs": [],
+            "terminalFailure": {
+                "category": "vendorTaskFailed",
+                "message": "business failed after HTTP 200",
+                "retryable": false,
+                "vendorCode": "805",
+                "httpStatus": 200,
+                "details": { "code": 805 }
+            }
+        }))
+        .expect("http200");
+        http200.validate().expect("http200 ok");
+        assert_eq!(http200.terminal_failure.as_ref().unwrap().http_status, Some(200));
+        assert_eq!(
+            http200.terminal_failure.as_ref().unwrap().vendor_code.as_deref(),
+            Some("805")
+        );
+
+        let missing: QueryResult = serde_json::from_value(serde_json::json!({
+            "status": "failed",
+            "outputs": [],
+            "progressText": "failed"
+        }))
+        .expect("missing");
+        let err = missing.validate().expect_err("bare failed is illegal");
+        assert!(err.contains(ADAPTER_QUERY_TERMINAL_FAILURE_MISSING));
+
+        let resp = query_result(&missing);
+        assert!(resp.data_json.is_none());
+        assert_eq!(
+            resp.error.as_ref().map(|e| e.code.as_str()),
+            Some("adapterBadOutput")
+        );
+
+        let huge = "x".repeat(5000);
+        let oversized = TerminalFailure {
+            category: "vendorTaskFailed".into(),
+            message: "overflow".into(),
+            retryable: false,
+            vendor_code: None,
+            vendor_request_id: None,
+            http_status: None,
+            details: Some(serde_json::json!({ "blob": huge })),
+        };
+        assert!(oversized
+            .validate()
+            .unwrap_err()
+            .contains(ADAPTER_QUERY_TERMINAL_FAILURE_DETAILS_TOO_LARGE));
+    }
+
+    #[test]
+    fn running_query_rejects_terminal_failure() {
+        let q = QueryResult {
+            status: "running".into(),
+            outputs: Vec::new(),
+            progress_text: Some("30%".into()),
+            retry_after_ms: None,
+            terminal_failure: Some(
+                TerminalFailure::vendor_task_failed(None, "no", None).unwrap(),
+            ),
+        };
+        assert!(q
+            .validate()
+            .unwrap_err()
+            .contains(ADAPTER_QUERY_TERMINAL_FAILURE_FORBIDDEN));
+    }
+
+    #[test]
+    fn terminal_failure_strips_sensitive_keys() {
+        let tf = TerminalFailure::from_vendor_reason(
+            "vendorTaskFailed",
+            Some("FAILED".into()),
+            &serde_json::json!({
+                "exception_message": "node rejected",
+                "apiKey": "secret-key",
+                "prompt": "user prompt"
+            }),
+        )
+        .unwrap();
+        assert_eq!(tf.message, "node rejected");
+        let details = tf.details.unwrap();
+        assert!(details.get("apiKey").is_none());
+        assert!(details.get("prompt").is_none());
+        assert_eq!(details["exception_message"], "node rejected");
+    }
+}
+
+/// Feature id for handle-based video/keyframe reference media.
+pub const FEATURE_VIDEO_REFERENCE_MEDIA_V1: &str = "video-reference-media-v1";
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Eq)]
+#[serde(rename_all = "camelCase")]
+pub struct MediaInputV1 {
+    pub id: String,
+    pub kind: String,
+    pub handle: String,
+    pub mime: String,
+    pub file_name: String,
+    pub byte_length: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub label: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub usage: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub association_id: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub metadata: Option<serde_json::Value>,
+}
+
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
+#[serde(rename_all = "camelCase")]
+pub struct VideoMediaSubmitV1 {
+    pub model: String,
+    pub prompt: String,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub start_frame: Option<MediaInputV1>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub end_frame: Option<MediaInputV1>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reference_images: Option<Vec<MediaInputV1>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reference_videos: Option<Vec<MediaInputV1>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reference_audios: Option<Vec<MediaInputV1>>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub plugin_parameters: Option<serde_json::Value>,
+}
+
+fn validate_media_input(item: &MediaInputV1, expected_kind: Option<&str>) -> Result<(), String> {
+    if item.id.is_empty() {
+        return Err("MediaInputV1.id must be non-empty".into());
+    }
+    if item.handle.is_empty() {
+        return Err(format!("MediaInputV1.handle empty for id {}", item.id));
+    }
+    if item.mime.is_empty() || item.file_name.is_empty() {
+        return Err(format!(
+            "MediaInputV1.mime/fileName required for id {}",
+            item.id
+        ));
+    }
+    if item.byte_length.is_empty() || !item.byte_length.chars().all(|c| c.is_ascii_digit()) {
+        return Err(format!(
+            "MediaInputV1.byteLength must be decimal u64 string for id {}",
+            item.id
+        ));
+    }
+    if item.byte_length.len() > 1 && item.byte_length.starts_with('0') {
+        return Err(format!(
+            "MediaInputV1.byteLength must not contain a leading zero for id {}",
+            item.id
+        ));
+    }
+    if item.byte_length.parse::<u64>().is_err() {
+        return Err(format!(
+            "MediaInputV1.byteLength exceeds u64 for id {}",
+            item.id
+        ));
+    }
+    if item.file_name == "."
+        || item.file_name == ".."
+        || item.file_name.contains('/')
+        || item.file_name.contains('\\')
+        || item.file_name.contains("..")
+    {
+        return Err(format!(
+            "MediaInputV1.fileName must be a safe basename for id {}",
+            item.id
+        ));
+    }
+    match item.kind.as_str() {
+        "image" | "video" | "audio" => {}
+        other => return Err(format!("MediaInputV1.kind invalid: {other}")),
+    }
+    if let Some(exp) = expected_kind {
+        if item.kind != exp {
+            return Err(format!(
+                "MediaInputV1.kind {} does not match array {} for id {}",
+                item.kind, exp, item.id
+            ));
+        }
+    }
+    Ok(())
+}
+
+/// Strict decode for feature video-reference-media-v1 submit payloads.
+/// Rejects null elements, empty handles, kind mismatches, duplicate ids, and invalid byteLength.
+pub fn decode_video_media_submit_v1(json: &str) -> Result<VideoMediaSubmitV1, String> {
+    let v: VideoMediaSubmitV1 =
+        serde_json::from_str(json).map_err(|e| format!("adapterInvalidRequest: {e}"))?;
+    if v.model.is_empty() {
+        return Err("adapterInvalidRequest: model required".into());
+    }
+    let mut ids = alloc::collections::BTreeSet::new();
+    {
+        let mut push = |item: &MediaInputV1, kind: &str| -> Result<(), String> {
+            validate_media_input(item, Some(kind))?;
+            if !ids.insert(item.id.clone()) {
+                return Err(format!(
+                    "adapterInvalidRequest: duplicate media id {}",
+                    item.id
+                ));
+            }
+            Ok(())
+        };
+        if let Some(ref sf) = v.start_frame {
+            push(sf, "image")?;
+        }
+        if let Some(ref ef) = v.end_frame {
+            push(ef, "image")?;
+        }
+        if let Some(ref items) = v.reference_images {
+            for item in items {
+                push(item, "image")?;
+            }
+        }
+        if let Some(ref items) = v.reference_videos {
+            for item in items {
+                push(item, "video")?;
+            }
+        }
+        if let Some(ref items) = v.reference_audios {
+            for item in items {
+                push(item, "audio")?;
+            }
+        }
+    }
+    if let Some(ref pp) = v.plugin_parameters {
+        if !pp.is_object() {
+            return Err("adapterInvalidRequest: pluginParameters must be object".into());
+        }
+        for k in [
+            "prompt",
+            "model",
+            "startFrame",
+            "endFrame",
+            "referenceImages",
+            "referenceVideos",
+            "referenceAudios",
+        ] {
+            if pp.get(k).is_some() {
+                return Err(format!(
+                    "adapterInvalidRequest: pluginParameters reserved key {k}"
+                ));
+            }
+        }
+    }
+    Ok(v)
+}
+
+#[cfg(test)]
+mod video_media_tests {
+    use super::*;
+
+    #[test]
+    fn decodes_mixed_fixture_shape() {
+        let json = r#"{
+          "model":"m","prompt":"p",
+          "referenceVideos":[{"id":"v1","kind":"video","handle":"h","mime":"video/mp4","fileName":"a.mp4","byteLength":"12"}],
+          "referenceAudios":[{"id":"a1","kind":"audio","handle":"h2","mime":"audio/wav","fileName":"a.wav","byteLength":"4"}]
+        }"#;
+        let v = decode_video_media_submit_v1(json).expect("ok");
+        assert_eq!(v.reference_videos.as_ref().unwrap()[0].id, "v1");
+    }
+
+    #[test]
+    fn rejects_kind_mismatch() {
+        let json = r#"{"model":"m","prompt":"p","referenceVideos":[{"id":"v1","kind":"audio","handle":"h","mime":"audio/wav","fileName":"a.wav","byteLength":"1"}]}"#;
+        assert!(decode_video_media_submit_v1(json).is_err());
+    }
+
+    #[test]
+    fn rejects_duplicate_id() {
+        let json = r#"{"model":"m","prompt":"p","referenceImages":[
+          {"id":"dup","kind":"image","handle":"h1","mime":"image/png","fileName":"a.png","byteLength":"1"},
+          {"id":"dup","kind":"image","handle":"h2","mime":"image/png","fileName":"b.png","byteLength":"1"}
+        ]}"#;
+        assert!(decode_video_media_submit_v1(json).is_err());
+    }
+
+    #[test]
+    fn rejects_contract_boundary_values() {
+        for (file_name, byte_length) in [
+            ("a.mp4", "01"),
+            ("a.mp4", "18446744073709551616"),
+            (".", "1"),
+            ("..", "1"),
+        ] {
+            let json = format!(
+                r#"{{"model":"m","prompt":"p","referenceVideos":[{{"id":"v1","kind":"video","handle":"h","mime":"video/mp4","fileName":"{file_name}","byteLength":"{byte_length}"}}]}}"#
+            );
+            assert!(
+                decode_video_media_submit_v1(&json).is_err(),
+                "boundary input must fail: fileName={file_name}, byteLength={byte_length}"
+            );
+        }
+    }
+
+    #[test]
+    fn shared_contract_fixtures_match_sdk_decode() {
+        let fixture_dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .ancestors()
+            .map(|dir| dir.join("fixtures/video-reference-media-v1"))
+            .find(|dir| dir.join("INDEX.json").is_file())
+            .expect("shared video-reference-media-v1 fixtures");
+        let index: serde_json::Value = serde_json::from_str(
+            &std::fs::read_to_string(fixture_dir.join("INDEX.json")).expect("fixture INDEX"),
+        )
+        .expect("fixture INDEX json");
+        for (name, meta) in index["files"].as_object().expect("fixture files") {
+            let json = std::fs::read_to_string(fixture_dir.join(name))
+                .unwrap_or_else(|error| panic!("read fixture {name}: {error}"));
+            let decoded = decode_video_media_submit_v1(&json);
+            match meta["expect"].as_str().expect("fixture expect") {
+                "pass" => assert!(decoded.is_ok(), "{name} should pass: {decoded:?}"),
+                "fail" => assert!(decoded.is_err(), "{name} should fail"),
+                other => panic!("unknown fixture expectation {other} for {name}"),
+            }
+        }
     }
 }

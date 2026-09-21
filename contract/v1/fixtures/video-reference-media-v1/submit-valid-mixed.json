@@ -1,0 +1,40 @@
+{
+  "model": "vendor-model-id",
+  "prompt": "sample prompt",
+  "referenceImages": [],
+  "referenceVideos": [
+    {
+      "id": "input-v-01",
+      "kind": "video",
+      "handle": "opaque-task-scoped-token-v",
+      "mime": "video/mp4",
+      "fileName": "reference.mp4",
+      "byteLength": "73400320",
+      "usage": "motion",
+      "metadata": {
+        "cameraHint": "follow"
+      }
+    }
+  ],
+  "referenceAudios": [
+    {
+      "id": "input-a-01",
+      "kind": "audio",
+      "handle": "opaque-task-scoped-token-a",
+      "mime": "audio/wav",
+      "fileName": "reference.wav",
+      "byteLength": "4096",
+      "associationId": "speaker-A"
+    }
+  ],
+  "pluginParameters": {
+    "workflow": "author-owned-workflow",
+    "weights": [
+      0.25,
+      0.75
+    ],
+    "audioPolicy": {
+      "preserve": true
+    }
+  }
+}

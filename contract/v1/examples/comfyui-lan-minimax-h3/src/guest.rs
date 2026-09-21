@@ -12,9 +12,9 @@ wit_bindgen::generate!({
 });
 
 use crate::comfy::{
-    configured_endpoint_base_url, decode_b64, offline_probe_doc, parse_comfy_upload_name,
-    parse_history, parse_model_kind, parse_submit_prompt_id, resolve_base_url,
-    sniff_image_filename_and_mime, submit_body_for_kind, ModelKind, MappedStatus,
+    collect_lan_images, configured_endpoint_base_url, offline_probe_doc, parse_comfy_upload_name,
+    parse_history, parse_model_kind, parse_submit_prompt_id, resolve_base_url, submit_body_for_kind,
+    ModelKind, MappedStatus, StagedImage,
 };
 use crate::config::join_url;
 use bgxiong::vendor_adapter::types::{AdapterError, Operation};
@@ -86,19 +86,20 @@ fn submit(request: &Invocation) -> Response {
         .and_then(|v| v.as_str())
         .or_else(|| payload.get("aspectRatio").and_then(|v| v.as_str()));
     let base = resolve_base_url(&payload);
+    let images = match collect_lan_images(&payload) {
+        Ok(v) => v,
+        Err(e) => return err(Operation::Submit, "adapterInvalidRequest", &e),
+    };
     let first_name = match kind {
         ModelKind::I2vTurbo => {
-            let b64 = payload
-                .get("startFrameB64")
-                .and_then(|v| v.as_str())
-                .or_else(|| {
-                    payload
-                        .get("referenceImagesB64")
-                        .and_then(|v| v.as_array())
-                        .and_then(|a| a.first())
-                        .and_then(|v| v.as_str())
-                });
-            match upload_image(&base, b64, "first") {
+            let Some(first) = images.first() else {
+                return err(
+                    Operation::Submit,
+                    "adapterInvalidRequest",
+                    "h3.i2v.turbo requires a first-frame image",
+                );
+            };
+            match upload_staged(&base, first, "first") {
                 Ok(Some(n)) => Some(n),
                 Ok(None) => {
                     return err(
@@ -114,35 +115,16 @@ fn submit(request: &Invocation) -> Response {
     };
     let ref_names = match kind {
         ModelKind::R2vTurbo => {
-            if payload
-                .get("startFrameB64")
-                .and_then(|v| v.as_str())
-                .map(str::trim)
-                .filter(|s| !s.is_empty())
-                .is_some()
-                && payload
-                    .get("referenceImagesB64")
-                    .and_then(|v| v.as_array())
-                    .map(|a| a.is_empty())
-                    .unwrap_or(true)
-            {
+            if images.is_empty() {
                 return err(
                     Operation::Submit,
                     "adapterInvalidRequest",
-                    "h3.r2v.turbo uses referenceImagesB64, not startFrameB64",
+                    "h3.r2v.turbo requires at least one reference image",
                 );
             }
-            let arr = payload
-                .get("referenceImagesB64")
-                .and_then(|v| v.as_array())
-                .cloned()
-                .unwrap_or_default();
             let mut names = Vec::new();
-            for (i, item) in arr.iter().enumerate() {
-                let Some(b64) = item.as_str() else {
-                    continue;
-                };
-                match upload_image(&base, Some(b64), &format!("ref{i}")) {
+            for (i, staged) in images.iter().enumerate() {
+                match upload_staged(&base, staged, &format!("ref{i}")) {
                     Ok(Some(n)) => names.push(n),
                     Ok(None) => {}
                     Err(e) => return e,
@@ -152,7 +134,7 @@ fn submit(request: &Invocation) -> Response {
                 return err(
                     Operation::Submit,
                     "adapterInvalidRequest",
-                    "h3.r2v.turbo requires referenceImagesB64",
+                    "h3.r2v.turbo requires at least one reference image",
                 );
             }
             names
@@ -223,8 +205,13 @@ fn query(request: &Invocation) -> Response {
                 let sdk = bgx_vendor_adapter_sdk::query_result(&bgx_vendor_adapter_sdk::QueryResult {
                     status: status.into(),
                     outputs,
-                    progress_text: q.vendor_message,
+                    progress_text: if q.terminal_failure.is_some() {
+                        None
+                    } else {
+                        q.vendor_message
+                    },
                     retry_after_ms: None,
+                    terminal_failure: q.terminal_failure,
                 });
                 sdk_resp(Operation::Query, sdk)
             }
@@ -234,23 +221,25 @@ fn query(request: &Invocation) -> Response {
     }
 }
 
-fn upload_image(
+fn upload_staged(
     base: &str,
-    b64: Option<&str>,
+    staged: &StagedImage,
     stem: &str,
 ) -> Result<Option<String>, Response> {
-    let Some(raw) = b64.map(str::trim).filter(|s| !s.is_empty()) else {
+    let handle = staged.handle.trim();
+    if handle.is_empty() {
         return Ok(None);
+    }
+    let filename = if staged.file_name.trim().is_empty() {
+        format!("{stem}.png")
+    } else {
+        staged.file_name.clone()
     };
-    let bytes = decode_b64(raw).map_err(|e| err(Operation::Submit, "adapterBadOutput", &e))?;
-    let (filename, mime) = sniff_image_filename_and_mime(&bytes, stem)
-        .map_err(|e| err(Operation::Submit, "adapterBadOutput", &e))?;
-    let handle = bgxiong::vendor_adapter::host_media::media_create("image", &mime)
-        .map_err(|e| err(Operation::Submit, "adapterBadOutput", &e))?;
-    bgxiong::vendor_adapter::host_media::media_write(&handle, &bytes)
-        .map_err(|e| err(Operation::Submit, "adapterBadOutput", &e))?;
-    bgxiong::vendor_adapter::host_media::media_finish(&handle)
-        .map_err(|e| err(Operation::Submit, "adapterBadOutput", &e))?;
+    let mime = if staged.mime.trim().is_empty() {
+        "image/png".into()
+    } else {
+        staged.mime.clone()
+    };
     let url = join_url(base, "/upload/image");
     let plan = bgxiong::vendor_adapter::host_http::RequestPlan {
         method: "POST".into(),
@@ -262,13 +251,13 @@ fn upload_image(
                 bgxiong::vendor_adapter::host_http::FilePart {
                     name: "image".into(),
                     filename,
-                    handle,
+                    handle: handle.to_string(),
                     mime,
                 },
             ),
         ]),
         sink: bgxiong::vendor_adapter::host_http::ResponseSink::Buffer(1_048_576),
-        timeout_ms: 30_000,
+        timeout_ms: 0,
     };
     match bgxiong::vendor_adapter::host_http::execute(&plan, None) {
         Ok(resp) => {
@@ -324,7 +313,7 @@ fn http_json(
         generated_headers: vec![],
         body: plan_body,
         sink: bgxiong::vendor_adapter::host_http::ResponseSink::Buffer(1_048_576),
-        timeout_ms: 30_000,
+        timeout_ms: 0,
     };
     match bgxiong::vendor_adapter::host_http::execute(&plan, None) {
         Ok(resp) => {

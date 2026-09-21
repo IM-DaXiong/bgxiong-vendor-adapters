@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v1/schemas/query-result.schema.json",
+  "title": "VendorAdapterQueryResultV1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["status", "outputs"],
+  "properties": {
+    "status": {
+      "type": "string",
+      "enum": ["queued", "running", "succeeded", "failed", "cancelled", "expired"]
+    },
+    "outputs": {
+      "type": "array"
+    },
+    "progressText": {
+      "type": ["string", "null"]
+    },
+    "retryAfterMs": {
+      "type": ["integer", "null"],
+      "minimum": 0
+    },
+    "terminalFailure": {
+      "$ref": "#/$defs/terminalFailure"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": { "status": { "enum": ["failed", "cancelled", "expired"] } }
+      },
+      "then": { "required": ["terminalFailure"] }
+    },
+    {
+      "if": {
+        "properties": { "status": { "enum": ["queued", "running", "succeeded"] } }
+      },
+      "then": {
+        "not": { "required": ["terminalFailure"] }
+      }
+    }
+  ],
+  "$defs": {
+    "terminalFailure": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "message", "retryable"],
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": ["vendorTaskFailed", "vendorTaskCancelled", "vendorTaskExpired"]
+        },
+        "message": { "type": "string", "minLength": 1, "maxLength": 2000 },
+        "retryable": { "type": "boolean" },
+        "vendorCode": { "type": ["string", "null"] },
+        "vendorRequestId": { "type": ["string", "null"] },
+        "httpStatus": { "type": ["integer", "null"] },
+        "details": {}
+      }
+    }
+  }
+}
