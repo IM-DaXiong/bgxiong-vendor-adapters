@@ -4,16 +4,17 @@
 //! app ids, and node bindings live only here. Host `src-tauri/**` must not
 //! name RunningHub.
 //!
-//! OpenAPI V2 **AI App** path (`/openapi/v2/run/ai-app/{id}`). Not
-//! `/run/workflow`. Not the legacy task-envelope AI App runner.
-//! Three video `modelId`s share one wasm.
+//! All slots: OpenAPI V2 **AI App** (`/openapi/v2/run/ai-app/{id}`).
+//! Not `/run/workflow`. Not the legacy task-envelope AI App runner.
+//! Four video `modelId`s share one wasm.
 //!
 //! ## Models
-//! | modelId | APP_ID | LoadImage | never image | prompt |
+//! | modelId | endpoint id | LoadImage | never image | prompt |
 //! |---|---|---|---|---|
-//! | `h3.r2v.1slot` | `2101954317581381633` | `114` | — | `132/prompt` |
-//! | `h3.r2v.2slot` | `2101956370017906690` | `137`,`139` | `141` TurboLoRA | `138/value` |
-//! | `h3.r2v.3slot` | `2101957517390737410` | `137`,`139`,`143` | `141` TurboLoRA | `138/value` |
+//! | `h3.r2v.1slot` | AI App `2101954317581381633` | `114` | — | `132/prompt` |
+//! | `h3.r2v.2slot` | AI App `2101956370017906690` | `137`,`139` | `141` TurboLoRA | `138/value` |
+//! | `h3.r2v.3slot` | AI App `2101957517390737410` | `137`,`139`,`143` | `141` TurboLoRA | `138/value` |
+//! | `h3.r2v.4slot` | AI App `2103015554197053441` | `137`,`139`,`143`,`144` | `141` TurboLoRA | `138/value` |
 //!
 //! Unknown / missing `model` is Err. Do not default to the 2-slot graph.
 //! Do not guess node ids. Do not share widgets across models.
@@ -44,7 +45,7 @@ use alloc::format;
 use alloc::string::String;
 
 pub const PLUGIN_ID: &str = "local.example.runninghub-h3-r2v";
-pub const PLUGIN_VERSION: &str = "0.3.2";
+pub const PLUGIN_VERSION: &str = "0.4.1";
 
 pub const REGION_BASE_URL: &str = "https://www.runninghub.cn";
 
@@ -53,16 +54,19 @@ pub const API_KEY: &str = "REPLACE_WITH_DEDICATED_LOW_BALANCE_KEY";
 pub const MODEL_ID_1SLOT: &str = "h3.r2v.1slot";
 pub const MODEL_ID_2SLOT: &str = "h3.r2v.2slot";
 pub const MODEL_ID_3SLOT: &str = "h3.r2v.3slot";
+pub const MODEL_ID_4SLOT: &str = "h3.r2v.4slot";
 
 pub const APP_ID_1SLOT: &str = "2101954317581381633";
 pub const APP_ID_2SLOT: &str = "2101956370017906690";
 pub const APP_ID_3SLOT: &str = "2101957517390737410";
+pub const APP_ID_4SLOT: &str = "2103015554197053441";
 
 pub const SUBMIT_MODE: &str = "mapped_run";
 
 pub const REF_IMAGE_NODE_IDS_1: [&str; 1] = ["114"];
 pub const REF_IMAGE_NODE_IDS_2: [&str; 2] = ["137", "139"];
 pub const REF_IMAGE_NODE_IDS_3: [&str; 3] = ["137", "139", "143"];
+pub const REF_IMAGE_NODE_IDS_4: [&str; 4] = ["137", "139", "143", "144"];
 pub const IMAGE_FIELD_NAME: &str = "image";
 
 pub const ASPECT_FIELD_NAME: &str = "aspect_ratio";
@@ -136,6 +140,8 @@ pub const SLOT3_WIDGETS: KindWidgetTable = KindWidgetTable {
     fps_binding_id: "130:fps",
 };
 
+pub const SLOT4_WIDGETS: KindWidgetTable = SLOT3_WIDGETS;
+
 pub fn require_live_key() -> Result<(), String> {
     let key = API_KEY.trim();
     if key.is_empty() || key == PLACEHOLDER_API_KEY || key.contains("REPLACE_WITH") {
@@ -149,7 +155,7 @@ pub fn require_live_key() -> Result<(), String> {
     Ok(())
 }
 
-pub fn submit_url(app_id: &str) -> String {
+pub fn submit_ai_app_url(app_id: &str) -> String {
     format!(
         "{}/openapi/v2/run/ai-app/{}",
         REGION_BASE_URL.trim_end_matches('/'),

@@ -8,12 +8,12 @@ use alloc::vec::Vec;
 use serde_json::{json, Value};
 
 use crate::config::{
-    ASPECT_FIELD_NAME, APP_ID_1SLOT, APP_ID_2SLOT, APP_ID_3SLOT, IMAGE_FIELD_NAME, KindWidgetTable,
-    MODEL_ID_1SLOT, MODEL_ID_2SLOT, MODEL_ID_3SLOT, REF_IMAGE_NODE_IDS_1, REF_IMAGE_NODE_IDS_2,
-    REF_IMAGE_NODE_IDS_3, RESOLUTION_FIELD_NAME, SLOT1_WIDGETS, SLOT2_WIDGETS, SLOT3_WIDGETS,
-    SUBMIT_MODE, WORKFLOW_NODE_MISMATCH_PREFIX,
+    submit_ai_app_url, ASPECT_FIELD_NAME, APP_ID_1SLOT, APP_ID_2SLOT, APP_ID_3SLOT, APP_ID_4SLOT,
+    IMAGE_FIELD_NAME, KindWidgetTable, MODEL_ID_1SLOT, MODEL_ID_2SLOT, MODEL_ID_3SLOT,
+    MODEL_ID_4SLOT, REF_IMAGE_NODE_IDS_1, REF_IMAGE_NODE_IDS_2, REF_IMAGE_NODE_IDS_3,
+    REF_IMAGE_NODE_IDS_4, RESOLUTION_FIELD_NAME, SLOT1_WIDGETS, SLOT2_WIDGETS, SLOT3_WIDGETS,
+    SLOT4_WIDGETS, SUBMIT_MODE, WORKFLOW_NODE_MISMATCH_PREFIX,
 };
-use crate::config::submit_url as submit_url_for;
 use bgx_vendor_adapter_sdk::AppliedParams;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -21,6 +21,7 @@ pub enum ModelKind {
     Slot1,
     Slot2,
     Slot3,
+    Slot4,
 }
 
 impl ModelKind {
@@ -29,6 +30,7 @@ impl ModelKind {
             ModelKind::Slot1 => APP_ID_1SLOT,
             ModelKind::Slot2 => APP_ID_2SLOT,
             ModelKind::Slot3 => APP_ID_3SLOT,
+            ModelKind::Slot4 => APP_ID_4SLOT,
         }
     }
 
@@ -37,6 +39,7 @@ impl ModelKind {
             ModelKind::Slot1 => 1,
             ModelKind::Slot2 => 2,
             ModelKind::Slot3 => 3,
+            ModelKind::Slot4 => 4,
         }
     }
 
@@ -45,6 +48,7 @@ impl ModelKind {
             ModelKind::Slot1 => &REF_IMAGE_NODE_IDS_1,
             ModelKind::Slot2 => &REF_IMAGE_NODE_IDS_2,
             ModelKind::Slot3 => &REF_IMAGE_NODE_IDS_3,
+            ModelKind::Slot4 => &REF_IMAGE_NODE_IDS_4,
         }
     }
 
@@ -53,11 +57,12 @@ impl ModelKind {
             ModelKind::Slot1 => SLOT1_WIDGETS,
             ModelKind::Slot2 => SLOT2_WIDGETS,
             ModelKind::Slot3 => SLOT3_WIDGETS,
+            ModelKind::Slot4 => SLOT4_WIDGETS,
         }
     }
 
     pub fn submit_url(self) -> String {
-        submit_url_for(self.app_id())
+        submit_ai_app_url(self.app_id())
     }
 
     pub fn model_id(self) -> &'static str {
@@ -65,6 +70,7 @@ impl ModelKind {
             ModelKind::Slot1 => MODEL_ID_1SLOT,
             ModelKind::Slot2 => MODEL_ID_2SLOT,
             ModelKind::Slot3 => MODEL_ID_3SLOT,
+            ModelKind::Slot4 => MODEL_ID_4SLOT,
         }
     }
 }
@@ -74,11 +80,12 @@ pub fn parse_model_kind(model: Option<&str>) -> Result<ModelKind, String> {
         Some(m) if m == MODEL_ID_1SLOT => Ok(ModelKind::Slot1),
         Some(m) if m == MODEL_ID_2SLOT => Ok(ModelKind::Slot2),
         Some(m) if m == MODEL_ID_3SLOT => Ok(ModelKind::Slot3),
+        Some(m) if m == MODEL_ID_4SLOT => Ok(ModelKind::Slot4),
         Some(m) => Err(format!(
-            "unknown model {m}; expected {MODEL_ID_1SLOT}, {MODEL_ID_2SLOT} or {MODEL_ID_3SLOT}"
+            "unknown model {m}; expected {MODEL_ID_1SLOT}, {MODEL_ID_2SLOT}, {MODEL_ID_3SLOT} or {MODEL_ID_4SLOT}"
         )),
         None => Err(format!(
-            "model is required; expected {MODEL_ID_1SLOT}, {MODEL_ID_2SLOT} or {MODEL_ID_3SLOT}"
+            "model is required; expected {MODEL_ID_1SLOT}, {MODEL_ID_2SLOT}, {MODEL_ID_3SLOT} or {MODEL_ID_4SLOT}"
         )),
     }
 }
@@ -748,11 +755,14 @@ mod tests {
         let u1 = ModelKind::Slot1.submit_url();
         let u2 = ModelKind::Slot2.submit_url();
         let u3 = ModelKind::Slot3.submit_url();
+        let u4 = ModelKind::Slot4.submit_url();
         assert!(u1.contains("/openapi/v2/run/ai-app/"));
         assert!(u1.contains(APP_ID_1SLOT));
         assert!(u2.contains(APP_ID_2SLOT));
         assert!(u3.contains(APP_ID_3SLOT));
-        assert!(!u1.contains("/run/workflow/"));
+        assert!(u4.contains("/openapi/v2/run/ai-app/"));
+        assert!(u4.contains(APP_ID_4SLOT));
+        assert!(!u4.contains("/run/workflow/"));
         assert_ne!(u1, u2);
     }
 
@@ -820,6 +830,27 @@ mod tests {
         let list = body["nodeInfoList"].as_array().expect("list");
         assert!(list.iter().any(|n| n["nodeId"] == "143"));
         assert!(list.iter().all(|n| n["nodeId"] != "141"));
+        assert!(list.iter().all(|n| n["nodeId"] != "144"));
+    }
+
+    #[test]
+    fn slot4_writes_four_load_image_nodes() {
+        let (body, _) = submit_body_mapped(
+            ModelKind::Slot4,
+            "p",
+            Some(5.0),
+            Some(24.0),
+            Some("mp:0.4"),
+            Some("16:9"),
+            &["a.png", "b.png", "c.png", "d.png"],
+        )
+        .expect("4slot");
+        let list = body["nodeInfoList"].as_array().expect("list");
+        for id in ["137", "139", "143", "144"] {
+            assert!(list.iter().any(|n| n["nodeId"] == id && n["fieldName"] == "image"));
+        }
+        assert!(list.iter().all(|n| n["nodeId"] != "141"));
+        assert!(list.iter().any(|n| n["nodeId"] == "138" && n["fieldName"] == "value"));
     }
 
     #[test]

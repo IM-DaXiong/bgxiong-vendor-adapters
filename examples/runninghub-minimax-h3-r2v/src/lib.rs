@@ -1,4 +1,4 @@
-//! Isolated RunningHub V2 MiniMax H3 r2v 1/2/3-slot video example.
+//! Isolated RunningHub V2 MiniMax H3 r2v 1/2/3/4-slot video example.
 //! Vendor strings stay in this crate. Host `src-tauri/**` must not name RunningHub.
 
 #![cfg_attr(target_arch = "wasm32", no_std)]
@@ -163,14 +163,16 @@ mod tests {
         let v = dispatch_json("capabilities", "{}").expect("caps");
         assert_eq!(v["schemaVersion"], 1);
         assert_eq!(v["pluginId"], crate::config::PLUGIN_ID);
-        assert_eq!(v["pluginVersion"], "0.3.2");
-        assert_eq!(v["slots"].as_array().map(|a| a.len()), Some(3));
+        assert_eq!(v["pluginVersion"], "0.4.1");
+        assert_eq!(v["slots"].as_array().map(|a| a.len()), Some(4));
         assert_eq!(v["slots"][0]["modelId"], "h3.r2v.1slot");
         assert_eq!(v["slots"][0]["maxReferenceImages"], 1);
         assert_eq!(v["slots"][1]["modelId"], "h3.r2v.2slot");
         assert_eq!(v["slots"][1]["maxReferenceImages"], 2);
         assert_eq!(v["slots"][2]["modelId"], "h3.r2v.3slot");
         assert_eq!(v["slots"][2]["maxReferenceImages"], 3);
+        assert_eq!(v["slots"][3]["modelId"], "h3.r2v.4slot");
+        assert_eq!(v["slots"][3]["maxReferenceImages"], 4);
         assert_eq!(v["slots"][0]["slot"], "video");
         assert_eq!(
             v["slots"][0]["implementedModeIds"],

@@ -9,8 +9,9 @@ use bgx_vendor_adapter_sdk::{ParamBinding, RcdParam};
 use serde_json::{json, Map, Value};
 
 use crate::config::{
-    ASPECT_BINDING_ID, KindWidgetTable, MODEL_ID_1SLOT, MODEL_ID_2SLOT, MODEL_ID_3SLOT, PLUGIN_ID,
-    PLUGIN_VERSION, RESOLUTION_BINDING_ID, SLOT1_WIDGETS, SLOT2_WIDGETS, SLOT3_WIDGETS,
+    ASPECT_BINDING_ID, KindWidgetTable, MODEL_ID_1SLOT, MODEL_ID_2SLOT, MODEL_ID_3SLOT,
+    MODEL_ID_4SLOT, PLUGIN_ID, PLUGIN_VERSION, RESOLUTION_BINDING_ID, SLOT1_WIDGETS,
+    SLOT2_WIDGETS, SLOT3_WIDGETS, SLOT4_WIDGETS,
 };
 
 fn bound(id: &str) -> Option<ParamBinding> {
@@ -108,6 +109,7 @@ pub fn runtime_caps_doc() -> Result<Value, String> {
             video_slot(MODEL_ID_1SLOT, 1, SLOT1_WIDGETS)?,
             video_slot(MODEL_ID_2SLOT, 2, SLOT2_WIDGETS)?,
             video_slot(MODEL_ID_3SLOT, 3, SLOT3_WIDGETS)?,
+            video_slot(MODEL_ID_4SLOT, 4, SLOT4_WIDGETS)?,
         ]
     }))
 }

@@ -1,15 +1,16 @@
-# HOST_MAPPING · RunningHub MiniMax H3 r2v 1/2/3 slots (OpenAPI V2 AI App)
+# HOST_MAPPING · RunningHub MiniMax H3 r2v 1/2/3/4 slots (OpenAPI V2 AI App)
 
-Runtime: `POST /openapi/v2/run/ai-app/{APP_ID}` per `modelId`.
+All slots: `POST /openapi/v2/run/ai-app/{APP_ID}`.
 Query: `/openapi/v2/query`. Upload: `/media/upload/binary`.
-This crate does not `POST /prompt` to LAN Comfy and does not use
-`/run/workflow` or legacy `/task/openapi/ai-app/run`.
+This crate does not `POST /prompt` to LAN Comfy and does not use the
+legacy `/task/openapi/ai-app/run` envelope.
 
-| modelId | APP_ID | LoadImage |
+| modelId | endpoint | LoadImage |
 |---|---|---|
-| `h3.r2v.1slot` | `2101954317581381633` | 114 |
-| `h3.r2v.2slot` | `2101956370017906690` | 137 / 139 (141 is TurboLoRA) |
-| `h3.r2v.3slot` | `2101957517390737410` | 137 / 139 / 143 (141 is TurboLoRA) |
+| `h3.r2v.1slot` | AI App `2101954317581381633` | 114 |
+| `h3.r2v.2slot` | AI App `2101956370017906690` | 137 / 139 (141 is TurboLoRA) |
+| `h3.r2v.3slot` | AI App `2101957517390737410` | 137 / 139 / 143 (141 is TurboLoRA) |
+| `h3.r2v.4slot` | AI App `2103015554197053441` | 137 / 139 / 143 / 144 (141 is TurboLoRA) |
 
 ## Widgets (not shared)
 
@@ -22,7 +23,7 @@ This crate does not `POST /prompt` to LAN Comfy and does not use
 | `fps` | 131 + 133 | `fps` / `expression` |
 | `aspect` / `resolution` | 115 | `aspect_ratio` / `megapixels` |
 
-### 2-slot / 3-slot
+### 2-slot / 3-slot / 4-slot
 
 | RCD / HOST_PAYLOAD | Node | field |
 |---|---|---|
