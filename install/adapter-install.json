@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "packageDirectory": "package",
-  "manifestSha256": "b2e5086b60bd34900cae7c2198ed72c23656bc90e3722e9e2b4915814a87bf5d",
+  "manifestSha256": "f0ffa9fc0f7298b5ca7946346d57adb76a0ea2b16557262abbcaf47fe3ea8abb",
   "hostConfig": {
     "bindingId": "h3-face-refine-local-1.1.2",
     "bindingRevision": 1,

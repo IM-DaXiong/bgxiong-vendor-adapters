@@ -3,18 +3,19 @@
     "title": "h3-face-preview-track-api",
     "upstreamCommit": "d8521d14fe0d721d80cd9417fff5a559cbc21aba",
     "upstreamVersion": "1.1.2",
-    "note": "Inject video+confirmed_pick before /prompt"
+    "note": "Inject video+confirmed_pick before /prompt; strip _meta at submit"
   },
   "1": {
     "class_type": "H3FaceSelect",
     "inputs": {
       "video": "INPUT_VIDEO",
-      "detector": "bbox/face_yolov8m.pt",
+      "detector": "bbox\\face_yolov8m.pt",
       "confidence": 0.35,
-      "cut_detection": "auto",
-      "cut_threshold": 3.0,
-      "select": "largest_face",
+      "select": "manual",
+      "select_index": 0,
       "confirmed_pick": "FACE_PICK_STRING",
+      "cut_detection": "none",
+      "cut_threshold": 3.0,
       "skip_first_frames": 0,
       "frame_load_cap": 0,
       "select_every_nth": 1
@@ -31,11 +32,33 @@
         "1",
         2
       ],
-      "detector": "bbox/face_yolov8m.pt",
+      "detector": "bbox\\face_yolov8m.pt",
       "confidence": 0.35,
+      "crop_factor": 2.5,
+      "canvas_width": 768,
+      "canvas_height": 768,
+      "canvas_mode": "manual",
+      "smooth_window": 21,
+      "size_smooth_window": 51,
+      "smooth_method": "gaussian",
+      "size_mode": "per_frame",
       "select": "largest_face",
-      "cut_detection": "auto",
+      "cut_detection": "none",
       "preview": true
+    }
+  },
+  "3": {
+    "class_type": "SaveAnimatedWEBP",
+    "inputs": {
+      "images": [
+        "2",
+        2
+      ],
+      "filename_prefix": "h3_face_preview_track",
+      "fps": 24.0,
+      "lossless": false,
+      "quality": 80,
+      "method": "default"
     }
   }
 }

@@ -56,6 +56,6 @@ See harness/OPS-CHECKLIST.md. Env: H3_FACE_COMFY_BASE, local media paths only.
 
 ## Digests (this build)
 
-- adapter.wasm sha256: b1ffddbd60a05b6b4a8bd5cc1efe85d0e74823d0d0608d1b61990883bec45da0
-- manifest.json sha256: b2e5086b60bd34900cae7c2198ed72c23656bc90e3722e9e2b4915814a87bf5d
-- size: 868480 bytes
+- adapter.wasm sha256: 99edc75737cc0eda232cad5cf0cc14cc8cf4a66f725831eade9cae59466b2bdd
+- manifest.json sha256: f0ffa9fc0f7298b5ca7946346d57adb76a0ea2b16557262abbcaf47fe3ea8abb
+- size: 936115 bytes

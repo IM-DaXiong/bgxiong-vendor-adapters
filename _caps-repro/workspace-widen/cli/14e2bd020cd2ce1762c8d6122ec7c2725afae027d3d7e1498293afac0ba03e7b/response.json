@@ -1,0 +1,1 @@
+{"error":{"code":"INVALID_PACKAGE","message":"Public contract validation failed: duplicate scoped resource identity or anchor ()","retryable":false,"vendorCode":null,"vendorRequestId":null},"operation":"capabilities","protocolVersion":2}

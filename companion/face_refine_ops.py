@@ -9,7 +9,11 @@ from typing import Any, Dict, List, Tuple
 
 
 def selection_to_bindings(selection: dict) -> Tuple[str, str]:
-    """Map Lane A selection.shots[].choice → upstream face_pick / absent_shots strings."""
+    """Map Lane A selection.shots[].choice → upstream confirmed_pick / absent_shots.
+
+    Upstream H3FaceSelect (manual): confirmed_pick is comma-separated face indices
+    left-to-right, one entry per shot; use -1 for absent. Not shot:idx.
+    """
     picks: List[str] = []
     absent: List[str] = []
     for s in selection.get("shots") or []:
@@ -19,12 +23,12 @@ def selection_to_bindings(selection: dict) -> Tuple[str, str]:
             raise ValueError(f"incomplete choice for {sid}: unset is not absent")
         kind = choice.get("kind")
         if kind == "absent":
+            picks.append("-1")
             absent.append(sid)
         elif kind == "target":
             cid = choice.get("candidateId") or ""
             idx = cid[1:] if cid.startswith("c") and cid[1:].isdigit() else cid
-            shot_idx = sid[1:] if sid.startswith("s") and sid[1:].isdigit() else sid
-            picks.append(f"{shot_idx}:{idx}")
+            picks.append(str(int(idx)))
         else:
             raise ValueError(f"invalid choice kind for {sid}: {kind}")
     return ",".join(picks), ",".join(absent)

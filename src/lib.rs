@@ -1,9 +1,8 @@
 #![cfg_attr(target_arch = "wasm32", no_std)]
 extern crate alloc;
-use alloc::{format, string::{String, ToString}, vec, vec::Vec};
+use alloc::{borrow::ToOwned, format, string::{String, ToString}, vec, vec::Vec};
 use bgx_adapter_v2_sdk::{guest, host, Adapter, Host, Invocation, Response};
 use serde_json::{json, Value};
-use std::path::Path;
 use sha2::{Digest, Sha256};
 
 /// no_std-safe nearest-int for timestamp ms (wasm guest has no std float math).
@@ -313,6 +312,8 @@ fn run_analyze(h: &mut dyn Host, payload: &Value) -> Result<Value> {
 
 
 fn selection_bindings(selection: &Value) -> Result<(String, String)> {
+    // Upstream H3FaceSelect manual: confirmed_pick = comma-separated L→R face indices
+    // per shot; -1 marks absent. Not shot:idx.
     let mut picks = Vec::new();
     let mut absent = Vec::new();
     if let Some(shots) = selection.get("shots").and_then(Value::as_array) {
@@ -324,7 +325,10 @@ fn selection_bindings(selection: &Value) -> Result<(String, String)> {
                 .and_then(Value::as_str)
                 .unwrap_or("");
             match kind {
-                "absent" => absent.push(sid.to_string()),
+                "absent" => {
+                    picks.push("-1".to_string());
+                    absent.push(sid.to_string());
+                }
                 "target" => {
                     let cid = s
                         .pointer("/choice/candidateId")
@@ -332,19 +336,20 @@ fn selection_bindings(selection: &Value) -> Result<(String, String)> {
                         .and_then(Value::as_str)
                         .unwrap_or("");
                     let idx = cid.trim_start_matches('c');
-                    let shot_idx = sid.trim_start_matches('s');
-                    picks.push(format!("{shot_idx}:{idx}"));
+                    let n: i64 = idx.parse().map_err(|_| invalid("candidateId must be cN"))?;
+                    picks.push(n.to_string());
                 }
                 _ => {
                     return Err(invalid(
-                        "each shot decision must be target or absent; unset is incomplete",
-                    ))
+                        "each shot decision must be target or absent (unset is incomplete)",
+                    ));
                 }
             }
         }
     }
     Ok((picks.join(","), absent.join(",")))
 }
+
 
 fn resolve_video_path(configuration: &Value, input: &Value) -> Result<String> {
     configuration
@@ -380,10 +385,30 @@ fn load_workflow_template(name: &str) -> Result<Value> {
 fn inject_preview_workflow(face_pick: &str, video_name: &str) -> Result<Value> {
     let mut wf = load_workflow_template("preview")?;
     if let Some(obj) = wf.as_object_mut() {
+        obj.remove("_meta");
         if let Some(n1) = obj.get_mut("1").and_then(|v| v.as_object_mut()) {
             if let Some(inputs) = n1.get_mut("inputs").and_then(|v| v.as_object_mut()) {
                 inputs.insert("video".into(), json!(video_name));
                 inputs.insert("confirmed_pick".into(), json!(face_pick));
+                inputs.insert("select".into(), json!("manual"));
+                inputs.insert("select_index".into(), json!(0));
+                inputs.insert("detector".into(), json!("bbox\\face_yolov8m.pt"));
+                inputs.insert("cut_detection".into(), json!("none"));
+            }
+        }
+        if let Some(n2) = obj.get_mut("2").and_then(|v| v.as_object_mut()) {
+            if let Some(inputs) = n2.get_mut("inputs").and_then(|v| v.as_object_mut()) {
+                inputs.insert("detector".into(), json!("bbox\\face_yolov8m.pt"));
+                inputs.insert("cut_detection".into(), json!("none"));
+                if !inputs.contains_key("crop_factor") { inputs.insert("crop_factor".into(), json!(2.5)); }
+                if !inputs.contains_key("canvas_width") { inputs.insert("canvas_width".into(), json!(768)); }
+                if !inputs.contains_key("canvas_height") { inputs.insert("canvas_height".into(), json!(768)); }
+                if !inputs.contains_key("canvas_mode") { inputs.insert("canvas_mode".into(), json!("manual")); }
+                if !inputs.contains_key("smooth_window") { inputs.insert("smooth_window".into(), json!(21)); }
+                if !inputs.contains_key("size_smooth_window") { inputs.insert("size_smooth_window".into(), json!(51)); }
+                if !inputs.contains_key("smooth_method") { inputs.insert("smooth_method".into(), json!("gaussian")); }
+                if !inputs.contains_key("size_mode") { inputs.insert("size_mode".into(), json!("per_frame")); }
+                if !inputs.contains_key("preview") { inputs.insert("preview".into(), json!(true)); }
             }
         }
     }
@@ -397,6 +422,7 @@ fn inject_refine_workflow(
     user_params: &Value,
 ) -> Result<Value> {
     let mut wf = load_workflow_template("refine")?;
+    if let Some(obj) = wf.as_object_mut() { obj.remove("_meta"); }
     let denoise = user_params
         .get("denoise")
         .and_then(Value::as_f64)
@@ -494,11 +520,8 @@ fn comfy_cancel(h: &mut dyn Host, base: &str, prompt_id: &str) -> Result<Value> 
 }
 
 fn video_basename(path: &str) -> String {
-    Path::new(path)
-        .file_name()
-        .and_then(|s| s.to_str())
-        .unwrap_or(path)
-        .to_owned()
+    let norm = path.replace('\\', "/");
+    norm.rsplit('/').next().unwrap_or(path).to_string()
 }
 
 
