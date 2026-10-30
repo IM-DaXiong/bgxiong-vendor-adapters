@@ -1,0 +1,3352 @@
+{
+  "baseModel": "L:\\AI\\ComfyUI-Installs\\ComfyUI (1)\\ComfyUI\\models\\diffusion_models\\minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+  "lora": "L:\\AI\\ComfyUI-Installs\\ComfyUI (1)\\ComfyUI\\models\\loras\\minimax_h3_fl2v_lightx2v_turbo_8step_v1.0_resized_avg_rank_24_bf16.safetensors",
+  "sha256": "8e05b7b982c3aff7deb692a188c8a8d8acaeff8a12abfe1aeac822fb8ee3f0b7",
+  "bytes": 364638304,
+  "pairs": 208,
+  "problems": [],
+  "adalnKeys": [],
+  "metadata": {
+    "floating_dtype": "bfloat16",
+    "converted_layout": "comfyui_minimax_h3",
+    "alpha": "8",
+    "format": "pt",
+    "ss_network_alpha": "Dynamic",
+    "conversion": "qkv block-diag fused (contiguous q|k|v); mlp.fc1 swiglu halves swapped; alpha folded into lora_B; scale 0.0625 baked as a flat multiplier",
+    "ss_training_comment": "Dynamic resize with sv_fro: 0.96 from 128; ",
+    "baked_scale": "0.0625",
+    "ss_network_dim": "Dynamic"
+  },
+  "details": [
+    {
+      "key": "diffusion_model.blocks.0.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.0.attn.qkv_proj",
+      "a": [
+        6,
+        5376
+      ],
+      "b": [
+        21504,
+        6
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.0.mlp.fc1",
+      "a": [
+        3,
+        5376
+      ],
+      "b": [
+        28672,
+        3
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.0.mlp.fc2",
+      "a": [
+        3,
+        14336
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.1.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.1.attn.qkv_proj",
+      "a": [
+        13,
+        5376
+      ],
+      "b": [
+        21504,
+        13
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.1.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.1.mlp.fc2",
+      "a": [
+        42,
+        14336
+      ],
+      "b": [
+        5376,
+        42
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.10.attn.out_proj",
+      "a": [
+        21,
+        7168
+      ],
+      "b": [
+        5376,
+        21
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.10.attn.qkv_proj",
+      "a": [
+        132,
+        5376
+      ],
+      "b": [
+        21504,
+        132
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.10.mlp.fc1",
+      "a": [
+        35,
+        5376
+      ],
+      "b": [
+        28672,
+        35
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.10.mlp.fc2",
+      "a": [
+        96,
+        14336
+      ],
+      "b": [
+        5376,
+        96
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.11.attn.out_proj",
+      "a": [
+        49,
+        7168
+      ],
+      "b": [
+        5376,
+        49
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.11.attn.qkv_proj",
+      "a": [
+        142,
+        5376
+      ],
+      "b": [
+        21504,
+        142
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.11.mlp.fc1",
+      "a": [
+        34,
+        5376
+      ],
+      "b": [
+        28672,
+        34
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.11.mlp.fc2",
+      "a": [
+        93,
+        14336
+      ],
+      "b": [
+        5376,
+        93
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.12.attn.out_proj",
+      "a": [
+        32,
+        7168
+      ],
+      "b": [
+        5376,
+        32
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.12.attn.qkv_proj",
+      "a": [
+        138,
+        5376
+      ],
+      "b": [
+        21504,
+        138
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.12.mlp.fc1",
+      "a": [
+        20,
+        5376
+      ],
+      "b": [
+        28672,
+        20
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.12.mlp.fc2",
+      "a": [
+        94,
+        14336
+      ],
+      "b": [
+        5376,
+        94
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.13.attn.out_proj",
+      "a": [
+        32,
+        7168
+      ],
+      "b": [
+        5376,
+        32
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.13.attn.qkv_proj",
+      "a": [
+        85,
+        5376
+      ],
+      "b": [
+        21504,
+        85
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.13.mlp.fc1",
+      "a": [
+        56,
+        5376
+      ],
+      "b": [
+        28672,
+        56
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.13.mlp.fc2",
+      "a": [
+        84,
+        14336
+      ],
+      "b": [
+        5376,
+        84
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.14.attn.out_proj",
+      "a": [
+        36,
+        7168
+      ],
+      "b": [
+        5376,
+        36
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.14.attn.qkv_proj",
+      "a": [
+        142,
+        5376
+      ],
+      "b": [
+        21504,
+        142
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.14.mlp.fc1",
+      "a": [
+        57,
+        5376
+      ],
+      "b": [
+        28672,
+        57
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.14.mlp.fc2",
+      "a": [
+        97,
+        14336
+      ],
+      "b": [
+        5376,
+        97
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.15.attn.out_proj",
+      "a": [
+        49,
+        7168
+      ],
+      "b": [
+        5376,
+        49
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.15.attn.qkv_proj",
+      "a": [
+        147,
+        5376
+      ],
+      "b": [
+        21504,
+        147
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.15.mlp.fc1",
+      "a": [
+        58,
+        5376
+      ],
+      "b": [
+        28672,
+        58
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.15.mlp.fc2",
+      "a": [
+        95,
+        14336
+      ],
+      "b": [
+        5376,
+        95
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.16.attn.out_proj",
+      "a": [
+        28,
+        7168
+      ],
+      "b": [
+        5376,
+        28
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.16.attn.qkv_proj",
+      "a": [
+        165,
+        5376
+      ],
+      "b": [
+        21504,
+        165
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.16.mlp.fc1",
+      "a": [
+        49,
+        5376
+      ],
+      "b": [
+        28672,
+        49
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.16.mlp.fc2",
+      "a": [
+        96,
+        14336
+      ],
+      "b": [
+        5376,
+        96
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.17.attn.out_proj",
+      "a": [
+        40,
+        7168
+      ],
+      "b": [
+        5376,
+        40
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.17.attn.qkv_proj",
+      "a": [
+        146,
+        5376
+      ],
+      "b": [
+        21504,
+        146
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.17.mlp.fc1",
+      "a": [
+        48,
+        5376
+      ],
+      "b": [
+        28672,
+        48
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.17.mlp.fc2",
+      "a": [
+        94,
+        14336
+      ],
+      "b": [
+        5376,
+        94
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.18.attn.out_proj",
+      "a": [
+        28,
+        7168
+      ],
+      "b": [
+        5376,
+        28
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.18.attn.qkv_proj",
+      "a": [
+        128,
+        5376
+      ],
+      "b": [
+        21504,
+        128
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.18.mlp.fc1",
+      "a": [
+        30,
+        5376
+      ],
+      "b": [
+        28672,
+        30
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.18.mlp.fc2",
+      "a": [
+        89,
+        14336
+      ],
+      "b": [
+        5376,
+        89
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.19.attn.out_proj",
+      "a": [
+        33,
+        7168
+      ],
+      "b": [
+        5376,
+        33
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.19.attn.qkv_proj",
+      "a": [
+        132,
+        5376
+      ],
+      "b": [
+        21504,
+        132
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.19.mlp.fc1",
+      "a": [
+        45,
+        5376
+      ],
+      "b": [
+        28672,
+        45
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.19.mlp.fc2",
+      "a": [
+        97,
+        14336
+      ],
+      "b": [
+        5376,
+        97
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.2.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.2.attn.qkv_proj",
+      "a": [
+        34,
+        5376
+      ],
+      "b": [
+        21504,
+        34
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.2.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.2.mlp.fc2",
+      "a": [
+        72,
+        14336
+      ],
+      "b": [
+        5376,
+        72
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.20.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.20.attn.qkv_proj",
+      "a": [
+        87,
+        5376
+      ],
+      "b": [
+        21504,
+        87
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.20.mlp.fc1",
+      "a": [
+        57,
+        5376
+      ],
+      "b": [
+        28672,
+        57
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.20.mlp.fc2",
+      "a": [
+        98,
+        14336
+      ],
+      "b": [
+        5376,
+        98
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.21.attn.out_proj",
+      "a": [
+        48,
+        7168
+      ],
+      "b": [
+        5376,
+        48
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.21.attn.qkv_proj",
+      "a": [
+        113,
+        5376
+      ],
+      "b": [
+        21504,
+        113
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.21.mlp.fc1",
+      "a": [
+        37,
+        5376
+      ],
+      "b": [
+        28672,
+        37
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.21.mlp.fc2",
+      "a": [
+        100,
+        14336
+      ],
+      "b": [
+        5376,
+        100
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.22.attn.out_proj",
+      "a": [
+        27,
+        7168
+      ],
+      "b": [
+        5376,
+        27
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.22.attn.qkv_proj",
+      "a": [
+        130,
+        5376
+      ],
+      "b": [
+        21504,
+        130
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.22.mlp.fc1",
+      "a": [
+        51,
+        5376
+      ],
+      "b": [
+        28672,
+        51
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.22.mlp.fc2",
+      "a": [
+        100,
+        14336
+      ],
+      "b": [
+        5376,
+        100
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.23.attn.out_proj",
+      "a": [
+        23,
+        7168
+      ],
+      "b": [
+        5376,
+        23
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.23.attn.qkv_proj",
+      "a": [
+        173,
+        5376
+      ],
+      "b": [
+        21504,
+        173
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.23.mlp.fc1",
+      "a": [
+        63,
+        5376
+      ],
+      "b": [
+        28672,
+        63
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.23.mlp.fc2",
+      "a": [
+        99,
+        14336
+      ],
+      "b": [
+        5376,
+        99
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.24.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.24.attn.qkv_proj",
+      "a": [
+        148,
+        5376
+      ],
+      "b": [
+        21504,
+        148
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.24.mlp.fc1",
+      "a": [
+        65,
+        5376
+      ],
+      "b": [
+        28672,
+        65
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.24.mlp.fc2",
+      "a": [
+        97,
+        14336
+      ],
+      "b": [
+        5376,
+        97
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.25.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.25.attn.qkv_proj",
+      "a": [
+        65,
+        5376
+      ],
+      "b": [
+        21504,
+        65
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.25.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.25.mlp.fc2",
+      "a": [
+        93,
+        14336
+      ],
+      "b": [
+        5376,
+        93
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.26.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.26.attn.qkv_proj",
+      "a": [
+        86,
+        5376
+      ],
+      "b": [
+        21504,
+        86
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.26.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.26.mlp.fc2",
+      "a": [
+        80,
+        14336
+      ],
+      "b": [
+        5376,
+        80
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.27.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.27.attn.qkv_proj",
+      "a": [
+        55,
+        5376
+      ],
+      "b": [
+        21504,
+        55
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.27.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.27.mlp.fc2",
+      "a": [
+        53,
+        14336
+      ],
+      "b": [
+        5376,
+        53
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.28.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.28.attn.qkv_proj",
+      "a": [
+        53,
+        5376
+      ],
+      "b": [
+        21504,
+        53
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.28.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.28.mlp.fc2",
+      "a": [
+        4,
+        14336
+      ],
+      "b": [
+        5376,
+        4
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.29.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.29.attn.qkv_proj",
+      "a": [
+        36,
+        5376
+      ],
+      "b": [
+        21504,
+        36
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.29.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.29.mlp.fc2",
+      "a": [
+        3,
+        14336
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.3.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.3.attn.qkv_proj",
+      "a": [
+        11,
+        5376
+      ],
+      "b": [
+        21504,
+        11
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.3.mlp.fc1",
+      "a": [
+        17,
+        5376
+      ],
+      "b": [
+        28672,
+        17
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.3.mlp.fc2",
+      "a": [
+        96,
+        14336
+      ],
+      "b": [
+        5376,
+        96
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.30.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.30.attn.qkv_proj",
+      "a": [
+        8,
+        5376
+      ],
+      "b": [
+        21504,
+        8
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.30.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.30.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.31.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.31.attn.qkv_proj",
+      "a": [
+        6,
+        5376
+      ],
+      "b": [
+        21504,
+        6
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.31.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.31.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.32.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.32.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.32.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.32.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.33.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.33.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.33.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.33.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.34.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.34.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.34.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.34.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.35.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.35.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.35.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.35.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.36.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.36.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.36.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.36.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.37.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.37.attn.qkv_proj",
+      "a": [
+        6,
+        5376
+      ],
+      "b": [
+        21504,
+        6
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.37.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.37.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.38.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.38.attn.qkv_proj",
+      "a": [
+        6,
+        5376
+      ],
+      "b": [
+        21504,
+        6
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.38.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.38.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.39.attn.out_proj",
+      "a": [
+        4,
+        7168
+      ],
+      "b": [
+        5376,
+        4
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.39.attn.qkv_proj",
+      "a": [
+        6,
+        5376
+      ],
+      "b": [
+        21504,
+        6
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.39.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.39.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.4.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.4.attn.qkv_proj",
+      "a": [
+        127,
+        5376
+      ],
+      "b": [
+        21504,
+        127
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.4.mlp.fc1",
+      "a": [
+        48,
+        5376
+      ],
+      "b": [
+        28672,
+        48
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.4.mlp.fc2",
+      "a": [
+        95,
+        14336
+      ],
+      "b": [
+        5376,
+        95
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.40.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.40.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.40.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.40.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.41.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.41.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.41.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.41.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.42.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.42.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.42.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.42.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.43.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.43.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.43.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.43.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.44.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.44.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.44.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.44.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.45.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.45.attn.qkv_proj",
+      "a": [
+        8,
+        5376
+      ],
+      "b": [
+        21504,
+        8
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.45.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.45.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.46.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.46.attn.qkv_proj",
+      "a": [
+        6,
+        5376
+      ],
+      "b": [
+        21504,
+        6
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.46.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.46.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.47.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.47.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.47.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.47.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.48.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.48.attn.qkv_proj",
+      "a": [
+        7,
+        5376
+      ],
+      "b": [
+        21504,
+        7
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.48.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.48.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.49.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.49.attn.qkv_proj",
+      "a": [
+        6,
+        5376
+      ],
+      "b": [
+        21504,
+        6
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.49.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.49.mlp.fc2",
+      "a": [
+        2,
+        14336
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.5.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.5.attn.qkv_proj",
+      "a": [
+        94,
+        5376
+      ],
+      "b": [
+        21504,
+        94
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.5.mlp.fc1",
+      "a": [
+        31,
+        5376
+      ],
+      "b": [
+        28672,
+        31
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.5.mlp.fc2",
+      "a": [
+        97,
+        14336
+      ],
+      "b": [
+        5376,
+        97
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.6.attn.out_proj",
+      "a": [
+        3,
+        7168
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.6.attn.qkv_proj",
+      "a": [
+        124,
+        5376
+      ],
+      "b": [
+        21504,
+        124
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.6.mlp.fc1",
+      "a": [
+        52,
+        5376
+      ],
+      "b": [
+        28672,
+        52
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.6.mlp.fc2",
+      "a": [
+        98,
+        14336
+      ],
+      "b": [
+        5376,
+        98
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.7.attn.out_proj",
+      "a": [
+        46,
+        7168
+      ],
+      "b": [
+        5376,
+        46
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.7.attn.qkv_proj",
+      "a": [
+        120,
+        5376
+      ],
+      "b": [
+        21504,
+        120
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.7.mlp.fc1",
+      "a": [
+        10,
+        5376
+      ],
+      "b": [
+        28672,
+        10
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.7.mlp.fc2",
+      "a": [
+        97,
+        14336
+      ],
+      "b": [
+        5376,
+        97
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.8.attn.out_proj",
+      "a": [
+        26,
+        7168
+      ],
+      "b": [
+        5376,
+        26
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.8.attn.qkv_proj",
+      "a": [
+        138,
+        5376
+      ],
+      "b": [
+        21504,
+        138
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.8.mlp.fc1",
+      "a": [
+        50,
+        5376
+      ],
+      "b": [
+        28672,
+        50
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.8.mlp.fc2",
+      "a": [
+        95,
+        14336
+      ],
+      "b": [
+        5376,
+        95
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.9.attn.out_proj",
+      "a": [
+        26,
+        7168
+      ],
+      "b": [
+        5376,
+        26
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.9.attn.qkv_proj",
+      "a": [
+        137,
+        5376
+      ],
+      "b": [
+        21504,
+        137
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.9.mlp.fc1",
+      "a": [
+        38,
+        5376
+      ],
+      "b": [
+        28672,
+        38
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.blocks.9.mlp.fc2",
+      "a": [
+        95,
+        14336
+      ],
+      "b": [
+        5376,
+        95
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.token_refiner.blocks.0.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.token_refiner.blocks.0.attn.qkv_proj",
+      "a": [
+        65,
+        5376
+      ],
+      "b": [
+        21504,
+        65
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.token_refiner.blocks.0.mlp.fc1",
+      "a": [
+        2,
+        5376
+      ],
+      "b": [
+        28672,
+        2
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.token_refiner.blocks.0.mlp.fc2",
+      "a": [
+        71,
+        14336
+      ],
+      "b": [
+        5376,
+        71
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.token_refiner.blocks.1.attn.out_proj",
+      "a": [
+        2,
+        7168
+      ],
+      "b": [
+        5376,
+        2
+      ],
+      "target": [
+        5376,
+        7168
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.token_refiner.blocks.1.attn.qkv_proj",
+      "a": [
+        13,
+        5376
+      ],
+      "b": [
+        21504,
+        13
+      ],
+      "target": [
+        21504,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.token_refiner.blocks.1.mlp.fc1",
+      "a": [
+        3,
+        5376
+      ],
+      "b": [
+        28672,
+        3
+      ],
+      "target": [
+        28672,
+        5376
+      ],
+      "matches": true
+    },
+    {
+      "key": "diffusion_model.token_refiner.blocks.1.mlp.fc2",
+      "a": [
+        3,
+        14336
+      ],
+      "b": [
+        5376,
+        3
+      ],
+      "target": [
+        5376,
+        14336
+      ],
+      "matches": true
+    }
+  ],
+  "actualGeneration": "not run by adapter agent",
+  "runningComfyListsModel": true
+}

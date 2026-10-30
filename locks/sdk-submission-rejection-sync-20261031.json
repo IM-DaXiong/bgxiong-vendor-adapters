@@ -1,0 +1,12 @@
+[
+  {
+    "source": "L:\\00Dev\\bgxiong-ai-story\\packages\\vendor-adapter-contract\\v2\\sdk\\rust\\src\\lib.rs",
+    "destination": "vendor-sdk\\sdk\\rust\\src\\lib.rs",
+    "sha256": "b81d939cf51c023ac473f78d5fb4a4da330963e773c161d00ac620ba2f46b4c3"
+  },
+  {
+    "source": "L:\\00Dev\\bgxiong-ai-story\\packages\\vendor-adapter-contract\\v2\\sdk\\rust\\src\\submission_rejection.rs",
+    "destination": "vendor-sdk\\sdk\\rust\\src\\submission_rejection.rs",
+    "sha256": "e0a91cc6475ed5e67a2c327e20c9efbfbcdd66ce5d7813d2b9d7eac91617dab2"
+  }
+]

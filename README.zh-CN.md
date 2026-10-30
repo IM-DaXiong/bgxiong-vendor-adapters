@@ -21,3 +21,13 @@ rustup run 1.95.0 cargo build --release --target wasm32-wasip2 -j 2
 ## 三操作（A05）
 
 见 `harness/OPS-CHECKLIST.md`。用户 107 帧素材仅本机 env，不入库。
+
+## A21 模型配套
+
+完整精修图使用 `companion/models.json` 锁定的 Kijai 8-step rank-24 LoRA，安装命令：
+
+```powershell
+./companion/scripts/install-models.ps1 -ModelsRoot '<ComfyUI>/models'
+```
+
+脚本下载上游固定修订，核对大小和 SHA256 后才落到正式文件；已有不同内容显式拒绝。主模型仍为原 pruned int8_convrot，用户参数不变。旧 v4 LoRA 的2688维AdaLN不匹配主模型8维曲线基底，不能继续使用或靠跳过补丁判成功。所选版本本身未训练AdaLN；全部208组A/B形状匹配，未截断或转换权重。锁定FaceRefine原示例使用较早的v1.0名称，此处明确选作者发布的rank-24版本，不宣称文件完全相同。运行时与上游版本不因本次模型清单/脚本修复升级。

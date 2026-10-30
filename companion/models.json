@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "models": [
+    {
+      "path": "loras/minimax_h3_fl2v_lightx2v_turbo_8step_v1.0_resized_avg_rank_24_bf16.safetensors",
+      "url": "https://huggingface.co/Kijai/MiniMax-H3_comfy/resolve/4c24460ce97e4c4b01acfe7ebcb7e01e1a86a234/loras/minimax_h3_fl2v_lightx2v_turbo_8step_v1.0_resized_avg_rank_24_bf16.safetensors",
+      "sha256": "8e05b7b982c3aff7deb692a188c8a8d8acaeff8a12abfe1aeac822fb8ee3f0b7",
+      "bytes": 364638304,
+      "role": "8-step turbo LoRA for the packaged pruned MiniMax-H3 model",
+      "sourceRevision": "4c24460ce97e4c4b01acfe7ebcb7e01e1a86a234"
+    }
+  ],
+  "compatibility": {
+    "baseModel": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "loraPairs": 208,
+    "adalnKeys": 0,
+    "upstreamExampleName": "minimax_h3_fl2v_turbo_8step_v1.0_comfyui_bf16.safetensors",
+    "selectionNote": "The locked FaceRefine example uses an older filename. This package explicitly pins the author-published rank-24 resized 8-step version; it is not a rename of that file or a conversion of v4. All 208 A/B groups match the installed base tensor shapes."
+  }
+}

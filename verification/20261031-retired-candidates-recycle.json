@@ -1,0 +1,88 @@
+{
+  "packages": [
+    {
+      "directory": "install-a18",
+      "files": [
+        {
+          "sha256": "a58582ebc99bb4442acac2ef550894574272dea8aade4c199d73b6c509780059",
+          "path": "install-a18\\adapter-install.json"
+        },
+        {
+          "sha256": "c2d8020fe7e84c32a8bde8a26c37f0208bd9af34b1d485d44c8b1a99fb44c793",
+          "path": "install-a18\\README-ACCEPTANCE.md"
+        },
+        {
+          "sha256": "4b3b8608c46ff52adfbedb1d9b45d7f2bfaf1b5bdf50a1f83292bda6e02b2d27",
+          "path": "install-a18\\package\\adapter.wasm"
+        },
+        {
+          "sha256": "c74550a38b1eabdcfc37289be46b2bf765a2dc09935853975ace47dd6666f114",
+          "path": "install-a18\\package\\manifest.json"
+        },
+        {
+          "sha256": "d4e3be2b66945248ba8e48676e494a1709eef2070dfd38bf3a70e915d2d54623",
+          "path": "install-a18\\package\\manifest.sha256"
+        }
+      ],
+      "pluginId": "local.thirdparty.h3-face-refine",
+      "absentAfter": true,
+      "version": "1.0.0-a18",
+      "action": "SendToRecycleBin"
+    },
+    {
+      "directory": "install-a19",
+      "files": [
+        {
+          "sha256": "44db9e28f2d20afd49522b005fff00867c7c6a584bdea52e84e71e2338ce1cb7",
+          "path": "install-a19\\adapter-install.json"
+        },
+        {
+          "sha256": "cf225a7af419225c799aa6716e43f5f1f427f824150b54f6e4b134b302df40e9",
+          "path": "install-a19\\README-ACCEPTANCE.md"
+        },
+        {
+          "sha256": "a83218cee4a545576fe020e06646690ef3b36161a3641bbce7fbcadc8f8e1393",
+          "path": "install-a19\\package\\adapter.wasm"
+        },
+        {
+          "sha256": "10632bcc260e960ee895d645915c601d41887c1acb8740e170857b8843ccbded",
+          "path": "install-a19\\package\\manifest.json"
+        },
+        {
+          "sha256": "ea58d37605fa82a354e1a612404581a5b455422d809fa33bd89d250ccac1b579",
+          "path": "install-a19\\package\\manifest.sha256"
+        }
+      ],
+      "pluginId": "local.thirdparty.h3-face-refine",
+      "absentAfter": true,
+      "version": "1.0.0-a19",
+      "action": "SendToRecycleBin"
+    },
+    {
+      "directory": "install-a20",
+      "files": [
+        {
+          "sha256": "ee4311fa8773d27f79c79501d1ad60860d8fa526467c5d883e3e58e0998ecc1a",
+          "path": "install-a20\\adapter-install.json"
+        },
+        {
+          "sha256": "2f48cb8779c86f4639932a230279664e49d58ef877a47b52c313318b0445f7a2",
+          "path": "install-a20\\package\\adapter.wasm"
+        },
+        {
+          "sha256": "a51a920a10e2f8de02c56903f0ce2bcc682eca645cef6e362888d207b0384831",
+          "path": "install-a20\\package\\manifest.json"
+        },
+        {
+          "sha256": "c341a2e519580ce1aaf71a3aae71be31d8e21d54caa22631376d8dc9551667a9",
+          "path": "install-a20\\package\\manifest.sha256"
+        }
+      ],
+      "pluginId": "local.thirdparty.h3-face-refine",
+      "absentAfter": true,
+      "version": "1.0.0-a20",
+      "action": "SendToRecycleBin"
+    }
+  ],
+  "authorization": "Parent verified formal uninstall committed 3 writes; changeSet chg_face-refine-retire-old-a18-a20-20261031"
+}

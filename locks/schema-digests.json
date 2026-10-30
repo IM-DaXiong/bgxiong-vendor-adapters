@@ -1,15 +1,16 @@
 {
   "pluginId": "local.thirdparty.h3-face-refine",
-  "version": "1.0.0-a04",
+  "version": "1.0.0-a11",
   "laneACommit": "3b6a7e738",
   "digests": {
-    "configuration.schema.json": "2e97156c04f35c1b8af9a4a25c1ef8b422512f51b22daf1076bdbf1cf65ccf64",
-    "analyze.input.schema.json": "5c1846fab396f8b367ac088557778ff4a780bd7a1b10aa4a024ee459a5abe96d",
-    "analyze.output.schema.json": "b38fbdbb5ba460e99dac3eef7d1c05b69d300b94dabd696c0db656108a61dffc",
-    "preview.input.schema.json": "3c34fd0def623c1d2da1d77d76b13094f956f5105125158d4dd919a9fbd04417",
-    "preview.output.schema.json": "bbf00a49e8c0eb22fb7cc2611cbc81a2adfbba4941ddcf3d9a717298acb637e4",
-    "refine.input.schema.json": "74f8e8f00cda1ce6bfb627ef4f46d16379d897d8b381e0fcf88e075b552c6b29",
-    "refine.output.schema.json": "90aa82c463b277a024df4d6b2fe09cc9a7b0a78c1d476e7b043c164f0da6d558"
+    "analyze.input.schema.json": "56dba92e369463ff98ad7ac6aa9a66645b35d48c5ddf1458e71baa63a25647e0",
+    "analyze.output.schema.json": "69e3b014787b693b638c698752a958eb59edd8eeb4b0921b8ee7ad00bea079e0",
+    "configuration.schema.json": "22d4b06042fce6b97b2269886c9a81642cd5eb937320526d53d0904b1a58caa1",
+    "preview.input.schema.json": "69f14d9d865fb3baf6a244662e648c6fcacc126dca59c4f985ad1e96ff51ec1d",
+    "preview.output.schema.json": "c0cd2855f542b93f6867e4ce8bd40d64bb2fbef0829e18f4b74c70bb038fbc3b",
+    "refine.input.schema.json": "82c7767ef8a01c4dc6283c02b015e5119dd24f0e1cd7b28eaf3d542bb9f6822b",
+    "refine.output.schema.json": "de18e916d82f262db4e077acff4059f33d4c8cfd5576224a0eaabbcbae9134b0",
+    "resume.schema.json": "b4c26cb2bf750d2f61abf94bbefce1c416a0f9e1cc6c3f5240165a31fe1c9847"
   },
   "note": "Aligned to Lane A media-target-selection-v1; recompute after schema edits"
 }

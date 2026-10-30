@@ -1,18 +1,20 @@
 {
-  "version": "1.0.0-a04",
+  "version": "1.0.0-a09",
   "entry": "scripts/start-managed.ps1",
   "bootstrapTimeoutSec": 1800,
   "healthEndpoint": "/system_stats",
   "probeEndpoints": [
     "/object_info",
-    "/h3_facerefine/videos"
+    "/h3_facerefine/videos",
+    "/bgx_face_refine/health"
   ],
   "requiredClasses": [
     "H3FaceSelect",
     "H3FaceTrackCrop",
     "H3FaceStitch",
     "H3InjectVideoLatent",
-    "H3PerFrameDenoise"
+    "H3PerFrameDenoise",
+    "H3FaceTrackingReceipt"
   ],
   "optionalClasses": [
     "H3FaceMaskSAM"
@@ -36,7 +38,13 @@
     "upstream/ComfyUI-H3-FaceRefine/picker_api.py",
     "upstream/ComfyUI-H3-FaceRefine/requirements.txt",
     "upstream/ComfyUI-H3-FaceRefine/pyproject.toml",
-    "CONTRACT.md"
+    "CONTRACT.md",
+    "custom_nodes/BGXFaceRefineContract/__init__.py",
+    "custom_nodes/BGXFaceRefineContract/tracking.py",
+    "custom_nodes/BGXFaceRefineContract/sessions.py",
+    "custom_nodes/BGXFaceRefineContract/session_api.py",
+    "models.json",
+    "scripts/install-models.ps1"
   ],
-  "description": "Managed companion: isolated H3 FaceRefine 1.1.2 nodes + picker HTTP bridge (no global custom_nodes overwrite)"
+  "description": "Isolated upstream 1.1.2 plus package-owned persistent analysis sessions and structured tracking receipts"
 }

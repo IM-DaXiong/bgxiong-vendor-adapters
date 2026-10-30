@@ -1,5 +1,156 @@
 {
   "schemaVersion": 1,
-  "files": [],
-  "note": "Populate digests with companion/scripts/hash-inventory.ps1 before pack; placeholder until inventory pass."
+  "files": [
+    {
+      "path": "CONTRACT.md",
+      "sha256": "121f76be823f1664ca7a76de01ca305e3199089da63da069c728951aa597c945",
+      "bytes": 1474
+    },
+    {
+      "path": "custom_nodes/BGXFaceRefineContract/__init__.py",
+      "sha256": "2568e7189a1816a2602748c55735021642bdbc81a55b577b363f1bfd6bee34f2",
+      "bytes": 199
+    },
+    {
+      "path": "custom_nodes/BGXFaceRefineContract/session_api.py",
+      "sha256": "5098054d330df135b961a1e792ea33f4df5b281216fa586fa800c263baecbf13",
+      "bytes": 1404
+    },
+    {
+      "path": "custom_nodes/BGXFaceRefineContract/sessions.py",
+      "sha256": "d1d9e20d00c8f4c44feec1145270512ce560f816829817f3f885a3a669c79368",
+      "bytes": 1543
+    },
+    {
+      "path": "custom_nodes/BGXFaceRefineContract/tracking.py",
+      "sha256": "0531c1b5be787056d4908f792902a4336dfee93976e3fde06e52399fee41aa67",
+      "bytes": 4181
+    },
+    {
+      "path": "extra-paths/extra_model_paths.yaml",
+      "sha256": "44cd1b8cb1f2240ee82914fc73c8f141075e5bb5591c4683a1cf21b70dc11b16",
+      "bytes": 404
+    },
+    {
+      "path": "face_refine_ops.py",
+      "sha256": "ada92352586a2601d6db11f8a1bd6a86c1d0fb570271546ae4cdb727de2dbe85",
+      "bytes": 2524
+    },
+    {
+      "path": "manifest.json",
+      "sha256": "1b39a526174d87ff9251c47a5fd27dd7ba8087789d8993d18020f0597658f213",
+      "bytes": 1624
+    },
+    {
+      "path": "models.json",
+      "sha256": "0905b96c02bb76bf2bbfb58c58dd130fbf253b754bcdfd651d129390c57df3ac",
+      "bytes": 1125
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "4de2c5952ca59ff6c8bfc51484d51c86aa54d09030774a3035ffbdcfafb48388",
+      "bytes": 47
+    },
+    {
+      "path": "scripts/install-models.ps1",
+      "sha256": "03c74e0d04dc4af01551a288068d5a395f87b7372ee55092beab2e66d73ca83f",
+      "bytes": 1761
+    },
+    {
+      "path": "scripts/prepare-runtime.ps1",
+      "sha256": "1d9b713280e836b65dc090d78381c87ed91a96314bcd5952f3afb873c5ea4faa",
+      "bytes": 3048
+    },
+    {
+      "path": "scripts/probe.ps1",
+      "sha256": "514b4406f958bcb0624b760d4e7bba4526e24bc3b60b9328e81d66e6acc02b71",
+      "bytes": 1049
+    },
+    {
+      "path": "scripts/start-managed.ps1",
+      "sha256": "2626ef2d9983b735505dd20f37313b5df940457d5f69819c1a0d345416a9ab06",
+      "bytes": 1413
+    },
+    {
+      "path": "test_tracking_receipt.py",
+      "sha256": "fd1707dd0d98ad916943e463ded06f44c736bfc8fd90a86175d1d4971be6dfc8",
+      "bytes": 3128
+    },
+    {
+      "path": "upstream-snapshot.json",
+      "sha256": "24ff958c644ff2998ee2514f414814ce39f6cdf5eb909ef8c29ab8107421a77d",
+      "bytes": 741
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/.github/ISSUE_TEMPLATE/bug_report.yml",
+      "sha256": "890bbb41a0df4e6519c012148c9e6204b05fb7833f1a340d1133c5622f57ac58",
+      "bytes": 4984
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/.github/ISSUE_TEMPLATE/config.yml",
+      "sha256": "7cca53eddc3d54dcbe80b600f9295a49d1c6d93fff0ca85ad57620eb8447d759",
+      "bytes": 512
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/.github/workflows/publish.yml",
+      "sha256": "0888358066113715b575e29cb6613bb01845df967bb6c153578867613de3d835",
+      "bytes": 604
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/.gitignore",
+      "sha256": "5b7e52bd0188656a2c97a3d511231d03f507d4b974ae90517ad7b1a610a11b80",
+      "bytes": 274
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/LICENSE",
+      "sha256": "b03d4e31e6bb15940bfa88d3e270653e0925ea01d9828842d2ee22b3ea620bb9",
+      "bytes": 1088
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/README.md",
+      "sha256": "38326d9726e0894ed3654bc14bc3eb4dc471a6336bfb858d0e86e97e60fb346d",
+      "bytes": 63364
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/__init__.py",
+      "sha256": "d1fe46d4e9bb622d0e342f25305a41a0af401ad048c4da88dc64403e03ba2a90",
+      "bytes": 1325
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/example_workflows/H3_Face_Refine_Auto_Select.json",
+      "sha256": "5f715e8f56cb69300b29d1d41c2d5c4883a5661c9088a0d900d59642010ace23",
+      "bytes": 37775
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/example_workflows/H3_Face_Refine_Manual_Select.json",
+      "sha256": "bea1ea57808edfc949cfd6dd2757d1e78b5db37cbdf136aadac585a9ece6c575",
+      "bytes": 56948
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/nodes.py",
+      "sha256": "87730c017f5868c3f4bb09d1af162ae553afe4208c6205558936c660f8874ec1",
+      "bytes": 186118
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/picker_api.py",
+      "sha256": "d6dff892596f5959c659198e12b10dfdfc8a80c5121d808631ec756a21d490bc",
+      "bytes": 16953
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/pyproject.toml",
+      "sha256": "14af2f6980ebe2713d6b45dab81832febb3de052dafac7f620073e24b49c5c8c",
+      "bytes": 1915
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/requirements.txt",
+      "sha256": "44a8f6759579c36dea25aca606b3d48b774e96d88271d1e6c36efda779328489",
+      "bytes": 291
+    },
+    {
+      "path": "upstream/ComfyUI-H3-FaceRefine/web/h3_face_select.js",
+      "sha256": "b82e637c3c3149921896dcb3cd9ec48e5910b0fa656e4f1f9714dbe83b0e239e",
+      "bytes": 49084
+    }
+  ],
+  "note": "Upstream remains 1.1.2; package-owned contract companion is a09."
 }

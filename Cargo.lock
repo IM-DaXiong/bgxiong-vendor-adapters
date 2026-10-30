@@ -103,7 +103,7 @@ dependencies = [
 
 [[package]]
 name = "h3-face-refine-adapter"
-version = "1.0.0-a05"
+version = "1.0.0-a21"
 dependencies = [
  "bgx-adapter-v2-sdk",
  "serde_json",

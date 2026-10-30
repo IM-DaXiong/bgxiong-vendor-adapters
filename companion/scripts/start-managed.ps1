@@ -16,4 +16,14 @@ $argList = @(
 )
 Write-Host "START_COMFY python=$ComfyPython port=$Port extra=$Extra"
 # Caller/manager owns process lifetime; this script documents the isolated launch contract.
-& $ComfyPython @argList
+$previousPythonUtf8 = [Environment]::GetEnvironmentVariable("PYTHONUTF8", "Process")
+$previousPythonIoEncoding = [Environment]::GetEnvironmentVariable("PYTHONIOENCODING", "Process")
+try {
+  # Comfy extensions log Unicode; redirected Windows consoles may otherwise use GBK.
+  [Environment]::SetEnvironmentVariable("PYTHONUTF8", "1", "Process")
+  [Environment]::SetEnvironmentVariable("PYTHONIOENCODING", "utf-8", "Process")
+  & $ComfyPython @argList
+} finally {
+  [Environment]::SetEnvironmentVariable("PYTHONUTF8", $previousPythonUtf8, "Process")
+  [Environment]::SetEnvironmentVariable("PYTHONIOENCODING", $previousPythonIoEncoding, "Process")
+}

@@ -19,3 +19,7 @@ rustup run 1.95.0 cargo build --release --target wasm32-wasip2 -j 2
 ## Run three ops
 
 See `harness/OPS-CHECKLIST.md`. Live user media stays local via env vars.
+
+## A21 model pairing
+
+The full refine graph pins the author-published Kijai 8-step rank-24 LoRA in `companion/models.json`. Install with `./companion/scripts/install-models.ps1 -ModelsRoot '<ComfyUI>/models'`. The installer verifies pinned revision, size and SHA256 before publishing the file; an existing mismatched file is rejected. The original pruned int8_convrot base and user parameters remain unchanged. This LoRA has 208 matching A/B pairs and no trained AdaLN keys; no weights are truncated or skipped. The locked FaceRefine example uses an earlier v1.0 filename: this is an explicit choice of the author's resized version, not a renamed file. The former v4 has incompatible full-width AdaLN weights. Runtime/upstream versions remain unchanged.

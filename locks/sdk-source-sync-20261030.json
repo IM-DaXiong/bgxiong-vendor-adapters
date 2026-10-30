@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "sdkRelease": "2.0.0",
+  "scope": "public schema-declared media reference values: string, object, and arrays; no vendor/profile branch",
+  "sourceRepositoryHead": "0fda1827f905dbf67d104b05ea0dc3602abda462",
+  "sourceWorkingTreeChangesIncluded": true,
+  "guestBindingsChanged": false,
+  "wasmRebuilt": false,
+  "fullSdkReleaseAttested": false,
+  "status": "NOT_APPLIED_VERSION_MISMATCH",
+  "copiedFilesRestored": [
+    {
+      "path": "crates/validator/src/media.rs",
+      "sha256": "f99212d658d639fffe8247cc8081f6d327e2373084952aa630e3fda64066385b"
+    },
+    {
+      "path": "crates/validator/tests/media_geometry.rs",
+      "sha256": "7dea90a46fc4948399ccdc1fcb44a0a257da3c3876adb7bfab243abf6665148d"
+    },
+    {
+      "path": "schemas/capability-contract.schema.json",
+      "sha256": "aadeaaaa394d0f5bb4f27b19ecbb9141aa6047766d5cc20eb33d1a900b276487"
+    },
+    {
+      "path": "AUTHORING.zh-CN.md",
+      "sha256": "62a66dfddd6ae2d2d82fbca74c69c399cd901d19d5d881f862bf24ffea29adbd"
+    },
+    {
+      "path": "README.md",
+      "sha256": "bfbcf7fd28cff551044fa3b275596a1fec3d2c87ffa7eb2fa8b19dfa734c99d2"
+    },
+    {
+      "path": "release-manifest.json",
+      "sha256": "4f7c75348bcb9874200eed476ac30419ccc33603d373ec99334b900fc2e1d150"
+    }
+  ],
+  "sourceVersions": {
+    "validator": "2.1.0",
+    "referenceHost": "2.1.1"
+  },
+  "retainedSnapshotVersions": {
+    "validator": "2.0.0",
+    "referenceHost": "2.0.2",
+    "tools": "2.0.2"
+  },
+  "validationRuntime": "Current primary repository SDK tools and worker; not the retained 2.0.x public-sdk snapshot",
+  "note": "No mixed SDK retained. Full independent SDK snapshot update is outstanding. vendor-sdk guest API and dependency lock were unchanged.",
+  "attemptedReleaseManifestSha256": "8649faca275f12a162f15b6d2d1f3c833760fb8b8638c63c175ce8d24be45a91",
+  "retainedReleaseManifestSha256": "4f7c75348bcb9874200eed476ac30419ccc33603d373ec99334b900fc2e1d150",
+  "sourceFiles": [
+    {
+      "path": "crates/validator/src/media.rs",
+      "previousSha256": "f99212d658d639fffe8247cc8081f6d327e2373084952aa630e3fda64066385b",
+      "sha256": "0015527a53406a3a3cd072b776f056ed2a06c23c0af7b8fb7cecc1c20ae025bd"
+    },
+    {
+      "path": "crates/validator/tests/media_geometry.rs",
+      "previousSha256": "7dea90a46fc4948399ccdc1fcb44a0a257da3c3876adb7bfab243abf6665148d",
+      "sha256": "c209bd6c42f1fa5d2643004ba2e9deafe4675c6e6a1d5e55ec25a22fcbd59dca"
+    },
+    {
+      "path": "schemas/capability-contract.schema.json",
+      "previousSha256": "aadeaaaa394d0f5bb4f27b19ecbb9141aa6047766d5cc20eb33d1a900b276487",
+      "sha256": "a5ed867de848c08277ed6cff2604273b58653acab46c1c8c30c649f971a4b312"
+    },
+    {
+      "path": "AUTHORING.zh-CN.md",
+      "previousSha256": "62a66dfddd6ae2d2d82fbca74c69c399cd901d19d5d881f862bf24ffea29adbd",
+      "sha256": "3f5378cee49f5a603401c72b5463dde84b031e27a81909b23a4ccfab48c61687"
+    },
+    {
+      "path": "README.md",
+      "previousSha256": "bfbcf7fd28cff551044fa3b275596a1fec3d2c87ffa7eb2fa8b19dfa734c99d2",
+      "sha256": "935d054b6f5a1fc3665ac77b1a91c707ae6ea0ad12a3b1b4bfef1605421e41a9"
+    }
+  ]
+}

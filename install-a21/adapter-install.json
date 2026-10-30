@@ -1,20 +1,18 @@
 {
   "schemaVersion": 1,
   "packageDirectory": "package",
-  "manifestSha256": "be2fc020db83bad99c8da48b24635d3ec568c3aef42181492d0f2886954202e2",
+  "manifestSha256": "c97773bb2a4755e73fc7a7386c7df2857071ed2bf57a4cb34390b41cfc578142",
   "hostConfig": {
     "bindingId": "h3-face-refine-local-1.1.2",
     "bindingRevision": 1,
     "configurationRef": "h3-face-refine-local-v1",
     "configuration": {
-      "endpointBaseUrl": "http://127.0.0.1:8189",
+      "endpointBaseUrl": "http://127.0.0.1:8190",
       "timeoutMs": 600000
     },
     "network": {
       "origins": [
-        "http://127.0.0.1:8189",
-        "http://127.0.0.1:8188",
-        "http://192.168.18.8:8188"
+        "http://127.0.0.1:8190"
       ],
       "allowPrivate": true,
       "allowEmbeddedAuthorization": false,
@@ -30,7 +28,8 @@
       "denylistedHosts": [],
       "isFresh": false,
       "supportedFeatures": [
-        "media-target-selection-v1"
+        "media-target-selection-v1",
+        "submission-rejection-v1"
       ]
     },
     "mediaTtlMs": 3600000,

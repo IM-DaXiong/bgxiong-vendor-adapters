@@ -1,0 +1,122 @@
+{
+  "fullObjectInfoBytes": 2679900,
+  "perResponseBudgetBytes": 1048576,
+  "nodes": [
+    {
+      "class": "BasicGuider",
+      "responseBytes": 692,
+      "present": true
+    },
+    {
+      "class": "BasicScheduler",
+      "responseBytes": 986,
+      "present": true
+    },
+    {
+      "class": "CLIPLoader",
+      "responseBytes": 2051,
+      "present": true
+    },
+    {
+      "class": "CreateVideo",
+      "responseBytes": 1596,
+      "present": true
+    },
+    {
+      "class": "H3FaceSelect",
+      "responseBytes": 7725,
+      "present": true
+    },
+    {
+      "class": "H3FaceStitch",
+      "responseBytes": 3644,
+      "present": true
+    },
+    {
+      "class": "H3FaceTrackCrop",
+      "responseBytes": 13711,
+      "present": true
+    },
+    {
+      "class": "H3InjectVideoLatent",
+      "responseBytes": 642,
+      "present": true
+    },
+    {
+      "class": "H3PerFrameDenoise",
+      "responseBytes": 3378,
+      "present": true
+    },
+    {
+      "class": "KSamplerSelect",
+      "responseBytes": 1414,
+      "present": true
+    },
+    {
+      "class": "LoadImage",
+      "responseBytes": 13485,
+      "present": true
+    },
+    {
+      "class": "LoraLoaderModelOnly",
+      "responseBytes": 1515,
+      "present": true
+    },
+    {
+      "class": "MiniMaxH3ReferenceToVideo",
+      "responseBytes": 2831,
+      "present": true
+    },
+    {
+      "class": "RandomNoise",
+      "responseBytes": 715,
+      "present": true
+    },
+    {
+      "class": "SamplerCustomAdvanced",
+      "responseBytes": 848,
+      "present": true
+    },
+    {
+      "class": "SaveAnimatedWEBP",
+      "responseBytes": 1144,
+      "present": true
+    },
+    {
+      "class": "SaveVideo",
+      "responseBytes": 7074,
+      "present": true
+    },
+    {
+      "class": "UNETLoader",
+      "responseBytes": 1460,
+      "present": true
+    },
+    {
+      "class": "VAEDecode",
+      "responseBytes": 685,
+      "present": true
+    },
+    {
+      "class": "VAELoader",
+      "responseBytes": 797,
+      "present": true
+    },
+    {
+      "class": "H3FaceTrackingReceipt",
+      "responseBytes": 654,
+      "present": true
+    },
+    {
+      "class": "SAMLoader",
+      "responseBytes": 2,
+      "present": false
+    },
+    {
+      "class": "H3FaceMaskSAM",
+      "responseBytes": 1864,
+      "present": true
+    }
+  ],
+  "generationSubmitted": false
+}

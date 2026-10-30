@@ -1,0 +1,10 @@
+
+Algorithm : SHA256
+Hash      : 0600A84F195C8846F598BDC20866C20A9D923BF9CB74445BAAC897FAF69DFFB2
+Path      : L:\00Dev\bgxiong-ai-story\packages\vendor-adapter-contract\v2\target\debug\bgx-adapter-v2.exe
+
+Algorithm : SHA256
+Hash      : 61ADB11131D7018B276A8B9029A5233E2E16C4FD538684EB2A7D89F455AD7EC4
+Path      : L:\00Dev\bgxiong-ai-story\packages\vendor-adapter-contract\v2\target\debug\bgx-adapter-v2-worker.exe
+
+
