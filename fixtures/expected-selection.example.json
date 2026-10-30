@@ -1,0 +1,16 @@
+{
+  "note": "Example only — replace with real analysisIds after analyze",
+  "analysisId": "REPLACE",
+  "analysisRevision": 1,
+  "analysisDigest": "REPLACE",
+  "shots": [
+    {
+      "shotId": "s0",
+      "decision": {
+        "kind": "target",
+        "candidateId": "c1"
+      }
+    }
+  ],
+  "acceptanceHint": "On the 107-frame clip, choose the right/distant woman candidate, not the left/near man."
+}

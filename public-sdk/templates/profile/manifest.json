@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.sdk.echo",
+  "displayName": "Local echo declarative profile",
+  "version": "1.0.0",
+  "protocolRange": {
+    "min": 2,
+    "max": 2
+  },
+  "requiredFeatures": [],
+  "optionalFeatures": [],
+  "language": "profile",
+  "entry": "profile.json",
+  "artifactSha256": "e07889d4cd57a2c4dc8e10bd6c1dd04277aca65bce9ee89e13c6cb5e584c1982",
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "endpointPolicy": [
+      "staticHosts"
+    ],
+    "networkHosts": [
+      "example.invalid"
+    ],
+    "allowPrivateNetwork": false,
+    "auth": [],
+    "mediaSlots": [],
+    "stateBytes": 0,
+    "embeddedHeaders": []
+  },
+  "limits": {
+    "memoryBytes": 33554432,
+    "fuel": 100000000,
+    "wallMs": 1000,
+    "outputBytes": 1048576
+  }
+}

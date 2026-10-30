@@ -1,0 +1,257 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/manifest.schema.json",
+  "title": "VendorAdapterManifestV2",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "pluginId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "displayName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 32
+    },
+    "protocolRange": {
+      "type": "object",
+      "properties": {
+        "min": {
+          "const": 2
+        },
+        "max": {
+          "const": 2
+        }
+      },
+      "required": [
+        "min",
+        "max"
+      ],
+      "additionalProperties": false
+    },
+    "requiredFeatures": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "optionalFeatures": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true
+    },
+    "language": {
+      "enum": [
+        "profile",
+        "python",
+        "typescript",
+        "rust",
+        "tinygo"
+      ]
+    },
+    "entry": {
+      "type": "string",
+      "minLength": 1
+    },
+    "artifactSha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "publisherId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "publisherKeyId": {
+      "anyOf": [
+        {
+          "type": "string",
+          "minLength": 1
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "requestedCapabilities": {
+      "type": "object",
+      "properties": {
+        "endpointPolicy": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "staticHosts",
+              "userConfigurable",
+              "allowPrivateNetwork"
+            ]
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "networkHosts": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "allowPrivateNetwork": {
+          "type": "boolean"
+        },
+        "auth": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "none",
+              "bearer",
+              "custom-header",
+              "jwt-hs256",
+              "hmac-sha256-credential",
+              "http-sigv4",
+              "oauth2-device-code",
+              "hmac-sha256"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "mediaSlots": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "image",
+              "audio",
+              "video",
+              "file"
+            ]
+          },
+          "uniqueItems": true
+        },
+        "stateBytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "embeddedHeaders": {
+          "type": "array",
+          "items": {
+            "enum": [
+              "authorization"
+            ]
+          },
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "endpointPolicy",
+        "networkHosts",
+        "allowPrivateNetwork",
+        "auth",
+        "mediaSlots",
+        "stateBytes",
+        "embeddedHeaders"
+      ],
+      "additionalProperties": false
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "memoryBytes": {
+          "type": "integer",
+          "minimum": 65536
+        },
+        "fuel": {
+          "type": "integer",
+          "minimum": 1000
+        },
+        "wallMs": {
+          "type": "integer",
+          "minimum": 100
+        },
+        "outputBytes": {
+          "type": "integer",
+          "minimum": 256
+        }
+      },
+      "required": [
+        "memoryBytes",
+        "fuel",
+        "wallMs",
+        "outputBytes"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "pluginId",
+    "displayName",
+    "version",
+    "protocolRange",
+    "requiredFeatures",
+    "optionalFeatures",
+    "language",
+    "entry",
+    "artifactSha256",
+    "publisherId",
+    "publisherKeyId",
+    "requestedCapabilities",
+    "limits"
+  ],
+  "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "publisherId": {
+            "type": "null"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "publisherKeyId": {
+            "type": "null"
+          },
+          "pluginId": {
+            "pattern": "^local\\."
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "publisherKeyId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "not": {
+          "properties": {
+            "pluginId": {
+              "pattern": "^local\\."
+            }
+          }
+        }
+      }
+    }
+  ]
+}

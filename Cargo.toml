@@ -1,0 +1,23 @@
+[workspace]
+members = ["."]
+exclude = ["vendor-sdk/sdk/rust", "public-sdk"]
+
+[package]
+name = "h3-face-refine-adapter"
+version = "1.0.0-a04"
+edition = "2021"
+license = "LicenseRef-Proprietary"
+publish = false
+
+[lib]
+crate-type = ["cdylib", "rlib"]
+
+[dependencies]
+bgx-adapter-v2-sdk = { path = "vendor-sdk/sdk/rust" }
+serde_json = { version = "=1.0.149", default-features = false, features = ["alloc", "arbitrary_precision"] }
+sha2 = { version = "=0.10.9", default-features = false }
+
+[profile.release]
+panic = "abort"
+debug = 0
+incremental = false

@@ -1,0 +1,35 @@
+{
+  "1": {
+    "class_type": "H3FaceSelect",
+    "inputs": {
+      "video": "INPUT_VIDEO",
+      "detector": "bbox/face_yolov8m.pt",
+      "confidence": 0.35,
+      "cut_detection": "auto",
+      "cut_threshold": 3.0,
+      "select": "largest_face",
+      "confirmed_pick": "FACE_PICK_STRING",
+      "skip_first_frames": 0,
+      "frame_load_cap": 0,
+      "select_every_nth": 1
+    }
+  },
+  "2": {
+    "class_type": "H3FaceTrackCrop",
+    "inputs": {
+      "images": [
+        "1",
+        0
+      ],
+      "face_pick": [
+        "1",
+        2
+      ],
+      "detector": "bbox/face_yolov8m.pt",
+      "confidence": 0.35,
+      "select": "largest_face",
+      "cut_detection": "auto",
+      "preview": true
+    }
+  }
+}

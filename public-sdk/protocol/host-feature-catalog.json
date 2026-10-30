@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "features": [
+    {
+      "id": "stream-events-v1",
+      "requiredImports": [
+        "host-http-stream",
+        "host-stream"
+      ],
+      "semantics": "Managed pull bytes and ordered events with bounded backpressure"
+    }
+  ],
+  "baseImports": [
+    "host-http",
+    "host-media",
+    "host-credential",
+    "host-state",
+    "host-log",
+    "host-checkpoint"
+  ],
+  "unsupportedAuthModes": [
+    "http-sigv4",
+    "oauth2-device-code"
+  ],
+  "supportedAuthorRuntimes": [
+    "rust",
+    "profile"
+  ],
+  "semanticRequirements": [
+    "local-ref-closure",
+    "strict-schema-keywords",
+    "operation-dispatch-validation",
+    "binding-equals-profile",
+    "accepted-checkpoint-before-receipt",
+    "no-submit-on-recovery",
+    "single-final-response",
+    "upload-provenance",
+    "no-production-configuration"
+  ]
+}

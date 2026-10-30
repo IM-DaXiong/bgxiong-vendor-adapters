@@ -1,0 +1,17 @@
+[package]
+name = "bgx-adapter-v2-transport"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+bgx-adapter-v2-ports = { path = "../ports" }
+serde_json.workspace = true
+sha2.workspace = true
+hex.workspace = true
+tokio.workspace = true
+tokio-util.workspace = true
+
+[dev-dependencies]
+tempfile = "=3.27.0"

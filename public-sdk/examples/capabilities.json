@@ -1,0 +1,249 @@
+{
+  "status": "DESIGN_FIXTURES_ONLY",
+  "note": "These are protocol examples, not runnable adapters or real vendor integrations.",
+  "capabilities": [
+    {
+      "schemaVersion": 2,
+      "localId": "official-api-shape",
+      "capabilityKey": "video.generate",
+      "transportSlot": "video",
+      "modelIds": [
+        "example-model"
+      ],
+      "configurationSchema": {
+        "id": "config",
+        "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800"
+      },
+      "operations": [
+        {
+          "id": "example/render",
+          "version": 1,
+          "label": "渲染示例",
+          "inputSchema": {
+            "id": "input",
+            "digest": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f"
+          },
+          "outputSchema": {
+            "id": "output",
+            "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b"
+          },
+          "resumeSchema": {
+            "id": "resume",
+            "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61"
+          },
+          "uiSchema": {
+            "controls": [
+              {
+                "fieldPointer": "/prompt",
+                "widget": "multiline",
+                "label": "提示词",
+                "description": "",
+                "group": "输入"
+              },
+              {
+                "fieldPointer": "/strength",
+                "widget": "number",
+                "label": "强度",
+                "description": "范围由输入schema约束",
+                "group": "参数"
+              }
+            ]
+          },
+          "mediaSlots": [],
+          "execution": {
+            "mode": "synchronous",
+            "streaming": false,
+            "cancellation": "unsupported",
+            "resumable": false,
+            "remoteIdempotency": false
+          },
+          "outputSlots": []
+        }
+      ],
+      "schemas": [
+        {
+          "id": "input",
+          "digest": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"prompt\":{\"type\":\"string\"},\"strength\":{\"maximum\":1,\"minimum\":0,\"type\":\"number\"}},\"required\":[\"prompt\",\"strength\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "output",
+          "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"description\":{\"type\":\"string\"}},\"required\":[\"description\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "config",
+          "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"endpointBaseUrl\":{\"minLength\":1,\"type\":\"string\"}},\"required\":[\"endpointBaseUrl\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "resume",
+          "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61",
+          "schemaJson": "{\"type\":\"null\"}"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "localId": "cloud-queue-shape",
+      "capabilityKey": "video.generate",
+      "transportSlot": "video",
+      "modelIds": [
+        "example-model"
+      ],
+      "configurationSchema": {
+        "id": "config",
+        "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800"
+      },
+      "operations": [
+        {
+          "id": "example/render",
+          "version": 1,
+          "label": "渲染示例",
+          "inputSchema": {
+            "id": "input",
+            "digest": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f"
+          },
+          "outputSchema": {
+            "id": "output",
+            "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b"
+          },
+          "resumeSchema": {
+            "id": "resume",
+            "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61"
+          },
+          "uiSchema": {
+            "controls": [
+              {
+                "fieldPointer": "/prompt",
+                "widget": "multiline",
+                "label": "提示词",
+                "description": "",
+                "group": "输入"
+              },
+              {
+                "fieldPointer": "/strength",
+                "widget": "number",
+                "label": "强度",
+                "description": "范围由输入schema约束",
+                "group": "参数"
+              }
+            ]
+          },
+          "mediaSlots": [],
+          "execution": {
+            "mode": "asynchronous",
+            "streaming": false,
+            "cancellation": "unsupported",
+            "resumable": true,
+            "remoteIdempotency": false
+          },
+          "outputSlots": []
+        }
+      ],
+      "schemas": [
+        {
+          "id": "input",
+          "digest": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"prompt\":{\"type\":\"string\"},\"strength\":{\"maximum\":1,\"minimum\":0,\"type\":\"number\"}},\"required\":[\"prompt\",\"strength\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "output",
+          "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"description\":{\"type\":\"string\"}},\"required\":[\"description\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "config",
+          "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"endpointBaseUrl\":{\"minLength\":1,\"type\":\"string\"}},\"required\":[\"endpointBaseUrl\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "resume",
+          "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61",
+          "schemaJson": "{\"type\":\"null\"}"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "localId": "local-workflow-shape",
+      "capabilityKey": "video.generate",
+      "transportSlot": "video",
+      "modelIds": [
+        "example-model"
+      ],
+      "configurationSchema": {
+        "id": "config",
+        "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800"
+      },
+      "operations": [
+        {
+          "id": "example/render",
+          "version": 1,
+          "label": "渲染示例",
+          "inputSchema": {
+            "id": "input",
+            "digest": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f"
+          },
+          "outputSchema": {
+            "id": "output",
+            "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b"
+          },
+          "resumeSchema": {
+            "id": "resume",
+            "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61"
+          },
+          "uiSchema": {
+            "controls": [
+              {
+                "fieldPointer": "/prompt",
+                "widget": "multiline",
+                "label": "提示词",
+                "description": "",
+                "group": "输入"
+              },
+              {
+                "fieldPointer": "/strength",
+                "widget": "number",
+                "label": "强度",
+                "description": "范围由输入schema约束",
+                "group": "参数"
+              }
+            ]
+          },
+          "mediaSlots": [],
+          "execution": {
+            "mode": "asynchronous",
+            "streaming": false,
+            "cancellation": "unsupported",
+            "resumable": true,
+            "remoteIdempotency": false
+          },
+          "outputSlots": []
+        }
+      ],
+      "schemas": [
+        {
+          "id": "input",
+          "digest": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"prompt\":{\"type\":\"string\"},\"strength\":{\"maximum\":1,\"minimum\":0,\"type\":\"number\"}},\"required\":[\"prompt\",\"strength\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "output",
+          "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"description\":{\"type\":\"string\"}},\"required\":[\"description\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "config",
+          "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"endpointBaseUrl\":{\"minLength\":1,\"type\":\"string\"}},\"required\":[\"endpointBaseUrl\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "resume",
+          "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61",
+          "schemaJson": "{\"type\":\"null\"}"
+        }
+      ]
+    }
+  ]
+}

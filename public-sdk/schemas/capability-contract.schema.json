@@ -1,0 +1,317 @@
+{
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "localId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capabilityKey": {
+      "type": "string",
+      "minLength": 1
+    },
+    "transportSlot": {
+      "enum": [
+        "image",
+        "imageToImage",
+        "video",
+        "keyframe",
+        "text",
+        "speech",
+        "voiceDesign",
+        "sfx",
+        "avatar",
+        "lipsync",
+        "videoUpscale",
+        "videoFaceRefine",
+        "imageUpscale",
+        "generic"
+      ]
+    },
+    "modelIds": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "configurationSchema": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "id",
+        "digest"
+      ],
+      "additionalProperties": false
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "version": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "digest"
+            ],
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "id",
+              "digest"
+            ],
+            "additionalProperties": false
+          },
+          "resumeSchema": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  }
+                },
+                "required": [
+                  "id",
+                  "digest"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "uiSchema": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/ui-schema.schema.json"
+          },
+          "mediaSlots": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "inputPointer": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "mediaKind": {
+                  "enum": [
+                    "image",
+                    "audio",
+                    "video",
+                    "file"
+                  ]
+                },
+                "minCount": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "maxCount": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "role",
+                "inputPointer",
+                "mediaKind",
+                "minCount",
+                "maxCount"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "execution": {
+            "type": "object",
+            "properties": {
+              "mode": {
+                "enum": [
+                  "synchronous",
+                  "asynchronous"
+                ]
+              },
+              "streaming": {
+                "type": "boolean"
+              },
+              "cancellation": {
+                "enum": [
+                  "remote",
+                  "local_only",
+                  "unsupported"
+                ]
+              },
+              "resumable": {
+                "type": "boolean"
+              },
+              "remoteIdempotency": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "mode",
+              "streaming",
+              "cancellation",
+              "resumable",
+              "remoteIdempotency"
+            ],
+            "additionalProperties": false
+          },
+          "outputSlots": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "role": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "kind": {
+                  "enum": [
+                    "text",
+                    "image",
+                    "audio",
+                    "video",
+                    "file"
+                  ]
+                },
+                "minCount": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "maxCount": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "minimum": 0
+                }
+              },
+              "required": [
+                "role",
+                "kind",
+                "minCount",
+                "maxCount"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "id",
+          "version",
+          "label",
+          "inputSchema",
+          "outputSchema",
+          "resumeSchema",
+          "uiSchema",
+          "mediaSlots",
+          "execution",
+          "outputSlots"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "schemas": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "schemaJson": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "id",
+          "digest",
+          "schemaJson"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "localId",
+    "capabilityKey",
+    "transportSlot",
+    "modelIds",
+    "configurationSchema",
+    "operations",
+    "schemas"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CapabilityContractV2",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/capability-contract.schema.json"
+}

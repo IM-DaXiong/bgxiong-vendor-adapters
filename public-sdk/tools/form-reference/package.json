@@ -1,0 +1,13 @@
+{
+  "name": "@bgxiong/adapter-v2-form-reference",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "check": "tsc --noEmit",
+    "build": "tsc",
+    "test": "node --test tests/forms.test.ts"
+  },
+  "engines": { "node": ">=25" },
+  "devDependencies": { "typescript": "5.9.3" }
+}

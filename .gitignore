@@ -1,0 +1,9 @@
+target/
+target-face-b/
+.bgx-sdk/
+verification/out/
+*.mp4
+*.mov
+.DS_Store
+__pycache__/
+*.pyc

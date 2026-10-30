@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "requiredCaseIds": [
+    "C01",
+    "C02",
+    "C03",
+    "C04",
+    "C05",
+    "C06",
+    "C07",
+    "C08",
+    "C09",
+    "C10",
+    "C11",
+    "C12",
+    "C13",
+    "C14",
+    "C15",
+    "C16",
+    "C17",
+    "C18",
+    "C19",
+    "C20",
+    "C21",
+    "C22",
+    "C23",
+    "C24",
+    "C25",
+    "C26",
+    "C27",
+    "C28",
+    "C29",
+    "C30",
+    "C31",
+    "C32",
+    "C33",
+    "C34",
+    "C35",
+    "C36"
+  ],
+  "required": true,
+  "executionModes": [
+    "MOCK"
+  ],
+  "globalPassRequires": "Every required case with verified fixed suite proof AND actually implemented structured joined-chain evidence; C35/C36 required until real later evidence.",
+  "phaseSelfTestScope": "Runner infrastructure only; never a global case PASS or SDK_READY claim.",
+  "execution": {
+    "timeoutSeconds": 600,
+    "maxLogBytes": 8388608
+  },
+  "runnerSelfTest": {
+    "positiveJson": {
+      "value": 7
+    },
+    "mutatedJson": {
+      "value": 8
+    },
+    "faultExitCode": 9
+  },
+  "proofs": {
+    "suiteKinds": [
+      "EXECUTED_SUITE",
+      "IMPORTED_SUITE_EXECUTION",
+      "REVIEWED_EXISTING_SUITE_EXECUTION"
+    ],
+    "suiteScope": "TASK_LOCAL; reviewed imports preserve original argv/cwd/logs, explicit UNMEASURED binary identity, schema-fixed Cargo targets, and SHA1 Git commit/tree/blob plus SHA256 source/report bindings. Reconstructed checkpoint inputs are not labelled historical capture.",
+    "caseProof": "CASE_EVIDENCE_V1",
+    "chainPolicy": "JOINED_CHAIN_PROOF_V1: fixed source closure plus measured raw execution/log/artifact hashes and chain-specific structured comparisons. Missing material remains NOT_RUN; PASS labels, test names and declarations alone never suffice."
+  }
+}

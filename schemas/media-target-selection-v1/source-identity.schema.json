@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/profiles/media-target-selection-v1/source-identity.schema.json",
+  "title": "MediaTargetSourceIdentity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "mediaId",
+    "contentDigest",
+    "range",
+    "display",
+    "timeBaseMs",
+    "package"
+  ],
+  "properties": {
+    "mediaId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "contentDigest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "range": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "startMs",
+        "endMs"
+      ],
+      "properties": {
+        "startMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "endMs": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "display": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "widthPx",
+        "heightPx",
+        "orientation"
+      ],
+      "properties": {
+        "widthPx": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "heightPx": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "orientation": {
+          "type": "string",
+          "enum": [
+            "upright"
+          ]
+        }
+      }
+    },
+    "timeBaseMs": {
+      "type": "integer",
+      "const": 1
+    },
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pluginId",
+        "pluginVersion",
+        "operationId",
+        "schemaDigest",
+        "detectionDigest"
+      ],
+      "properties": {
+        "pluginId": {
+          "type": "string"
+        },
+        "pluginVersion": {
+          "type": "string"
+        },
+        "operationId": {
+          "type": "string"
+        },
+        "schemaDigest": {
+          "type": "string"
+        },
+        "detectionDigest": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

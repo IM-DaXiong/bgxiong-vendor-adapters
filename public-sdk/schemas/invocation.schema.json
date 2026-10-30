@@ -1,0 +1,82 @@
+{
+  "type": "object",
+  "properties": {
+    "protocolVersion": {
+      "const": 2
+    },
+    "operation": {
+      "enum": [
+        "capabilities",
+        "probe",
+        "upload",
+        "submit",
+        "query",
+        "cancel"
+      ]
+    },
+    "profileId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "capabilitySlot": {
+      "enum": [
+        "image",
+        "imageToImage",
+        "video",
+        "keyframe",
+        "text",
+        "speech",
+        "voiceDesign",
+        "sfx",
+        "avatar",
+        "lipsync",
+        "videoUpscale",
+        "videoFaceRefine",
+        "imageUpscale",
+        "generic"
+      ]
+    },
+    "requestId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "budgetMs": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "payloadJson": {
+      "type": "string"
+    },
+    "bindingId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "negotiatedVersion": {
+      "const": 2
+    },
+    "enabledFeatures": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "stream-events-v1"
+        ]
+      }
+    }
+  },
+  "required": [
+    "protocolVersion",
+    "operation",
+    "profileId",
+    "capabilitySlot",
+    "requestId",
+    "budgetMs",
+    "payloadJson",
+    "bindingId",
+    "negotiatedVersion",
+    "enabledFeatures"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/invocation.schema.json"
+}

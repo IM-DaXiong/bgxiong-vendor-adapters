@@ -1,0 +1,105 @@
+{
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "protocolVersion": {
+          "const": 2
+        },
+        "operation": {
+          "enum": [
+            "capabilities",
+            "probe",
+            "upload",
+            "submit",
+            "query",
+            "cancel"
+          ]
+        },
+        "dataJson": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "protocolVersion",
+        "operation",
+        "dataJson"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "protocolVersion": {
+          "const": 2
+        },
+        "operation": {
+          "enum": [
+            "capabilities",
+            "probe",
+            "upload",
+            "submit",
+            "query",
+            "cancel"
+          ]
+        },
+        "error": {
+          "type": "object",
+          "properties": {
+            "code": {
+              "enum": [
+                "INVALID_PACKAGE",
+                "UNSUPPORTED_VERSION",
+                "UNSUPPORTED_FEATURE",
+                "INVALID_INPUT",
+                "UNAUTHORIZED",
+                "PERMISSION_DENIED",
+                "UPSTREAM_ERROR",
+                "RATE_LIMITED",
+                "TIMEOUT",
+                "ACCEPTANCE_UNKNOWN",
+                "RESOURCE_UNAVAILABLE",
+                "CANCEL_UNSUPPORTED",
+                "INTERNAL_ERROR"
+              ]
+            },
+            "message": {
+              "type": "string"
+            },
+            "retryable": {
+              "type": "boolean"
+            },
+            "vendorCode": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "vendorRequestId": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "code",
+            "message",
+            "retryable",
+            "vendorCode",
+            "vendorRequestId"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "protocolVersion",
+        "operation",
+        "error"
+      ],
+      "additionalProperties": false
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/response.schema.json"
+}

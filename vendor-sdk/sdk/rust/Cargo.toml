@@ -1,0 +1,19 @@
+# Generated public author SDK manifest; do not edit.
+
+["package"]
+"name" = "bgx-adapter-v2-sdk"
+"version" = "2.0.0"
+"edition" = "2021"
+"license" = "LicenseRef-Proprietary"
+"publish" = false
+
+["features"]
+"default" = ["component-guest"]
+"component-guest" = ["dep:wit-bindgen", "dep:dlmalloc"]
+"std" = []
+
+["dependencies"]
+"serde" = { "version" = "=1.0.228", "default-features" = false, "features" = ["alloc", "derive"] }
+"serde_json" = { "version" = "=1.0.149", "default-features" = false, "features" = ["alloc", "arbitrary_precision"] }
+"wit-bindgen" = { "version" = "=0.51.0", "default-features" = false, "features" = ["macros", "realloc"], "optional" = true }
+"dlmalloc" = { "version" = "=0.2.14", "features" = ["global"], "optional" = true }

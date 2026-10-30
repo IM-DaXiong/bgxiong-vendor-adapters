@@ -1,0 +1,5 @@
+{
+  "schemaVersion": 1,
+  "files": [],
+  "note": "Populate digests with companion/scripts/hash-inventory.ps1 before pack; placeholder until inventory pass."
+}

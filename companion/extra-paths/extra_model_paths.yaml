@@ -1,0 +1,7 @@
+# Package-owned ComfyUI path overlay for H3 FaceRefine adapter.
+# Host/manager must pass:  python main.py --extra-model-paths-config <this-file>
+# Do NOT copy these nodes into the shared ComfyUI/custom_nodes tree.
+h3_face_refine_adapter:
+  base_path: ../
+  custom_nodes: upstream/
+  # Reuse host/shared weights by absolute path via manager resources; keep code isolated.

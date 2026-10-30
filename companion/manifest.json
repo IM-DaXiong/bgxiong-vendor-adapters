@@ -1,0 +1,42 @@
+{
+  "version": "1.0.0-a04",
+  "entry": "scripts/start-managed.ps1",
+  "bootstrapTimeoutSec": 1800,
+  "healthEndpoint": "/system_stats",
+  "probeEndpoints": [
+    "/object_info",
+    "/h3_facerefine/videos"
+  ],
+  "requiredClasses": [
+    "H3FaceSelect",
+    "H3FaceTrackCrop",
+    "H3FaceStitch",
+    "H3InjectVideoLatent",
+    "H3PerFrameDenoise"
+  ],
+  "optionalClasses": [
+    "H3FaceMaskSAM"
+  ],
+  "upstreamCommit": "d8521d14fe0d721d80cd9417fff5a559cbc21aba",
+  "upstreamVersion": "1.1.2",
+  "pythonAbi": "cp311",
+  "isolation": {
+    "customNodesStrategy": "extra_model_paths",
+    "overwriteGlobalCustomNodes": false
+  },
+  "requiredFiles": [
+    "manifest.json",
+    "upstream-snapshot.json",
+    "extra-paths/extra_model_paths.yaml",
+    "scripts/start-managed.ps1",
+    "scripts/prepare-runtime.ps1",
+    "scripts/probe.ps1",
+    "upstream/ComfyUI-H3-FaceRefine/__init__.py",
+    "upstream/ComfyUI-H3-FaceRefine/nodes.py",
+    "upstream/ComfyUI-H3-FaceRefine/picker_api.py",
+    "upstream/ComfyUI-H3-FaceRefine/requirements.txt",
+    "upstream/ComfyUI-H3-FaceRefine/pyproject.toml",
+    "CONTRACT.md"
+  ],
+  "description": "Managed companion: isolated H3 FaceRefine 1.1.2 nodes + picker HTTP bridge (no global custom_nodes overwrite)"
+}

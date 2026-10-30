@@ -1,0 +1,44 @@
+{
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "kind": {
+      "enum": [
+        "image",
+        "audio",
+        "video",
+        "file"
+      ]
+    },
+    "handle": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mime": {
+      "type": "string",
+      "minLength": 1
+    },
+    "fileName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "byteLength": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]*)$"
+    }
+  },
+  "required": [
+    "id",
+    "kind",
+    "handle",
+    "mime",
+    "fileName",
+    "byteLength"
+  ],
+  "additionalProperties": false,
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/media-input.schema.json"
+}

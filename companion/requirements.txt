@@ -1,0 +1,4 @@
+ultralytics
+scipy
+insightface
+scenedetect>=0.7

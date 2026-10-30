@@ -1,0 +1,63 @@
+{
+  "_meta": {
+    "title": "h3-face-refine-manual-select-api",
+    "upstreamCommit": "d8521d14fe0d721d80cd9417fff5a559cbc21aba",
+    "note": "Template API graph. Live refine injects media names, face_pick, absent_shots, prompt, denoise, refs. Requires MiniMax H3 + YOLO weights on the managed runtime."
+  },
+  "select": {
+    "class_type": "H3FaceSelect",
+    "inputs": {
+      "video": "SOURCE.mp4",
+      "confirmed_pick": "",
+      "detector": "bbox/face_yolov8m.pt",
+      "confidence": 0.35,
+      "cut_detection": "auto",
+      "select": "largest_face"
+    }
+  },
+  "track": {
+    "class_type": "H3FaceTrackCrop",
+    "inputs": {
+      "face_pick": [
+        "select",
+        2
+      ],
+      "images": [
+        "select",
+        0
+      ],
+      "preview": false
+    }
+  },
+  "denoise": {
+    "class_type": "H3PerFrameDenoise",
+    "inputs": {
+      "model": [
+        "h3_model",
+        0
+      ],
+      "denoise_multiplier_small_face": 0.8,
+      "denoise_multiplier_large_face": 0.35
+    }
+  },
+  "r2v": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "prompt": "USER_PROMPT",
+      "length": 0
+    }
+  },
+  "inject": {
+    "class_type": "H3InjectVideoLatent",
+    "inputs": {}
+  },
+  "stitch": {
+    "class_type": "H3FaceStitch",
+    "inputs": {}
+  },
+  "sam_optional": {
+    "class_type": "H3FaceMaskSAM",
+    "inputs": {},
+    "_optional": true
+  }
+}

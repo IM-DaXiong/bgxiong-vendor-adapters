@@ -1,0 +1,367 @@
+{
+  "status": "DESIGN_FIXTURES_ONLY",
+  "capabilities": [
+    {
+      "schemaVersion": 2,
+      "localId": "summarize",
+      "capabilityKey": "text.generate",
+      "transportSlot": "text",
+      "modelIds": [
+        "multi-purpose-example"
+      ],
+      "configurationSchema": {
+        "id": "config",
+        "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800"
+      },
+      "operations": [
+        {
+          "id": "example/summarize",
+          "version": 1,
+          "label": "渲染示例",
+          "inputSchema": {
+            "id": "input",
+            "digest": "156c7f81511d20cb40e07067477debcfc6fd9dcde233b2e1f01a42839aff5d17"
+          },
+          "outputSchema": {
+            "id": "output",
+            "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b"
+          },
+          "resumeSchema": {
+            "id": "resume",
+            "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61"
+          },
+          "uiSchema": {
+            "controls": [
+              {
+                "fieldPointer": "/prompt",
+                "widget": "multiline",
+                "label": "prompt",
+                "description": "Design fixture",
+                "group": "inputs"
+              },
+              {
+                "fieldPointer": "/style",
+                "widget": "select",
+                "label": "style",
+                "description": "Design fixture",
+                "group": "inputs"
+              }
+            ]
+          },
+          "mediaSlots": [],
+          "execution": {
+            "mode": "synchronous",
+            "streaming": false,
+            "cancellation": "unsupported",
+            "resumable": false,
+            "remoteIdempotency": false
+          },
+          "outputSlots": []
+        }
+      ],
+      "schemas": [
+        {
+          "id": "input",
+          "digest": "156c7f81511d20cb40e07067477debcfc6fd9dcde233b2e1f01a42839aff5d17",
+          "schemaJson": "{\"type\":\"object\",\"properties\":{\"prompt\":{\"type\":\"string\"},\"style\":{\"enum\":[\"short\",\"detailed\"]}},\"required\":[\"prompt\",\"style\"],\"additionalProperties\":false}"
+        },
+        {
+          "id": "output",
+          "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"description\":{\"type\":\"string\"}},\"required\":[\"description\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "config",
+          "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"endpointBaseUrl\":{\"minLength\":1,\"type\":\"string\"}},\"required\":[\"endpointBaseUrl\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "resume",
+          "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61",
+          "schemaJson": "{\"type\":\"null\"}"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "localId": "classify",
+      "capabilityKey": "example/classify",
+      "transportSlot": "generic",
+      "modelIds": [
+        "multi-purpose-example"
+      ],
+      "configurationSchema": {
+        "id": "config",
+        "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800"
+      },
+      "operations": [
+        {
+          "id": "example/classify",
+          "version": 1,
+          "label": "渲染示例",
+          "inputSchema": {
+            "id": "input",
+            "digest": "6032da479bb4e84ea52a3996a713bffe91481cb62ebafa4f267fac01d89cf6f5"
+          },
+          "outputSchema": {
+            "id": "output",
+            "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b"
+          },
+          "resumeSchema": {
+            "id": "resume",
+            "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61"
+          },
+          "uiSchema": {
+            "controls": [
+              {
+                "fieldPointer": "/document",
+                "widget": "media",
+                "label": "document",
+                "description": "Design fixture",
+                "group": "inputs"
+              }
+            ]
+          },
+          "mediaSlots": [
+            {
+              "role": "source",
+              "inputPointer": "/document",
+              "mediaKind": "file",
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "execution": {
+            "mode": "synchronous",
+            "streaming": false,
+            "cancellation": "unsupported",
+            "resumable": false,
+            "remoteIdempotency": false
+          },
+          "outputSlots": []
+        }
+      ],
+      "schemas": [
+        {
+          "id": "input",
+          "digest": "6032da479bb4e84ea52a3996a713bffe91481cb62ebafa4f267fac01d89cf6f5",
+          "schemaJson": "{\"type\":\"object\",\"properties\":{\"document\":{\"type\":\"object\",\"properties\":{\"mediaId\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"mediaId\"],\"additionalProperties\":false}},\"required\":[\"document\"],\"additionalProperties\":false}"
+        },
+        {
+          "id": "output",
+          "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"description\":{\"type\":\"string\"}},\"required\":[\"description\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "config",
+          "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"endpointBaseUrl\":{\"minLength\":1,\"type\":\"string\"}},\"required\":[\"endpointBaseUrl\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "resume",
+          "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61",
+          "schemaJson": "{\"type\":\"null\"}"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "localId": "drive",
+      "capabilityKey": "video.speech",
+      "transportSlot": "video",
+      "modelIds": [
+        "multi-purpose-example"
+      ],
+      "configurationSchema": {
+        "id": "config",
+        "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800"
+      },
+      "operations": [
+        {
+          "id": "example/drive",
+          "version": 1,
+          "label": "渲染示例",
+          "inputSchema": {
+            "id": "input",
+            "digest": "1e92adb2b9324ea6951ab1a6f0f5b0e5ee2d95c6cd74bd7b3245dc63e01c2013"
+          },
+          "outputSchema": {
+            "id": "output",
+            "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b"
+          },
+          "resumeSchema": {
+            "id": "resume",
+            "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61"
+          },
+          "uiSchema": {
+            "controls": [
+              {
+                "fieldPointer": "/image",
+                "widget": "media",
+                "label": "image",
+                "description": "Design fixture",
+                "group": "inputs"
+              },
+              {
+                "fieldPointer": "/audio",
+                "widget": "media",
+                "label": "audio",
+                "description": "Design fixture",
+                "group": "inputs"
+              }
+            ]
+          },
+          "mediaSlots": [
+            {
+              "role": "portrait",
+              "inputPointer": "/image",
+              "mediaKind": "image",
+              "minCount": 1,
+              "maxCount": 1
+            },
+            {
+              "role": "speech",
+              "inputPointer": "/audio",
+              "mediaKind": "audio",
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "execution": {
+            "mode": "synchronous",
+            "streaming": false,
+            "cancellation": "unsupported",
+            "resumable": false,
+            "remoteIdempotency": false
+          },
+          "outputSlots": [
+            {
+              "role": "primary",
+              "kind": "video",
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ]
+        }
+      ],
+      "schemas": [
+        {
+          "id": "input",
+          "digest": "1e92adb2b9324ea6951ab1a6f0f5b0e5ee2d95c6cd74bd7b3245dc63e01c2013",
+          "schemaJson": "{\"type\":\"object\",\"properties\":{\"image\":{\"type\":\"object\",\"properties\":{\"mediaId\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"mediaId\"],\"additionalProperties\":false},\"audio\":{\"type\":\"object\",\"properties\":{\"mediaId\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"mediaId\"],\"additionalProperties\":false}},\"required\":[\"image\",\"audio\"],\"additionalProperties\":false}"
+        },
+        {
+          "id": "output",
+          "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"description\":{\"type\":\"string\"}},\"required\":[\"description\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "config",
+          "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"endpointBaseUrl\":{\"minLength\":1,\"type\":\"string\"}},\"required\":[\"endpointBaseUrl\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "resume",
+          "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61",
+          "schemaJson": "{\"type\":\"null\"}"
+        }
+      ]
+    },
+    {
+      "schemaVersion": 2,
+      "localId": "edit",
+      "capabilityKey": "video.edit",
+      "transportSlot": "video",
+      "modelIds": [
+        "multi-purpose-example"
+      ],
+      "configurationSchema": {
+        "id": "config",
+        "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800"
+      },
+      "operations": [
+        {
+          "id": "example/edit",
+          "version": 1,
+          "label": "渲染示例",
+          "inputSchema": {
+            "id": "input",
+            "digest": "ab7dbe7e1ef501549c3a93d139eeaf99310fad85c5f825a7373f13217d4362b6"
+          },
+          "outputSchema": {
+            "id": "output",
+            "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b"
+          },
+          "resumeSchema": {
+            "id": "resume",
+            "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61"
+          },
+          "uiSchema": {
+            "controls": [
+              {
+                "fieldPointer": "/source",
+                "widget": "media",
+                "label": "source",
+                "description": "Design fixture",
+                "group": "inputs"
+              },
+              {
+                "fieldPointer": "/range",
+                "widget": "time_span",
+                "label": "range",
+                "description": "Design fixture",
+                "group": "inputs"
+              }
+            ]
+          },
+          "mediaSlots": [
+            {
+              "role": "source",
+              "inputPointer": "/source",
+              "mediaKind": "video",
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ],
+          "execution": {
+            "mode": "synchronous",
+            "streaming": false,
+            "cancellation": "unsupported",
+            "resumable": false,
+            "remoteIdempotency": false
+          },
+          "outputSlots": [
+            {
+              "role": "primary",
+              "kind": "video",
+              "minCount": 1,
+              "maxCount": 1
+            }
+          ]
+        }
+      ],
+      "schemas": [
+        {
+          "id": "input",
+          "digest": "ab7dbe7e1ef501549c3a93d139eeaf99310fad85c5f825a7373f13217d4362b6",
+          "schemaJson": "{\"type\":\"object\",\"properties\":{\"source\":{\"type\":\"object\",\"properties\":{\"mediaId\":{\"type\":\"string\",\"minLength\":1}},\"required\":[\"mediaId\"],\"additionalProperties\":false},\"range\":{\"type\":\"object\",\"properties\":{\"mediaId\":{\"type\":\"string\",\"minLength\":1},\"startMs\":{\"type\":\"integer\",\"minimum\":0},\"endMs\":{\"type\":\"integer\",\"minimum\":0}},\"required\":[\"mediaId\",\"startMs\",\"endMs\"],\"additionalProperties\":false}},\"required\":[\"source\",\"range\"],\"additionalProperties\":false}"
+        },
+        {
+          "id": "output",
+          "digest": "26b3b20fbc8966741e672665a4fb12cc805f72b901ce0ceaa704cb66e304929b",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"description\":{\"type\":\"string\"}},\"required\":[\"description\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "config",
+          "digest": "4afc4539428c699c8de794fd58f1a6023817a76baee5377e47f4b705b2d00800",
+          "schemaJson": "{\"additionalProperties\":false,\"properties\":{\"endpointBaseUrl\":{\"minLength\":1,\"type\":\"string\"}},\"required\":[\"endpointBaseUrl\"],\"type\":\"object\"}"
+        },
+        {
+          "id": "resume",
+          "digest": "bcde375ebd4cbacf651311181173836b169d5a360c6ac158c6a2cdaf49be3f61",
+          "schemaJson": "{\"type\":\"null\"}"
+        }
+      ]
+    }
+  ]
+}

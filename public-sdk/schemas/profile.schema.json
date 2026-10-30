@@ -1,0 +1,200 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profile.schema.json",
+  "title": "DeclarativeAdapterProfileV2",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/capability-contract.schema.json"
+      }
+    },
+    "operations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "transportOperation": {
+            "enum": [
+              "probe",
+              "upload",
+              "submit",
+              "query",
+              "cancel"
+            ]
+          },
+          "operationId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "operationVersion": {
+            "type": "integer",
+            "minimum": 1
+          },
+          "request": {
+            "type": "object",
+            "properties": {
+              "method": {
+                "enum": [
+                  "GET",
+                  "POST",
+                  "PUT",
+                  "PATCH",
+                  "DELETE"
+                ]
+              },
+              "urlTemplate": {
+                "type": "string",
+                "minLength": 1
+              },
+              "headers": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string",
+                      "minLength": 1
+                    },
+                    "value": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              },
+              "bodyTemplate": {},
+              "credentialMode": {
+                "enum": [
+                  "none",
+                  "bearer",
+                  "custom-header"
+                ]
+              },
+              "credentialSlot": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "mappings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "source": {
+                      "enum": [
+                        "input",
+                        "configuration",
+                        "media",
+                        "task",
+                        "constant"
+                      ]
+                    },
+                    "sourcePointer": {
+                      "type": "string"
+                    },
+                    "targetPointer": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "^/"
+                    },
+                    "value": {}
+                  },
+                  "required": [
+                    "source",
+                    "sourcePointer",
+                    "targetPointer",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "method",
+              "urlTemplate",
+              "headers",
+              "bodyTemplate",
+              "credentialMode",
+              "credentialSlot",
+              "mappings"
+            ],
+            "additionalProperties": false
+          },
+          "response": {
+            "type": "object",
+            "properties": {
+              "resultTemplate": {},
+              "mappings": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "source": {
+                      "enum": [
+                        "input",
+                        "configuration",
+                        "media",
+                        "task",
+                        "constant"
+                      ]
+                    },
+                    "sourcePointer": {
+                      "type": "string"
+                    },
+                    "targetPointer": {
+                      "type": "string",
+                      "minLength": 1,
+                      "pattern": "^/"
+                    },
+                    "value": {}
+                  },
+                  "required": [
+                    "source",
+                    "sourcePointer",
+                    "targetPointer",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            },
+            "required": [
+              "resultTemplate",
+              "mappings"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "transportOperation",
+          "operationId",
+          "operationVersion",
+          "request",
+          "response"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "capabilities",
+    "operations"
+  ],
+  "additionalProperties": false
+}

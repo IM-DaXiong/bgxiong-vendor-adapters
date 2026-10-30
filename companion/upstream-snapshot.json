@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "upstream": {
+    "name": "ComfyUI-H3-FaceRefine",
+    "repository": "https://github.com/Carasibana/ComfyUI-H3-FaceRefine",
+    "version": "1.1.2",
+    "commit": "d8521d14fe0d721d80cd9417fff5a559cbc21aba",
+    "tag": "v1.1.2",
+    "licenseFile": "upstream/ComfyUI-H3-FaceRefine/LICENSE",
+    "lockedAt": "2026-10-30T08:00:00+08:00"
+  },
+  "isolation": {
+    "mode": "package-owned-custom-nodes",
+    "neverOverwriteGlobalCustomNodes": true,
+    "mechanism": "ComfyUI --extra-model-paths-config pointing at companion/extra-paths/extra_model_paths.yaml under managed runtime root",
+    "weightsReuse": "shared models/ultralytics and MiniMax-H3 weights may be referenced read-only; code+venv are version-scoped"
+  }
+}

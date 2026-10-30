@@ -1,0 +1,21 @@
+[package]
+name = "bgx-adapter-v2-sdk"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[features]
+default = ["component-guest"]
+component-guest = ["dep:wit-bindgen", "dep:dlmalloc"]
+std = []
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+wit-bindgen = { version = "=0.51.0", default-features = false, features = ["macros", "realloc"], optional = true }
+dlmalloc = { version = "=0.2.14", features = ["global"], optional = true }
+
+[dev-dependencies]
+wasmtime = { workspace = true }
+tempfile = "=3.27.0"

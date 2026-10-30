@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source",
+    "analysis",
+    "selection"
+  ],
+  "properties": {
+    "source": {
+      "$ref": "media-target-selection-v1/source-identity.schema.json"
+    },
+    "analysis": {
+      "type": "object",
+      "required": [
+        "analysisId",
+        "revision",
+        "digest"
+      ],
+      "additionalProperties": true
+    },
+    "selection": {
+      "$ref": "media-target-selection-v1/selection.schema.json"
+    },
+    "preview": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "includeLostMarkers": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    }
+  }
+}

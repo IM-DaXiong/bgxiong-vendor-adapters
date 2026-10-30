@@ -1,0 +1,335 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/local-runtime/v1/runtime.schema.json",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/RuntimeSpec"
+    },
+    {
+      "$ref": "#/$defs/LaunchConfig"
+    },
+    {
+      "$ref": "#/$defs/CodeInventory"
+    }
+  ],
+  "$defs": {
+    "RuntimeSpec": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "os": {
+          "enum": [
+            "windows",
+            "linux",
+            "macos"
+          ]
+        },
+        "arch": {
+          "enum": [
+            "x86_64",
+            "aarch64"
+          ]
+        },
+        "code": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[:\\\\\\u0000]).+$"
+            },
+            "sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            }
+          },
+          "required": [
+            "path",
+            "sha256"
+          ],
+          "additionalProperties": false
+        },
+        "executable": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "const": "code"
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[:\\\\\\u0000]).+$"
+                }
+              },
+              "required": [
+                "source",
+                "path"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "source": {
+                  "const": "resource"
+                },
+                "resourceId": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[^\\u0000]+$"
+                },
+                "path": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[:\\\\\\u0000]).+$"
+                }
+              },
+              "required": [
+                "source",
+                "resourceId",
+                "path"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        },
+        "args": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "resourceIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^\\u0000]+$"
+          },
+          "uniqueItems": true
+        },
+        "pythonAbi": {
+          "type": "string"
+        },
+        "defaultProfile": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$",
+          "default": "default"
+        },
+        "profiles": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^\\u0000]+$"
+              },
+              "args": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "resourceIds": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "pattern": "^[^\\u0000]+$"
+                },
+                "uniqueItems": true
+              }
+            },
+            "required": [
+              "id"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "readinessTimeoutMs": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991,
+          "default": 120000
+        },
+        "concurrency": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991,
+          "default": 1
+        },
+        "cancel": {
+          "enum": [
+            "none",
+            "request"
+          ],
+          "default": "none"
+        },
+        "device": {
+          "enum": [
+            "cpu",
+            "gpu",
+            "either"
+          ],
+          "default": "either"
+        },
+        "residentBytes": {
+          "type": "string",
+          "pattern": "^(?:0|[1-9][0-9]{0,18}|1[0-7][0-9]{18}|18[0-3][0-9]{17}|184[0-3][0-9]{16}|1844[0-5][0-9]{15}|18446[0-6][0-9]{14}|184467[0-3][0-9]{13}|1844674[0-3][0-9]{12}|184467440[0-6][0-9]{10}|1844674407[0-2][0-9]{9}|18446744073[0-6][0-9]{8}|1844674407370[0-8][0-9]{6}|18446744073709[0-4][0-9]{5}|184467440737095[0-4][0-9]{4}|18446744073709550[0-9]{3}|18446744073709551[0-5][0-9]{2}|1844674407370955160[0-9]{1}|1844674407370955161[0-4]|18446744073709551615)$"
+        }
+      },
+      "required": [
+        "id",
+        "version",
+        "os",
+        "arch",
+        "code",
+        "executable"
+      ],
+      "additionalProperties": false
+    },
+    "LaunchConfig": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "instanceId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "nonce": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "listenHost": {
+          "const": "127.0.0.1"
+        },
+        "port": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 65535
+        },
+        "sessionToken": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "runtimeProfile": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "device": {
+          "enum": [
+            "cpu",
+            "gpu"
+          ]
+        },
+        "resources": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^\\u0000]+$"
+              },
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^\\u0000]+$"
+              }
+            },
+            "required": [
+              "id",
+              "path"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "workDir": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "instanceId",
+        "nonce",
+        "listenHost",
+        "port",
+        "sessionToken",
+        "modelId",
+        "runtimeProfile",
+        "device",
+        "resources",
+        "workDir"
+      ],
+      "additionalProperties": false
+    },
+    "CodeInventory": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "files": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "path": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.(?:/|$))(?!.*[:\\\\\\u0000]).+$"
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              },
+              "byteLength": {
+                "type": "string",
+                "pattern": "^(?:0|[1-9][0-9]{0,18}|1[0-7][0-9]{18}|18[0-3][0-9]{17}|184[0-3][0-9]{16}|1844[0-5][0-9]{15}|18446[0-6][0-9]{14}|184467[0-3][0-9]{13}|1844674[0-3][0-9]{12}|184467440[0-6][0-9]{10}|1844674407[0-2][0-9]{9}|18446744073[0-6][0-9]{8}|1844674407370[0-8][0-9]{6}|18446744073709[0-4][0-9]{5}|184467440737095[0-4][0-9]{4}|18446744073709550[0-9]{3}|18446744073709551[0-5][0-9]{2}|1844674407370955160[0-9]{1}|1844674407370955161[0-4]|18446744073709551615)$"
+              }
+            },
+            "required": [
+              "path",
+              "sha256",
+              "byteLength"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "files"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

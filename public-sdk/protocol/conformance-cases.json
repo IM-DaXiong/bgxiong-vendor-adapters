@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 2,
+  "contractRelease": "2.0.0",
+  "cases": [
+    {
+      "id": "C01",
+      "title": "主程序及v1隔离摘要",
+      "required": true
+    },
+    {
+      "id": "C02",
+      "title": "独立workspace与路径依赖",
+      "required": true
+    },
+    {
+      "id": "C03",
+      "title": "发布文件完整性及缺件拒绝",
+      "required": true
+    },
+    {
+      "id": "C04",
+      "title": "schema闭集与引用",
+      "required": true
+    },
+    {
+      "id": "C05",
+      "title": "跨语言与ABI字段往返",
+      "required": true
+    },
+    {
+      "id": "C06",
+      "title": "业务输入严格校验",
+      "required": true
+    },
+    {
+      "id": "C07",
+      "title": "身份摘要与篡改",
+      "required": true
+    },
+    {
+      "id": "C08",
+      "title": "权限及required feature",
+      "required": true
+    },
+    {
+      "id": "C09",
+      "title": "同模型多能力及generic",
+      "required": true
+    },
+    {
+      "id": "C10",
+      "title": "支持就绪与输入分层",
+      "required": true
+    },
+    {
+      "id": "C11",
+      "title": "媒体ID与上传归属",
+      "required": true
+    },
+    {
+      "id": "C12",
+      "title": "时间几何与VFR",
+      "required": true
+    },
+    {
+      "id": "C13",
+      "title": "结构化结果与多产物",
+      "required": true
+    },
+    {
+      "id": "C14",
+      "title": "终态错误及真实usage",
+      "required": true
+    },
+    {
+      "id": "C15",
+      "title": "WIT2与缺导入",
+      "required": true
+    },
+    {
+      "id": "C16",
+      "title": "native和WASM作者入口",
+      "required": true
+    },
+    {
+      "id": "C17",
+      "title": "worker沙箱及崩溃",
+      "required": true
+    },
+    {
+      "id": "C18",
+      "title": "进程关联并发与超时",
+      "required": true
+    },
+    {
+      "id": "C19",
+      "title": "媒体租约释放与重建",
+      "required": true
+    },
+    {
+      "id": "C20",
+      "title": "网络凭据日志隔离",
+      "required": true
+    },
+    {
+      "id": "C21",
+      "title": "HTTP真实流读取与背压",
+      "required": true
+    },
+    {
+      "id": "C22",
+      "title": "事件顺序和唯一终态",
+      "required": true
+    },
+    {
+      "id": "C23",
+      "title": "accepted持久恢复及未知受理",
+      "required": true
+    },
+    {
+      "id": "C24",
+      "title": "真实取消语义",
+      "required": true
+    },
+    {
+      "id": "C25",
+      "title": "六操作同一执行核",
+      "required": true
+    },
+    {
+      "id": "C26",
+      "title": "空目录作者模板和打包",
+      "required": true
+    },
+    {
+      "id": "C27",
+      "title": "另进程query原任务",
+      "required": true
+    },
+    {
+      "id": "C28",
+      "title": "record replay conform不能假绿",
+      "required": true
+    },
+    {
+      "id": "C29",
+      "title": "profile与代码适配一致",
+      "required": true
+    },
+    {
+      "id": "C30",
+      "title": "参考表单公共输入往返",
+      "required": true
+    },
+    {
+      "id": "C31",
+      "title": "三类独立模拟服务",
+      "required": true
+    },
+    {
+      "id": "C32",
+      "title": "自包含依赖闭包及离线条件",
+      "required": true
+    },
+    {
+      "id": "C33",
+      "title": "三类真实可执行WASM样例",
+      "required": true
+    },
+    {
+      "id": "C34",
+      "title": "故障矩阵与缺case拒绝",
+      "required": true
+    },
+    {
+      "id": "C35",
+      "title": "候选包完整及可复现",
+      "required": true
+    },
+    {
+      "id": "C36",
+      "title": "隔离作者新增操作参数",
+      "required": true
+    }
+  ]
+}

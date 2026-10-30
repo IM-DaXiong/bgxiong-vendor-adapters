@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "sdkRelease": "2.0.0",
+  "status": "NOT_RUN",
+  "sealed": false,
+  "sdkReady": false,
+  "releaseLockDigest": null,
+  "gates": {
+    "G00": "NOT_RUN",
+    "G01": "NOT_RUN",
+    "G02": "NOT_RUN",
+    "G03": "NOT_RUN",
+    "G04": "NOT_RUN",
+    "G05": "NOT_RUN",
+    "G06": "NOT_RUN"
+  },
+  "moduleIntegration": "NOT_ADOPTED",
+  "mainApplicationV2Import": "NOT_SUPPORTED",
+  "publication": "NOT_PUBLISHED",
+  "projectLicense": "LicenseRef-Proprietary",
+  "note": "G00-G06 and SDK_READY remain NOT_RUN/unsealed. NOT_ADOPTED/NOT_SUPPORTED describe the standalone full-candidate governance, not the installed workflow adapter feature. See developerPreview and DEVELOPER-PREVIEW.zh-CN.md.",
+  "scope": "STANDALONE_SDK_FULL_CONFORMANCE",
+  "developerPreview": {
+    "channel": "DEVELOPER_PREVIEW",
+    "installationVersion": "0.6.1030",
+    "contractVersion": "2.0.0",
+    "publication": "NO_REMOTE_PUBLICATION_ATTESTED",
+    "supportedWorkflowFamilies": [
+      "image.generate",
+      "video.generate",
+      "video.edit"
+    ],
+    "workflowPackageInstallation": "SUPPORTED_WITH_DOCUMENTED_HOST_LIMITS",
+    "acceptanceReuse": [
+      "P01-P13 representative workflow evidence on original baselines",
+      "0.6.1028 new image workflow independent zero-hint author acceptance"
+    ],
+    "currentInstallerVerification": "SEE_VERSIONED_DELIVERY_RECEIPT",
+    "scopeDocument": "DEVELOPER-PREVIEW.zh-CN.md",
+    "fullSdkReadinessClaim": false
+  }
+}

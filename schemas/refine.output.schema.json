@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "outputMediaId",
+    "execution",
+    "audioPreserved"
+  ],
+  "properties": {
+    "outputMediaId": {
+      "type": "string"
+    },
+    "execution": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "audioPreserved": {
+      "type": "boolean"
+    },
+    "freezeDigest": {
+      "type": "string"
+    }
+  }
+}

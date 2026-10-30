@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/profiles/media-target-selection-v1/selection.schema.json",
+  "title": "MediaTargetSelection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "analysisId",
+    "analysisRevision",
+    "analysisDigest",
+    "shots"
+  ],
+  "properties": {
+    "analysisId": {
+      "type": "string"
+    },
+    "analysisRevision": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "analysisDigest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "shotId",
+          "decision"
+        ],
+        "properties": {
+          "shotId": {
+            "type": "string"
+          },
+          "decision": {
+            "oneOf": [
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind",
+                  "candidateId"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "target"
+                  },
+                  "candidateId": {
+                    "type": "string"
+                  }
+                }
+              },
+              {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "kind"
+                ],
+                "properties": {
+                  "kind": {
+                    "const": "absent"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,201 @@
+{
+  "schemaVersion": 2,
+  "contractRelease": "2.0.0",
+  "witPackage": "bgxiong:vendor-adapter@2.0.0",
+  "protocolMin": 2,
+  "protocolMax": 2,
+  "operations": [
+    "capabilities",
+    "probe",
+    "upload",
+    "submit",
+    "query",
+    "cancel"
+  ],
+  "capabilitySlots": [
+    "image",
+    "imageToImage",
+    "video",
+    "keyframe",
+    "text",
+    "speech",
+    "voiceDesign",
+    "sfx",
+    "avatar",
+    "lipsync",
+    "videoUpscale",
+    "videoFaceRefine",
+    "imageUpscale",
+    "generic"
+  ],
+  "schemaDialect": "https://json-schema.org/draft/2020-12/schema",
+  "operationContracts": "../operation-contracts.json",
+  "policy": "schema-policy.json",
+  "features": "host-feature-catalog.json",
+  "signature": {
+    "format": "minisign-prehashed",
+    "hashManifest": "manifest.sha256",
+    "signatureFile": "manifest.sha256.minisig",
+    "unsignedNamespacePrefix": "local.",
+    "publisherNamespaceSource": "explicit-development-trust-input"
+  },
+  "standardCapabilityKeys": [
+    "text.generate",
+    "image.generate",
+    "video.generate",
+    "audio.synthesize",
+    "video.speech",
+    "video.edit"
+  ],
+  "standardProfiles": [
+    {
+      "operationId": "std/speech.synthesize",
+      "operationVersion": 1,
+      "inputSchema": {
+        "id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json",
+        "digest": "f51eacb5d1d76023638e8c66646132abca32a5be4599d115f2c5102b822360c2"
+      },
+      "outputSchema": {
+        "id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.output.schema.json",
+        "digest": "cbd129c6647b61410af5db349d8cd810ba76381c72c5ee8cc8e7c554fc4c2479"
+      },
+      "resumeSchema": {
+        "id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/resume.schema.json",
+        "digest": "98a2bc32dca85855e3ddbb0ded417b4d7947f93c7a904eeec6af879b51e7de2a"
+      }
+    },
+    {
+      "operationId": "std/speech.batch",
+      "operationVersion": 1,
+      "inputSchema": {
+        "id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/batch.input.schema.json",
+        "digest": "22277bf9604cb68141e8c7abc32255d806597da9fb89c5306fef158bed4e7fb6"
+      },
+      "outputSchema": {
+        "id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/batch.output.schema.json",
+        "digest": "83a0860e46ceaef4244d356e716fb89fea6a3dd93085fa045ac767942211dbcf"
+      },
+      "resumeSchema": {
+        "id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/resume.schema.json",
+        "digest": "98a2bc32dca85855e3ddbb0ded417b4d7947f93c7a904eeec6af879b51e7de2a"
+      }
+    },
+    {
+      "operationId": "std/speech.voices.list",
+      "operationVersion": 1,
+      "inputSchema": {
+        "id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/voices.input.schema.json",
+        "digest": "a350197633901794aa2c50ba6d6d06c8995bda981793ec0d84164d7dcdcf3888"
+      },
+      "outputSchema": {
+        "id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/voices.output.schema.json",
+        "digest": "0bb81be3f27adf72e1d82b03accff9937c5befb733dded062c1c6ffe193bcc8b"
+      },
+      "resumeSchema": {
+        "id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/resume.schema.json",
+        "digest": "98a2bc32dca85855e3ddbb0ded417b4d7947f93c7a904eeec6af879b51e7de2a"
+      }
+    }
+  ],
+  "usageNames": {
+    "metrics": [
+      "input_tokens",
+      "output_tokens",
+      "total_tokens",
+      "characters",
+      "duration",
+      "credits",
+      "cost",
+      "balance"
+    ],
+    "units": [
+      "tokens",
+      "characters",
+      "milliseconds",
+      "seconds",
+      "credits",
+      "USD",
+      "CNY",
+      "EUR",
+      "JPY",
+      "GBP"
+    ],
+    "extensionRule": "publisherNamespace/name"
+  },
+  "applicationSupport": "NOT_ADOPTED",
+  "workerFraming": {
+    "lengthType": "u32",
+    "endianness": "little",
+    "encoding": "utf8-json",
+    "cleanEof": "only-after-final-response",
+    "frameBudget": "schema-policy.json#/limits/maxFrameBytes"
+  },
+  "security": {
+    "signSpec": "../schemas/host-ports.schema.json#/$defs/signSpec",
+    "signSpecVersion": 1,
+    "guestVisiblePrimitives": [
+      "hmac-sha256",
+      "jwt-hs256",
+      "hmac-sha256-credential"
+    ],
+    "generatedHeaderKinds": [
+      "bearer",
+      "custom-header"
+    ],
+    "generatedHeaderTarget": "targetField equals name, case-insensitive; broker injects only that header, never guesses a body field",
+    "protectedHeaders": [
+      "host",
+      "content-length",
+      "cookie",
+      "authorization",
+      "proxy-authorization",
+      "connection",
+      "transfer-encoding",
+      "upgrade",
+      "te",
+      "trailer",
+      "proxy-connection"
+    ],
+    "alwaysDeniedNetworks": [
+      "0.0.0.0/8",
+      "169.254.0.0/16",
+      "192.0.0.0/24",
+      "192.0.2.0/24",
+      "198.18.0.0/15",
+      "198.51.100.0/24",
+      "203.0.113.0/24",
+      "224.0.0.0/4",
+      "240.0.0.0/4",
+      "::/128",
+      "fe80::/10",
+      "ff00::/8",
+      "2001:db8::/32"
+    ],
+    "privateNetworks": [
+      "10.0.0.0/8",
+      "172.16.0.0/12",
+      "192.168.0.0/16",
+      "100.64.0.0/10",
+      "127.0.0.0/8",
+      "fc00::/7",
+      "::1/128"
+    ],
+    "redirects": "not-automatically-followed; each explicit follow-up uses the same authorization/DNS/IP gate",
+    "timeoutMsZero": "no per-plan deadline; host request cancellation/deadline still applies",
+    "jwtHs256Header": {
+      "alg": "HS256",
+      "typ": "JWT"
+    },
+    "hmacCredentialPresentation": "HMAC-SHA256 Credential={publicId}, SignedDate={date}, Signature={hexHmacOfCanonical}",
+    "signedAuthorization": "An exact broker-issued signature, or Bearer plus that signature, may be sent only within its credential grant origins and live request scope",
+    "rawEmbeddedAuthorization": "unsigned local package AND manifest authorization capability AND explicit development grant only",
+    "httpStream": {
+      "sink": "buffer only; positive maxBytes is native retained-chunk budget, not total response size",
+      "perReadBudget": "schema-policy.json#/limits/maxHttpChunkBytes",
+      "aggregateRetainedBudget": "schema-policy.json#/limits/maxBufferedHttpBytes",
+      "EOF": "repeatable until explicit close",
+      "failure": "remove live stream, close connection, explicit error; never EOF or automatic retry",
+      "parsing": "opaque bytes; content protocol parsing belongs to adapter"
+    }
+  }
+}

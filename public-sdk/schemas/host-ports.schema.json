@@ -1,0 +1,1471 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json",
+  "title": "ManagedHostPortCallV2",
+  "$defs": {
+    "hostError": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "enum": [
+            "INVALID_INPUT",
+            "PERMISSION_DENIED",
+            "RESOURCE_UNAVAILABLE",
+            "TIMEOUT",
+            "CANCELLED",
+            "BUDGET_EXCEEDED",
+            "INTERNAL_ERROR"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "header": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "mediaStat": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "image",
+            "video",
+            "audio",
+            "file"
+          ]
+        },
+        "mime": {
+          "type": "string",
+          "minLength": 1
+        },
+        "byteLength": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "width": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "height": {
+          "anyOf": [
+            {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "durationMs": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^(0|[1-9][0-9]*)$"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "timestampsMs": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(0|[1-9][0-9]*)$"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fileName": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "kind",
+        "mime",
+        "byteLength",
+        "sha256",
+        "width",
+        "height",
+        "durationMs",
+        "timestampsMs",
+        "id",
+        "fileName"
+      ],
+      "additionalProperties": false
+    },
+    "generatedHeader": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1
+        },
+        "targetField": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "name",
+        "kind",
+        "targetField"
+      ],
+      "additionalProperties": false
+    },
+    "multipartPart": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "field"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "value": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "kind",
+            "name",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "file"
+            },
+            "name": {
+              "type": "string",
+              "minLength": 1
+            },
+            "fileName": {
+              "type": "string",
+              "minLength": 1
+            },
+            "handle": {
+              "type": "string",
+              "minLength": 1
+            },
+            "mime": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "kind",
+            "name",
+            "fileName",
+            "handle",
+            "mime"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "httpBody": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "none"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "bytes"
+            },
+            "bytes": {
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 255
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "bytes"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "media"
+            },
+            "handle": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "kind",
+            "handle"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "multipart"
+            },
+            "parts": {
+              "type": "array",
+              "items": {
+                "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/multipartPart"
+              }
+            }
+          },
+          "required": [
+            "kind",
+            "parts"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "httpSink": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "buffer"
+            },
+            "maxBytes": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          },
+          "required": [
+            "kind",
+            "maxBytes"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "media"
+            }
+          },
+          "required": [
+            "kind"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "httpRequest": {
+      "type": "object",
+      "properties": {
+        "method": {
+          "enum": [
+            "GET",
+            "POST",
+            "PUT",
+            "PATCH",
+            "DELETE",
+            "HEAD",
+            "OPTIONS"
+          ]
+        },
+        "url": {
+          "type": "string",
+          "minLength": 1
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/header"
+          }
+        },
+        "generatedHeaders": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/generatedHeader"
+          }
+        },
+        "body": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/httpBody"
+        },
+        "sink": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/httpSink"
+        },
+        "timeoutMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      },
+      "required": [
+        "method",
+        "url",
+        "headers",
+        "generatedHeaders",
+        "body",
+        "sink",
+        "timeoutMs"
+      ],
+      "additionalProperties": false
+    },
+    "httpResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/header"
+          }
+        },
+        "payload": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "buffered"
+                },
+                "bytes": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 255
+                  }
+                }
+              },
+              "required": [
+                "kind",
+                "bytes"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "kind": {
+                  "const": "media"
+                },
+                "handle": {
+                  "type": "string",
+                  "minLength": 1
+                }
+              },
+              "required": [
+                "kind",
+                "handle"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "status",
+        "headers",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "streamResponse": {
+      "type": "object",
+      "properties": {
+        "streamId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "type": "integer",
+          "minimum": 100,
+          "maximum": 599
+        },
+        "headers": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/header"
+          }
+        }
+      },
+      "required": [
+        "streamId",
+        "status",
+        "headers"
+      ],
+      "additionalProperties": false
+    },
+    "streamRead": {
+      "type": "object",
+      "properties": {
+        "bytes": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        },
+        "eof": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "bytes",
+        "eof"
+      ],
+      "additionalProperties": false
+    },
+    "checkpointWrite": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        }
+      },
+      "required": [
+        "revision"
+      ],
+      "additionalProperties": false
+    },
+    "checkpointRead": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "valueJson": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "revision",
+        "valueJson"
+      ],
+      "additionalProperties": false
+    },
+    "host_http_executeArgs": {
+      "type": "object",
+      "properties": {
+        "plan": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/httpRequest"
+        },
+        "credential": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "plan",
+        "credential"
+      ],
+      "additionalProperties": false
+    },
+    "host_http_executeResult": {
+      "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/httpResponse"
+    },
+    "host_http_stream_openArgs": {
+      "type": "object",
+      "properties": {
+        "plan": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/httpRequest"
+        },
+        "credential": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "plan",
+        "credential"
+      ],
+      "additionalProperties": false
+    },
+    "host_http_stream_openResult": {
+      "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/streamResponse"
+    },
+    "host_http_stream_readArgs": {
+      "type": "object",
+      "properties": {
+        "streamId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "maxBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      },
+      "required": [
+        "streamId",
+        "maxBytes"
+      ],
+      "additionalProperties": false
+    },
+    "host_http_stream_readResult": {
+      "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/streamRead"
+    },
+    "host_http_stream_closeArgs": {
+      "type": "object",
+      "properties": {
+        "streamId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "streamId"
+      ],
+      "additionalProperties": false
+    },
+    "host_http_stream_closeResult": {
+      "type": "null"
+    },
+    "host_media_infoArgs": {
+      "type": "object",
+      "properties": {
+        "handle": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "handle"
+      ],
+      "additionalProperties": false
+    },
+    "host_media_infoResult": {
+      "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/mediaStat"
+    },
+    "host_media_readArgs": {
+      "type": "object",
+      "properties": {
+        "handle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "offset": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "maxBytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        }
+      },
+      "required": [
+        "handle",
+        "offset",
+        "maxBytes"
+      ],
+      "additionalProperties": false
+    },
+    "host_media_readResult": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255
+      }
+    },
+    "host_media_createArgs": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "enum": [
+            "image",
+            "video",
+            "audio",
+            "file"
+          ]
+        },
+        "mimeHint": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "kind",
+        "mimeHint"
+      ],
+      "additionalProperties": false
+    },
+    "host_media_createResult": {
+      "type": "string",
+      "minLength": 1
+    },
+    "host_media_writeArgs": {
+      "type": "object",
+      "properties": {
+        "handle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bytes": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        }
+      },
+      "required": [
+        "handle",
+        "bytes"
+      ],
+      "additionalProperties": false
+    },
+    "host_media_writeResult": {
+      "type": "null"
+    },
+    "host_media_finishArgs": {
+      "type": "object",
+      "properties": {
+        "handle": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "handle"
+      ],
+      "additionalProperties": false
+    },
+    "host_media_finishResult": {
+      "type": "null"
+    },
+    "host_media_releaseArgs": {
+      "type": "object",
+      "properties": {
+        "handle": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "handle"
+      ],
+      "additionalProperties": false
+    },
+    "host_media_releaseResult": {
+      "type": "null"
+    },
+    "host_credential_capabilitiesArgs": {
+      "type": "object",
+      "properties": {
+        "handle": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "handle"
+      ],
+      "additionalProperties": false
+    },
+    "host_credential_capabilitiesResult": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "host_credential_signArgs": {
+      "type": "object",
+      "properties": {
+        "handle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "specJson": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "handle",
+        "specJson"
+      ],
+      "additionalProperties": false
+    },
+    "host_credential_signResult": {
+      "type": "string"
+    },
+    "host_state_getArgs": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "key"
+      ],
+      "additionalProperties": false
+    },
+    "host_state_getResult": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "host_state_putArgs": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "string",
+          "minLength": 1
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "host_state_putResult": {
+      "type": "null"
+    },
+    "host_log_logArgs": {
+      "type": "object",
+      "properties": {
+        "level": {
+          "enum": [
+            "debug",
+            "info",
+            "warn",
+            "error"
+          ]
+        },
+        "code": {
+          "type": "string",
+          "minLength": 1
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "level",
+        "code",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "host_log_logResult": {
+      "type": "null"
+    },
+    "host_stream_emit_eventArgs": {
+      "type": "object",
+      "properties": {
+        "event": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/stream-event.schema.json"
+        }
+      },
+      "required": [
+        "event"
+      ],
+      "additionalProperties": false
+    },
+    "host_stream_emit_eventResult": {
+      "type": "null"
+    },
+    "host_checkpoint_readArgs": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "requestId"
+      ],
+      "additionalProperties": false
+    },
+    "host_checkpoint_readResult": {
+      "anyOf": [
+        {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/checkpointRead"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "host_checkpoint_writeArgs": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expectedRevision": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "valueJson": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "requestId",
+        "expectedRevision",
+        "valueJson"
+      ],
+      "additionalProperties": false
+    },
+    "host_checkpoint_writeResult": {
+      "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/checkpointWrite"
+    },
+    "signSpec": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "kind": {
+              "const": "hmac-sha256"
+            },
+            "message": {
+              "type": "string"
+            },
+            "encoding": {
+              "enum": [
+                "hex",
+                "base64url"
+              ]
+            }
+          },
+          "required": [
+            "version",
+            "kind",
+            "message",
+            "encoding"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "kind": {
+              "const": "jwt-hs256"
+            },
+            "claimsJson": {
+              "type": "string",
+              "minLength": 2
+            }
+          },
+          "required": [
+            "version",
+            "kind",
+            "claimsJson"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "version": {
+              "const": 1
+            },
+            "kind": {
+              "const": "hmac-sha256-credential"
+            },
+            "canonical": {
+              "type": "string"
+            },
+            "date": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "version",
+            "kind",
+            "canonical",
+            "date"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "x-wit-functions": [
+    {
+      "interface": "host-http",
+      "name": "execute",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_executeArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_executeResult"
+      }
+    },
+    {
+      "interface": "host-http-stream",
+      "name": "open",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_stream_openArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_stream_openResult"
+      }
+    },
+    {
+      "interface": "host-http-stream",
+      "name": "read",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_stream_readArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_stream_readResult"
+      }
+    },
+    {
+      "interface": "host-http-stream",
+      "name": "close",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_stream_closeArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_stream_closeResult"
+      }
+    },
+    {
+      "interface": "host-media",
+      "name": "info",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_infoArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_infoResult"
+      }
+    },
+    {
+      "interface": "host-media",
+      "name": "read",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_readArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_readResult"
+      }
+    },
+    {
+      "interface": "host-media",
+      "name": "create",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_createArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_createResult"
+      }
+    },
+    {
+      "interface": "host-media",
+      "name": "write",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_writeArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_writeResult"
+      }
+    },
+    {
+      "interface": "host-media",
+      "name": "finish",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_finishArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_finishResult"
+      }
+    },
+    {
+      "interface": "host-media",
+      "name": "release",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_releaseArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_releaseResult"
+      }
+    },
+    {
+      "interface": "host-credential",
+      "name": "capabilities",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_credential_capabilitiesArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_credential_capabilitiesResult"
+      }
+    },
+    {
+      "interface": "host-credential",
+      "name": "sign",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_credential_signArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_credential_signResult"
+      }
+    },
+    {
+      "interface": "host-state",
+      "name": "get",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_state_getArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_state_getResult"
+      }
+    },
+    {
+      "interface": "host-state",
+      "name": "put",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_state_putArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_state_putResult"
+      }
+    },
+    {
+      "interface": "host-log",
+      "name": "log",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_log_logArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_log_logResult"
+      }
+    },
+    {
+      "interface": "host-stream",
+      "name": "emit-event",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_stream_emit_eventArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_stream_emit_eventResult"
+      }
+    },
+    {
+      "interface": "host-checkpoint",
+      "name": "read",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_checkpoint_readArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_checkpoint_readResult"
+      }
+    },
+    {
+      "interface": "host-checkpoint",
+      "name": "write",
+      "arguments": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_checkpoint_writeArgs"
+      },
+      "returns": {
+        "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_checkpoint_writeResult"
+      }
+    }
+  ],
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-http.execute"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_executeArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-http-stream.open"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_stream_openArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-http-stream.read"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_stream_readArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-http-stream.close"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_http_stream_closeArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-media.info"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_infoArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-media.read"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_readArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-media.create"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_createArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-media.write"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_writeArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-media.finish"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_finishArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-media.release"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_media_releaseArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-credential.capabilities"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_credential_capabilitiesArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-credential.sign"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_credential_signArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-state.get"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_state_getArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-state.put"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_state_putArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-log.log"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_log_logArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-stream.emit-event"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_stream_emit_eventArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-checkpoint.read"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_checkpoint_readArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "method": {
+          "const": "host-checkpoint.write"
+        },
+        "args": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/host-ports.schema.json#/$defs/host_checkpoint_writeArgs"
+        }
+      },
+      "required": [
+        "method",
+        "args"
+      ],
+      "additionalProperties": false
+    }
+  ]
+}

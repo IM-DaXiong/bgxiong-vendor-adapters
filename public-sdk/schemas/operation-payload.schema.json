@@ -1,0 +1,132 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "OperationPayloadV2",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/submit"
+    },
+    {
+      "$ref": "#/$defs/taskRef"
+    }
+  ],
+  "$defs": {
+    "submit": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 2
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capabilityKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operationVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "inputSchemaDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "input": {
+          "type": "object"
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/media-input.schema.json"
+          }
+        },
+        "configuration": {
+          "type": "object"
+        },
+        "uploads": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "mediaId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "uploadRef": {
+                "type": "string",
+                "minLength": 1
+              }
+            },
+            "required": [
+              "mediaId",
+              "uploadRef"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "modelId",
+        "capabilityKey",
+        "operationId",
+        "operationVersion",
+        "inputSchemaDigest",
+        "input",
+        "media",
+        "configuration",
+        "uploads"
+      ],
+      "additionalProperties": false
+    },
+    "taskRef": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 2
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capabilityKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operationVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "vendorTaskId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "resumeToken": {},
+        "configuration": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "modelId",
+        "capabilityKey",
+        "operationId",
+        "operationVersion",
+        "vendorTaskId",
+        "resumeToken",
+        "configuration"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "$id": "https://bgxiong.local/vendor-adapter/v2/operation-payload.schema.json"
+}

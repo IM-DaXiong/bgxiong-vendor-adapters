@@ -1,0 +1,17 @@
+[package]
+name = "bgx-adapter-v2-ports"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+bgx-adapter-v2-sdk = { path = "../../sdk/rust" }
+serde.workspace = true
+serde_json.workspace = true
+
+[dev-dependencies]
+wit-parser = "=0.221.3"
+wit-component = { version = "=0.221.3", features = ["dummy-module"] }
+wasmtime = { workspace = true }
+wat = "=1.262.0"

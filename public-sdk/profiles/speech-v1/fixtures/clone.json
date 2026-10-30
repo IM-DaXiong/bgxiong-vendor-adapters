@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "text": "你好",
+  "mode": "reference_clone",
+  "reference": {
+    "audio": {
+      "mediaId": "ref-1"
+    },
+    "promptText": "原录音"
+  }
+}

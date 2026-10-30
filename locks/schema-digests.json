@@ -1,0 +1,14 @@
+{
+  "pluginId": "local.thirdparty.h3-face-refine",
+  "version": "1.0.0-a04",
+  "digests": {
+    "configuration": "2e97156c04f35c1b8af9a4a25c1ef8b422512f51b22daf1076bdbf1cf65ccf64",
+    "analyze_in": "4abfa185db1d837c18a13e35017dd78c07a6164d2157d4320fc5c7ae82d49408",
+    "analyze_out": "9194a6b60d2adf5c618b46aa1c45cc62bf8ff223e2ba6158769875eeb2d88b01",
+    "preview_in": "723fb78faca6d0b098f0034be6d6c40cb383e886730fc6e93ab831fd4c27619a",
+    "preview_out": "d84a46040b496672da03299777fa96f758ca5d00eb9963dc1e7d64d24b6b09e5",
+    "refine_in": "992d6155341d1567b90f8dd5a4e6f1f77c5aca22f7a0c167c4a789245bef3de1",
+    "refine_out": "730bebc4debe03f919b2c1e12b16c56752d4876d0091ac8a7854c7580631ed91"
+  },
+  "note": "package-local; recompute after schema edits"
+}

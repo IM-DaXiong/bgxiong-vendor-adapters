@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/profiles/media-target-selection-v1/freeze.schema.json",
+  "title": "MediaTargetFreeze",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source",
+    "analysis",
+    "selection",
+    "tracking",
+    "package",
+    "references",
+    "prompt",
+    "params"
+  ],
+  "properties": {
+    "source": {
+      "$ref": "source-identity.schema.json"
+    },
+    "analysis": {
+      "type": "object",
+      "required": [
+        "analysisId",
+        "revision",
+        "digest"
+      ],
+      "additionalProperties": true
+    },
+    "selection": {
+      "$ref": "selection.schema.json"
+    },
+    "tracking": {
+      "$ref": "tracking-receipt.schema.json"
+    },
+    "package": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pluginId",
+        "pluginVersion",
+        "upstreamNodeVersion",
+        "upstreamCommit",
+        "operationId"
+      ],
+      "properties": {
+        "pluginId": {
+          "type": "string"
+        },
+        "pluginVersion": {
+          "type": "string"
+        },
+        "upstreamNodeVersion": {
+          "type": "string"
+        },
+        "upstreamCommit": {
+          "type": "string"
+        },
+        "operationId": {
+          "type": "string"
+        },
+        "dependencyDigest": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "references": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "role",
+          "mediaId",
+          "order"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "appearance",
+              "identity",
+              "other"
+            ]
+          },
+          "mediaId": {
+            "type": "string"
+          },
+          "order": {
+            "type": "integer",
+            "minimum": 0
+          }
+        }
+      }
+    },
+    "prompt": {
+      "type": "string"
+    },
+    "params": {
+      "type": "object"
+    }
+  }
+}

@@ -1,0 +1,140 @@
+{
+  "schemaVersion": 2,
+  "capabilities": [
+    {
+      "schemaVersion": 2,
+      "localId": "echo",
+      "capabilityKey": "local.sdk.echo/echo",
+      "transportSlot": "generic",
+      "modelIds": [
+        "example-model"
+      ],
+      "configurationSchema": {
+        "id": "configuration",
+        "digest": "ff1b2d8857c8e4a2cd87b566a798c5d1cd937fe8a13363e59a51231b4b328939"
+      },
+      "operations": [
+        {
+          "id": "local.sdk.echo/echo",
+          "version": 1,
+          "label": "Echo text",
+          "inputSchema": {
+            "id": "input",
+            "digest": "b85983871c13bf4304a2e43fcf8968d5e7b3f8b59332337cb405c1c45028a3aa"
+          },
+          "outputSchema": {
+            "id": "output",
+            "digest": "b85983871c13bf4304a2e43fcf8968d5e7b3f8b59332337cb405c1c45028a3aa"
+          },
+          "resumeSchema": null,
+          "uiSchema": {
+            "controls": [
+              {
+                "fieldPointer": "/text",
+                "widget": "multiline",
+                "label": "Text",
+                "description": "",
+                "group": "Input"
+              }
+            ]
+          },
+          "mediaSlots": [],
+          "execution": {
+            "mode": "synchronous",
+            "streaming": false,
+            "cancellation": "unsupported",
+            "resumable": false,
+            "remoteIdempotency": false
+          },
+          "outputSlots": [
+            {
+              "role": "answer",
+              "kind": "text",
+              "minCount": 1,
+              "maxCount": null
+            }
+          ]
+        }
+      ],
+      "schemas": [
+        {
+          "id": "input",
+          "digest": "b85983871c13bf4304a2e43fcf8968d5e7b3f8b59332337cb405c1c45028a3aa",
+          "schemaJson": "{\"type\":\"object\",\"properties\":{\"text\":{\"type\":\"string\"}},\"required\":[\"text\"],\"additionalProperties\":false}"
+        },
+        {
+          "id": "output",
+          "digest": "b85983871c13bf4304a2e43fcf8968d5e7b3f8b59332337cb405c1c45028a3aa",
+          "schemaJson": "{\"type\":\"object\",\"properties\":{\"text\":{\"type\":\"string\"}},\"required\":[\"text\"],\"additionalProperties\":false}"
+        },
+        {
+          "id": "configuration",
+          "digest": "ff1b2d8857c8e4a2cd87b566a798c5d1cd937fe8a13363e59a51231b4b328939",
+          "schemaJson": "{\"type\":\"object\",\"properties\":{},\"required\":[],\"additionalProperties\":false}"
+        }
+      ]
+    }
+  ],
+  "operations": [
+    {
+      "transportOperation": "submit",
+      "operationId": "local.sdk.echo/echo",
+      "operationVersion": 1,
+      "request": {
+        "method": "POST",
+        "urlTemplate": "https://example.invalid/echo",
+        "headers": [
+          {
+            "name": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "bodyTemplate": {
+          "text": null
+        },
+        "credentialMode": "none",
+        "credentialSlot": null,
+        "mappings": [
+          {
+            "source": "input",
+            "sourcePointer": "/text",
+            "targetPointer": "/text",
+            "value": ""
+          }
+        ]
+      },
+      "response": {
+        "resultTemplate": {
+          "kind": "completed",
+          "vendorTaskId": null,
+          "appliedParams": null,
+          "outputs": [
+            {
+              "kind": "text",
+              "role": "answer",
+              "text": null
+            }
+          ],
+          "data": {
+            "text": null
+          },
+          "usage": null
+        },
+        "mappings": [
+          {
+            "source": "task",
+            "sourcePointer": "/text",
+            "targetPointer": "/outputs/0/text",
+            "value": ""
+          },
+          {
+            "source": "task",
+            "sourcePointer": "/text",
+            "targetPointer": "/data/text",
+            "value": ""
+          }
+        ]
+      }
+    }
+  ]
+}
