@@ -1,4 +1,10 @@
 {
+  "_meta": {
+    "title": "h3-face-preview-track-api",
+    "upstreamCommit": "d8521d14fe0d721d80cd9417fff5a559cbc21aba",
+    "upstreamVersion": "1.1.2",
+    "note": "Inject video+confirmed_pick before /prompt"
+  },
   "1": {
     "class_type": "H3FaceSelect",
     "inputs": {

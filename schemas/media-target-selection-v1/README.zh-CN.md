@@ -25,3 +25,21 @@
 ## 生成
 
 经 `SchemaRegistry::public` 注册（同 image-projection-v1）。暂不加入 `generate_contracts.py` wire NAMES；需要类型时走现有生成器，禁止手改生成文件。protocolVersion/WIT 不变。
+
+## 字段指针冻结（T02/T03 · 2026-10-30）
+
+唯一字段名，**不同时接受** `references` / `referenceMediaIds` 别名，也不同时接受 `params` / `userParams`。
+
+| UI / 媒体 / 阶段 | 输入指针 | 消费点 |
+|---|---|---|
+| 源视频身份 | `/source`（analyze）或 `/freeze/source`（refine） | 宿主摘要校验；包读 mediaId+digest+range |
+| 检测参数 | `/detectionParams/*` | analyze；变更使分析失效 |
+| 外观参考（有序多图） | `/freeze/referenceMediaIds` | refine freeze；素材栏数组，禁止表单重复 Array |
+| 身份参考（包专属） | `/freeze/userParams/identityMediaIds` | 包消费；不升公共核心直至产品裁决 |
+| 提示词 | `/freeze/prompt` | refine；显式清空合法 |
+| 去噪/小脸/大脸/SAM/scaleMode | `/freeze/userParams/{denoise,smallFaceStrength,largeFaceStrength,samEnabled,scaleMode}` | 仅包声明默认与范围 |
+| 选择 | `/selection` | preview+refine；未选择 ≠ absent |
+| 跟踪回执 | `/tracking` | refine 可选；ready=false 不可提交 |
+| 冻结整包 | `/freeze` | refine 必填；含 analysis 关联与 digests |
+
+反例（见 `fixtures/receipts.json` `invalid`）：带路径的 source、缺 choice 的 selection、无 ready 的 tracking、以及使用已废弃别名 `freeze.references` / `freeze.params` 的对象。

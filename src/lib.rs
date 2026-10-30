@@ -3,6 +3,7 @@ extern crate alloc;
 use alloc::{format, string::{String, ToString}, vec, vec::Vec};
 use bgx_adapter_v2_sdk::{guest, host, Adapter, Host, Invocation, Response};
 use serde_json::{json, Value};
+use std::path::Path;
 use sha2::{Digest, Sha256};
 
 /// no_std-safe nearest-int for timestamp ms (wasm guest has no std float math).
@@ -115,26 +116,31 @@ pub fn capabilities() -> Value {
                 "streaming": false,
                 "cancellation": "best_effort",
                 "resumable": true,
-                "remoteIdempotency": false
+                "remoteIdempotency": false,
+                "requiredFeatures": ["media-target-selection-v1"]
             }
         })
     };
 
     let analyze_controls = vec![
-        json!({"fieldPointer":"/detection/detector","widget":"text","label":"检测器","description":"ultralytics 相对名","group":"检测"}),
-        json!({"fieldPointer":"/detection/confidence","widget":"number","label":"置信度","description":"0-1","group":"检测"}),
-        json!({"fieldPointer":"/detection/cutDetection","widget":"select","label":"切镜检测","description":"none|auto","group":"检测"}),
-        json!({"fieldPointer":"/detection/selectHint","widget":"select","label":"候选编号提示","description":"仅影响编号，不代替用户选择","group":"检测"}),
+        // Analyze input schema uses detectionParams (not /detection).
+        json!({"fieldPointer":"/detectionParams/detector","widget":"text","label":"检测器","description":"ultralytics 相对名","group":"检测","default":"bbox/face_yolov8m.pt"}),
+        json!({"fieldPointer":"/detectionParams/confidence","widget":"number","label":"置信度","description":"0-1","group":"检测","default":0.35,"minimum":0.0,"maximum":1.0}),
+        json!({"fieldPointer":"/detectionParams/cutDetection","widget":"select","label":"切镜检测","description":"none|auto","group":"检测","default":"auto","enum":["none","auto"]}),
+        json!({"fieldPointer":"/detectionParams/selectHint","widget":"select","label":"候选编号提示","description":"仅影响编号，不代替用户选择","group":"检测","default":"largest_face"}),
     ];
     let preview_controls = vec![
         json!({"fieldPointer":"/preview/includeLostMarkers","widget":"checkbox","label":"丢失帧标记","description":"预览中标红丢失/未解析帧","group":"预览"}),
     ];
     let refine_controls = vec![
+        // Pointers must resolve into public freeze fields (prompt / userParams / referenceMediaIds).
+        // Package-only knobs stay under userParams; no /freeze/params or /freeze/references aliases.
         json!({"fieldPointer":"/freeze/prompt","widget":"multiline","label":"提示词","description":"用户原文","group":"精修"}),
-        json!({"fieldPointer":"/freeze/params/denoise","widget":"number","label":"去噪","description":"由包声明范围","group":"精修"}),
-        json!({"fieldPointer":"/freeze/params/smallFaceStrength","widget":"number","label":"小脸强度","description":"denoise_multiplier_small_face","group":"精修"}),
-        json!({"fieldPointer":"/freeze/params/largeFaceStrength","widget":"number","label":"大脸强度","description":"denoise_multiplier_large_face","group":"精修"}),
-        json!({"fieldPointer":"/sam/enabled","widget":"checkbox","label":"SAM脸形遮罩","description":"缺依赖须显式不可用，不得静默改矩形","group":"可选"}),
+        json!({"fieldPointer":"/freeze/userParams/denoise","widget":"number","label":"去噪","description":"由包声明范围；旧对照约0.45","group":"精修","default":0.45,"minimum":0.0,"maximum":1.0}),
+        json!({"fieldPointer":"/freeze/userParams/smallFaceStrength","widget":"number","label":"小脸强度","description":"denoise_multiplier_small_face；旧对照约0.8","group":"精修","default":0.8,"minimum":0.0,"maximum":2.0}),
+        json!({"fieldPointer":"/freeze/userParams/largeFaceStrength","widget":"number","label":"大脸强度","description":"denoise_multiplier_large_face；旧对照约0.35","group":"精修","default":0.35,"minimum":0.0,"maximum":2.0}),
+        json!({"fieldPointer":"/freeze/userParams/samEnabled","widget":"checkbox","label":"SAM脸形遮罩","description":"缺依赖须显式不可用，不得静默改矩形","group":"可选","default":false}),
+        json!({"fieldPointer":"/freeze/userParams/scaleMode","widget":"select","label":"脸尺寸缩放模式","description":"上游 scale_mode；absolute_px|relative_to_clip","group":"可选","default":"absolute_px","enum":["absolute_px","relative_to_clip"]}),
     ];
 
     json!({
@@ -146,6 +152,7 @@ pub fn capabilities() -> Value {
             "localId": "face-refine",
             "capabilityKey": "video.edit",
             "transportSlot": "videoFaceRefine",
+            "requiredFeatures": ["media-target-selection-v1"],
             "modelIds": [MODEL],
             "configurationSchema": {"id": "configuration", "digest": config["digest"]},
             "schemas": [analyze_in.clone(), analyze_out.clone(), preview_in.clone(), preview_out.clone(), refine_in.clone(), refine_out.clone(), config, resume.clone()],
@@ -161,7 +168,8 @@ pub fn capabilities() -> Value {
                 mk_op(OP_REFINE, "人脸精修", &refine_in, &refine_out, refine_controls,
                     vec![
                         json!({"role":"source_video","inputPointer":"/freeze/source/mediaId","mediaKind":"video","minCount":1,"maxCount":1}),
-                        json!({"role":"appearance_ref","inputPointer":"/freeze/references","mediaKind":"image","minCount":0,"maxCount":9}),
+                        json!({"role":"appearance_ref","inputPointer":"/freeze/referenceMediaIds","mediaKind":"image","minCount":0,"maxCount":9}),
+                        json!({"role":"identity_ref","inputPointer":"/freeze/userParams/identityMediaIds","mediaKind":"image","minCount":0,"maxCount":1,"label":"身份参考"}),
                     ],
                     vec![json!({"role":"video","kind":"video","minCount":1,"maxCount":1})],
                     "asynchronous")
@@ -303,42 +311,227 @@ fn run_analyze(h: &mut dyn Host, payload: &Value) -> Result<Value> {
     }))
 }
 
-fn run_preview(h: &mut dyn Host, payload: &Value) -> Result<Value> {
-    let _ = h;
-    let input = payload.get("input").ok_or_else(|| invalid("missing input"))?;
-    let selection = input.get("selection").ok_or_else(|| invalid("preview requires selection"))?;
-    let analysis = input.get("analysis").ok_or_else(|| invalid("preview requires analysis"))?;
-    // Selection digest freeze
-    let sel_raw = serde_json::to_string(selection).unwrap_or_default();
-    let selection_digest: String = Sha256::digest(sel_raw.as_bytes())
-        .iter()
-        .map(|b| format!("{b:02x}"))
-        .collect();
-    // Build face_pick / absent_shots strings for upstream H3FaceSelect / H3FaceTrackCrop
+
+fn selection_bindings(selection: &Value) -> Result<(String, String)> {
     let mut picks = Vec::new();
     let mut absent = Vec::new();
     if let Some(shots) = selection.get("shots").and_then(Value::as_array) {
         for s in shots {
             let sid = s.get("shotId").and_then(Value::as_str).unwrap_or("");
-            let kind = s.pointer("/choice/kind").or_else(|| s.pointer("/decision/kind")).and_then(Value::as_str).unwrap_or("");
+            let kind = s
+                .pointer("/choice/kind")
+                .or_else(|| s.pointer("/decision/kind"))
+                .and_then(Value::as_str)
+                .unwrap_or("");
             match kind {
                 "absent" => absent.push(sid.to_string()),
                 "target" => {
-                    let cid = s.pointer("/choice/candidateId").or_else(|| s.pointer("/decision/candidateId")).and_then(Value::as_str).unwrap_or("");
-                    // candidateId "cN" → index N for upstream confirmed_pick
+                    let cid = s
+                        .pointer("/choice/candidateId")
+                        .or_else(|| s.pointer("/decision/candidateId"))
+                        .and_then(Value::as_str)
+                        .unwrap_or("");
                     let idx = cid.trim_start_matches('c');
-                    picks.push(format!("{sid}:{idx}"));
+                    let shot_idx = sid.trim_start_matches('s');
+                    picks.push(format!("{shot_idx}:{idx}"));
                 }
-                _ => return Err(invalid("each shot decision must be target or absent; unset is incomplete")),
+                _ => {
+                    return Err(invalid(
+                        "each shot decision must be target or absent; unset is incomplete",
+                    ))
+                }
             }
         }
     }
-    let face_pick = picks.join(",");
-    let absent_shots = absent.join(",");
-    // Async accept: actual Comfy submit is done by host/harness using workflows + these bindings.
+    Ok((picks.join(","), absent.join(",")))
+}
+
+fn resolve_video_path(configuration: &Value, input: &Value) -> Result<String> {
+    configuration
+        .get("videoPath")
+        .and_then(Value::as_str)
+        .map(str::to_owned)
+        .or_else(|| {
+            input
+                .pointer("/source/localPath")
+                .and_then(Value::as_str)
+                .map(str::to_owned)
+        })
+        .or_else(|| {
+            input
+                .pointer("/freeze/source/localPath")
+                .and_then(Value::as_str)
+                .map(str::to_owned)
+        })
+        .ok_or_else(|| {
+            invalid("staged source video path required (configuration.videoPath or source.localPath)")
+        })
+}
+
+fn load_workflow_template(name: &str) -> Result<Value> {
+    let raw = match name {
+        "preview" => include_str!("../workflows/preview.track.api.json"),
+        "refine" => include_str!("../workflows/refine.manual.api.json"),
+        _ => return Err(invalid("unknown workflow template")),
+    };
+    serde_json::from_str(raw).map_err(|e| invalid(&format!("workflow JSON invalid: {e}")))
+}
+
+fn inject_preview_workflow(face_pick: &str, video_name: &str) -> Result<Value> {
+    let mut wf = load_workflow_template("preview")?;
+    if let Some(obj) = wf.as_object_mut() {
+        if let Some(n1) = obj.get_mut("1").and_then(|v| v.as_object_mut()) {
+            if let Some(inputs) = n1.get_mut("inputs").and_then(|v| v.as_object_mut()) {
+                inputs.insert("video".into(), json!(video_name));
+                inputs.insert("confirmed_pick".into(), json!(face_pick));
+            }
+        }
+    }
+    Ok(wf)
+}
+
+fn inject_refine_workflow(
+    face_pick: &str,
+    video_name: &str,
+    prompt: &str,
+    user_params: &Value,
+) -> Result<Value> {
+    let mut wf = load_workflow_template("refine")?;
+    let denoise = user_params
+        .get("denoise")
+        .and_then(Value::as_f64)
+        .unwrap_or(0.45);
+    let small = user_params
+        .get("smallFaceStrength")
+        .and_then(Value::as_f64)
+        .unwrap_or(0.8);
+    let large = user_params
+        .get("largeFaceStrength")
+        .and_then(Value::as_f64)
+        .unwrap_or(0.35);
+    let scale_mode = user_params
+        .get("scaleMode")
+        .and_then(Value::as_str)
+        .unwrap_or("absolute_px");
+    if let Some(obj) = wf.as_object_mut() {
+        if let Some(sel) = obj.get_mut("select").and_then(|v| v.as_object_mut()) {
+            if let Some(inputs) = sel.get_mut("inputs").and_then(|v| v.as_object_mut()) {
+                inputs.insert("video".into(), json!(video_name));
+                inputs.insert("confirmed_pick".into(), json!(face_pick));
+            }
+        }
+        if let Some(den) = obj.get_mut("denoise").and_then(|v| v.as_object_mut()) {
+            if let Some(inputs) = den.get_mut("inputs").and_then(|v| v.as_object_mut()) {
+                inputs.insert("denoise_multiplier_small_face".into(), json!(small));
+                inputs.insert("denoise_multiplier_large_face".into(), json!(large));
+            }
+        }
+        // Best-effort: if a text/prompt node exists under common keys, stamp prompt/denoise/scale.
+        for key in ["prompt", "positive", "text", "h3_prompt"] {
+            if let Some(node) = obj.get_mut(key).and_then(|v| v.as_object_mut()) {
+                if let Some(inputs) = node.get_mut("inputs").and_then(|v| v.as_object_mut()) {
+                    if inputs.contains_key("text") {
+                        inputs.insert("text".into(), json!(prompt));
+                    }
+                    if inputs.contains_key("prompt") {
+                        inputs.insert("prompt".into(), json!(prompt));
+                    }
+                    if inputs.contains_key("denoise") {
+                        inputs.insert("denoise".into(), json!(denoise));
+                    }
+                    if inputs.contains_key("scale_mode") {
+                        inputs.insert("scale_mode".into(), json!(scale_mode));
+                    }
+                }
+            }
+        }
+    }
+    let _ = denoise;
+    Ok(wf)
+}
+
+fn comfy_submit_prompt(h: &mut dyn Host, base: &str, workflow: Value, client_id: &str) -> Result<String> {
+    let url = format!("{}/prompt", base.trim_end_matches('/'));
+    let body = json!({
+        "prompt": workflow,
+        "client_id": client_id
+    });
+    let raw = http_json(h, "POST", &url, Some(body))?;
+    if let Some(err) = raw.get("error").cloned() {
+        return Err(fail(
+            "UPSTREAM_ERROR",
+            format!("Comfy /prompt rejected: {err}"),
+        ));
+    }
+    raw.get("prompt_id")
+        .and_then(Value::as_str)
+        .map(str::to_owned)
+        .ok_or_else(|| fail("UPSTREAM_ERROR", "Comfy /prompt missing prompt_id"))
+}
+
+fn comfy_query_prompt(h: &mut dyn Host, base: &str, prompt_id: &str) -> Result<Value> {
+    let url = format!(
+        "{}/history/{}",
+        base.trim_end_matches('/'),
+        prompt_id
+    );
+    let raw = http_json(h, "GET", &url, None)?;
+    Ok(raw)
+}
+
+fn comfy_cancel(h: &mut dyn Host, base: &str, prompt_id: &str) -> Result<Value> {
+    // Best-effort: delete queued item then interrupt current.
+    let del_url = format!("{}/queue", base.trim_end_matches('/'));
+    let _ = http_json(
+        h,
+        "POST",
+        &del_url,
+        Some(json!({"delete": [prompt_id]})),
+    );
+    let interrupt_url = format!("{}/interrupt", base.trim_end_matches('/'));
+    let _ = http_json(h, "POST", &interrupt_url, Some(json!({})));
+    Ok(json!({"cancelled": true, "vendorTaskId": prompt_id}))
+}
+
+fn video_basename(path: &str) -> String {
+    Path::new(path)
+        .file_name()
+        .and_then(|s| s.to_str())
+        .unwrap_or(path)
+        .to_owned()
+}
+
+
+fn run_preview(h: &mut dyn Host, payload: &Value) -> Result<Value> {
+    let configuration = payload.get("configuration").cloned().unwrap_or(json!({}));
+    let base = cfg_base(&configuration)?;
+    let input = payload.get("input").ok_or_else(|| invalid("missing input"))?;
+    let selection = input.get("selection").ok_or_else(|| invalid("preview requires selection"))?;
+    let analysis = input.get("analysis").ok_or_else(|| invalid("preview requires analysis"))?;
+    let sel_raw = serde_json::to_string(selection).unwrap_or_default();
+    let selection_digest: String = Sha256::digest(sel_raw.as_bytes())
+        .iter()
+        .map(|b| format!("{b:02x}"))
+        .collect();
+    let (face_pick, absent_shots) = selection_bindings(selection)?;
+    let video_path = resolve_video_path(&configuration, input)?;
+    let video_name = video_basename(&video_path);
+    // Probe required classes before queueing (explicit failure, not empty accept).
+    let info = http_json(h, "GET", &format!("{}/object_info", base.trim_end_matches('/')), None)?;
+    for class in ["H3FaceSelect", "H3FaceTrackCrop"] {
+        if info.get(class).is_none() {
+            return Err(fail(
+                "RESOURCE_UNAVAILABLE",
+                format!("managed Comfy missing class {class}; prepare/start package runtime first"),
+            ));
+        }
+    }
+    let workflow = inject_preview_workflow(&face_pick, &video_name)?;
+    let client_id = format!("h3-preview-{:.12}", selection_digest);
+    let prompt_id = comfy_submit_prompt(h, base, workflow, &client_id)?;
     Ok(json!({
         "kind": "accepted",
-        "vendorTaskId": format!("preview-{selection_digest:.16}"),
+        "vendorTaskId": prompt_id,
         "appliedParams": {
             "operation": OP_PREVIEW,
             "face_pick": face_pick,
@@ -346,16 +539,17 @@ fn run_preview(h: &mut dyn Host, payload: &Value) -> Result<Value> {
             "analysisId": analysis.get("analysisId"),
             "analysisRevision": analysis.get("revision"),
             "selectionDigest": selection_digest,
-            "workflow": "workflows/preview.track.api.json"
+            "workflow": "workflows/preview.track.api.json",
+            "sourceVideo": video_name
         },
         "outputs": [],
         "data": {
             "selectionDigest": selection_digest,
             "previewMediaId": null,
-            "coveredRange": {"startMs": 0, "endMs": 0},
-            "lostSpans": [],
-            "ready": {"ok": false, "reason": "awaiting Comfy preview render; use harness ops/preview.py to complete"},
-            "reportText": null,
+            "coveredRange": analysis.get("coveredRange").cloned().unwrap_or(json!({"startMs":0,"endMs":0})),
+            "lostRanges": [],
+            "unresolvedRanges": [],
+            "ready": {"ok": false, "reasons": ["awaiting Comfy preview render; poll query with vendorTaskId"]},
             "bindings": {"face_pick": face_pick, "absent_shots": absent_shots}
         },
         "usage": null
@@ -363,33 +557,71 @@ fn run_preview(h: &mut dyn Host, payload: &Value) -> Result<Value> {
 }
 
 fn run_refine(h: &mut dyn Host, payload: &Value) -> Result<Value> {
-    let _ = h;
+    let configuration = payload.get("configuration").cloned().unwrap_or(json!({}));
+    let base = cfg_base(&configuration)?;
     let input = payload.get("input").ok_or_else(|| invalid("missing input"))?;
     let freeze = input.get("freeze").ok_or_else(|| invalid("refine requires freeze"))?;
+    let selection = input.get("selection");
     let prompt = freeze.get("prompt").and_then(Value::as_str).unwrap_or("");
-    let sam_enabled = input.pointer("/sam/enabled").and_then(Value::as_bool).unwrap_or(false);
+    let user_params = freeze.get("userParams").cloned().unwrap_or(json!({}));
+    let sam_enabled = user_params
+        .get("samEnabled")
+        .and_then(Value::as_bool)
+        .unwrap_or(false);
+    if sam_enabled {
+        // Explicit dependency check — never silently fall back to rectangle masks.
+        let info = http_json(h, "GET", &format!("{}/object_info", base.trim_end_matches('/')), None)?;
+        let sam_ok = ["SAMModelLoader", "Sam2Segmentation", "ImpactSAMLoader", "SAMLoader"]
+            .iter()
+            .any(|c| info.get(*c).is_some());
+        if !sam_ok {
+            return Err(fail(
+                "RESOURCE_UNAVAILABLE",
+                "SAM enabled but no SAM loader class is installed on managed Comfy",
+            ));
+        }
+    }
+    let (face_pick, absent_shots) = if let Some(sel) = selection {
+        selection_bindings(sel)?
+    } else if let (Some(fp), Some(ab)) = (
+        user_params.get("face_pick").and_then(Value::as_str),
+        user_params.get("absent_shots").and_then(Value::as_str),
+    ) {
+        (fp.to_owned(), ab.to_owned())
+    } else {
+        return Err(invalid("refine requires selection or userParams.face_pick"));
+    };
+    let video_path = resolve_video_path(&configuration, input)?;
+    let video_name = video_basename(&video_path);
+    let workflow = inject_refine_workflow(&face_pick, &video_name, prompt, &user_params)?;
     let freeze_raw = serde_json::to_string(freeze).unwrap_or_default();
     let freeze_digest: String = Sha256::digest(freeze_raw.as_bytes())
         .iter()
         .map(|b| format!("{b:02x}"))
         .collect();
+    let client_id = format!("h3-refine-{:.12}", freeze_digest);
+    let prompt_id = comfy_submit_prompt(h, base, workflow, &client_id)?;
     Ok(json!({
         "kind": "accepted",
-        "vendorTaskId": format!("refine-{freeze_digest:.16}"),
+        "vendorTaskId": prompt_id,
         "appliedParams": {
             "operation": OP_REFINE,
             "upstreamCommit": UPSTREAM_COMMIT,
             "prompt": prompt,
             "samEnabled": sam_enabled,
+            "face_pick": face_pick,
+            "absent_shots": absent_shots,
             "workflow": "workflows/refine.manual.api.json",
-            "freezeDigest": freeze_digest
+            "freezeDigest": freeze_digest,
+            "sourceVideo": video_name
         },
         "outputs": [],
         "data": {
             "outputMediaId": null,
-            "execution": {"state": "accepted", "note": "use harness ops/refine.py against managed Comfy"},
-            "audioPreserved": true,
-            "freezeDigest": freeze_digest
+            "execution": {"state": "accepted", "vendorTaskId": prompt_id},
+            "audioPreserved": null,
+            "freezeDigest": freeze_digest,
+            "note": "audioPreserved unverified until outputs downloaded"
         },
         "usage": null
     }))
@@ -439,14 +671,64 @@ impl Adapter for H3FaceRefine {
                     Err(f) => return response_fail(&request, f),
                 }
             }
-            "query" | "cancel" => {
-                return response_fail(
-                    &request,
-                    fail(
-                        "UNSUPPORTED_FEATURE",
-                        "query/cancel for preview/refine are completed by harness/host against Comfy prompt ids; wire in A06+",
-                    ),
-                );
+            "query" => {
+                let payload = match submit_payload(&request) {
+                    Ok(v) => v,
+                    Err(f) => return response_fail(&request, f),
+                };
+                let configuration = payload.get("configuration").cloned().unwrap_or(json!({}));
+                let base = match cfg_base(&configuration) {
+                    Ok(b) => b.to_owned(),
+                    Err(f) => return response_fail(&request, f),
+                };
+                let vendor_task_id = payload
+                    .get("vendorTaskId")
+                    .or_else(|| payload.get("taskId"))
+                    .and_then(Value::as_str)
+                    .unwrap_or("");
+                if vendor_task_id.is_empty() {
+                    return response_fail(&request, invalid("query requires vendorTaskId"));
+                }
+                match comfy_query_prompt(host, &base, vendor_task_id) {
+                    Ok(history) => {
+                        let entry = history.get(vendor_task_id).cloned().unwrap_or(Value::Null);
+                        let done = !entry.is_null();
+                        let status = if done { "succeeded" } else { "running" };
+                        json!({
+                            "kind": "status",
+                            "vendorTaskId": vendor_task_id,
+                            "status": status,
+                            "done": done,
+                            "history": entry,
+                            "outputs": [],
+                            "note": "repeat query with same vendorTaskId; never re-submit"
+                        })
+                    }
+                    Err(f) => return response_fail(&request, f),
+                }
+            }
+            "cancel" => {
+                let payload = match submit_payload(&request) {
+                    Ok(v) => v,
+                    Err(f) => return response_fail(&request, f),
+                };
+                let configuration = payload.get("configuration").cloned().unwrap_or(json!({}));
+                let base = match cfg_base(&configuration) {
+                    Ok(b) => b.to_owned(),
+                    Err(f) => return response_fail(&request, f),
+                };
+                let vendor_task_id = payload
+                    .get("vendorTaskId")
+                    .or_else(|| payload.get("taskId"))
+                    .and_then(Value::as_str)
+                    .unwrap_or("");
+                if vendor_task_id.is_empty() {
+                    return response_fail(&request, invalid("cancel requires vendorTaskId"));
+                }
+                match comfy_cancel(host, &base, vendor_task_id) {
+                    Ok(v) => v,
+                    Err(f) => return response_fail(&request, f),
+                }
             }
             _ => {
                 return response_fail(

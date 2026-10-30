@@ -227,6 +227,88 @@
       },
       "lostRanges": [],
       "unresolvedRanges": []
+    },
+    "freezeWithReferencesAlias": {
+      "source": {
+        "mediaId": "media-107",
+        "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "selectedRange": {
+          "startMs": 0,
+          "endMs": 4467
+        },
+        "displayGeometry": {
+          "widthPx": 1920,
+          "heightPx": 1080,
+          "rotationDegrees": 0,
+          "mirrored": false
+        },
+        "timeBase": "ms-from-selected-range-start",
+        "packageId": "example.media-target.demo",
+        "operationId": "subjects.analyze",
+        "schemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "detectionParamsDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "analysis": {
+        "analysisId": "an-1",
+        "revision": "1",
+        "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "trackingDigest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "packageVersion": "0.1.0",
+      "dependencyVersions": {
+        "upstream-node": "1.1.2"
+      },
+      "operationId": "video.refine",
+      "schemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "prompt": "user original prompt",
+      "userParams": {
+        "strength": 0.6
+      },
+      "references": [
+        "ref-face-1"
+      ]
+    },
+    "freezeWithParamsAlias": {
+      "source": {
+        "mediaId": "media-107",
+        "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "selectedRange": {
+          "startMs": 0,
+          "endMs": 4467
+        },
+        "displayGeometry": {
+          "widthPx": 1920,
+          "heightPx": 1080,
+          "rotationDegrees": 0,
+          "mirrored": false
+        },
+        "timeBase": "ms-from-selected-range-start",
+        "packageId": "example.media-target.demo",
+        "operationId": "subjects.analyze",
+        "schemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "detectionParamsDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "analysis": {
+        "analysisId": "an-1",
+        "revision": "1",
+        "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "trackingDigest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "packageVersion": "0.1.0",
+      "dependencyVersions": {
+        "upstream-node": "1.1.2"
+      },
+      "operationId": "video.refine",
+      "schemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "referenceMediaIds": [
+        "ref-face-1"
+      ],
+      "prompt": "user original prompt",
+      "params": {
+        "strength": 0.6
+      }
     }
   },
   "note": "Schema validity necessary but not sufficient. Host rejects cross-task refs, expired revisions, OOB boxes, unset selections."

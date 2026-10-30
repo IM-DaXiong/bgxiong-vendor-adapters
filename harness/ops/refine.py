@@ -4,7 +4,9 @@ from __future__ import annotations
 import hashlib, json, os, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "companion"))
 from common import base_url, env, optional, out_dir, save_json, sha256_file
+from face_refine_ops import freeze_user_params  # noqa: E402
 
 PLUGIN = "local.thirdparty.h3-face-refine"
 
@@ -25,11 +27,24 @@ def main():
     prompt = optional("H3_FACE_PROMPT", "refine the selected face identity, keep lighting consistent")
     appearance = optional("H3_FACE_APPEARANCE_REF")
     identity = optional("H3_FACE_IDENTITY_REF")
-    refs = []
+    reference_media_ids = []
+    identity_media_ids = []
     if appearance:
-        refs.append({"role": "appearance", "mediaId": "appearance", "order": 0, "localPath": appearance})
+        reference_media_ids.append("appearance")
     if identity:
-        refs.append({"role": "identity", "mediaId": "identity", "order": 1, "localPath": identity})
+        identity_media_ids.append("identity")
+    user_params = {
+        "denoise": float(optional("H3_FACE_DENOISE", "0.45")),
+        "smallFaceStrength": float(optional("H3_FACE_SMALL", "0.8")),
+        "largeFaceStrength": float(optional("H3_FACE_LARGE", "0.35")),
+        "samEnabled": optional("H3_FACE_SAM", "0") == "1",
+        "scaleMode": optional("H3_FACE_SCALE_MODE", "absolute_px"),
+        "face_pick": bindings.get("face_pick"),
+        "absent_shots": bindings.get("absent_shots"),
+        "identityMediaIds": identity_media_ids,
+    }
+    # Validate unique-field reader (no params/references aliases).
+    _ = freeze_user_params({"userParams": user_params})
 
     freeze = {
         "source": receipt.get("source"),
@@ -38,29 +53,27 @@ def main():
             "revision": str(receipt["revision"]),
             "digest": receipt["digest"],
         },
-        "selection": selection,
-        "tracking": tracking,
-        "package": {
-            "pluginId": PLUGIN,
-            "pluginVersion": "1.0.0-a04",
-            "upstreamNodeVersion": "1.1.2",
+        "selectionDigest": selection.get("selectionDigest"),
+        "trackingDigest": tracking.get("digest") or tracking.get("selectionDigest"),
+        "packageVersion": "1.0.0-a04",
+        "dependencyVersions": {
+            "upstream-node": "1.1.2",
             "upstreamCommit": "d8521d14fe0d721d80cd9417fff5a559cbc21aba",
-            "operationId": f"{PLUGIN}/video.refine",
         },
-        "references": refs,
+        "operationId": f"{PLUGIN}/video.refine",
+        "schemaDigest": "pending-host",
+        "referenceMediaIds": reference_media_ids,
         "prompt": prompt,
-        "params": {
-            "denoise": float(optional("H3_FACE_DENOISE", "0.45")),
-            "smallFaceStrength": float(optional("H3_FACE_SMALL", "0.8")),
-            "largeFaceStrength": float(optional("H3_FACE_LARGE", "0.35")),
-            "face_pick": bindings.get("face_pick"),
-            "absent_shots": bindings.get("absent_shots"),
-            "samEnabled": optional("H3_FACE_SAM", "0") == "1",
-        },
+        "userParams": user_params,
+        # Local harness-only (not part of public freeze schema; stripped before package submit).
         "_localOnly": {
             "sourcePath": str(video),
             "contentDigest": "sha256:" + sha256_file(video),
             "comfyBase": base_url(),
+            "selection": selection,
+            "tracking": tracking,
+            "appearancePath": appearance,
+            "identityPath": identity,
         },
     }
     save_json("refine.freeze.json", freeze)

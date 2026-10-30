@@ -4,27 +4,9 @@ from __future__ import annotations
 import hashlib, json, os, sys
 from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "companion"))
 from common import base_url, http_json, optional, out_dir, save_json
-
-def selection_to_bindings(selection: dict):
-    picks, absent = [], []
-    for s in selection.get("shots") or []:
-        sid = s["shotId"]
-        choice = s.get("choice") or s.get("decision")  # decision = legacy alias
-        if not choice:
-            raise SystemExit(f"incomplete choice for {sid}: unset is not absent")
-        kind = choice.get("kind")
-        if kind == "absent":
-            absent.append(sid)
-        elif kind == "target":
-            cid = choice.get("candidateId") or ""
-            idx = cid[1:] if cid.startswith("c") and cid[1:].isdigit() else cid
-            # upstream face_pick uses per-shot index; shot id sN → N for compact form
-            shot_idx = sid[1:] if sid.startswith("s") and sid[1:].isdigit() else sid
-            picks.append(f"{shot_idx}:{idx}")
-        else:
-            raise SystemExit(f"invalid choice kind for {sid}: {kind}")
-    return ",".join(picks), ",".join(absent)
+from face_refine_ops import selection_to_bindings  # noqa: E402
 
 def main():
     sel_path = Path(optional("H3_FACE_SELECTION_JSON", str(out_dir() / "selection.json")))
