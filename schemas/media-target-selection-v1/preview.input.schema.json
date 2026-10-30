@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/preview.input.schema.json",
+  "type": "object",
+  "properties": {
+    "analysis": {
+      "$ref": "analysis-receipt.schema.json"
+    },
+    "selection": {
+      "$ref": "selection.schema.json"
+    }
+  },
+  "required": [
+    "analysis",
+    "selection"
+  ],
+  "additionalProperties": false
+}

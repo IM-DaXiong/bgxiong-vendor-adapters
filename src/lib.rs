@@ -184,7 +184,7 @@ fn run_analyze(h: &mut dyn Host, payload: &Value) -> Result<Value> {
     let configuration = payload.get("configuration").cloned().unwrap_or(json!({}));
     let base = cfg_base(&configuration)?;
     let input = payload.get("input").ok_or_else(|| invalid("missing input"))?;
-    let detection = input.get("detection").cloned().unwrap_or(json!({}));
+    let detection = input.get("detectionParams").cloned().or_else(|| input.get("detection").cloned()).unwrap_or(json!({}));
     // Media broker supplies absolute path via retained media; harness may pass videoPath in configuration for CLI.
     let video_path = configuration
         .get("videoPath")
@@ -229,18 +229,19 @@ fn run_analyze(h: &mut dyn Host, payload: &Value) -> Result<Value> {
                     let y1 = vals.and_then(|v| v.get(3)).and_then(Value::as_f64).unwrap_or(0.0) * hgt;
                     candidates.push(json!({
                         "candidateId": format!("c{ci}"),
-                        "box": {"x0": x0, "y0": y0, "x1": x1, "y1": y1},
+                        "box": {"x": x0, "y": y0, "width": (x1 - x0), "height": (y1 - y0)},
                         "score": null,
-                        "thumbnailMediaId": null
+                        "previewMediaId": null
                     }));
                 }
             }
             shots.push(json!({
                 "shotId": format!("s{i}"),
-                "startMs": start_ms,
-                "endMs": end_ms,
-                "representativeFrameIndex": shot.get("frame").and_then(Value::as_i64).unwrap_or(-1),
-                "previewMediaId": null,
+                "range": {"startMs": start_ms, "endMs": end_ms},
+                "representativeFrameMs": {
+                    let fi = shot.get("frame").and_then(Value::as_f64).unwrap_or(0.0);
+                    ((fi / fps) * 1000.0).round() as i64
+                },
                 "candidates": candidates
             }));
         }
@@ -270,10 +271,10 @@ fn run_analyze(h: &mut dyn Host, payload: &Value) -> Result<Value> {
     };
     let receipt = json!({
         "analysisId": analysis_id,
-        "revision": 1,
+        "revision": "1",
         "digest": digest,
         "coveredRange": {"startMs": 0, "endMs": end_ms},
-        "page": {"cursor": null, "hasMore": false, "nextCursor": null},
+        "page": {"cursor": null, "nextCursor": null, "complete": true},
         "shots": shots,
         "vendor": {
             "upstreamCommit": UPSTREAM_COMMIT,
@@ -311,11 +312,11 @@ fn run_preview(h: &mut dyn Host, payload: &Value) -> Result<Value> {
     if let Some(shots) = selection.get("shots").and_then(Value::as_array) {
         for s in shots {
             let sid = s.get("shotId").and_then(Value::as_str).unwrap_or("");
-            let kind = s.pointer("/decision/kind").and_then(Value::as_str).unwrap_or("");
+            let kind = s.pointer("/choice/kind").or_else(|| s.pointer("/decision/kind")).and_then(Value::as_str).unwrap_or("");
             match kind {
                 "absent" => absent.push(sid.to_string()),
                 "target" => {
-                    let cid = s.pointer("/decision/candidateId").and_then(Value::as_str).unwrap_or("");
+                    let cid = s.pointer("/choice/candidateId").or_else(|| s.pointer("/decision/candidateId")).and_then(Value::as_str).unwrap_or("");
                     // candidateId "cN" → index N for upstream confirmed_pick
                     let idx = cid.trim_start_matches('c');
                     picks.push(format!("{sid}:{idx}"));

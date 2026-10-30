@@ -1,17 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bgxiong.local/profiles/media-target-selection-v1/source-identity.schema.json",
-  "title": "MediaTargetSourceIdentity",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/source-identity.schema.json",
   "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "mediaId",
-    "contentDigest",
-    "range",
-    "display",
-    "timeBaseMs",
-    "package"
-  ],
   "properties": {
     "mediaId": {
       "type": "string",
@@ -19,15 +9,10 @@
     },
     "contentDigest": {
       "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
+      "minLength": 1
     },
-    "range": {
+    "selectedRange": {
       "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "startMs",
-        "endMs"
-      ],
       "properties": {
         "startMs": {
           "type": "integer",
@@ -37,16 +22,15 @@
           "type": "integer",
           "minimum": 0
         }
-      }
-    },
-    "display": {
-      "type": "object",
-      "additionalProperties": false,
+      },
       "required": [
-        "widthPx",
-        "heightPx",
-        "orientation"
+        "startMs",
+        "endMs"
       ],
+      "additionalProperties": false
+    },
+    "displayGeometry": {
+      "type": "object",
       "properties": {
         "widthPx": {
           "type": "integer",
@@ -56,45 +40,58 @@
           "type": "integer",
           "minimum": 1
         },
-        "orientation": {
-          "type": "string",
+        "rotationDegrees": {
+          "type": "integer",
           "enum": [
-            "upright"
+            0,
+            90,
+            180,
+            270
           ]
+        },
+        "mirrored": {
+          "type": "boolean"
         }
-      }
-    },
-    "timeBaseMs": {
-      "type": "integer",
-      "const": 1
-    },
-    "package": {
-      "type": "object",
-      "additionalProperties": false,
+      },
       "required": [
-        "pluginId",
-        "pluginVersion",
-        "operationId",
-        "schemaDigest",
-        "detectionDigest"
+        "widthPx",
+        "heightPx",
+        "rotationDegrees",
+        "mirrored"
       ],
-      "properties": {
-        "pluginId": {
-          "type": "string"
-        },
-        "pluginVersion": {
-          "type": "string"
-        },
-        "operationId": {
-          "type": "string"
-        },
-        "schemaDigest": {
-          "type": "string"
-        },
-        "detectionDigest": {
-          "type": "string"
-        }
-      }
+      "additionalProperties": false
+    },
+    "timeBase": {
+      "type": "string",
+      "const": "ms-from-selected-range-start"
+    },
+    "packageId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "operationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaDigest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "detectionParamsDigest": {
+      "type": "string",
+      "minLength": 1
     }
-  }
+  },
+  "required": [
+    "mediaId",
+    "contentDigest",
+    "selectedRange",
+    "displayGeometry",
+    "timeBase",
+    "packageId",
+    "operationId",
+    "schemaDigest",
+    "detectionParamsDigest"
+  ],
+  "additionalProperties": false
 }

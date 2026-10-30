@@ -1,72 +1,24 @@
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/analyze.input.schema.json",
   "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "source",
-    "detection"
-  ],
   "properties": {
     "source": {
-      "$ref": "media-target-selection-v1/source-identity.schema.json"
+      "$ref": "source-identity.schema.json"
     },
-    "detection": {
+    "detectionParams": {
       "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "detector": {
-          "type": "string",
-          "default": "bbox/face_yolov8m.pt"
-        },
-        "confidence": {
-          "type": "number",
-          "minimum": 0,
-          "maximum": 1,
-          "default": 0.35
-        },
-        "cutDetection": {
-          "type": "string",
-          "enum": [
-            "none",
-            "auto"
-          ],
-          "default": "auto"
-        },
-        "cutThreshold": {
-          "type": "number",
-          "default": 3.0
-        },
-        "selectHint": {
-          "type": "string",
-          "enum": [
-            "largest_face",
-            "smallest_face",
-            "left_most",
-            "right_most",
-            "top_most",
-            "bottom_most",
-            "centre_most",
-            "closest_to_xy",
-            "detector_score"
-          ],
-          "default": "largest_face"
-        },
-        "force": {
-          "type": "boolean",
-          "default": false
-        }
-      }
+      "additionalProperties": true
     },
-    "page": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "cursor": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
-      }
+    "pageCursor": {
+      "type": [
+        "string",
+        "null"
+      ]
     }
-  }
+  },
+  "required": [
+    "source"
+  ],
+  "additionalProperties": false
 }

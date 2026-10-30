@@ -1,16 +1,11 @@
 {
-  "note": "Example only — replace with real analysisIds after analyze",
+  "note": "Lane A selection shape — replace ids after analyze; for 107-frame case pick distant woman",
   "analysisId": "REPLACE",
-  "analysisRevision": 1,
+  "analysisRevision": "1",
   "analysisDigest": "REPLACE",
   "shots": [
-    {
-      "shotId": "s0",
-      "decision": {
-        "kind": "target",
-        "candidateId": "c1"
-      }
-    }
+    {"shotId": "s0", "choice": {"kind": "target", "candidateId": "c1"}}
   ],
+  "selectionDigest": "REPLACE",
   "acceptanceHint": "On the 107-frame clip, choose the right/distant woman candidate, not the left/near man."
 }

@@ -1,28 +1,21 @@
 {
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/refine.input.schema.json",
   "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "freeze"
-  ],
   "properties": {
     "freeze": {
-      "$ref": "media-target-selection-v1/freeze.schema.json"
+      "$ref": "freeze.schema.json"
     },
-    "sam": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "enabled": {
-          "type": "boolean",
-          "default": false
-        },
-        "model": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
-      }
+    "selection": {
+      "$ref": "selection.schema.json"
+    },
+    "tracking": {
+      "$ref": "tracking-receipt.schema.json"
     }
-  }
+  },
+  "required": [
+    "freeze",
+    "selection"
+  ],
+  "additionalProperties": false
 }

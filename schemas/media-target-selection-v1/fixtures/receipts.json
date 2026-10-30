@@ -1,0 +1,233 @@
+{
+  "valid": {
+    "sourceIdentity": {
+      "mediaId": "media-107",
+      "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "selectedRange": {
+        "startMs": 0,
+        "endMs": 4467
+      },
+      "displayGeometry": {
+        "widthPx": 1920,
+        "heightPx": 1080,
+        "rotationDegrees": 0,
+        "mirrored": false
+      },
+      "timeBase": "ms-from-selected-range-start",
+      "packageId": "example.media-target.demo",
+      "operationId": "subjects.analyze",
+      "schemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "detectionParamsDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+    },
+    "analysisReceipt": {
+      "analysisId": "an-1",
+      "revision": "1",
+      "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "source": {
+        "mediaId": "media-107",
+        "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "selectedRange": {
+          "startMs": 0,
+          "endMs": 4467
+        },
+        "displayGeometry": {
+          "widthPx": 1920,
+          "heightPx": 1080,
+          "rotationDegrees": 0,
+          "mirrored": false
+        },
+        "timeBase": "ms-from-selected-range-start",
+        "packageId": "example.media-target.demo",
+        "operationId": "subjects.analyze",
+        "schemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "detectionParamsDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "coveredRange": {
+        "startMs": 0,
+        "endMs": 4467
+      },
+      "page": {
+        "cursor": null,
+        "nextCursor": null,
+        "complete": true
+      },
+      "shots": [
+        {
+          "shotId": "shot-0",
+          "range": {
+            "startMs": 0,
+            "endMs": 4467
+          },
+          "representativeFrameMs": 1200,
+          "candidates": [
+            {
+              "candidateId": "c-left",
+              "box": {
+                "x": 100,
+                "y": 200,
+                "width": 180,
+                "height": 220
+              },
+              "previewMediaId": "thumb-left",
+              "score": 0.91
+            },
+            {
+              "candidateId": "c-right",
+              "box": {
+                "x": 900,
+                "y": 240,
+                "width": 160,
+                "height": 200
+              },
+              "previewMediaId": "thumb-right",
+              "score": 0.88
+            }
+          ]
+        }
+      ]
+    },
+    "selection": {
+      "analysisId": "an-1",
+      "analysisRevision": "1",
+      "analysisDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "shots": [
+        {
+          "shotId": "shot-0",
+          "choice": {
+            "kind": "target",
+            "candidateId": "c-right"
+          }
+        }
+      ],
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "selectionAbsent": {
+      "analysisId": "an-1",
+      "analysisRevision": "1",
+      "analysisDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "shots": [
+        {
+          "shotId": "shot-0",
+          "choice": {
+            "kind": "absent"
+          }
+        }
+      ],
+      "selectionDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "trackingReceipt": {
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "previewMediaId": "preview-track-1",
+      "coveredRange": {
+        "startMs": 0,
+        "endMs": 4467
+      },
+      "lostRanges": [],
+      "unresolvedRanges": [],
+      "ready": {
+        "ok": true,
+        "reasons": []
+      }
+    },
+    "freeze": {
+      "source": {
+        "mediaId": "media-107",
+        "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "selectedRange": {
+          "startMs": 0,
+          "endMs": 4467
+        },
+        "displayGeometry": {
+          "widthPx": 1920,
+          "heightPx": 1080,
+          "rotationDegrees": 0,
+          "mirrored": false
+        },
+        "timeBase": "ms-from-selected-range-start",
+        "packageId": "example.media-target.demo",
+        "operationId": "subjects.analyze",
+        "schemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "detectionParamsDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      },
+      "analysis": {
+        "analysisId": "an-1",
+        "revision": "1",
+        "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "trackingDigest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "packageVersion": "0.1.0",
+      "dependencyVersions": {
+        "upstream-node": "1.1.2"
+      },
+      "operationId": "video.refine",
+      "schemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "referenceMediaIds": [
+        "ref-face-1"
+      ],
+      "prompt": "user original prompt",
+      "userParams": {
+        "strength": 0.6
+      }
+    },
+    "refineOutput": {
+      "resultMediaId": "out-video-1",
+      "executionSummary": {
+        "packageVersion": "0.1.0",
+        "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "notes": []
+      }
+    }
+  },
+  "invalid": {
+    "sourceWithPath": {
+      "mediaId": "media-107",
+      "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "selectedRange": {
+        "startMs": 0,
+        "endMs": 4467
+      },
+      "displayGeometry": {
+        "widthPx": 1920,
+        "heightPx": 1080,
+        "rotationDegrees": 0,
+        "mirrored": false
+      },
+      "timeBase": "ms-from-selected-range-start",
+      "packageId": "example.media-target.demo",
+      "operationId": "subjects.analyze",
+      "schemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "detectionParamsDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "filePath": "C:/secret/video.mp4"
+    },
+    "selectionMissingShotChoice": {
+      "analysisId": "an-1",
+      "analysisRevision": "1",
+      "analysisDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "shots": [
+        {
+          "shotId": "shot-0"
+        }
+      ],
+      "selectionDigest": "sha256:x"
+    },
+    "selectionEmptyShots": {
+      "analysisId": "an-1",
+      "analysisRevision": "1",
+      "analysisDigest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "shots": [],
+      "selectionDigest": "sha256:x"
+    },
+    "trackingNoReady": {
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "previewMediaId": "preview-track-1",
+      "coveredRange": {
+        "startMs": 0,
+        "endMs": 4467
+      },
+      "lostRanges": [],
+      "unresolvedRanges": []
+    }
+  },
+  "note": "Schema validity necessary but not sufficient. Host rejects cross-task refs, expired revisions, OOB boxes, unset selections."
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/analyze.input.schema.json",
+  "type": "object",
+  "properties": {
+    "source": {
+      "$ref": "source-identity.schema.json"
+    },
+    "detectionParams": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "pageCursor": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "required": [
+    "source"
+  ],
+  "additionalProperties": false
+}

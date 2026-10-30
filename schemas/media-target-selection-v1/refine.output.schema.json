@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/refine.output.schema.json",
+  "type": "object",
+  "properties": {
+    "resultMediaId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "executionSummary": {
+      "type": "object",
+      "properties": {
+        "packageVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "selectionDigest": {
+          "type": "string",
+          "minLength": 1
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "packageVersion",
+        "selectionDigest"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "resultMediaId",
+    "executionSummary"
+  ],
+  "additionalProperties": false
+}

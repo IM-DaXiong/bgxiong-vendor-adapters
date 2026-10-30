@@ -1,75 +1,82 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bgxiong.local/profiles/media-target-selection-v1/selection.schema.json",
-  "title": "MediaTargetSelection",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/selection.schema.json",
   "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "analysisId",
-    "analysisRevision",
-    "analysisDigest",
-    "shots"
-  ],
   "properties": {
     "analysisId": {
-      "type": "string"
+      "type": "string",
+      "minLength": 1
     },
     "analysisRevision": {
-      "type": "integer",
-      "minimum": 1
+      "type": "string",
+      "minLength": 1
     },
     "analysisDigest": {
       "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
+      "minLength": 1
     },
     "shots": {
       "type": "array",
       "minItems": 1,
       "items": {
         "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "shotId",
-          "decision"
-        ],
         "properties": {
           "shotId": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
-          "decision": {
+          "choice": {
             "oneOf": [
               {
                 "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "kind",
-                  "candidateId"
-                ],
                 "properties": {
                   "kind": {
                     "const": "target"
                   },
                   "candidateId": {
-                    "type": "string"
+                    "type": "string",
+                    "minLength": 1
                   }
-                }
+                },
+                "required": [
+                  "kind",
+                  "candidateId"
+                ],
+                "additionalProperties": false
               },
               {
                 "type": "object",
-                "additionalProperties": false,
-                "required": [
-                  "kind"
-                ],
                 "properties": {
                   "kind": {
                     "const": "absent"
                   }
-                }
+                },
+                "required": [
+                  "kind"
+                ],
+                "additionalProperties": false
               }
             ]
           }
-        }
+        },
+        "required": [
+          "shotId",
+          "choice"
+        ],
+        "additionalProperties": false
       }
+    },
+    "selectionDigest": {
+      "type": "string",
+      "minLength": 1
     }
-  }
+  },
+  "required": [
+    "analysisId",
+    "analysisRevision",
+    "analysisDigest",
+    "shots",
+    "selectionDigest"
+  ],
+  "additionalProperties": false
 }

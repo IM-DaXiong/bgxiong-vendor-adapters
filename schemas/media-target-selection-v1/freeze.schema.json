@@ -1,106 +1,94 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bgxiong.local/profiles/media-target-selection-v1/freeze.schema.json",
-  "title": "MediaTargetFreeze",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/freeze.schema.json",
   "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "source",
-    "analysis",
-    "selection",
-    "tracking",
-    "package",
-    "references",
-    "prompt",
-    "params"
-  ],
   "properties": {
     "source": {
       "$ref": "source-identity.schema.json"
     },
     "analysis": {
       "type": "object",
+      "properties": {
+        "analysisId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "revision": {
+          "type": "string",
+          "minLength": 1
+        },
+        "digest": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
       "required": [
         "analysisId",
         "revision",
         "digest"
       ],
-      "additionalProperties": true
+      "additionalProperties": false
     },
-    "selection": {
-      "$ref": "selection.schema.json"
+    "selectionDigest": {
+      "type": "string",
+      "minLength": 1
     },
-    "tracking": {
-      "$ref": "tracking-receipt.schema.json"
-    },
-    "package": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "pluginId",
-        "pluginVersion",
-        "upstreamNodeVersion",
-        "upstreamCommit",
-        "operationId"
+    "trackingDigest": {
+      "type": [
+        "string",
+        "null"
       ],
-      "properties": {
-        "pluginId": {
-          "type": "string"
-        },
-        "pluginVersion": {
-          "type": "string"
-        },
-        "upstreamNodeVersion": {
-          "type": "string"
-        },
-        "upstreamCommit": {
-          "type": "string"
-        },
-        "operationId": {
-          "type": "string"
-        },
-        "dependencyDigest": {
-          "type": [
-            "string",
-            "null"
-          ]
-        }
+      "minLength": 1
+    },
+    "packageVersion": {
+      "type": "string",
+      "minLength": 1
+    },
+    "dependencyVersions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "minLength": 1
+      },
+      "propertyNames": {
+        "type": "string",
+        "minLength": 1
       }
     },
-    "references": {
+    "operationId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "schemaDigest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "referenceMediaIds": {
       "type": "array",
       "items": {
-        "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "role",
-          "mediaId",
-          "order"
-        ],
-        "properties": {
-          "role": {
-            "type": "string",
-            "enum": [
-              "appearance",
-              "identity",
-              "other"
-            ]
-          },
-          "mediaId": {
-            "type": "string"
-          },
-          "order": {
-            "type": "integer",
-            "minimum": 0
-          }
-        }
+        "type": "string",
+        "minLength": 1
       }
     },
     "prompt": {
       "type": "string"
     },
-    "params": {
-      "type": "object"
+    "userParams": {
+      "type": "object",
+      "additionalProperties": true
     }
-  }
+  },
+  "required": [
+    "source",
+    "analysis",
+    "selectionDigest",
+    "packageVersion",
+    "dependencyVersions",
+    "operationId",
+    "schemaDigest",
+    "referenceMediaIds",
+    "prompt",
+    "userParams"
+  ],
+  "additionalProperties": false
 }

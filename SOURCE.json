@@ -7,6 +7,11 @@
     "version": "1.1.2"
   },
   "layout": "sibling-not-subtree",
-  "mediaTargetProfile": "package-local pending Lane A rebase",
+  "mediaTargetProfile": {
+    "status": "aligned-to-lane-a",
+    "laneACommit": "3b6a7e738",
+    "publicPath": "packages/vendor-adapter-contract/v2/profiles/media-target-selection-v1",
+    "packageMirror": "schemas/media-target-selection-v1"
+  },
   "a03HostPortsExtended": false
 }

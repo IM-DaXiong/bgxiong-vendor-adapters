@@ -1,37 +1,25 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://bgxiong.local/profiles/media-target-selection-v1/analysis-receipt.schema.json",
-  "title": "MediaTargetAnalysisReceipt",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/analysis-receipt.schema.json",
   "type": "object",
-  "additionalProperties": false,
-  "required": [
-    "analysisId",
-    "revision",
-    "digest",
-    "coveredRange",
-    "shots",
-    "page"
-  ],
   "properties": {
     "analysisId": {
       "type": "string",
       "minLength": 1
     },
     "revision": {
-      "type": "integer",
-      "minimum": 1
+      "type": "string",
+      "minLength": 1
     },
     "digest": {
       "type": "string",
-      "pattern": "^[a-f0-9]{64}$"
+      "minLength": 1
+    },
+    "source": {
+      "$ref": "source-identity.schema.json"
     },
     "coveredRange": {
       "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "startMs",
-        "endMs"
-      ],
       "properties": {
         "startMs": {
           "type": "integer",
@@ -41,15 +29,15 @@
           "type": "integer",
           "minimum": 0
         }
-      }
+      },
+      "required": [
+        "startMs",
+        "endMs"
+      ],
+      "additionalProperties": false
     },
     "page": {
       "type": "object",
-      "additionalProperties": false,
-      "required": [
-        "cursor",
-        "hasMore"
-      ],
       "properties": {
         "cursor": {
           "type": [
@@ -57,109 +45,129 @@
             "null"
           ]
         },
-        "hasMore": {
-          "type": "boolean"
-        },
         "nextCursor": {
           "type": [
             "string",
             "null"
           ]
+        },
+        "complete": {
+          "type": "boolean"
         }
-      }
-    },
-    "source": {
-      "$ref": "source-identity.schema.json"
+      },
+      "required": [
+        "cursor",
+        "nextCursor",
+        "complete"
+      ],
+      "additionalProperties": false
     },
     "shots": {
       "type": "array",
       "items": {
         "type": "object",
-        "additionalProperties": false,
-        "required": [
-          "shotId",
-          "startMs",
-          "endMs",
-          "representativeFrameIndex",
-          "candidates"
-        ],
         "properties": {
           "shotId": {
-            "type": "string"
+            "type": "string",
+            "minLength": 1
           },
-          "startMs": {
+          "range": {
+            "type": "object",
+            "properties": {
+              "startMs": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "endMs": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "startMs",
+              "endMs"
+            ],
+            "additionalProperties": false
+          },
+          "representativeFrameMs": {
             "type": "integer",
             "minimum": 0
-          },
-          "endMs": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "representativeFrameIndex": {
-            "type": "integer",
-            "minimum": 0
-          },
-          "previewMediaId": {
-            "type": [
-              "string",
-              "null"
-            ]
           },
           "candidates": {
             "type": "array",
             "items": {
               "type": "object",
-              "additionalProperties": false,
-              "required": [
-                "candidateId",
-                "box"
-              ],
               "properties": {
                 "candidateId": {
-                  "type": "string"
+                  "type": "string",
+                  "minLength": 1
                 },
                 "box": {
                   "type": "object",
-                  "additionalProperties": false,
-                  "required": [
-                    "x0",
-                    "y0",
-                    "x1",
-                    "y1"
-                  ],
-                  "description": "Display-upright source pixels; half-open; origin top-left",
                   "properties": {
-                    "x0": {
+                    "x": {
                       "type": "number"
                     },
-                    "y0": {
+                    "y": {
                       "type": "number"
                     },
-                    "x1": {
-                      "type": "number"
+                    "width": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
                     },
-                    "y1": {
-                      "type": "number"
+                    "height": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
                     }
-                  }
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "width",
+                    "height"
+                  ],
+                  "additionalProperties": false
+                },
+                "previewMediaId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1
                 },
                 "score": {
                   "type": [
                     "number",
                     "null"
                   ]
-                },
-                "thumbnailMediaId": {
-                  "type": [
-                    "string",
-                    "null"
-                  ]
                 }
-              }
+              },
+              "required": [
+                "candidateId",
+                "box"
+              ],
+              "additionalProperties": false
             }
           }
-        }
+        },
+        "required": [
+          "shotId",
+          "range",
+          "representativeFrameMs",
+          "candidates"
+        ],
+        "additionalProperties": false
       }
     }
-  }
+  },
+  "required": [
+    "analysisId",
+    "revision",
+    "digest",
+    "source",
+    "coveredRange",
+    "page",
+    "shots"
+  ],
+  "additionalProperties": false
 }
