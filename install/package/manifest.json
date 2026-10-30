@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.thirdparty.h3-face-refine",
+  "displayName": "H3 Face Refine (independent 1.1.2)",
+  "version": "1.0.0-a04",
+  "protocolRange": {
+    "min": 2,
+    "max": 2
+  },
+  "requiredFeatures": [],
+  "optionalFeatures": [],
+  "language": "rust",
+  "entry": "adapter.wasm",
+  "artifactSha256": "b1ffddbd60a05b6b4a8bd5cc1efe85d0e74823d0d0608d1b61990883bec45da0",
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "networkHosts": [],
+    "allowPrivateNetwork": true,
+    "auth": [
+      "bearer"
+    ],
+    "mediaSlots": [
+      "video",
+      "image"
+    ],
+    "stateBytes": 65536,
+    "embeddedHeaders": []
+  },
+  "limits": {
+    "memoryBytes": 67108864,
+    "fuel": 20000000000,
+    "wallMs": 600000,
+    "outputBytes": 4194304
+  }
+}

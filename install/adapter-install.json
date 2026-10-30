@@ -1,0 +1,54 @@
+{
+  "schemaVersion": 1,
+  "packageDirectory": "package",
+  "manifestSha256": "b2e5086b60bd34900cae7c2198ed72c23656bc90e3722e9e2b4915814a87bf5d",
+  "hostConfig": {
+    "bindingId": "h3-face-refine-local-1.1.2",
+    "bindingRevision": 1,
+    "configurationRef": "h3-face-refine-local-v1",
+    "configuration": {
+      "endpointBaseUrl": "http://127.0.0.1:8189",
+      "timeoutMs": 600000
+    },
+    "network": {
+      "origins": [
+        "http://127.0.0.1:8189",
+        "http://127.0.0.1:8188",
+        "http://192.168.18.8:8188"
+      ],
+      "allowPrivate": true,
+      "allowEmbeddedAuthorization": false,
+      "deniedHosts": [],
+      "deniedNetworks": []
+    },
+    "credentials": [],
+    "trust": {
+      "publishers": [],
+      "revokedPlugins": [],
+      "revokedVersions": [],
+      "revokedKeys": [],
+      "denylistedHosts": [],
+      "isFresh": false,
+      "supportedFeatures": []
+    },
+    "mediaTtlMs": 3600000,
+    "transport": {
+      "handshakeTimeoutMs": 10000,
+      "writeTimeoutMs": 60000,
+      "shutdownTimeoutMs": 10000,
+      "cancelGraceMs": 100
+    },
+    "budgetMs": {
+      "capabilities": 60000,
+      "probe": 60000,
+      "submit": 600000,
+      "query": 600000,
+      "cancel": 60000
+    },
+    "probe": null
+  },
+  "authentication": {
+    "source": "none"
+  },
+  "managedMediaProbe": true
+}

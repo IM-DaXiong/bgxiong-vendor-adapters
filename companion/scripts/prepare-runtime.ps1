@@ -4,15 +4,16 @@ param(
   [Parameter(Mandatory = $false)][string]$ComfyRoot = ""
 )
 $ErrorActionPreference = "Stop"
-$Companion = Split-Path (Split-Path $PSScriptRoot -Parent) -Parent
-if (-not (Test-Path (Join-Path $Companion "companion\upstream\ComfyUI-H3-FaceRefine\nodes.py"))) {
-  # When invoked from companion/scripts, companion root is parent of scripts
-  $Companion = Split-Path $PSScriptRoot -Parent
-}
+# This script lives in companion/scripts — companion root is always the parent folder.
+$Companion = Split-Path $PSScriptRoot -Parent
 $Src = Join-Path $Companion "upstream\ComfyUI-H3-FaceRefine"
+if (-not (Test-Path (Join-Path $Src "nodes.py"))) {
+  throw "Missing upstream nodes at $Src"
+}
 $DstRoot = Join-Path $RuntimeRoot "custom_nodes_overlay\ComfyUI-H3-FaceRefine"
 New-Item -ItemType Directory -Force -Path $DstRoot | Out-Null
 robocopy $Src $DstRoot /E /NFL /NDL /NJH /NJS /nc /ns /np | Out-Null
+if ($LASTEXITCODE -ge 8) { throw "robocopy failed exit=$LASTEXITCODE" }
 # Write runtime-local extra paths that point ONLY at this overlay (never shared custom_nodes)
 $Extra = @"
 h3_face_refine_adapter:
@@ -21,9 +22,12 @@ h3_face_refine_adapter:
 "@
 $ExtraPath = Join-Path $RuntimeRoot "extra_model_paths.yaml"
 Set-Content -LiteralPath $ExtraPath -Value $Extra -Encoding UTF8
+$lockPath = Join-Path (Split-Path $Companion -Parent) "locks\upstream-comfyui-h3-facerefine.sha"
+$upstream = $null
+if (Test-Path -LiteralPath $lockPath) { $upstream = (Get-Content -LiteralPath $lockPath -Raw).Trim() }
 $marker = @{
   prepared = $true
-  upstreamCommit = (Get-Content (Join-Path $Companion "..\locks\upstream-comfyui-h3-facerefine.sha") -ErrorAction SilentlyContinue)
+  upstreamCommit = $upstream
   overlay = $DstRoot
   extraModelPaths = $ExtraPath
   sharedModelsRoot = $SharedModelsRoot

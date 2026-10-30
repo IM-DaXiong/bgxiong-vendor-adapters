@@ -1,9 +1,18 @@
 #![cfg_attr(target_arch = "wasm32", no_std)]
 extern crate alloc;
-use alloc::{format, string::String, vec::Vec};
+use alloc::{format, string::{String, ToString}, vec, vec::Vec};
 use bgx_adapter_v2_sdk::{guest, host, Adapter, Host, Invocation, Response};
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
+
+/// no_std-safe nearest-int for timestamp ms (wasm guest has no std float math).
+fn round_ms(x: f64) -> i64 {
+    if x >= 0.0 {
+        (x + 0.5) as i64
+    } else {
+        (x - 0.5) as i64
+    }
+}
 
 pub const PLUGIN: &str = "local.thirdparty.h3-face-refine";
 pub const OP_ANALYZE: &str = "local.thirdparty.h3-face-refine/subjects.analyze";
@@ -217,8 +226,8 @@ fn run_analyze(h: &mut dyn Host, payload: &Value) -> Result<Value> {
             let seg = shot.get("segment").and_then(Value::as_array);
             let a = seg.and_then(|s| s.get(0)).and_then(Value::as_f64).unwrap_or(0.0);
             let b = seg.and_then(|s| s.get(1)).and_then(Value::as_f64).unwrap_or(a);
-            let start_ms = ((a / fps) * 1000.0).round() as i64;
-            let end_ms = ((b / fps) * 1000.0).round() as i64;
+            let start_ms = round_ms((a / fps) * 1000.0);
+            let end_ms = round_ms((b / fps) * 1000.0);
             let mut candidates = Vec::new();
             if let Some(boxes) = shot.get("boxes").and_then(Value::as_array) {
                 for (ci, bx) in boxes.iter().enumerate() {
@@ -235,13 +244,12 @@ fn run_analyze(h: &mut dyn Host, payload: &Value) -> Result<Value> {
                     }));
                 }
             }
+            let fi = shot.get("frame").and_then(Value::as_f64).unwrap_or(0.0);
+            let representative_frame_ms = round_ms((fi / fps) * 1000.0);
             shots.push(json!({
                 "shotId": format!("s{i}"),
                 "range": {"startMs": start_ms, "endMs": end_ms},
-                "representativeFrameMs": {
-                    let fi = shot.get("frame").and_then(Value::as_f64).unwrap_or(0.0);
-                    ((fi / fps) * 1000.0).round() as i64
-                },
+                "representativeFrameMs": representative_frame_ms,
                 "candidates": candidates
             }));
         }
@@ -265,7 +273,7 @@ fn run_analyze(h: &mut dyn Host, payload: &Value) -> Result<Value> {
             .collect()
     };
     let end_ms = if frames > 0 {
-        ((frames as f64 / fps) * 1000.0).round() as i64
+        round_ms((frames as f64 / fps) * 1000.0)
     } else {
         0
     };

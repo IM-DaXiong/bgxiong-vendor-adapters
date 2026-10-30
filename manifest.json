@@ -11,7 +11,7 @@
   "optionalFeatures": [],
   "language": "rust",
   "entry": "adapter.wasm",
-  "artifactSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "artifactSha256": "b1ffddbd60a05b6b4a8bd5cc1efe85d0e74823d0d0608d1b61990883bec45da0",
   "publisherId": null,
   "publisherKeyId": null,
   "requestedCapabilities": {
