@@ -82,6 +82,8 @@ pub enum CapabilityContractV2OperationsItemExecutionCancellation {
     V1,
     #[serde(rename = "unsupported")]
     V2,
+    #[serde(rename = "best_effort")]
+    V3,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -164,6 +166,8 @@ pub enum CapabilityContractV2OperationsItemOutputSlotsItemKind {
     V3,
     #[serde(rename = "file")]
     V4,
+    #[serde(rename = "json")]
+    V5,
 }
 
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -7015,6 +7019,8 @@ pub enum UiSchemaV2ControlsItemWidget {
     V3,
     #[serde(rename = "toggle")]
     V4,
+    #[serde(rename = "checkbox")]
+    V4Checkbox,
     #[serde(rename = "select")]
     V5,
     #[serde(rename = "repeat")]

@@ -17,6 +17,7 @@
               "number",
               "integer",
               "toggle",
+              "checkbox",
               "select",
               "repeat",
               "media",

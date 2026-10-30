@@ -198,7 +198,8 @@
                 "enum": [
                   "remote",
                   "local_only",
-                  "unsupported"
+                  "unsupported",
+                  "best_effort"
                 ]
               },
               "resumable": {
@@ -232,7 +233,8 @@
                     "image",
                     "audio",
                     "video",
-                    "file"
+                    "file",
+                    "json"
                   ]
                 },
                 "minCount": {
