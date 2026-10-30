@@ -115,31 +115,31 @@ pub fn capabilities() -> Value {
                 "streaming": false,
                 "cancellation": "best_effort",
                 "resumable": true,
-                "remoteIdempotency": false,
-                "requiredFeatures": ["media-target-selection-v1"]
+                "remoteIdempotency": false
             }
         })
     };
 
     let analyze_controls = vec![
         // Analyze input schema uses detectionParams (not /detection).
-        json!({"fieldPointer":"/detectionParams/detector","widget":"text","label":"检测器","description":"ultralytics 相对名","group":"检测","default":"bbox/face_yolov8m.pt"}),
-        json!({"fieldPointer":"/detectionParams/confidence","widget":"number","label":"置信度","description":"0-1","group":"检测","default":0.35,"minimum":0.0,"maximum":1.0}),
-        json!({"fieldPointer":"/detectionParams/cutDetection","widget":"select","label":"切镜检测","description":"none|auto","group":"检测","default":"auto","enum":["none","auto"]}),
-        json!({"fieldPointer":"/detectionParams/selectHint","widget":"select","label":"候选编号提示","description":"仅影响编号，不代替用户选择","group":"检测","default":"largest_face"}),
+        // ui-schema.schema.json allows only fieldPointer/widget/label/description/group.
+        json!({"fieldPointer":"/detectionParams/detector","widget":"text","label":"检测器","description":"ultralytics 相对名；默认 bbox/face_yolov8m.pt","group":"检测"}),
+        json!({"fieldPointer":"/detectionParams/confidence","widget":"number","label":"置信度","description":"0-1；默认 0.35","group":"检测"}),
+        json!({"fieldPointer":"/detectionParams/cutDetection","widget":"select","label":"切镜检测","description":"none|auto；默认 auto","group":"检测"}),
+        json!({"fieldPointer":"/detectionParams/selectHint","widget":"select","label":"候选编号提示","description":"仅影响编号，不代替用户选择；默认 largest_face","group":"检测"}),
     ];
     let preview_controls = vec![
         json!({"fieldPointer":"/preview/includeLostMarkers","widget":"checkbox","label":"丢失帧标记","description":"预览中标红丢失/未解析帧","group":"预览"}),
     ];
     let refine_controls = vec![
         // Pointers must resolve into public freeze fields (prompt / userParams / referenceMediaIds).
-        // Package-only knobs stay under userParams; no /freeze/params or /freeze/references aliases.
+        // ui-schema.schema.json allows only fieldPointer/widget/label/description/group.
         json!({"fieldPointer":"/freeze/prompt","widget":"multiline","label":"提示词","description":"用户原文","group":"精修"}),
-        json!({"fieldPointer":"/freeze/userParams/denoise","widget":"number","label":"去噪","description":"由包声明范围；旧对照约0.45","group":"精修","default":0.45,"minimum":0.0,"maximum":1.0}),
-        json!({"fieldPointer":"/freeze/userParams/smallFaceStrength","widget":"number","label":"小脸强度","description":"denoise_multiplier_small_face；旧对照约0.8","group":"精修","default":0.8,"minimum":0.0,"maximum":2.0}),
-        json!({"fieldPointer":"/freeze/userParams/largeFaceStrength","widget":"number","label":"大脸强度","description":"denoise_multiplier_large_face；旧对照约0.35","group":"精修","default":0.35,"minimum":0.0,"maximum":2.0}),
-        json!({"fieldPointer":"/freeze/userParams/samEnabled","widget":"checkbox","label":"SAM脸形遮罩","description":"缺依赖须显式不可用，不得静默改矩形","group":"可选","default":false}),
-        json!({"fieldPointer":"/freeze/userParams/scaleMode","widget":"select","label":"脸尺寸缩放模式","description":"上游 scale_mode；absolute_px|relative_to_clip","group":"可选","default":"absolute_px","enum":["absolute_px","relative_to_clip"]}),
+        json!({"fieldPointer":"/freeze/userParams/denoise","widget":"number","label":"去噪","description":"0-1；旧对照约0.45","group":"精修"}),
+        json!({"fieldPointer":"/freeze/userParams/smallFaceStrength","widget":"number","label":"小脸强度","description":"denoise_multiplier_small_face；旧对照约0.8","group":"精修"}),
+        json!({"fieldPointer":"/freeze/userParams/largeFaceStrength","widget":"number","label":"大脸强度","description":"denoise_multiplier_large_face；旧对照约0.35","group":"精修"}),
+        json!({"fieldPointer":"/freeze/userParams/samEnabled","widget":"checkbox","label":"SAM脸形遮罩","description":"缺依赖须显式不可用，不得静默改矩形","group":"可选"}),
+        json!({"fieldPointer":"/freeze/userParams/scaleMode","widget":"select","label":"脸尺寸缩放模式","description":"上游 scale_mode；absolute_px|relative_to_clip；默认 absolute_px","group":"可选"}),
     ];
 
     json!({
@@ -151,7 +151,6 @@ pub fn capabilities() -> Value {
             "localId": "face-refine",
             "capabilityKey": "video.edit",
             "transportSlot": "videoFaceRefine",
-            "requiredFeatures": ["media-target-selection-v1"],
             "modelIds": [MODEL],
             "configurationSchema": {"id": "configuration", "digest": config["digest"]},
             "schemas": [analyze_in.clone(), analyze_out.clone(), preview_in.clone(), preview_out.clone(), refine_in.clone(), refine_out.clone(), config, resume.clone()],
@@ -168,7 +167,7 @@ pub fn capabilities() -> Value {
                     vec![
                         json!({"role":"source_video","inputPointer":"/freeze/source/mediaId","mediaKind":"video","minCount":1,"maxCount":1}),
                         json!({"role":"appearance_ref","inputPointer":"/freeze/referenceMediaIds","mediaKind":"image","minCount":0,"maxCount":9}),
-                        json!({"role":"identity_ref","inputPointer":"/freeze/userParams/identityMediaIds","mediaKind":"image","minCount":0,"maxCount":1,"label":"身份参考"}),
+                        json!({"role":"identity_ref","inputPointer":"/freeze/userParams/identityMediaIds","mediaKind":"image","minCount":0,"maxCount":1}),
                     ],
                     vec![json!({"role":"video","kind":"video","minCount":1,"maxCount":1})],
                     "asynchronous")
@@ -422,7 +421,9 @@ fn inject_refine_workflow(
     user_params: &Value,
 ) -> Result<Value> {
     let mut wf = load_workflow_template("refine")?;
-    if let Some(obj) = wf.as_object_mut() { obj.remove("_meta"); }
+    if let Some(obj) = wf.as_object_mut() {
+        obj.remove("_meta");
+    }
     let denoise = user_params
         .get("denoise")
         .and_then(Value::as_f64)
@@ -439,6 +440,16 @@ fn inject_refine_workflow(
         .get("scaleMode")
         .and_then(Value::as_str)
         .unwrap_or("absolute_px");
+    let absent = user_params
+        .get("absent_shots")
+        .and_then(Value::as_str)
+        .unwrap_or("");
+    let appearance = user_params
+        .get("appearanceImage")
+        .and_then(Value::as_str);
+    let identity = user_params
+        .get("identityImage")
+        .and_then(Value::as_str);
     if let Some(obj) = wf.as_object_mut() {
         if let Some(sel) = obj.get_mut("select").and_then(|v| v.as_object_mut()) {
             if let Some(inputs) = sel.get_mut("inputs").and_then(|v| v.as_object_mut()) {
@@ -446,35 +457,58 @@ fn inject_refine_workflow(
                 inputs.insert("confirmed_pick".into(), json!(face_pick));
             }
         }
+        if let Some(track) = obj.get_mut("track").and_then(|v| v.as_object_mut()) {
+            if let Some(inputs) = track.get_mut("inputs").and_then(|v| v.as_object_mut()) {
+                if !absent.is_empty() {
+                    inputs.insert("absent_shots".into(), json!(absent));
+                }
+            }
+        }
         if let Some(den) = obj.get_mut("denoise").and_then(|v| v.as_object_mut()) {
             if let Some(inputs) = den.get_mut("inputs").and_then(|v| v.as_object_mut()) {
                 inputs.insert("denoise_multiplier_small_face".into(), json!(small));
                 inputs.insert("denoise_multiplier_large_face".into(), json!(large));
+                inputs.insert("scale_mode".into(), json!(scale_mode));
             }
         }
-        // Best-effort: if a text/prompt node exists under common keys, stamp prompt/denoise/scale.
-        for key in ["prompt", "positive", "text", "h3_prompt"] {
-            if let Some(node) = obj.get_mut(key).and_then(|v| v.as_object_mut()) {
+        if let Some(r2v) = obj.get_mut("r2v").and_then(|v| v.as_object_mut()) {
+            if let Some(inputs) = r2v.get_mut("inputs").and_then(|v| v.as_object_mut()) {
+                inputs.insert("prompt".into(), json!(prompt));
+            }
+        }
+        if let Some(sched) = obj.get_mut("scheduler").and_then(|v| v.as_object_mut()) {
+            if let Some(inputs) = sched.get_mut("inputs").and_then(|v| v.as_object_mut()) {
+                inputs.insert("denoise".into(), json!(denoise));
+            }
+        }
+        if let Some(name) = appearance {
+            if let Some(node) = obj.get_mut("ref0").and_then(|v| v.as_object_mut()) {
                 if let Some(inputs) = node.get_mut("inputs").and_then(|v| v.as_object_mut()) {
-                    if inputs.contains_key("text") {
-                        inputs.insert("text".into(), json!(prompt));
-                    }
-                    if inputs.contains_key("prompt") {
-                        inputs.insert("prompt".into(), json!(prompt));
-                    }
-                    if inputs.contains_key("denoise") {
-                        inputs.insert("denoise".into(), json!(denoise));
-                    }
-                    if inputs.contains_key("scale_mode") {
-                        inputs.insert("scale_mode".into(), json!(scale_mode));
-                    }
+                    inputs.insert("image".into(), json!(name));
                 }
             }
         }
+        if let Some(name) = identity {
+            if let Some(node) = obj.get_mut("ref1").and_then(|v| v.as_object_mut()) {
+                if let Some(inputs) = node.get_mut("inputs").and_then(|v| v.as_object_mut()) {
+                    inputs.insert("image".into(), json!(name));
+                }
+            }
+        }
+        // SAM optional nodes only kept when samEnabled=true; default graph has no SAM.
+        let sam = user_params
+            .get("samEnabled")
+            .and_then(Value::as_bool)
+            .unwrap_or(false);
+        if !sam {
+            obj.remove("sam_loader");
+            obj.remove("sam_mask");
+            obj.remove("sam_optional");
+        }
     }
-    let _ = denoise;
     Ok(wf)
 }
+
 
 fn comfy_submit_prompt(h: &mut dyn Host, base: &str, workflow: Value, client_id: &str) -> Result<String> {
     let url = format!("{}/prompt", base.trim_end_matches('/'));

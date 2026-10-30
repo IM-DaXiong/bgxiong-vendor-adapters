@@ -4,7 +4,7 @@ exclude = ["vendor-sdk/sdk/rust", "public-sdk"]
 
 [package]
 name = "h3-face-refine-adapter"
-version = "1.0.0-a04"
+version = "1.0.0-a05"
 edition = "2021"
 license = "LicenseRef-Proprietary"
 publish = false

@@ -2122,7 +2122,11 @@ class H3FaceTrackCrop:
         # usually left unconnected, and then a run gives no account of how it tracked -
         # which is exactly the information needed to tell whether identity matching did
         # any work on a crowd scene.
-        print("[H3FaceRefine] " + report.replace("\n", "\n[H3FaceRefine] "))
+        try:
+            _m = "[H3FaceRefine] " + report.replace('\n', '\n[H3FaceRefine] ')
+            print((_m[:4000] + ("..." if len(_m) > 4000 else "")))
+        except OSError:
+            pass
         return (crops, transform, preview, report, int(canvas_width), int(canvas_height),
                 int(K))
 
@@ -2697,7 +2701,10 @@ class H3PerFrameDenoise:
             f"{patch_note}"
             f"{soft}"
         )
-        print("[H3FaceRefine] " + report)
+        try:
+            print(("[H3FaceRefine] " + report)[:4000])
+        except OSError:
+            pass
         return (out, report, patched)
 
 
@@ -2836,7 +2843,10 @@ class H3FaceMaskSAM:
                   f"({B-ok} fell back to the face rect)\n"
                   f"dilation={dilation}  temporal_smooth={temporal_smooth}\n"
                   f"mean coverage {float(masks.mean())*100:.1f}% of canvas")
-        print("[H3FaceRefine] " + report)
+        try:
+            print(("[H3FaceRefine] " + report)[:4000])
+        except OSError:
+            pass
         return (masks, report)
 
 
@@ -3446,7 +3456,11 @@ class H3FaceSelect:
             f"{shot_lines}"
             f"{warn}"
         )
-        print("[H3FaceSelect] " + report.replace("\n", "\n[H3FaceSelect] "))
+        try:
+            _sm = "[H3FaceSelect] " + report.replace('\n', '\n[H3FaceSelect] ')
+            print(_sm[:4000])
+        except OSError:
+            pass
 
         if audio is None:
             # Downstream save nodes want an AUDIO, not None. A silent track keeps the

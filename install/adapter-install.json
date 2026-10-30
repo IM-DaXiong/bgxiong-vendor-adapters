@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "packageDirectory": "package",
-  "manifestSha256": "f0ffa9fc0f7298b5ca7946346d57adb76a0ea2b16557262abbcaf47fe3ea8abb",
+  "manifestSha256": "be2fc020db83bad99c8da48b24635d3ec568c3aef42181492d0f2886954202e2",
   "hostConfig": {
     "bindingId": "h3-face-refine-local-1.1.2",
     "bindingRevision": 1,
@@ -29,7 +29,9 @@
       "revokedKeys": [],
       "denylistedHosts": [],
       "isFresh": false,
-      "supportedFeatures": []
+      "supportedFeatures": [
+        "media-target-selection-v1"
+      ]
     },
     "mediaTtlMs": 3600000,
     "transport": {

@@ -2,16 +2,18 @@
   "schemaVersion": 2,
   "pluginId": "local.thirdparty.h3-face-refine",
   "displayName": "H3 Face Refine (independent 1.1.2)",
-  "version": "1.0.0-a04",
+  "version": "1.0.0-a05",
   "protocolRange": {
     "min": 2,
     "max": 2
   },
-  "requiredFeatures": [],
+  "requiredFeatures": [
+    "media-target-selection-v1"
+  ],
   "optionalFeatures": [],
   "language": "rust",
   "entry": "adapter.wasm",
-  "artifactSha256": "99edc75737cc0eda232cad5cf0cc14cc8cf4a66f725831eade9cae59466b2bdd",
+  "artifactSha256": "bed462681ba36908d0e54246060fe132637c52e2949fe4db030e3a86a94d5edc",
   "publisherId": null,
   "publisherKeyId": null,
   "requestedCapabilities": {

@@ -2,62 +2,314 @@
   "_meta": {
     "title": "h3-face-refine-manual-select-api",
     "upstreamCommit": "d8521d14fe0d721d80cd9417fff5a559cbc21aba",
-    "note": "Template API graph. Live refine injects media names, face_pick, absent_shots, prompt, denoise, refs. Requires MiniMax H3 + YOLO weights on the managed runtime."
+    "upstreamVersion": "1.1.2",
+    "note": "API graph for managed Comfy without VHS/NativeAudioLock/SAM. inject_refine_workflow stamps select/r2v/denoise/scheduler/refs. Audio from H3FaceSelect -> CreateVideo. Post-mux ffmpeg allowed if CreateVideo audio fails."
   },
   "select": {
     "class_type": "H3FaceSelect",
     "inputs": {
       "video": "SOURCE.mp4",
-      "confirmed_pick": "",
-      "detector": "bbox/face_yolov8m.pt",
+      "detector": "bbox\\face_yolov8m.pt",
       "confidence": 0.35,
-      "cut_detection": "auto",
-      "select": "largest_face"
+      "select": "manual",
+      "select_index": 0,
+      "confirmed_pick": "FACE_PICK_STRING",
+      "cut_detection": "none",
+      "cut_threshold": 3.0,
+      "skip_first_frames": 0,
+      "frame_load_cap": 0,
+      "select_every_nth": 1
     }
   },
   "track": {
     "class_type": "H3FaceTrackCrop",
     "inputs": {
-      "face_pick": [
-        "select",
-        2
-      ],
       "images": [
         "select",
         0
       ],
-      "preview": false
+      "face_pick": [
+        "select",
+        2
+      ],
+      "detector": "bbox\\face_yolov8m.pt",
+      "confidence": 0.35,
+      "crop_factor": 3.0,
+      "canvas_width": 768,
+      "canvas_height": 768,
+      "canvas_mode": "auto_capped_768",
+      "smooth_window": 21,
+      "size_smooth_window": 51,
+      "smooth_method": "gaussian",
+      "size_mode": "per_frame",
+      "identity_track": true,
+      "identity_threshold": 0.28,
+      "select": "largest_face",
+      "fallback_detector": "segm\\person_yolov8m-seg.pt",
+      "fallback_head_frac": 0.5,
+      "select_index": 0,
+      "cut_detection": "none",
+      "cut_threshold": 3.0,
+      "absent_shots": "off"
+    }
+  },
+  "unet": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "clip": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "device": "default"
+    }
+  },
+  "vae_video": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    }
+  },
+  "vae_audio": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+    }
+  },
+  "lora": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "unet",
+        0
+      ],
+      "lora_name": "minimax_h3_turbo_v4_step600_ema.safetensors",
+      "strength_model": 1.0
+    }
+  },
+  "ref0": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "appearance_ref.png"
+    }
+  },
+  "ref1": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "identity_ref.png"
+    }
+  },
+  "r2v": {
+    "class_type": "MiniMaxH3ReferenceToVideo",
+    "inputs": {
+      "clip": [
+        "clip",
+        0
+      ],
+      "vae": [
+        "vae_video",
+        0
+      ],
+      "audio_vae": [
+        "vae_audio",
+        0
+      ],
+      "ref_images.ref_image_0": [
+        "ref0",
+        0
+      ],
+      "ref_images.ref_image_1": [
+        "ref1",
+        0
+      ],
+      "ref_audios.ref_audio_0": [
+        "select",
+        1
+      ],
+      "width": [
+        "track",
+        4
+      ],
+      "height": [
+        "track",
+        5
+      ],
+      "length": [
+        "track",
+        6
+      ],
+      "prompt": "USER_PROMPT",
+      "ref_image_size": "match"
+    }
+  },
+  "inject": {
+    "class_type": "H3InjectVideoLatent",
+    "inputs": {
+      "av_latent": [
+        "r2v",
+        1
+      ],
+      "images": [
+        "track",
+        0
+      ],
+      "vae": [
+        "vae_video",
+        0
+      ]
     }
   },
   "denoise": {
     "class_type": "H3PerFrameDenoise",
     "inputs": {
       "model": [
-        "h3_model",
+        "lora",
         0
       ],
+      "av_latent": [
+        "inject",
+        0
+      ],
+      "transform": [
+        "track",
+        1
+      ],
       "denoise_multiplier_small_face": 0.8,
-      "denoise_multiplier_large_face": 0.35
+      "denoise_multiplier_large_face": 0.35,
+      "scale_mode": "absolute_px",
+      "face_px_small": 30,
+      "face_px_large": 120,
+      "gamma": 1.0,
+      "smooth_frames": 9
     }
   },
-  "r2v": {
-    "class_type": "MiniMaxH3ReferenceToVideo",
+  "guider": {
+    "class_type": "BasicGuider",
     "inputs": {
-      "prompt": "USER_PROMPT",
-      "length": 0
+      "model": [
+        "denoise",
+        2
+      ],
+      "conditioning": [
+        "r2v",
+        0
+      ]
     }
   },
-  "inject": {
-    "class_type": "H3InjectVideoLatent",
-    "inputs": {}
+  "sampler": {
+    "class_type": "KSamplerSelect",
+    "inputs": {
+      "sampler_name": "er_sde"
+    }
+  },
+  "scheduler": {
+    "class_type": "BasicScheduler",
+    "inputs": {
+      "model": [
+        "denoise",
+        2
+      ],
+      "scheduler": "simple",
+      "steps": 8,
+      "denoise": 0.45
+    }
+  },
+  "noise": {
+    "class_type": "RandomNoise",
+    "inputs": {
+      "noise_seed": 42
+    }
+  },
+  "sample": {
+    "class_type": "SamplerCustomAdvanced",
+    "inputs": {
+      "noise": [
+        "noise",
+        0
+      ],
+      "guider": [
+        "guider",
+        0
+      ],
+      "sampler": [
+        "sampler",
+        0
+      ],
+      "sigmas": [
+        "scheduler",
+        0
+      ],
+      "latent_image": [
+        "denoise",
+        0
+      ]
+    }
+  },
+  "decode": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "sample",
+        0
+      ],
+      "vae": [
+        "vae_video",
+        0
+      ]
+    }
   },
   "stitch": {
     "class_type": "H3FaceStitch",
-    "inputs": {}
+    "inputs": {
+      "base_images": [
+        "select",
+        0
+      ],
+      "refined_crops": [
+        "decode",
+        0
+      ],
+      "transform": [
+        "track",
+        1
+      ],
+      "paste_region": "face_only",
+      "mask_dilation": 24,
+      "feather": 24,
+      "colour_match": 1.0,
+      "blend": 1.0,
+      "undetected_frames": "fade_out",
+      "feather_scales_with_crop": false
+    }
   },
-  "sam_optional": {
-    "class_type": "H3FaceMaskSAM",
-    "inputs": {},
-    "_optional": true
+  "create": {
+    "class_type": "CreateVideo",
+    "inputs": {
+      "images": [
+        "stitch",
+        0
+      ],
+      "fps": 24.0,
+      "audio": [
+        "select",
+        1
+      ],
+      "codec": "auto"
+    }
+  },
+  "save": {
+    "class_type": "SaveVideo",
+    "inputs": {
+      "video": [
+        "create",
+        0
+      ],
+      "filename_prefix": "h3_face_refine_manual",
+      "format": "auto"
+    }
   }
 }
