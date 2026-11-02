@@ -1,0 +1,74 @@
+{
+  "feature": "video-reference-media-v1",
+  "orderNote": "array order is session order",
+  "reservedPluginParameterNames": [
+    "model",
+    "prompt",
+    "negativePrompt",
+    "resolution",
+    "fps",
+    "durationSeconds",
+    "outputFormat",
+    "startFrame",
+    "endFrame",
+    "referenceImages",
+    "referenceVideos",
+    "referenceAudios",
+    "pluginParameters",
+    "startFrameB64",
+    "endFrameB64",
+    "referenceImagesB64",
+    "endpointBaseUrl",
+    "extra"
+  ],
+  "files": {
+    "submit-valid-mixed.json": {
+      "expect": "pass",
+      "videoIds": [
+        "input-v-01"
+      ],
+      "audioIds": [
+        "input-a-01"
+      ]
+    },
+    "submit-valid-empty-refs.json": {
+      "expect": "pass"
+    },
+    "submit-invalid-null-element.json": {
+      "expect": "fail",
+      "reason": "null element"
+    },
+    "submit-invalid-empty-handle.json": {
+      "expect": "fail",
+      "reason": "empty handle"
+    },
+    "submit-invalid-kind-mismatch.json": {
+      "expect": "fail",
+      "reason": "kind vs array"
+    },
+    "submit-invalid-byteLength.json": {
+      "expect": "fail",
+      "reason": "byteLength pattern"
+    },
+    "submit-invalid-byteLength-overflow.json": {
+      "expect": "fail",
+      "reason": "byteLength exceeds u64"
+    },
+    "submit-invalid-byteLength-leading-zero.json": {
+      "expect": "fail",
+      "reason": "byteLength leading zero"
+    },
+    "submit-invalid-fileName-dot.json": {
+      "expect": "fail",
+      "reason": "fileName is ."
+    },
+    "submit-invalid-fileName-dotdot.json": {
+      "expect": "fail",
+      "reason": "fileName is .."
+    },
+    "submit-invalid-duplicate-id.json": {
+      "expect": "fail",
+      "reason": "duplicate id"
+    }
+  }
+}

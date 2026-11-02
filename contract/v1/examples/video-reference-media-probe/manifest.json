@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.example.video-reference-media-probe",
+  "displayName": "Video reference media probe (offline)",
+  "version": "0.2.0",
+  "language": "rust",
+  "entry": "adapter.wasm",
+  "capabilitySlots": [
+    {
+      "slot": "video",
+      "taskType": "text_to_video",
+      "models": [
+        { "modelId": "probe-offline", "displayName": "Offline reference-media probe" },
+        { "modelId": "probe-offline-http", "displayName": "Offline multipart HTTP probe" },
+        { "modelId": "probe-offline-reject", "displayName": "Offline probe reject (max 2 videos)" }
+      ],
+      "supportsAsync": true,
+      "features": ["video-reference-media-v1"],
+      "mediaInputHints": { "images": true, "videos": true, "audios": true }
+    },
+    {
+      "slot": "keyframe",
+      "taskType": "text_to_video",
+      "models": [{ "modelId": "probe-offline-kf", "displayName": "Offline probe keyframe" }],
+      "supportsAsync": true,
+      "features": ["video-reference-media-v1"],
+      "mediaInputHints": { "images": true, "videos": true, "audios": true }
+    }
+  ],
+  "requestedCapabilities": {
+    "endpointPolicy": ["staticHosts", "allowPrivateNetwork"],
+    "networkHosts": ["127.0.0.1", "localhost"],
+    "allowPrivateNetwork": true,
+    "auth": ["none"],
+    "stateBytes": 65536
+  }
+}

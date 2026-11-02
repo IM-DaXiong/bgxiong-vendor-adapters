@@ -1,0 +1,8 @@
+{
+  "queryResult": {
+    "status": "failed",
+    "outputs": [],
+    "progressText": "failed"
+  },
+  "expectValidateError": "ADAPTER_QUERY_TERMINAL_FAILURE_MISSING"
+}

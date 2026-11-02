@@ -1,0 +1,14 @@
+{
+  "model": "m",
+  "prompt": "p",
+  "referenceVideos": [
+    {
+      "id": "v1",
+      "kind": "video",
+      "handle": "h",
+      "mime": "video/mp4",
+      "fileName": "..",
+      "byteLength": "12"
+    }
+  ]
+}

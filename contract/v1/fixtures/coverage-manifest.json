@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "note": "W6 coverage: one fixture per live provider/capability surface family. public-media is an optional host feature.",
+  "fixtures": [
+    { "id": "01-openai-compat-text", "surfaces": ["text_openai_compat", "text_custom"] },
+    { "id": "02-ark-image-sync", "surfaces": ["image_volc", "image_volc_seedream"] },
+    { "id": "03-kling-video-async", "surfaces": ["video_kling", "kling_omni_video"] },
+    { "id": "04-jimeng-video", "surfaces": ["video_volc_jimeng_t2v"] },
+    { "id": "05-dashscope-wan-image", "surfaces": ["image_dashscope_wan"] },
+    { "id": "06-minimax-h3-video", "surfaces": ["video_minimax_h3"] },
+    { "id": "07-seedance-video-av", "surfaces": ["video_seedance_2_0"] },
+    { "id": "08-speech-openai", "surfaces": ["speech_openai_compat"] },
+    { "id": "09-avatar-kling", "surfaces": ["avatar/kling"] },
+    { "id": "10-lipsync", "surfaces": ["lipsync"] },
+    { "id": "11-sfx", "surfaces": ["sfx"] },
+    { "id": "12-upscale-refine", "surfaces": ["video_upscale", "video_face_refine", "image_upscale"] },
+    { "id": "13-volc-jwt-hs256", "surfaces": ["kling_image_generation_t2i"] },
+    { "id": "14-oauth-device-code", "surfaces": ["oauth2-device-code"] }
+  ],
+  "apiBlocking": []
+}

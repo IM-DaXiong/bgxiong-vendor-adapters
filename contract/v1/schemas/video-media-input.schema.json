@@ -1,0 +1,182 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v1/video-media-input.schema.json",
+  "title": "VendorAdapterVideoMediaInputV1",
+  "description": "MediaInputV1 descriptors and video/keyframe submit fields for feature video-reference-media-v1. No business maxItems/maxBytes.",
+  "$ref": "#/$defs/VideoMediaSubmitV1",
+  "$defs": {
+    "MediaInputV1": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "kind",
+        "handle",
+        "mime",
+        "fileName",
+        "byteLength"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1
+        },
+        "kind": {
+          "type": "string",
+          "enum": [
+            "image",
+            "video",
+            "audio"
+          ]
+        },
+        "handle": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mime": {
+          "type": "string",
+          "minLength": 1
+        },
+        "fileName": {
+          "type": "string",
+          "minLength": 1,
+          "not": {
+            "enum": [".", ".."]
+          },
+          "pattern": "^(?!.*\\.\\.)[^\\\\/:*]+$"
+        },
+        "byteLength": {
+          "type": "string",
+          "maxLength": 20,
+          "pattern": "^(0|[1-9][0-9]*)$"
+        },
+        "label": {
+          "type": "string"
+        },
+        "usage": {
+          "type": "string"
+        },
+        "associationId": {
+          "type": "string"
+        },
+        "metadata": {
+          "type": "object"
+        }
+      }
+    },
+    "pluginParameters": {
+      "type": "object",
+      "description": "Plugin-owned JSON object; host validates JSON only.",
+      "propertyNames": {
+        "not": {
+          "enum": [
+            "model",
+            "prompt",
+            "negativePrompt",
+            "resolution",
+            "fps",
+            "durationSeconds",
+            "outputFormat",
+            "startFrame",
+            "endFrame",
+            "referenceImages",
+            "referenceVideos",
+            "referenceAudios",
+            "pluginParameters",
+            "startFrameB64",
+            "endFrameB64",
+            "referenceImagesB64",
+            "endpointBaseUrl",
+            "extra"
+          ]
+        }
+      }
+    },
+    "VideoMediaSubmitV1": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "model": {
+          "type": "string",
+          "minLength": 1
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "startFrame": {
+          "$ref": "#/$defs/MediaInputV1"
+        },
+        "endFrame": {
+          "$ref": "#/$defs/MediaInputV1"
+        },
+        "referenceImages": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MediaInputV1"
+          }
+        },
+        "referenceVideos": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MediaInputV1"
+          }
+        },
+        "referenceAudios": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/MediaInputV1"
+          }
+        },
+        "pluginParameters": {
+          "$ref": "#/$defs/pluginParameters"
+        }
+      },
+      "required": [
+        "model",
+        "prompt"
+      ]
+    },
+    "mediaInputHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "images": {
+          "type": "boolean"
+        },
+        "videos": {
+          "type": "boolean"
+        },
+        "audios": {
+          "type": "boolean"
+        }
+      }
+    },
+    "reservedPluginParameterNames": {
+      "description": "Must not appear as pluginParameters keys when colliding with standard submit fields",
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "const": [
+        "model",
+        "prompt",
+        "negativePrompt",
+        "resolution",
+        "fps",
+        "durationSeconds",
+        "outputFormat",
+        "startFrame",
+        "endFrame",
+        "referenceImages",
+        "referenceVideos",
+        "referenceAudios",
+        "pluginParameters",
+        "startFrameB64",
+        "endFrameB64",
+        "referenceImagesB64",
+        "endpointBaseUrl",
+        "extra"
+      ]
+    }
+  }
+}

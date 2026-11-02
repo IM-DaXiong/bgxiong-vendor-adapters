@@ -1,0 +1,22 @@
+[package]
+name = "local-example-starter"
+version = "0.1.0"
+edition = "2021"
+publish = false
+
+[package.metadata.component]
+package = "local:example-starter"
+
+[package.metadata.component.target]
+path = "wit/vendor-adapter.wit"
+world = "vendor-adapter"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+bgx-vendor-adapter-sdk = { path = "vendor-sdk" }
+serde = { version = "1.0", default-features = false, features = ["derive", "alloc"] }
+serde_json = { version = "1.0", default-features = false, features = ["alloc"] }
+wit-bindgen = { version = "0.51", default-features = false, features = ["macros", "realloc"] }
+dlmalloc = { version = "0.2", features = ["global"] }

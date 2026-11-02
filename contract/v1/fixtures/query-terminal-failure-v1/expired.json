@@ -1,0 +1,14 @@
+{
+  "queryResult": {
+    "status": "expired",
+    "outputs": [],
+    "terminalFailure": {
+      "category": "vendorTaskExpired",
+      "message": "remote task expired",
+      "retryable": false,
+      "vendorCode": "EXPIRED"
+    }
+  },
+  "expectedStatus": "expired",
+  "expectedCategory": "vendorTaskExpired"
+}

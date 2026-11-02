@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.example.lan-openai-compat-text",
+  "displayName": "LAN OpenAI-compatible text",
+  "version": "0.1.0",
+  "language": "rust",
+  "entry": "adapter.wasm",
+  "capabilitySlots": [
+    {
+      "slot": "text",
+      "taskType": "chat_completion",
+      "models": [
+        { "modelId": "example-lan-llm", "displayName": "LAN OpenAI-compatible LLM" }
+      ],
+      "supportsAsync": false
+    }
+  ],
+  "requestedCapabilities": {
+    "endpointPolicy": ["userConfigurable", "allowPrivateNetwork"],
+    "allowPrivateNetwork": true,
+    "auth": ["bearer", "none"]
+  }
+}

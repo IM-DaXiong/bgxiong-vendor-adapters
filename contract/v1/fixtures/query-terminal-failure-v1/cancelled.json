@@ -1,0 +1,14 @@
+{
+  "queryResult": {
+    "status": "cancelled",
+    "outputs": [],
+    "terminalFailure": {
+      "category": "vendorTaskCancelled",
+      "message": "remote task cancelled",
+      "retryable": false,
+      "vendorCode": "CANCELLED"
+    }
+  },
+  "expectedStatus": "cancelled",
+  "expectedCategory": "vendorTaskCancelled"
+}
