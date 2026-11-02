@@ -6,13 +6,31 @@ use alloc::string::String;
 use alloc::vec;
 use alloc::vec::Vec;
 
-use bgx_vendor_adapter_sdk::{ParamBinding, RcdParam};
+use bgx_vendor_adapter_sdk::{ParamBinding, PromptProjection, RcdParam};
 use serde_json::{json, Map, Value};
 
 use crate::config::{
     ASPECT_BINDING_ID, DURATION_NODE_ID, FPS_NODE_ID, MODEL_ID, MODEL_ID_I2V_TURBO,
     MODEL_ID_R2V_TURBO, PLUGIN_ID, PLUGIN_VERSION, R2V_DURATION_NODE_ID, RESOLUTION_BINDING_ID,
 };
+
+/// Prompt projection declared by every model of this plugin: the host's MiniMax H3 profile
+/// (`h3` version 1, method package `h3-prompt-writing`). Declared explicitly here, per model,
+/// with that model's own implemented modes; the host never infers it from ids or names.
+pub const PROMPT_PROJECTION_PROFILE_ID: &str = "h3";
+pub const PROMPT_PROJECTION_VERSION: u32 = 1;
+pub const PROMPT_PROJECTION_METHOD_NAME: &str = "h3-prompt-writing";
+
+fn prompt_projection(implemented: &[&str]) -> Result<Value, String> {
+    let projection = PromptProjection::new(
+        PROMPT_PROJECTION_PROFILE_ID,
+        PROMPT_PROJECTION_VERSION,
+        PROMPT_PROJECTION_METHOD_NAME,
+        implemented.iter().map(|m| String::from(*m)).collect(),
+    )?;
+    projection.validate_for_slot("video", implemented)?;
+    Ok(projection.to_json())
+}
 
 fn bound(id: &str) -> Option<ParamBinding> {
     ParamBinding::new(id).ok()
@@ -93,6 +111,7 @@ fn video_slot(
     slot.insert("modelId".into(), json!(model_id));
     slot.insert("maxReferenceImages".into(), json!(max_refs));
     slot.insert("supportsFirstLastFrame".into(), json!(false));
+    slot.insert("promptProjection".into(), prompt_projection(&implemented)?);
     slot.insert(
         "implementedModeIds".into(),
         json!(implemented.into_iter().map(String::from).collect::<Vec<_>>()),
@@ -116,4 +135,34 @@ pub fn runtime_caps_doc() -> Result<Value, String> {
             video_slot(MODEL_ID_R2V_TURBO, R2V_DURATION_NODE_ID, 3, vec!["multi_image_to_video"])?,
         ]
     }))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// Runtime caps and manifest declare the same projection per model, inside each model's
+    /// implemented modes (VS29: Comfy H3 keeps its actual slots and modes).
+    #[test]
+    fn every_model_declares_h3_projection_within_its_modes_and_matches_manifest() {
+        let doc = runtime_caps_doc().expect("caps");
+        let manifest: Value =
+            serde_json::from_str(include_str!("../manifest.json")).expect("manifest json");
+        let models = manifest["capabilitySlots"][0]["models"]
+            .as_array()
+            .expect("manifest models");
+        let slots = doc["slots"].as_array().expect("slots");
+        assert_eq!(slots.len(), models.len());
+        for slot in slots {
+            let projection = &slot["promptProjection"];
+            assert_eq!(projection["profileId"], PROMPT_PROJECTION_PROFILE_ID);
+            assert_eq!(projection["version"], PROMPT_PROJECTION_VERSION);
+            assert_eq!(projection["inputModes"], slot["implementedModeIds"]);
+            let model = models
+                .iter()
+                .find(|m| m["modelId"] == slot["modelId"])
+                .expect("manifest model");
+            assert_eq!(&model["promptProjection"], projection);
+        }
+    }
 }

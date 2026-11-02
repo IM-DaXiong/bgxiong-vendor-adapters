@@ -1,6 +1,6 @@
 # HOST_MAPPING · LAN ComfyUI Z-Image-Turbo
 
-字段标准：`contract/v1/HOST_PAYLOAD.zh-CN.md`（槽 `image`）。  
+字段 SSOT：`packages/vendor-adapter-contract/v1/HOST_PAYLOAD.zh-CN.md`（槽 `image`）。  
 字节 SSOT：本 crate `workflows/z.turbo.api.json` + `config.rs` SHA pin。  
 禁止猜节点号；换图须对照本表与钉文件。
 

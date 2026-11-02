@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/video-target-keyframes-v1/progress.schema.json",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "$ref": "selection.schema.json#/$defs/nonEmptyString"
+    },
+    "revision": {
+      "$ref": "selection.schema.json#/$defs/nonEmptyString"
+    },
+    "selectionDigest": {
+      "$ref": "selection.schema.json#/$defs/digest"
+    },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "loading",
+        "towardEnd",
+        "towardStart",
+        "finalizing"
+      ]
+    },
+    "direction": {
+      "$ref": "selection.schema.json#/$defs/direction"
+    },
+    "totalFrames": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "processedFrames": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "lastCompletedTimeMs": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "coveredRanges": {
+      "type": "array",
+      "items": {
+        "$ref": "selection.schema.json#/$defs/timeRangeMs"
+      }
+    }
+  },
+  "required": [
+    "requestId",
+    "revision",
+    "selectionDigest",
+    "stage",
+    "direction",
+    "totalFrames",
+    "processedFrames",
+    "lastCompletedTimeMs",
+    "coveredRanges"
+  ],
+  "additionalProperties": false
+}

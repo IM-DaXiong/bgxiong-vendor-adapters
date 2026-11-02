@@ -1,26 +1,25 @@
 # Vendor Adapter Rust SDK
 
 > **Field contract (required) / 字段契约（必读）**
-> - 中文: [`../../HOST_PAYLOAD.zh-CN.md`](../../HOST_PAYLOAD.zh-CN.md)
-> - English: [`../../HOST_PAYLOAD.en.md`](../../HOST_PAYLOAD.en.md)
-> - Index: [`../../HOST_PAYLOAD.md`](../../HOST_PAYLOAD.md)
+> - 中文: [`../../../HOST_PAYLOAD.zh-CN.md`](../../../HOST_PAYLOAD.zh-CN.md)
+> - English: [`../../../HOST_PAYLOAD.en.md`](../../../HOST_PAYLOAD.en.md)
+> - Index: [`../../../HOST_PAYLOAD.md`](../../../HOST_PAYLOAD.md)
 >
 > Project external standard. Specimens under examples are not the standard.
 > 本仓对外标准。examples 标本不是标准。
 
-Status: **supported**. This directory is the Rust SDK copy shipped with the adapter.
-Contract release 1.2.0 publishes the library in this repository. Depend on it with
-`path = "vendor-sdk"` from the adapter crate.
+Status: **supported**. This is the only language SDK with library code today; Python /
+TypeScript / TinyGo are 暂不支持; the installer includes Rust SDK code only.
 
 `bgx-vendor-adapter-sdk` covers the JSON envelope that crosses the host boundary and the
 payload builders for `submit` / `query`. The WIT world lives in
-[`../../wit/vendor-adapter.wit`](../../wit/vendor-adapter.wit) and is generated in your own
+[`../wit/vendor-adapter.wit`](../wit/vendor-adapter.wit) and is generated in your own
 crate with `wit-bindgen`; this SDK stays free of `wit-bindgen` so the same code compiles for
 host-side tests and for `bgx-adapter dev`.
 
-Closed sets (`protocolHostMajor`, `operations`, `capabilitySlots`) are read from
-crate-local `vendor-adapter-protocol.json` at compile time. Copy this directory together
-with the adapter; it does not read a private host contract file.
+Closed sets are read from the crate-local `src/vendor-adapter-protocol.json` at compile
+time. Keep that file with `src/lib.rs` when you copy this crate. The supported field contract,
+schemas and upgrade notes are in the enclosing `vendor-adapter-v1/` package.
 
 ## Use
 
@@ -66,10 +65,10 @@ Rules the host enforces, so build for them from the start:
 
 ## Build
 
-Rust adapters ship a **precompiled** `adapter.wasm` component, so users need no runtime download:
+Published Rust plugins can ship a **precompiled** `adapter.wasm` component. The bundled source examples omit the binary; importing their source requires a Rust toolchain with `cargo-component`:
 
 ```bash
 cargo component build --release --target wasm32-wasip2
-bgx-adapter check .
-bgx-adapter pack .
 ```
+
+Import the plugin root in Settings → Third-party adapters. The optional `bgx-adapter` developer CLI is not required for the app import flow.

@@ -1,0 +1,88 @@
+{
+  "id": "p2-profile-submit-accepted",
+  "kind": "same-source",
+  "schemaVersion": 1,
+  "note": "Accepted: the vendor task id comes back for polling.",
+  "package": {
+    "language": "profile",
+    "manifest": {
+      "schemaVersion": 2,
+      "pluginId": "local.example.same-source-profile",
+      "displayName": "Same-source profile",
+      "version": "1.0.0",
+      "language": "profile",
+      "entry": "profile.json",
+      "capabilitySlots": [
+        {
+          "slot": "image",
+          "taskType": "text_to_image",
+          "models": [
+            {
+              "modelId": "m",
+              "displayName": "M"
+            }
+          ]
+        }
+      ],
+      "requestedCapabilities": {
+        "endpointPolicy": [
+          "staticHosts",
+          "allowPrivateNetwork"
+        ],
+        "networkHosts": [
+          "127.0.0.1"
+        ],
+        "allowPrivateNetwork": true,
+        "auth": [
+          "none"
+        ]
+      }
+    },
+    "profile": {
+      "schemaVersion": 1,
+      "method": "POST",
+      "urlTemplate": "{vendor}/v1/images",
+      "statusMap": {
+        "200": "succeeded"
+      },
+      "vendorTaskIdPointer": "/id"
+    }
+  },
+  "invocation": {
+    "operation": "submit",
+    "capabilitySlot": "image",
+    "payload": {
+      "prompt": "later",
+      "model": "m"
+    }
+  },
+  "vendor": [
+    {
+      "status": 200,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "id": "vt-1"
+      }
+    }
+  ],
+  "expect": {
+    "result": {
+      "operation": "submit",
+      "data": {
+        "kind": "accepted",
+        "vendorTaskId": "vt-1",
+        "retryAfterMs": 2000
+      }
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "path": "/v1/images",
+        "bodyContains": "later"
+      }
+    ],
+    "media": []
+  }
+}

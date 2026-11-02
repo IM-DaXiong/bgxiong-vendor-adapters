@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/video-target-keyframes-v1/tracking-receipt.schema.json",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "$ref": "selection.schema.json#/$defs/nonEmptyString"
+    },
+    "sourceDigest": {
+      "$ref": "selection.schema.json#/$defs/digest"
+    },
+    "range": {
+      "$ref": "selection.schema.json#/$defs/timeRangeMs"
+    },
+    "direction": {
+      "$ref": "selection.schema.json#/$defs/direction"
+    },
+    "selectionDigest": {
+      "$ref": "selection.schema.json#/$defs/digest"
+    },
+    "operationRef": {
+      "$ref": "selection.schema.json#/$defs/operationRef"
+    },
+    "outputGeometry": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "$ref": "selection.schema.json#/$defs/positiveInt"
+        },
+        "height": {
+          "$ref": "selection.schema.json#/$defs/positiveInt"
+        }
+      },
+      "required": [
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "outputFps": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "exclusiveMinimum": 0
+    },
+    "resolvedKeyframes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "keyframeId": {
+            "$ref": "selection.schema.json#/$defs/nonEmptyString"
+          },
+          "resolvedTimeMs": {
+            "$ref": "selection.schema.json#/$defs/nonNegInt"
+          },
+          "frameIndex": {
+            "$ref": "selection.schema.json#/$defs/nonNegInt"
+          }
+        },
+        "required": [
+          "keyframeId",
+          "resolvedTimeMs",
+          "frameIndex"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "coveredRanges": {
+      "type": "array",
+      "items": {
+        "$ref": "selection.schema.json#/$defs/timeRangeMs"
+      }
+    },
+    "lostRanges": {
+      "type": "array",
+      "items": {
+        "$ref": "selection.schema.json#/$defs/timeRangeMs"
+      }
+    },
+    "uncomputedRanges": {
+      "type": "array",
+      "items": {
+        "$ref": "selection.schema.json#/$defs/timeRangeMs"
+      }
+    },
+    "skipRanges": {
+      "type": "array",
+      "items": {
+        "$ref": "selection.schema.json#/$defs/timeRangeMs"
+      }
+    },
+    "ready": {
+      "type": "boolean"
+    },
+    "readyReason": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "previewMediaRef": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    },
+    "maskArtifact": {
+      "$ref": "selection.schema.json#/$defs/maskArtifact"
+    },
+    "framePageIndexRef": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "minLength": 1
+    }
+  },
+  "required": [
+    "requestId",
+    "sourceDigest",
+    "range",
+    "direction",
+    "selectionDigest",
+    "operationRef",
+    "outputGeometry",
+    "resolvedKeyframes",
+    "coveredRanges",
+    "lostRanges",
+    "uncomputedRanges",
+    "skipRanges",
+    "ready",
+    "maskArtifact"
+  ],
+  "additionalProperties": false
+}

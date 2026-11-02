@@ -1,0 +1,25 @@
+{
+  "id": "r1-rust-probe",
+  "kind": "same-source",
+  "schemaVersion": 1,
+  "note": "Positive without network (rust guest).",
+  "package": {
+    "language": "rust",
+    "example": "video-reference-media-probe"
+  },
+  "invocation": {
+    "operation": "probe",
+    "capabilitySlot": "video"
+  },
+  "vendor": [],
+  "expect": {
+    "result": {
+      "operation": "probe",
+      "data": {
+        "ok": true
+      }
+    },
+    "requests": [],
+    "media": []
+  }
+}

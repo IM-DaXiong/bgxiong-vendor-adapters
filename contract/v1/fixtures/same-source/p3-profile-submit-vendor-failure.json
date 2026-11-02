@@ -1,0 +1,85 @@
+{
+  "id": "p3-profile-submit-vendor-failure",
+  "kind": "same-source",
+  "schemaVersion": 1,
+  "note": "Failure: a 503 is a retryable vendor HTTP error.",
+  "package": {
+    "language": "profile",
+    "manifest": {
+      "schemaVersion": 2,
+      "pluginId": "local.example.same-source-profile",
+      "displayName": "Same-source profile",
+      "version": "1.0.0",
+      "language": "profile",
+      "entry": "profile.json",
+      "capabilitySlots": [
+        {
+          "slot": "image",
+          "taskType": "text_to_image",
+          "models": [
+            {
+              "modelId": "m",
+              "displayName": "M"
+            }
+          ]
+        }
+      ],
+      "requestedCapabilities": {
+        "endpointPolicy": [
+          "staticHosts",
+          "allowPrivateNetwork"
+        ],
+        "networkHosts": [
+          "127.0.0.1"
+        ],
+        "allowPrivateNetwork": true,
+        "auth": [
+          "none"
+        ]
+      }
+    },
+    "profile": {
+      "schemaVersion": 1,
+      "method": "POST",
+      "urlTemplate": "{vendor}/v1/images",
+      "statusMap": {
+        "200": "succeeded"
+      }
+    }
+  },
+  "invocation": {
+    "operation": "submit",
+    "capabilitySlot": "image",
+    "payload": {
+      "prompt": "x",
+      "model": "m"
+    }
+  },
+  "vendor": [
+    {
+      "status": 503,
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "error": "busy"
+      }
+    }
+  ],
+  "expect": {
+    "result": {
+      "operation": "submit",
+      "error": {
+        "code": "adapterVendorHttpError",
+        "retryable": true
+      }
+    },
+    "requests": [
+      {
+        "method": "POST",
+        "path": "/v1/images"
+      }
+    ],
+    "media": []
+  }
+}

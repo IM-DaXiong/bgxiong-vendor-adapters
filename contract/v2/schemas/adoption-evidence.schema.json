@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/adoption-evidence.schema.json",
+  "title": "Per-module adoption evidence; release governance, not guest wire",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "moduleId", "sdkRelease", "sdkReleaseLockSha256", "moduleStatus", "G07", "operations", "hostPorts", "parity", "evidence"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "moduleId": {"type": "string", "minLength": 1},
+    "sdkRelease": {"const": "2.0.0"},
+    "sdkReleaseLockSha256": {"type": ["string", "null"], "pattern": "^[a-f0-9]{64}$"},
+    "moduleStatus": {"enum": ["NOT_ADOPTED", "ADOPTION_CANDIDATE", "ADOPTED"]},
+    "G07": {"enum": ["NOT_RUN", "PASS"]},
+    "operations": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "hostPorts": {"type": "array", "uniqueItems": true, "items": {"type": "string", "minLength": 1}},
+    "parity": {
+      "type": "object", "additionalProperties": false,
+      "required": ["sharedCatalog", "mcpPublished", "f1SharedKernel"],
+      "properties": {"sharedCatalog": {"type": "boolean"}, "mcpPublished": {"type": "boolean"}, "f1SharedKernel": {"type": "boolean"}}
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "type": "object", "additionalProperties": false, "required": ["category", "path", "sha256"],
+        "properties": {
+          "category": {"enum": ["six-operations", "host-ports", "catalog-parity", "ipc-contract", "restart", "cancellation", "isolation", "module-acceptance"]},
+          "path": {"type": "string", "minLength": 1},
+          "sha256": {"type": "string", "pattern": "^[a-f0-9]{64}$"}
+        }
+      }
+    }
+  },
+  "allOf": [
+    {"if": {"properties": {"moduleStatus": {"const": "NOT_ADOPTED"}}}, "then": {"properties": {"G07": {"const": "NOT_RUN"}, "operations": {"maxItems": 0}, "hostPorts": {"maxItems": 0}, "evidence": {"maxItems": 0}, "parity": {"properties": {"sharedCatalog": {"const": false}, "mcpPublished": {"const": false}, "f1SharedKernel": {"const": false}}}}}},
+    {"if": {"properties": {"moduleStatus": {"enum": ["ADOPTION_CANDIDATE", "ADOPTED"]}}}, "then": {"properties": {"sdkReleaseLockSha256": {"type": "string"}, "operations": {"minItems": 6}, "hostPorts": {"minItems": 18}, "evidence": {"minItems": 8}, "parity": {"properties": {"sharedCatalog": {"const": true}, "mcpPublished": {"const": true}, "f1SharedKernel": {"const": true}}}}}},
+    {"if": {"properties": {"moduleStatus": {"const": "ADOPTED"}}}, "then": {"properties": {"G07": {"const": "PASS"}}}},
+    {"if": {"properties": {"moduleStatus": {"const": "ADOPTION_CANDIDATE"}}}, "then": {"properties": {"G07": {"const": "NOT_RUN"}}}}
+  ]
+}

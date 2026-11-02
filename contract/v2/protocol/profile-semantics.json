@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 2,
+  "mappingTargets": {
+    "request": "bodyTemplate",
+    "response": "resultTemplate"
+  },
+  "requestSources": {
+    "input": "submit.input",
+    "configuration": "payload.configuration",
+    "media": "payload.media",
+    "task": "query/cancel complete OperationTaskRefV2 payload",
+    "constant": "mapping.value"
+  },
+  "responseSources": {
+    "input": "original submit.input if present",
+    "configuration": "payload.configuration",
+    "media": "payload.media if present",
+    "task": "parsed HTTP response JSON body",
+    "constant": "mapping.value"
+  },
+  "mappingValue": "Explicit JSON type witness for nonconstant sources, actual value for constant. Never a missing-field fallback.",
+  "mappingRules": [
+    "Source and target use RFC6901 JSON pointers. Target must already exist; null may explicitly reserve a mapped slot. Duplicate/overlapping mappings are rejected.",
+    "Installation proves declared input/configuration source fields and witness compatibility through the shared schema registry. Future remote response source existence/types are checked structurally at execution, never claimed install-proven.",
+    "Apply witnesses to templates and validate public operation result and declared data schema at installation. Missing required mapped fields remain schema-invalid, not inferred from empty strings or text heuristics.",
+    "Actual source must exist and have the witnessed JSON type; no defaulting/coercion/eval/JavaScript."
+  ],
+  "urlTemplate": {
+    "syntax": "{{configuration:/RFC6901/pointer}}",
+    "sources": "Only declared required configuration string fields",
+    "rules": [
+      "Static absolute HTTP(S) URL also allowed",
+      "Single-pass substitution; inserted values are never scanned for directives",
+      "Malformed or unknown expressions are rejected before installation; the managed network policy remains the only network gate"
+    ]
+  },
+  "credentialSlot": "RFC6901 pointer into configuration selecting a nonsecret credential reference; raw key material never enters profile",
+  "probeRouting": "Multiple connectivity probe entries must have structurally identical request/response plans; otherwise installation rejects ambiguous routing with UNSUPPORTED_FEATURE.",
+  "supportedTransport": "JSON request and buffered JSON response. Streaming, binary upload bodies, conditional branches and complex signatures are not expressible by this frozen profile schema; use the Rust author runtime explicitly. No fallback after execution failure.",
+  "lifecycle": "The existing kernel/session/checkpoint and canonical result validation remain authoritative. Profile owns no durable lifecycle or alternate retry path.",
+  "customHeader": {
+    "placeholder": "{{credential}}",
+    "rule": "For credentialMode=custom-header exactly one authored request.headers entry has this exact marker as its entire value. Its name selects the custom generated authorization header and must match the explicit vault customHeader. The marker header is removed from literal headers; the existing credential broker generates its value. Other occurrences, missing marker, multiple markers and marker in none/bearer mode are installation errors. Raw credentials are never stored in the profile."
+  }
+}

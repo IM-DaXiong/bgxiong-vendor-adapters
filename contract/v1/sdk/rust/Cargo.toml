@@ -3,6 +3,7 @@ name = "bgx-vendor-adapter-sdk"
 version = "1.2.0"
 edition = "2021"
 description = "Envelope helpers for BigBear vendor adapter plugins (protocol v1)"
+license = "MIT"
 publish = false
 
 [dependencies]

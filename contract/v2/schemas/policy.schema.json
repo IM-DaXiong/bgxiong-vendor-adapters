@@ -1,0 +1,139 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/policy.schema.json",
+  "title": "SchemaAndResourcePolicyV2",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "dialect": {
+      "const": "https://json-schema.org/draft/2020-12/schema"
+    },
+    "networkReferences": {
+      "const": "forbidden"
+    },
+    "recursiveReferences": {
+      "const": "forbidden"
+    },
+    "unknownValidationKeywords": {
+      "const": "reject"
+    },
+    "supportedKeywords": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "formatPolicy": {
+      "const": "assert-known-formats-reject-unknown"
+    },
+    "limits": {
+      "type": "object",
+      "properties": {
+        "maxSchemaBytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxSchemaNodes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxSchemaDepth": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxSchemasPerCapability": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxRefDepth": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxFrameBytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxBufferedHttpBytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxHttpChunkBytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxEventQueueBytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxMediaChunkBytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxStateBytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxDiagnosticBytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxModuleBytes": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxTableElements": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxInstances": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxMemories": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "maxTables": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "maxSchemaBytes",
+        "maxSchemaNodes",
+        "maxSchemaDepth",
+        "maxSchemasPerCapability",
+        "maxRefDepth",
+        "maxFrameBytes",
+        "maxBufferedHttpBytes",
+        "maxHttpChunkBytes",
+        "maxEventQueueBytes",
+        "maxMediaChunkBytes",
+        "maxStateBytes",
+        "maxDiagnosticBytes",
+        "maxModuleBytes",
+        "maxTableElements",
+        "maxInstances",
+        "maxMemories",
+        "maxTables"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "dialect",
+    "networkReferences",
+    "recursiveReferences",
+    "unknownValidationKeywords",
+    "supportedKeywords",
+    "formatPolicy",
+    "limits"
+  ],
+  "additionalProperties": false
+}

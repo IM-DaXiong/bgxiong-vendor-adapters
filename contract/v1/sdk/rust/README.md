@@ -1,16 +1,15 @@
 # Vendor Adapter Rust SDK
 
 > **Field contract (required) / 字段契约（必读）**
-> - 中文: [`../HOST_PAYLOAD.zh-CN.md`](../HOST_PAYLOAD.zh-CN.md)
-> - English: [`../HOST_PAYLOAD.en.md`](../HOST_PAYLOAD.en.md)
-> - Index: [`../HOST_PAYLOAD.md`](../HOST_PAYLOAD.md)
+> - 中文: [`../../HOST_PAYLOAD.zh-CN.md`](../../HOST_PAYLOAD.zh-CN.md)
+> - English: [`../../HOST_PAYLOAD.en.md`](../../HOST_PAYLOAD.en.md)
+> - Index: [`../../HOST_PAYLOAD.md`](../../HOST_PAYLOAD.md)
 >
 > Those documents are the project external standard for host `payloadJson` and guest responses. This README is crate usage only.
 > 上述文档是本仓对外标准。本 README 只讲 crate 用法。
 
-Status: **supported in this repository**. Contract release 1.2.0 ships this Rust library.
-Python, TypeScript, and TinyGo notes in the sibling directories describe the same WIT
-contract; this release does not include a second library for those languages. Use this crate.
+Status: **supported**. This is the only language SDK with library code today; Python /
+TypeScript / TinyGo are 暂不支持; the installer includes Rust SDK code only.
 
 `bgx-vendor-adapter-sdk` covers the JSON envelope that crosses the host boundary and the
 payload builders for `submit` / `query`. The WIT world lives in
@@ -18,7 +17,7 @@ payload builders for `submit` / `query`. The WIT world lives in
 crate with `wit-bindgen`; this SDK stays free of `wit-bindgen` so the same code compiles for
 host-side tests and for `bgx-adapter dev`.
 
-Closed sets (`protocolHostMajor`, `operations`, `capabilitySlots`) are read from
+Closed sets (`protocolHostMajor`, `operations`, `capabilitySlots`, `inputModeIds`, `promptProjectionSlots`, `promptProjectionIdMaxChars`) are read from
 crate-local `vendor-adapter-protocol.json` at compile time. This crate does not
 read host `app-contracts`, so you can copy `sdk/rust` out of the repo.
 
@@ -26,10 +25,8 @@ read host `app-contracts`, so you can copy `sdk/rust` out of the repo.
 
 ```toml
 [dependencies]
-bgx-vendor-adapter-sdk = { path = "contract/v1/sdk/rust" }
+bgx-vendor-adapter-sdk = { path = "vendor-sdk" }
 ```
-
-示例适配器已经自带一份拷贝，它们的 `Cargo.toml` 使用 `path = "vendor-sdk"`。从 [`templates/rust`](../../templates/rust) 复制开工时也用 `vendor-sdk`。
 
 ```rust
 use bgx_vendor_adapter_sdk::{submit_accepted, Invocation, Response};
@@ -69,15 +66,19 @@ Rules the host enforces, so build for them from the start:
 - After a real vendor write, return `submit_accepted_with_applied` so `appliedParams` matches
   the values the host requested. Declaring a control and dropping it on the vendor request is a
   host-hard failure (INV-VENDOR-ADAPTER-RCD-12). The host never reads your vendor workflow JSON.
+  HOST_PAYLOAD has no vendor `nodeInfoList`; overlay APIs must pin weight widgets in the guest
+  on every submit (GUIDE 「提交映射」).
 - Exactly one of `dataJson` / `error` per response. `Response::validate` catches violations.
 - Large binaries stay in `host-media` handles; do not read them into linear memory.
 
 ## Build
 
-Rust adapters ship a **precompiled** `adapter.wasm` component, so users need no runtime download:
+Published Rust plugins can ship a **precompiled** `adapter.wasm` component. The bundled source examples omit the binary; importing their source requires a Rust toolchain with `cargo-component`:
 
 ```bash
 cargo component build --release --target wasm32-wasip2
-bgx-adapter check .
-bgx-adapter pack .
 ```
+
+Import the plugin root in Settings → Third-party adapters. The optional `bgx-adapter` developer CLI is not required for the app import flow.
+
+Contract 1.3.0 exposes neutral `PromptProjection` declarations on video/keyframe models. See [upgrade notes](../../UPGRADE-1.3.0.md) and HOST_PAYLOAD §5.1. Missing or unknown declarations are explicitly unavailable; no vendor inference or method fallback is provided.

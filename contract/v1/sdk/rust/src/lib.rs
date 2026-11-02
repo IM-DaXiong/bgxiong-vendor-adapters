@@ -1,4 +1,4 @@
-//! Envelope helpers for BigBear vendor adapter plugins (protocol v1 / contract 1.2.0 / WIT 1.1.0).
+//! Envelope helpers for BigBear vendor adapter plugins (protocol v1 / contract 1.3.0 / WIT 1.1.0).
 //!
 //! Public closed sets come from the crate-local `vendor-adapter-protocol.json`.
 //! This crate must not read host policy JSON, `src-tauri`, or UI trees.
@@ -35,6 +35,9 @@ struct ContractFile {
     terminal_failure_message_max_chars: u64,
     #[serde(default)]
     terminal_failure_details_max_bytes: u64,
+    input_mode_ids: Vec<String>,
+    prompt_projection_slots: Vec<String>,
+    prompt_projection_id_max_chars: u64,
 }
 
 fn contract() -> ContractFile {
@@ -105,6 +108,21 @@ pub fn terminal_failure_details_max_bytes() -> usize {
     } else {
         n as usize
     }
+}
+
+/// Neutral input mode ids (same closed set as runtime-caps `implementedModeIds`).
+pub fn input_mode_ids() -> Vec<String> {
+    contract().input_mode_ids
+}
+
+/// Capability slots that may carry a [`PromptProjection`] descriptor.
+pub fn prompt_projection_slots() -> Vec<String> {
+    contract().prompt_projection_slots
+}
+
+/// Upper bound (chars) of `PromptProjection::profile_id` and `default_method_name`.
+pub fn prompt_projection_id_max_chars() -> usize {
+    contract().prompt_projection_id_max_chars as usize
 }
 
 pub const ADAPTER_QUERY_TERMINAL_FAILURE_MISSING: &str = "ADAPTER_QUERY_TERMINAL_FAILURE_MISSING";
@@ -855,6 +873,160 @@ pub fn cancel_status(status: &str) -> Response {
     ok_serialized("cancel", &serde_json::json!({ "status": status }))
 }
 
+/// Largest `PromptProjection::version` (fits a signed 32-bit integer on every host).
+pub const PROMPT_PROJECTION_VERSION_MAX: u32 = 2_147_483_647;
+
+/// Optional, platform-neutral prompt projection descriptor of **one model** (contract 1.3.0,
+/// additive). Put it on that model's runtime-caps slot (`promptProjection`) or on its manifest
+/// model entry; it travels in the existing capabilities JSON and needs no WIT function.
+///
+/// The values are opaque to the SDK: `profileId` is only a lookup key into the host's
+/// registered projection profiles and `defaultMethodName` names a standard skill package.
+/// A model without this descriptor has no projection target; an unknown `profileId` is
+/// incompatible on the host. Nothing here is derived from plugin ids or display names.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "camelCase", deny_unknown_fields)]
+pub struct PromptProjection {
+    pub profile_id: String,
+    pub version: u32,
+    pub default_method_name: String,
+    pub input_modes: Vec<String>,
+}
+
+impl PromptProjection {
+    pub fn new(
+        profile_id: impl Into<String>,
+        version: u32,
+        default_method_name: impl Into<String>,
+        input_modes: Vec<String>,
+    ) -> Result<Self, String> {
+        let p = Self {
+            profile_id: profile_id.into(),
+            version,
+            default_method_name: default_method_name.into(),
+            input_modes,
+        };
+        p.validate()?;
+        Ok(p)
+    }
+
+    pub fn validate(&self) -> Result<(), String> {
+        let max = prompt_projection_id_max_chars();
+        validate_projection_profile_id(&self.profile_id, max)?;
+        if self.version == 0 || self.version > PROMPT_PROJECTION_VERSION_MAX {
+            return Err(format!(
+                "promptProjection.version must be 1..={PROMPT_PROJECTION_VERSION_MAX}"
+            ));
+        }
+        validate_projection_method_name(&self.default_method_name, max)?;
+        if self.input_modes.is_empty() {
+            return Err("promptProjection.inputModes must not be empty".into());
+        }
+        let known = input_mode_ids();
+        for (i, mode) in self.input_modes.iter().enumerate() {
+            if !known.iter().any(|k| k == mode) {
+                return Err(format!(
+                    "promptProjection.inputModes has unknown mode {mode}"
+                ));
+            }
+            if self.input_modes[..i].iter().any(|m| m == mode) {
+                return Err(format!("promptProjection.inputModes repeats {mode}"));
+            }
+        }
+        Ok(())
+    }
+
+    /// Validate against the slot that declares it: only `promptProjectionSlots` may carry a
+    /// descriptor, and when the slot declares `implementedModeIds` (non-empty slice) every input
+    /// mode must be one of them. Pass an empty slice when the slot declares none.
+    pub fn validate_for_slot(
+        &self,
+        slot: &str,
+        implemented_mode_ids: &[&str],
+    ) -> Result<(), String> {
+        self.validate()?;
+        if !prompt_projection_slots().iter().any(|s| s == slot) {
+            return Err(format!("promptProjection is not allowed on slot {slot}"));
+        }
+        if implemented_mode_ids.is_empty() {
+            return Ok(());
+        }
+        for mode in &self.input_modes {
+            if !implemented_mode_ids.iter().any(|m| *m == mode.as_str()) {
+                return Err(format!(
+                    "promptProjection.inputModes {mode} is not in implementedModeIds"
+                ));
+            }
+        }
+        Ok(())
+    }
+
+    /// JSON object for the `promptProjection` key of a runtime-caps slot or manifest model.
+    pub fn to_json(&self) -> serde_json::Value {
+        let mut m = serde_json::Map::new();
+        m.insert(
+            "profileId".into(),
+            serde_json::Value::String(self.profile_id.clone()),
+        );
+        m.insert("version".into(), serde_json::Value::from(self.version));
+        m.insert(
+            "defaultMethodName".into(),
+            serde_json::Value::String(self.default_method_name.clone()),
+        );
+        m.insert(
+            "inputModes".into(),
+            serde_json::Value::Array(
+                self.input_modes
+                    .iter()
+                    .map(|s| serde_json::Value::String(s.clone()))
+                    .collect(),
+            ),
+        );
+        serde_json::Value::Object(m)
+    }
+}
+
+fn validate_projection_profile_id(id: &str, max_chars: usize) -> Result<(), String> {
+    let mut chars = id.chars();
+    let Some(first) = chars.next() else {
+        return Err("promptProjection.profileId must not be empty".into());
+    };
+    if id.chars().count() > max_chars {
+        return Err(format!(
+            "promptProjection.profileId exceeds {max_chars} chars"
+        ));
+    }
+    if !(first.is_ascii_lowercase() || first.is_ascii_digit()) {
+        return Err("promptProjection.profileId must start with a-z or 0-9".into());
+    }
+    if !chars.all(|c| c.is_ascii_lowercase() || c.is_ascii_digit() || matches!(c, '.' | '_' | '-'))
+    {
+        return Err("promptProjection.profileId allows only a-z 0-9 . _ -".into());
+    }
+    Ok(())
+}
+
+fn validate_projection_method_name(name: &str, max_chars: usize) -> Result<(), String> {
+    if name.is_empty() || name == "." || name == ".." {
+        return Err("promptProjection.defaultMethodName must be a package name".into());
+    }
+    if name.chars().count() > max_chars {
+        return Err(format!(
+            "promptProjection.defaultMethodName exceeds {max_chars} chars"
+        ));
+    }
+    if name
+        .chars()
+        .any(|c| c == '/' || c == '\\' || (c as u32) < 0x20 || c == '\u{7f}')
+    {
+        return Err(
+            "promptProjection.defaultMethodName must not contain path separators or control characters"
+                .into(),
+        );
+    }
+    Ok(())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1326,5 +1498,102 @@ mod video_media_tests {
                 other => panic!("unknown fixture expectation {other} for {name}"),
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod prompt_projection_tests {
+    use super::*;
+
+    fn modes(ids: &[&str]) -> Vec<String> {
+        ids.iter().map(|s| s.to_string()).collect()
+    }
+
+    #[test]
+    fn protocol_publishes_neutral_projection_closed_sets() {
+        assert_eq!(
+            input_mode_ids(),
+            modes(&[
+                "text_to_video",
+                "image_to_video",
+                "multi_image_to_video",
+                "first_last_frame",
+                "last_frame_only",
+                "reference_to_video"
+            ])
+        );
+        assert_eq!(prompt_projection_slots(), modes(&["video", "keyframe"]));
+        assert_eq!(prompt_projection_id_max_chars(), 128);
+        // The optional descriptor does not change any pre-existing closed set.
+        assert!(operations().iter().any(|o| o == "capabilities"));
+        assert!(capability_slots().iter().any(|s| s == "text"));
+    }
+
+    #[test]
+    fn two_unrelated_platforms_express_the_same_descriptor_shape() {
+        let cloud = PromptProjection::new(
+            "cloud-async.video-a",
+            1,
+            "video-a-prompt-writing",
+            modes(&["text_to_video", "image_to_video", "first_last_frame"]),
+        )
+        .unwrap();
+        cloud
+            .validate_for_slot(
+                "video",
+                &[
+                    "text_to_video",
+                    "image_to_video",
+                    "first_last_frame",
+                    "multi_image_to_video",
+                ],
+            )
+            .unwrap();
+        let lan = PromptProjection::new(
+            "lan-workflow.video-b",
+            3,
+            "video-b-prompt-writing",
+            modes(&["multi_image_to_video", "reference_to_video"]),
+        )
+        .unwrap();
+        lan.validate_for_slot("keyframe", &["multi_image_to_video", "reference_to_video"])
+            .unwrap();
+        let round: PromptProjection = serde_json::from_value(cloud.to_json()).unwrap();
+        assert_eq!(round, cloud);
+        assert_eq!(lan.to_json()["inputModes"][1], "reference_to_video");
+    }
+
+    #[test]
+    fn invalid_descriptors_are_rejected() {
+        let t2v = || modes(&["text_to_video"]);
+        assert!(PromptProjection::new("", 1, "m", t2v()).is_err());
+        assert!(PromptProjection::new("Upper.Case", 1, "m", t2v()).is_err());
+        assert!(PromptProjection::new("a/b", 1, "m", t2v()).is_err());
+        assert!(PromptProjection::new("p", 0, "m", t2v()).is_err());
+        assert!(PromptProjection::new("p", 1, "..", t2v()).is_err());
+        assert!(PromptProjection::new("p", 1, "a/b", t2v()).is_err());
+        assert!(PromptProjection::new("p", 1, "m", Vec::new()).is_err());
+        assert!(PromptProjection::new("p", 1, "m", modes(&["video_to_video"])).is_err());
+        assert!(
+            PromptProjection::new("p", 1, "m", modes(&["text_to_video", "text_to_video"]))
+                .is_err()
+        );
+        let long = "a".repeat(129);
+        assert!(PromptProjection::new(long.as_str(), 1, "m", t2v()).is_err());
+    }
+
+    #[test]
+    fn slot_rules_follow_declared_modes() {
+        let p = PromptProjection::new("p", 1, "m", modes(&["first_last_frame"])).unwrap();
+        assert!(p.validate_for_slot("image", &["first_last_frame"]).is_err());
+        assert!(p.validate_for_slot("video", &[]).is_ok());
+        assert!(p.validate_for_slot("video", &["text_to_video"]).is_err());
+        assert!(p.validate_for_slot("video", &["first_last_frame"]).is_ok());
+    }
+
+    #[test]
+    fn unknown_descriptor_fields_are_rejected() {
+        let raw = r#"{"profileId":"p","version":1,"defaultMethodName":"m","inputModes":["text_to_video"],"extra":"x"}"#;
+        assert!(serde_json::from_str::<PromptProjection>(raw).is_err());
     }
 }

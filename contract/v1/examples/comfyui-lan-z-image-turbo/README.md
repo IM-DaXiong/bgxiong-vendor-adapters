@@ -32,5 +32,5 @@ L2 hello 绿 ≠ 导入 L3 绿 ≠ 可生成。远端须已装 Z-Image 权重（
 ## 单测
 
 ```text
-cargo test --manifest-path examples/comfyui-lan-z-image-turbo/Cargo.toml
+cargo test --manifest-path packages/vendor-adapter-contract/v1/examples/comfyui-lan-z-image-turbo/Cargo.toml
 ```

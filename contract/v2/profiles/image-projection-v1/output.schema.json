@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/image-projection-v1/output.schema.json",
+  "type": "object",
+  "properties": {
+    "imageArtifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "mediaId": {"type": "string", "minLength": 1},
+          "role": {"type": "string", "minLength": 1},
+          "projection": {"$ref": "projection.schema.json"}
+        },
+        "required": ["mediaId", "role", "projection"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["imageArtifacts"],
+  "additionalProperties": false
+}

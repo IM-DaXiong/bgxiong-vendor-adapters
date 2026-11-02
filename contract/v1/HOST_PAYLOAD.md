@@ -11,3 +11,5 @@ This file is an **index only**. The field dictionary is published as **two monol
 
 Do not maintain a mixed bilingual table document — it is hard to read.
 不要再维护中英混排表格式文档，可读性差。
+
+合同 1.3.0 的 `promptProjection` / 中立 input modes 见上述两版 §5.1；升级说明：[UPGRADE-1.3.0.md](UPGRADE-1.3.0.md)。

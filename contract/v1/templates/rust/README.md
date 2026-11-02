@@ -1,16 +1,16 @@
 # local.example.starter
 
-Anonymous Rust adapter template. Copy this directory to start a new adapter.
+Anonymous Rust adapter template. `bgx-adapter init rust` copies this crate.
 
 Unsigned rust crate: Settings → Third-party adapters → Import package → select this
 folder. The client compiles with `cargo component build --release --target wasm32-wasip2`.
-You need `rustc`, `cargo`, `cargo-component`, and the `wasm32-wasip2` target on this machine
-(not in the desktop installer).
+You need `rustc`, `cargo-component`, and `wasm32-wasip2` on this machine (not in the
+desktop installer).
 
-You can also build the component yourself:
+Optional CLI (same SSOT):
 
 ```text
-cargo component build --release --target wasm32-wasip2
+cargo run --bin bgx-adapter -- build .
 ```
 
 Import L3 `probe` is offline (`{"ok":true}`). Do not call `host-http` until the
@@ -19,6 +19,6 @@ your vendor. Do not add vendor names to the client; keep them in this crate.
 
 WIT world: crate-local `wit/vendor-adapter.wit` (`bgxiong:vendor-adapter@1.1.0`).
 SDK envelope: crate-local `vendor-sdk/` (embeds `vendor-adapter-protocol.json`).
-Do not depend on private host source. The SDK and WIT in this folder are enough.
+Do not depend on host `app-contracts` or `src-tauri`.
 
 L2 hello green is not generate-ready.

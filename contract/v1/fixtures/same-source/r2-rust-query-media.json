@@ -1,0 +1,58 @@
+{
+  "id": "r2-rust-query-media",
+  "kind": "same-source",
+  "schemaVersion": 1,
+  "note": "Media: the guest downloads into a media sink; the session keeps the exact bytes.",
+  "package": {
+    "language": "rust",
+    "example": "video-reference-media-probe"
+  },
+  "invocation": {
+    "operation": "query",
+    "capabilitySlot": "video",
+    "payload": {
+      "vendorTaskId": "t1",
+      "model": "probe-offline-http",
+      "pluginParameters": {
+        "endpoint": "{vendor}"
+      }
+    }
+  },
+  "vendor": [
+    {
+      "status": 200,
+      "headers": {
+        "Content-Type": "video/mp4"
+      },
+      "bodyText": "probe-http-download"
+    }
+  ],
+  "expect": {
+    "result": {
+      "operation": "query",
+      "data": {
+        "status": "succeeded",
+        "outputs": [
+          {
+            "kind": "media",
+            "mediaKind": "video",
+            "source": "host-media",
+            "value": "mh-1"
+          }
+        ]
+      }
+    },
+    "requests": [
+      {
+        "method": "GET",
+        "path": "/download"
+      }
+    ],
+    "media": [
+      {
+        "bytes": 19,
+        "sha256": "dd4fa3f2927489a3cb7ba20b4fa5a040b53e86eebb6ced268097c6ccc10fd50f"
+      }
+    ]
+  }
+}

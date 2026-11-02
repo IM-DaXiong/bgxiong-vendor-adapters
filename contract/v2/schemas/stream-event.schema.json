@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StreamEventV1",
+  "oneOf": [
+    {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "type": {
+          "const": "progress"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "fraction": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 1
+            },
+            "message": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "fraction",
+            "message"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "requestId",
+        "sequence",
+        "type",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "type": {
+          "const": "text_delta"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "channel": {
+              "type": "string",
+              "minLength": 1
+            },
+            "text": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "channel",
+            "text"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "requestId",
+        "sequence",
+        "type",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "type": {
+          "const": "media_chunk"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "role": {
+              "type": "string",
+              "minLength": 1
+            },
+            "media": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/media-input.schema.json"
+            }
+          },
+          "required": [
+            "role",
+            "media"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "requestId",
+        "sequence",
+        "type",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "type": {
+          "const": "usage"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "measurements": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "metric": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "unit": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "amount": {
+                    "type": "string",
+                    "pattern": "^(0|[1-9][0-9]*)(\\.[0-9]+)?$"
+                  },
+                  "source": {
+                    "const": "reported"
+                  }
+                },
+                "required": [
+                  "metric",
+                  "unit",
+                  "amount",
+                  "source"
+                ],
+                "additionalProperties": false
+              }
+            }
+          },
+          "required": [
+            "measurements"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "requestId",
+        "sequence",
+        "type",
+        "payload"
+      ],
+      "additionalProperties": false
+    }
+  ],
+  "$id": "https://bgxiong.local/vendor-adapter/v2/stream-event.schema.json"
+}

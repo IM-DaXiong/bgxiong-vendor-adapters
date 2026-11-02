@@ -1,0 +1,23 @@
+[package]
+name = "bgx-adapter-v2-runtime"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+bgx-adapter-v2-ports = { path = "../ports" }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+hex.workspace = true
+anyhow.workspace = true
+wasmtime = { workspace = true }
+
+[[bin]]
+name = "bgx-adapter-v2-worker"
+path = "src/bin/bgx-adapter-v2-worker.rs"
+
+[dev-dependencies]
+tempfile = "=3.27.0"
+wat = "=1.262.0"

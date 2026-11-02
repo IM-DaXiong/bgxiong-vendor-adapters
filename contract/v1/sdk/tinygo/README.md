@@ -1,7 +1,16 @@
 # Vendor Adapter TinyGo SDK
 
-契约发布 **1.2.0** 把可编译的 SDK 放在本仓库的 Rust crate：[`../rust`](../rust)。
+状态：**暂不支持**（no library code yet）
 
-TinyGo 和 Rust 一样可以产出预编译的 `adapter.wasm`，不需要额外语言运行时。本目录还没有 Go 绑定或模板，所以没有可以照着编译的库。请使用 Rust SDK 与 [`../../templates/rust`](../../templates/rust)。
+TinyGo needs no runtime download — like Rust it produces a precompiled `adapter.wasm`
+component — but this SDK ships no Go bindings or template, so there is nothing here to build
+against. Use the Rust SDK ([`../rust`](../rust)), which is the supported path, or a
+`profile.json` adapter for plain HTTP vendors.
 
-若自行写绑定，目标仍是同一 WIT 世界（[`../../wit/vendor-adapter.wit`](../../wit/vendor-adapter.wit)）和同一闭集（[`../../protocol/vendor-adapter-protocol.json`](../../protocol/vendor-adapter-protocol.json)）。Rust README 里的宿主规则同样适用：不要导入 `wasi:sockets` / `wasi:filesystem` / process；出网只走 `host-http`；凭证是不透明句柄；每个响应只能有 `dataJson` 或 `error` 之一。可调的时长、帧率、分辨率必须带非空 binding，并在 submit 的 `appliedParams` 里回显。宿主不解析厂商工作流 JSON。
+If you write the bindings yourself, the target is the same WIT world
+([`../../wit/vendor-adapter.wit`](../../wit/vendor-adapter.wit)) and the same closed sets in
+`packages/app-contracts/v1/vendor-adapter.json`. The host rules in the Rust README apply
+unchanged: no `wasi:sockets` / `wasi:filesystem` / process imports, all traffic through
+`host-http`, opaque credential handles, exactly one of `dataJson` / `error` per response.
+Adjustable duration/fps/resolution must be declared with a non-empty binding and echoed in
+`appliedParams` on submit; the host does not parse vendor workflow JSON.

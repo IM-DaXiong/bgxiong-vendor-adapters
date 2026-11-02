@@ -6,7 +6,7 @@ WIT package is now `bgxiong:vendor-adapter@1.1.0`. This is an ABI change. Rebuil
 
 - `wit/vendor-adapter.wit` and crate-local `vendor-sdk/`
 - Guest `wit_bindgen::generate!` against 1.1.0
-- The workstation host speaks this WIT. Host source is not in this repository; rebuild the guest against `wit/vendor-adapter.wit`.
+- Host `src-tauri` bindgen (already 1.1.0)
 
 ## Invocation envelope
 

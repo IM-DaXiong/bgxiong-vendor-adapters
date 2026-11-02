@@ -254,8 +254,31 @@
         },
         "mediaInputHints": {
           "$ref": "#/$defs/mediaInputHints"
+        },
+        "promptProjection": {
+          "$ref": "prompt-projection-capability.schema.json",
+          "description": "Optional neutral prompt projection descriptor of this model. Only video and keyframe slots may declare it; when the slot declares implementedModeIds, promptProjection.inputModes must be a subset of them (checked by the host). Absent means no projection target, never a guessed one."
         }
-      }
+      },
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "promptProjection"
+            ]
+          },
+          "then": {
+            "properties": {
+              "slot": {
+                "enum": [
+                  "video",
+                  "keyframe"
+                ]
+              }
+            }
+          }
+        }
+      ]
     },
     "mediaInputHints": {
       "type": "object",

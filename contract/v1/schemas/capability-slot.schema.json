@@ -34,7 +34,8 @@
         "required": ["modelId", "displayName"],
         "properties": {
           "modelId": { "type": "string", "minLength": 1 },
-          "displayName": { "type": "string", "minLength": 1 }
+          "displayName": { "type": "string", "minLength": 1 },
+          "promptProjection": { "$ref": "prompt-projection-capability.schema.json" }
         }
       }
     },
@@ -43,6 +44,37 @@
     "maxReferenceImages": { "type": "integer", "minimum": 0 },
     "maxDurationSeconds": { "type": "integer", "minimum": 0 },
     "fps": { "type": "array", "items": { "type": "integer", "minimum": 1 } },
-    "resolutions": { "type": "array", "items": { "type": "string" } }
-  }
+    "resolutions": { "type": "array", "items": { "type": "string" } },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["partial-outputs", "public-media", "video-reference-media-v1"]
+      },
+      "uniqueItems": true,
+      "description": "Optional features declared for this slot (same closed set as runtime-caps slot features); unknown names rejected by host."
+    },
+    "mediaInputHints": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "images": { "type": "boolean" },
+        "videos": { "type": "boolean" },
+        "audios": { "type": "boolean" }
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "required": ["models"],
+        "properties": {
+          "models": { "contains": { "type": "object", "required": ["promptProjection"] } }
+        }
+      },
+      "then": {
+        "properties": { "slot": { "enum": ["video", "keyframe"] } }
+      }
+    }
+  ]
 }

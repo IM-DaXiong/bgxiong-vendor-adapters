@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/video-target-keyframes-v1/generation-freeze.schema.json",
+  "type": "object",
+  "properties": {
+    "trackingReceiptDigest": {
+      "$ref": "selection.schema.json#/$defs/digest"
+    },
+    "maskArtifact": {
+      "type": "object",
+      "properties": {
+        "artifactId": {
+          "$ref": "selection.schema.json#/$defs/nonEmptyString"
+        },
+        "digest": {
+          "$ref": "selection.schema.json#/$defs/digest"
+        }
+      },
+      "required": [
+        "artifactId",
+        "digest"
+      ],
+      "additionalProperties": false
+    },
+    "selectionDigest": {
+      "$ref": "selection.schema.json#/$defs/digest"
+    },
+    "sourceDigest": {
+      "$ref": "selection.schema.json#/$defs/digest"
+    },
+    "range": {
+      "$ref": "selection.schema.json#/$defs/timeRangeMs"
+    },
+    "packageIdentity": {
+      "type": "object",
+      "properties": {
+        "packageId": {
+          "$ref": "selection.schema.json#/$defs/nonEmptyString"
+        },
+        "packageVersion": {
+          "$ref": "selection.schema.json#/$defs/nonEmptyString"
+        },
+        "operationId": {
+          "$ref": "selection.schema.json#/$defs/nonEmptyString"
+        },
+        "operationVersion": {
+          "$ref": "selection.schema.json#/$defs/nonEmptyString"
+        },
+        "inputSchemaDigest": {
+          "$ref": "selection.schema.json#/$defs/digest"
+        }
+      },
+      "required": [
+        "packageId",
+        "packageVersion",
+        "operationId",
+        "operationVersion",
+        "inputSchemaDigest"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "trackingReceiptDigest",
+    "maskArtifact",
+    "selectionDigest",
+    "sourceDigest",
+    "range",
+    "packageIdentity"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,39 @@
+{
+  "artifactSha256": "41b8fc68afb54d5c526f16f5d293bb89baeb444bebaf6c1b2ef16a4146787b18",
+  "displayName": "workflow executable example",
+  "entry": "adapter.wasm",
+  "language": "rust",
+  "limits": {
+    "fuel": 1000000000,
+    "memoryBytes": 67108864,
+    "outputBytes": 1048576,
+    "wallMs": 30000
+  },
+  "optionalFeatures": [],
+  "pluginId": "local.examples.workflow",
+  "protocolRange": {
+    "max": 2,
+    "min": 2
+  },
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "allowPrivateNetwork": true,
+    "auth": [
+      "bearer"
+    ],
+    "embeddedHeaders": [],
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "mediaSlots": [
+      "video"
+    ],
+    "networkHosts": [],
+    "stateBytes": 0
+  },
+  "requiredFeatures": [],
+  "schemaVersion": 2,
+  "version": "1.0.0"
+}

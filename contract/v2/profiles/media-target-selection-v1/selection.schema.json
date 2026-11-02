@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/selection.schema.json",
+  "type": "object",
+  "properties": {
+    "analysisId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysisRevision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "analysisDigest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "shots": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "shotId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "choice": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "target"
+                  },
+                  "candidateId": {
+                    "type": "string",
+                    "minLength": 1
+                  }
+                },
+                "required": [
+                  "kind",
+                  "candidateId"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "absent"
+                  }
+                },
+                "required": [
+                  "kind"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        },
+        "required": [
+          "shotId",
+          "choice"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "selectionDigest": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "analysisId",
+    "analysisRevision",
+    "analysisDigest",
+    "shots",
+    "selectionDigest"
+  ],
+  "additionalProperties": false
+}

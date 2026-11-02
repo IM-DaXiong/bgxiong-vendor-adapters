@@ -1,0 +1,28 @@
+{
+  "id": "r5-rust-cancel",
+  "kind": "same-source",
+  "schemaVersion": 1,
+  "note": "Cancel (rust guest).",
+  "package": {
+    "language": "rust",
+    "example": "video-reference-media-probe"
+  },
+  "invocation": {
+    "operation": "cancel",
+    "capabilitySlot": "video",
+    "payload": {
+      "vendorTaskId": "t1"
+    }
+  },
+  "vendor": [],
+  "expect": {
+    "result": {
+      "operation": "cancel",
+      "data": {
+        "status": "cancelled"
+      }
+    },
+    "requests": [],
+    "media": []
+  }
+}

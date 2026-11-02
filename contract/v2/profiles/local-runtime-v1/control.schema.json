@@ -1,0 +1,619 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/local-runtime/v1/control.schema.json",
+  "anyOf": [
+    {
+      "$ref": "#/$defs/ReadyMessage"
+    },
+    {
+      "$ref": "#/$defs/RuntimeIdentity"
+    },
+    {
+      "$ref": "#/$defs/ControlCancel"
+    },
+    {
+      "$ref": "#/$defs/ControlCancelResult"
+    },
+    {
+      "$ref": "#/$defs/RuntimeBinding"
+    },
+    {
+      "$ref": "#/$defs/InstallState"
+    },
+    {
+      "$ref": "#/$defs/RuntimeInstance"
+    },
+    {
+      "$ref": "#/$defs/RuntimeLease"
+    },
+    {
+      "$ref": "#/$defs/ReleaseReceipt"
+    },
+    {
+      "$ref": "#/$defs/StopReceipt"
+    },
+    {
+      "$ref": "#/$defs/EnsureReady"
+    },
+    {
+      "$ref": "#/$defs/Acquire"
+    },
+    {
+      "$ref": "#/$defs/Release"
+    },
+    {
+      "$ref": "#/$defs/Stop"
+    },
+    {
+      "$ref": "#/$defs/InstallStateReply"
+    },
+    {
+      "$ref": "#/$defs/RuntimeInstanceReply"
+    },
+    {
+      "$ref": "#/$defs/RuntimeLeaseReply"
+    },
+    {
+      "$ref": "#/$defs/ReleaseReceiptReply"
+    },
+    {
+      "$ref": "#/$defs/StopReceiptReply"
+    }
+  ],
+  "$defs": {
+    "ReadyMessage": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "type": {
+          "const": "ready"
+        },
+        "instanceId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "nonce": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "type",
+        "instanceId",
+        "nonce"
+      ],
+      "additionalProperties": false
+    },
+    "RuntimeIdentity": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "instanceId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "nonce": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "state": {
+          "enum": [
+            "starting",
+            "ready",
+            "busy",
+            "stopping",
+            "failed"
+          ]
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "instanceId",
+        "nonce",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "ControlCancel": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "requestId"
+      ],
+      "additionalProperties": false
+    },
+    "ControlCancelResult": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "state": {
+          "enum": [
+            "requested",
+            "stopped",
+            "unsupported",
+            "already_finished"
+          ]
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "requestId",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "RuntimeBinding": {
+      "type": "object",
+      "properties": {
+        "bindingId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "runtimeProfile": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        }
+      },
+      "required": [
+        "bindingId",
+        "modelId"
+      ],
+      "additionalProperties": false
+    },
+    "InstallState": {
+      "type": "object",
+      "properties": {
+        "installed": {
+          "type": "boolean"
+        },
+        "resources": {
+          "enum": [
+            "not_checked",
+            "ready",
+            "missing",
+            "invalid"
+          ]
+        },
+        "environment": {
+          "enum": [
+            "not_checked",
+            "ready",
+            "unavailable"
+          ]
+        },
+        "process": {
+          "enum": [
+            "stopped",
+            "starting",
+            "ready",
+            "busy",
+            "stopping",
+            "failed"
+          ]
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+          }
+        }
+      },
+      "required": [
+        "installed",
+        "resources",
+        "environment",
+        "process",
+        "issues"
+      ],
+      "additionalProperties": false
+    },
+    "RuntimeInstance": {
+      "type": "object",
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "ownerToken": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "configuration": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/configuration.schema.json"
+        },
+        "residencyLeaseId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        }
+      },
+      "required": [
+        "instanceId",
+        "ownerToken",
+        "configuration",
+        "residencyLeaseId"
+      ],
+      "additionalProperties": false
+    },
+    "RuntimeLease": {
+      "type": "object",
+      "properties": {
+        "leaseId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "instanceId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        }
+      },
+      "required": [
+        "leaseId",
+        "instanceId",
+        "requestId"
+      ],
+      "additionalProperties": false
+    },
+    "ReleaseReceipt": {
+      "type": "object",
+      "properties": {
+        "leaseId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "state": {
+          "enum": [
+            "released",
+            "pending_stop",
+            "already_released"
+          ]
+        }
+      },
+      "required": [
+        "leaseId",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "StopReceipt": {
+      "type": "object",
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "state": {
+          "enum": [
+            "stopped",
+            "stop_requested",
+            "busy",
+            "already_stopped"
+          ]
+        }
+      },
+      "required": [
+        "instanceId",
+        "state"
+      ],
+      "additionalProperties": false
+    },
+    "EnsureReady": {
+      "type": "object",
+      "properties": {
+        "binding": {
+          "$ref": "#/$defs/RuntimeBinding"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "device": {
+          "enum": [
+            "cpu",
+            "gpu"
+          ]
+        }
+      },
+      "required": [
+        "binding",
+        "requestId"
+      ],
+      "additionalProperties": false
+    },
+    "Acquire": {
+      "type": "object",
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ownerToken": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "instanceId",
+        "ownerToken",
+        "requestId"
+      ],
+      "additionalProperties": false
+    },
+    "Release": {
+      "type": "object",
+      "properties": {
+        "leaseId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "outcome": {
+          "enum": [
+            "completed",
+            "failed",
+            "cancelled"
+          ]
+        }
+      },
+      "required": [
+        "leaseId",
+        "outcome"
+      ],
+      "additionalProperties": false
+    },
+    "Stop": {
+      "type": "object",
+      "properties": {
+        "instanceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "ownerToken": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "enum": [
+            "idle",
+            "uninstall",
+            "user_stop",
+            "app_exit"
+          ]
+        }
+      },
+      "required": [
+        "instanceId",
+        "ownerToken",
+        "reason"
+      ],
+      "additionalProperties": false
+    },
+    "InstallStateReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/InstallState"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "RuntimeInstanceReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/RuntimeInstance"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "RuntimeLeaseReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/RuntimeLease"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ReleaseReceiptReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/ReleaseReceipt"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "StopReceiptReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/StopReceipt"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  }
+}

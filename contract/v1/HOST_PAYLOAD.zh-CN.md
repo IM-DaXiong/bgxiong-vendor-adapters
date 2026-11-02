@@ -3,21 +3,21 @@
 > **本仓对外开发契约（给人读的字段辞典）**  
 > 第三方适配器作者实现插件前**必读**。  
 > Wire 字段名一律 **camelCase**。  
-> 闭集（operations、capabilitySlots、errorCodes 等）见本目录 `protocol/vendor-adapter-protocol.json`（Rust SDK 内嵌该文件）。本仓库不包含宿主私有实现。  
+> 闭集（operations、capabilitySlots、errorCodes 等）见 `protocol/vendor-adapter-protocol.json`（Rust SDK 内嵌该文件）。宿主信任路径与 providerKinds 仍在 `packages/app-contracts/v1/vendor-adapter.json`。  
 > English edition: [`HOST_PAYLOAD.en.md`](HOST_PAYLOAD.en.md)
-
-公开包位置：`contract/v1/HOST_PAYLOAD.zh-CN.md`。契约发布 **1.2.0**。
 
 ## 权威地图
 
 | 角色 | 路径 |
 |------|------|
-| **本文（中文字段辞典）** | `contract/v1/HOST_PAYLOAD.zh-CN.md` |
+| **本文（中文字段辞典）** | `packages/vendor-adapter-contract/v1/HOST_PAYLOAD.zh-CN.md` |
 | 英文版 | `HOST_PAYLOAD.en.md` |
 | WIT 世界与 Host 导入 | `wit/vendor-adapter.wit` |
 | 信封与回包辅助类型 | `sdk/rust`（`Invocation`、`Response`、`SubmitResult`、`QueryResult`、`Output`） |
 | Manifest / 运行时能力 Schema | `schemas/manifest.schema.json`、`schemas/runtime-caps.schema.json` |
-| 闭集 | `protocol/vendor-adapter-protocol.json` |
+| 宿主实现对照（防漂移） | `src-tauri/src/adapter_host/bridges/*_provider.rs` |
+| 能力投影 | `src-tauri/src/adapter_host/bridges/caps_adapter.rs` |
+| RCD 校验 | `src-tauri/src/vendor_adapter_gateway/domain/runtime_caps.rs` |
 
 `examples/` **只是标本**，不是字段标准。标准 = 本文（或英文版）+ WIT + schemas + SDK 类型。
 
@@ -373,6 +373,19 @@ SDK：`submit_accepted_with_applied` / `submit_completed_with_applied` + `Applie
 宿主只认这份文档，不认厂商节点图。
 
 ---
+
+
+### 5.1 视频提示词格式描述（合同 1.3.0）
+
+每个视频或关键帧模型可在已有 capabilities JSON 的模型条目声明 `promptProjection`；没有新增 WIT 调用。字段合同见 `schemas/prompt-projection-capability.schema.json`，SDK 类型为 `PromptProjection`。
+
+- `profileId` 与 `version` 精确指向宿主注册的确定性投影器；宿主不通过插件名、模型展示名或工作流节点推断。
+- `defaultMethodName` 是已安装标准 Skill 包的名称。默认方法缺失、损坏或不兼容时显式不可用，不换包。
+- `inputModes` 非空、无重复，来自协议 `inputModeIds` 闭集；runtime-caps 同时声明 `implementedModeIds` 时必须是其子集。只允许协议 `promptProjectionSlots` 中的 video/keyframe；后处理槽不支持。
+- 模型能力已就绪但未声明专属格式时，使用明确标识的中立 `generic@1` 格式。能力缺失、探测失败或待确认均显式不可用，不能视为 Generic 声明。首次模型调用前，请求模式必须同时属于实际模型的 `implementedModeIds` 与格式的 `inputModes`。未知 profile/version、模式不支持、默认包不可用仍返回结构化失败，不替换已声明格式。SDK 只声明和校验中立字段，平台语法放在独立 adapter。
+
+宿主在首次模型调用前冻结目标快照、格式方法的包 digest/正文hash/资源hash、内容方法与文本模型。默认和自选格式经过同一服务及投影出口；GUI、F1、MCP 使用同一 business request、任务与回执。
+
 
 ## 6. 开发者怎么用
 

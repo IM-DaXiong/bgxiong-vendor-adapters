@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v1/prompt-projection-capability.schema.json",
+  "title": "VendorAdapterPromptProjectionCapability",
+  "description": "Optional per-model prompt projection descriptor. Declared by the adapter for one model (manifest capabilitySlots[].models[] or runtime-caps slots[]) and carried over the existing capabilities JSON; no WIT function is added. The host never derives it from plugin id, display name, directory name, provider kind or workflow nodes. When actual model capabilities are ready and support the requested input mode, absence of this object selects the explicitly identified neutral generic@1 format. Missing, failed or unconfirmed capabilities are unavailable, not a generic format declaration. A profileId the host does not register is explicitly incompatible and never replaced with generic.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "profileId",
+    "version",
+    "defaultMethodName",
+    "inputModes"
+  ],
+  "properties": {
+    "profileId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^[a-z0-9][a-z0-9._-]{0,127}$",
+      "description": "Opaque projection profile id. The host only looks it up in its registered projection profile directory; it carries no meaning by itself."
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 2147483647,
+      "description": "Projection profile version declared together with profileId. A changed declaration must raise it."
+    },
+    "defaultMethodName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^(?!\\.{1,2}$)[^/\\\\\\u0000-\\u001f\\u007f]+$",
+      "description": "Standard skill package name of the method that follows this model by default. Resolved in the installed skill library; never replaced by another package when missing."
+    },
+    "inputModes": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 6,
+      "uniqueItems": true,
+      "description": "Input modes this projection profile can express. Same closed set as runtime-caps implementedModeIds; when the declaring runtime-caps slot lists implementedModeIds, every entry must also appear there (a manifest-derived capabilities document has no implementedModeIds; the service then checks the requested mode against both lists).",
+      "items": {
+        "type": "string",
+        "enum": [
+          "text_to_video",
+          "image_to_video",
+          "multi_image_to_video",
+          "first_last_frame",
+          "last_frame_only",
+          "reference_to_video"
+        ]
+      }
+    }
+  },
+  "examples": [
+    {
+      "profileId": "cloud-async.video-a",
+      "version": 1,
+      "defaultMethodName": "video-a-prompt-writing",
+      "inputModes": [
+        "text_to_video",
+        "image_to_video",
+        "first_last_frame"
+      ]
+    },
+    {
+      "profileId": "lan-workflow.video-b",
+      "version": 3,
+      "defaultMethodName": "video-b-prompt-writing",
+      "inputModes": [
+        "multi_image_to_video",
+        "reference_to_video"
+      ]
+    }
+  ]
+}

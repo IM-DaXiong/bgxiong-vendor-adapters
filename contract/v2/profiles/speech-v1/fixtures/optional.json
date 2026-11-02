@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "text": "保留原文",
+  "rate": {
+    "unit": "speed_ratio",
+    "value": 1.1
+  },
+  "extensions": [
+    {
+      "namespace": "local.test",
+      "key": "hint",
+      "value": "warm"
+    }
+  ]
+}

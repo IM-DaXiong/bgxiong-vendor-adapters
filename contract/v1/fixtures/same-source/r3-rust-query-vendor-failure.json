@@ -1,0 +1,45 @@
+{
+  "id": "r3-rust-query-vendor-failure",
+  "kind": "same-source",
+  "schemaVersion": 1,
+  "note": "Failure: the vendor answers 500 and the guest reports a vendor HTTP error.",
+  "package": {
+    "language": "rust",
+    "example": "video-reference-media-probe"
+  },
+  "invocation": {
+    "operation": "query",
+    "capabilitySlot": "video",
+    "payload": {
+      "vendorTaskId": "t1",
+      "model": "probe-offline-http",
+      "pluginParameters": {
+        "endpoint": "{vendor}"
+      }
+    }
+  },
+  "vendor": [
+    {
+      "status": 500,
+      "bodyText": "boom"
+    }
+  ],
+  "expect": {
+    "result": {
+      "operation": "query",
+      "error": {
+        "code": "adapterVendorHttpError",
+        "message": {
+          "$contains": "download HTTP 500"
+        }
+      }
+    },
+    "requests": [
+      {
+        "method": "GET",
+        "path": "/download"
+      }
+    ],
+    "media": []
+  }
+}

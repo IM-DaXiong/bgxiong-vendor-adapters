@@ -1,21 +1,41 @@
-# 公开契约 / Public contract
+# vendor-adapter-contract
 
-比格熊第三方适配器的公开契约切片，契约发布 **1.2.0**。
+External developer contract for BigBear / bgxiong-ai-story third-party vendor adapters.
 
-目录名 `v1` 是协议主版本（`protocolHostMajor = 1`，WIT `bgxiong:vendor-adapter@1.1.0`）。Manifest 使用 **schemaVersion 2**（`VendorAdapterManifestV2`）。1.2.0 收紧的是 query 回包里的 `terminalFailure`，不是新的 WIT ABI。见 [v1/UPGRADE-1.2.0.md](v1/UPGRADE-1.2.0.md)。
+对外开发契约：比格熊数字导演 · 第三方算力适配器。
 
-开发时以本仓库这些文件为准。接入步骤见仓库根目录 [docs/SDK接入.md](../docs/SDK接入.md)。
+## Start here / 从这里读
 
-## 从这里读
+1. **Field dictionary / 字段辞典**
+   - 中文: [v1/HOST_PAYLOAD.zh-CN.md](v1/HOST_PAYLOAD.zh-CN.md)
+   - English: [v1/HOST_PAYLOAD.en.md](v1/HOST_PAYLOAD.en.md)
+   - Index: [v1/HOST_PAYLOAD.md](v1/HOST_PAYLOAD.md)
+2. WIT: [v1/wit/vendor-adapter.wit](v1/wit/vendor-adapter.wit)
+3. Rust SDK: [v1/sdk/rust](v1/sdk/rust)
+4. Schemas: [v1/schemas](v1/schemas)
 
-1. 字段辞典
-   - 中文：[v1/HOST_PAYLOAD.zh-CN.md](v1/HOST_PAYLOAD.zh-CN.md)
-   - English：[v1/HOST_PAYLOAD.en.md](v1/HOST_PAYLOAD.en.md)
-   - 索引：[v1/HOST_PAYLOAD.md](v1/HOST_PAYLOAD.md)
-2. WIT：[v1/wit/vendor-adapter.wit](v1/wit/vendor-adapter.wit)
-3. Rust SDK：[v1/sdk/rust](v1/sdk/rust)
-4. 模板：[v1/templates/rust](v1/templates/rust)
-5. Schemas：[v1/schemas](v1/schemas)
-6. 闭集：[v1/protocol/vendor-adapter-protocol.json](v1/protocol/vendor-adapter-protocol.json)
+`v1/examples/` are specimens only, not the standard.
 
-`v1/examples/` 与仓库根 `examples/` 是同一套标本，不是字段标准。
+`v1/examples/` 仅为标本，不是标准。
+
+Host `payloadJson` never contains vendor `nodeInfoList`. Guest maps HOST_PAYLOAD
+to the vendor HTTP body. For overlay-style APIs (App defaults + field list),
+authors must pin weight widgets on every submit. See
+[GUIDE-VendorAdapter-开发者手册.md](../../docs/dev/guides/GUIDE-VendorAdapter-开发者手册.md)
+section 「提交映射：整图 pin vs 增量覆盖」.
+
+
+## v2 developer preview / v2 开发者预览
+
+Contract release **2.0.0** (author SDK / WIT identity). Installed materials ship as `user-examples/vendor-adapter-v2/` and `user-examples/comfy-workflow-authoring-v2/`.
+
+1. Status & limits: [v2/DEVELOPER-PREVIEW.zh-CN.md](v2/DEVELOPER-PREVIEW.zh-CN.md) — **sdkReady=false**
+2. Authoring: [v2/AUTHORING.zh-CN.md](v2/AUTHORING.zh-CN.md) (if present) / [v2/README.md](v2/README.md)
+3. **SDK release 2.1.1 panorama candidate**: [v2/profiles/image-projection-v1/README.zh-CN.md](v2/profiles/image-projection-v1/README.zh-CN.md) · [README.en.md](v2/profiles/image-projection-v1/README.en.md)
+4. Video generation profile: [v2/profiles/video-generation-v1/README.zh-CN.md](v2/profiles/video-generation-v1/README.zh-CN.md)
+
+`RELEASE-STATUS.json` top-level fields describe standalone full-candidate governance; do not treat them as a denial of the installed workflow-adapter preview.
+
+RunningHub cloud adapters are **independent** packages under `packages/cloud-adapters/`, not v1 examples.
+
+中文：v2 是 ComfyUI 工作流作者开发包·开发者预览；2.1.1 为 image-projection 候选叠加，不是全 SDK 密封发行。已有 v1 厂商插件继续按 v1。

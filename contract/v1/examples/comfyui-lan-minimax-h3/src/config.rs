@@ -32,7 +32,7 @@ use alloc::format;
 use alloc::string::String;
 
 pub const PLUGIN_ID: &str = "local.example.comfyui-lan-h3";
-pub const PLUGIN_VERSION: &str = "0.3.0";
+pub const PLUGIN_VERSION: &str = "0.3.1";
 pub const MODEL_ID: &str = "h3.t2v";
 pub const MODEL_ID_I2V_TURBO: &str = "h3.i2v.turbo";
 pub const MODEL_ID_R2V_TURBO: &str = "h3.r2v.turbo";

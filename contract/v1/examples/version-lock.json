@@ -1,0 +1,24 @@
+{
+  "examples": [
+    {
+      "name": "comfyui-lan-minimax-h3",
+      "version": "0.3.1",
+      "sourceDigest": "7fab9195bd483f75ff0c54703504570761b50db5ef4f3d4fbce1f72b802753b6"
+    },
+    {
+      "name": "comfyui-lan-z-image-turbo",
+      "version": "0.3.1",
+      "sourceDigest": "eb4f7d3fa61866e956a0d19c356b0f85ffcec9124bc8d9ea968065c77e375c7d"
+    },
+    {
+      "name": "lan-openai-compat-text",
+      "version": "0.1.0",
+      "sourceDigest": "0a99347472b5e8821ab61e6b5ade29389b2190c14012d874a1af437709064565"
+    },
+    {
+      "name": "video-reference-media-probe",
+      "version": "0.2.0",
+      "sourceDigest": "a3e037f199de063e9ec515fb29852db3ab4e6b0f2e546a5e0426f85d96f4f686"
+    }
+  ]
+}

@@ -59,7 +59,8 @@ L2 hello green is **not** "this vendor can generate".
 ## After you edit
 
 ```text
-cargo test --manifest-path examples/comfyui-lan-minimax-h3/Cargo.toml
+cargo test --manifest-path packages/vendor-adapter-contract/v1/examples/comfyui-lan-minimax-h3/Cargo.toml
+cd ui && npm run check:affected
 ```
 
 On failure, give the agent the latest `logs/frontend-*.log` and

@@ -1,0 +1,35 @@
+{
+  "id": "r4-rust-query-refused",
+  "kind": "same-source",
+  "schemaVersion": 1,
+  "note": "Security refusal: an endpoint outside the allowlist is refused by the broker before any connection.",
+  "package": {
+    "language": "rust",
+    "example": "video-reference-media-probe"
+  },
+  "invocation": {
+    "operation": "query",
+    "capabilitySlot": "video",
+    "payload": {
+      "vendorTaskId": "t1",
+      "model": "probe-offline-http",
+      "pluginParameters": {
+        "endpoint": "http://192.0.2.10:9"
+      }
+    }
+  },
+  "vendor": [],
+  "expect": {
+    "result": {
+      "operation": "query",
+      "error": {
+        "code": "adapterVendorHttpError",
+        "message": {
+          "$contains": "adapterOutboundUrlBlocked"
+        }
+      }
+    },
+    "requests": [],
+    "media": []
+  }
+}

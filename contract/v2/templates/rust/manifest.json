@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.sdk.echo",
+  "displayName": "Local echo author template",
+  "version": "1.0.0",
+  "protocolRange": {"min": 2, "max": 2},
+  "requiredFeatures": [],
+  "optionalFeatures": [],
+  "language": "rust",
+  "entry": "adapter.wasm",
+  "artifactSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "endpointPolicy": ["staticHosts"],
+    "networkHosts": [],
+    "allowPrivateNetwork": false,
+    "auth": [],
+    "mediaSlots": [],
+    "stateBytes": 0,
+    "embeddedHeaders": []
+  },
+  "limits": {
+    "memoryBytes": 33554432,
+    "fuel": 100000000,
+    "wallMs": 1000,
+    "outputBytes": 1048576
+  }
+}

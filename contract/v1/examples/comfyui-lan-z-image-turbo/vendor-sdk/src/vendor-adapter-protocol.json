@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "contractRelease": "1.2.0",
+  "contractRelease": "1.3.0",
   "witPackage": "bgxiong:vendor-adapter@1.1.0",
   "protocolMin": 1,
   "protocolMax": 1,
@@ -28,6 +28,19 @@
     "videoFaceRefine",
     "imageUpscale"
   ],
+  "inputModeIds": [
+    "text_to_video",
+    "image_to_video",
+    "multi_image_to_video",
+    "first_last_frame",
+    "last_frame_only",
+    "reference_to_video"
+  ],
+  "promptProjectionSlots": [
+    "video",
+    "keyframe"
+  ],
+  "promptProjectionIdMaxChars": 128,
   "operations": [
     "capabilities",
     "probe",

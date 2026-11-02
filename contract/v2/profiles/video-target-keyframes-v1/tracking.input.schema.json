@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/video-target-keyframes-v1/tracking.input.schema.json",
+  "type": "object",
+  "properties": {
+    "sourceIdentity": {
+      "$ref": "selection.schema.json#/$defs/sourceIdentity"
+    },
+    "range": {
+      "$ref": "selection.schema.json#/$defs/timeRangeMs"
+    },
+    "selection": {
+      "$ref": "selection.schema.json"
+    },
+    "direction": {
+      "$ref": "selection.schema.json#/$defs/direction"
+    },
+    "anchorKeyframeId": {
+      "$ref": "selection.schema.json#/$defs/nonEmptyString"
+    },
+    "requestedCoverage": {
+      "$ref": "selection.schema.json#/$defs/timeRangeMs"
+    },
+    "requestDigest": {
+      "$ref": "selection.schema.json#/$defs/digest"
+    }
+  },
+  "required": [
+    "sourceIdentity",
+    "range",
+    "selection",
+    "direction",
+    "anchorKeyframeId",
+    "requestedCoverage",
+    "requestDigest"
+  ],
+  "additionalProperties": false
+}

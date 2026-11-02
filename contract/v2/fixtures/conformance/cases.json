@@ -1,0 +1,2645 @@
+{
+  "schemaVersion": 1,
+  "catalog": "protocol/conformance-cases.json",
+  "cases": [
+    {
+      "id": "C01",
+      "title": "主程序及v1隔离摘要",
+      "required": true,
+      "prerequisites": [
+        "candidate"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [],
+        "chains": [
+          "candidate"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C02",
+      "title": "独立workspace与路径依赖",
+      "required": true,
+      "prerequisites": [
+        "candidate"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [],
+        "chains": [
+          "candidate"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C03",
+      "title": "发布文件完整性及缺件拒绝",
+      "required": true,
+      "prerequisites": [
+        "candidate"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "identity",
+          "author"
+        ],
+        "chains": [
+          "candidate"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C04",
+      "title": "schema闭集与引用",
+      "required": true,
+      "prerequisites": [],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "strict"
+        ],
+        "chains": []
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C05",
+      "title": "跨语言与ABI字段往返",
+      "required": true,
+      "prerequisites": [],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "abi"
+        ],
+        "chains": []
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C06",
+      "title": "业务输入严格校验",
+      "required": true,
+      "prerequisites": [
+        "matrix"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [
+        "normal",
+        "error",
+        "rate_limit",
+        "disconnect",
+        "slow",
+        "duplicate_usage",
+        "partial_output",
+        "acceptance_unknown"
+      ],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "strict",
+          "six_operations",
+          "cli"
+        ],
+        "chains": [
+          "matrix"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C07",
+      "title": "身份摘要与篡改",
+      "required": true,
+      "prerequisites": [
+        "three-packages"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "identity",
+          "sandbox",
+          "cli"
+        ],
+        "chains": [
+          "three-packages"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C08",
+      "title": "权限及required feature",
+      "required": true,
+      "prerequisites": [
+        "matrix"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [
+        "normal",
+        "error",
+        "rate_limit",
+        "disconnect",
+        "slow",
+        "duplicate_usage",
+        "partial_output",
+        "acceptance_unknown"
+      ],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "network",
+          "six_operations"
+        ],
+        "chains": [
+          "matrix"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C09",
+      "title": "同模型多能力及generic",
+      "required": true,
+      "prerequisites": [
+        "three-packages"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "capabilities",
+          "six_operations"
+        ],
+        "chains": [
+          "three-packages"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C10",
+      "title": "支持就绪与输入分层",
+      "required": true,
+      "prerequisites": [
+        "three-packages"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "capabilities",
+          "six_operations"
+        ],
+        "chains": [
+          "three-packages"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C11",
+      "title": "媒体ID与上传归属",
+      "required": true,
+      "prerequisites": [
+        "upload"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "geometry",
+          "network",
+          "six_operations",
+          "cli"
+        ],
+        "chains": [
+          "upload"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C12",
+      "title": "时间几何与VFR",
+      "required": true,
+      "prerequisites": [
+        "real-probe"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "geometry",
+          "media"
+        ],
+        "chains": [
+          "real-probe"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C13",
+      "title": "结构化结果与多产物",
+      "required": true,
+      "prerequisites": [
+        "multi-output"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "results",
+          "six_operations"
+        ],
+        "chains": [
+          "multi-output"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C14",
+      "title": "终态错误及真实usage",
+      "required": true,
+      "prerequisites": [
+        "stream-events",
+        "matrix"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [
+        "normal",
+        "error",
+        "rate_limit",
+        "disconnect",
+        "slow",
+        "duplicate_usage",
+        "partial_output",
+        "acceptance_unknown"
+      ],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "results",
+          "events",
+          "six_operations"
+        ],
+        "chains": [
+          "stream-events",
+          "matrix"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C15",
+      "title": "WIT2与缺导入",
+      "required": true,
+      "prerequisites": [],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "abi",
+          "sandbox"
+        ],
+        "chains": []
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C16",
+      "title": "native和WASM作者入口",
+      "required": true,
+      "prerequisites": [
+        "three-packages"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "abi",
+          "sandbox",
+          "author"
+        ],
+        "chains": [
+          "three-packages"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C17",
+      "title": "worker沙箱及崩溃",
+      "required": true,
+      "prerequisites": [
+        "three-packages"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "sandbox",
+          "transport"
+        ],
+        "chains": [
+          "three-packages"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C18",
+      "title": "进程关联并发与超时",
+      "required": true,
+      "prerequisites": [
+        "cancel-isolation"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "transport",
+          "cancel",
+          "six_operations"
+        ],
+        "chains": [
+          "cancel-isolation"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C19",
+      "title": "媒体租约释放与重建",
+      "required": true,
+      "prerequisites": [
+        "upload",
+        "recover"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "media",
+          "events",
+          "six_operations",
+          "cli"
+        ],
+        "chains": [
+          "upload",
+          "recover"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C20",
+      "title": "网络凭据日志隔离",
+      "required": true,
+      "prerequisites": [
+        "matrix"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [
+        "normal",
+        "error",
+        "rate_limit",
+        "disconnect",
+        "slow",
+        "duplicate_usage",
+        "partial_output",
+        "acceptance_unknown"
+      ],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "network",
+          "http_stream",
+          "cli"
+        ],
+        "chains": [
+          "matrix"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C21",
+      "title": "HTTP真实流读取与背压",
+      "required": true,
+      "prerequisites": [
+        "stream-events"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "http_stream"
+        ],
+        "chains": [
+          "stream-events"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C22",
+      "title": "事件顺序和唯一终态",
+      "required": true,
+      "prerequisites": [
+        "stream-events"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "events",
+          "cli"
+        ],
+        "chains": [
+          "stream-events"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C23",
+      "title": "accepted持久恢复及未知受理",
+      "required": true,
+      "prerequisites": [
+        "recover",
+        "unknown-acceptance"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "recovery",
+          "six_operations",
+          "cli"
+        ],
+        "chains": [
+          "recover",
+          "unknown-acceptance"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C24",
+      "title": "真实取消语义",
+      "required": true,
+      "prerequisites": [
+        "cancel-isolation"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "cancel",
+          "transport"
+        ],
+        "chains": [
+          "cancel-isolation"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C25",
+      "title": "六操作同一执行核",
+      "required": true,
+      "prerequisites": [
+        "three-packages",
+        "upload"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "six_operations",
+          "cli"
+        ],
+        "chains": [
+          "three-packages",
+          "upload"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C26",
+      "title": "空目录作者模板和打包",
+      "required": true,
+      "prerequisites": [
+        "candidate"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "author"
+        ],
+        "chains": [
+          "candidate"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C27",
+      "title": "另进程query原任务",
+      "required": true,
+      "prerequisites": [
+        "recover"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "cli",
+          "recovery"
+        ],
+        "chains": [
+          "recover"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C28",
+      "title": "record replay conform不能假绿",
+      "required": true,
+      "prerequisites": [
+        "replay-current"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "replay"
+        ],
+        "chains": [
+          "replay-current"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C29",
+      "title": "profile与代码适配一致",
+      "required": true,
+      "prerequisites": [
+        "profile-parity"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "profile"
+        ],
+        "chains": [
+          "profile-parity"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C30",
+      "title": "参考表单公共输入往返",
+      "required": true,
+      "prerequisites": [
+        "form-cli"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "form",
+          "cli"
+        ],
+        "chains": [
+          "form-cli"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C31",
+      "title": "三类独立模拟服务",
+      "required": true,
+      "prerequisites": [
+        "three-packages"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [],
+        "chains": [
+          "three-packages"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C32",
+      "title": "自包含依赖闭包及离线条件",
+      "required": true,
+      "prerequisites": [
+        "candidate"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "author"
+        ],
+        "chains": [
+          "candidate"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C33",
+      "title": "三类真实可执行WASM样例",
+      "required": true,
+      "prerequisites": [
+        "three-packages"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "six_operations"
+        ],
+        "chains": [
+          "three-packages"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C34",
+      "title": "故障矩阵与缺case拒绝",
+      "required": true,
+      "prerequisites": [
+        "matrix"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [
+        "normal",
+        "error",
+        "rate_limit",
+        "disconnect",
+        "slow",
+        "duplicate_usage",
+        "partial_output",
+        "acceptance_unknown"
+      ],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [
+          "replay"
+        ],
+        "chains": [
+          "matrix"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": false
+    },
+    {
+      "id": "C35",
+      "title": "候选包完整及可复现",
+      "required": true,
+      "prerequisites": [
+        "candidate"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [],
+        "chains": [
+          "candidate"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": true
+    },
+    {
+      "id": "C36",
+      "title": "隔离作者新增操作参数",
+      "required": true,
+      "prerequisites": [
+        "external-author"
+      ],
+      "inputs": "Public Invocation, explicit package/config/workspace; no user defaults or LIVE credentials.",
+      "faults": [],
+      "expected": "All fixed suite proofs and joined-chain requirements verified; missing evidence is NOT_RUN.",
+      "cleanup": "Explicit harness-owned workspace only; stop/reap owned workers/services and preserve hashed proof files.",
+      "evidence": {
+        "suites": [],
+        "chains": [
+          "external-author"
+        ]
+      },
+      "scope": "MOCK",
+      "lateCase": true
+    }
+  ],
+  "suites": {
+    "strict": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-validator",
+        "--test",
+        "strict_contract"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/validator/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/validator/Cargo.toml",
+        "crates/validator/tests/strict_contract.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "identity": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-validator",
+        "--test",
+        "package_identity"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/validator/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/validator/Cargo.toml",
+        "crates/validator/tests/package_identity.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "capabilities": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-validator",
+        "--test",
+        "capability_registry"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/validator/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/validator/Cargo.toml",
+        "crates/validator/tests/capability_registry.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "geometry": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-validator",
+        "--test",
+        "media_geometry"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/validator/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/validator/Cargo.toml",
+        "crates/validator/tests/media_geometry.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "results": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-validator",
+        "--test",
+        "results"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/validator/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/validator/Cargo.toml",
+        "crates/validator/tests/results.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "abi": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-ports",
+        "--test",
+        "abi"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/ports/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/ports/Cargo.toml",
+        "crates/ports/tests/abi.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml",
+        "tools/generate_contracts.py",
+        "tools/generate_wit.py"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "sandbox": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-runtime",
+        "--test",
+        "sandbox"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/runtime/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/transport/src",
+        "crates/reference-host/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/runtime/Cargo.toml",
+        "crates/runtime/tests/sandbox.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml",
+        "sdk/rust/tests/compile_guest.rs"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "transport": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-transport",
+        "--test",
+        "lifecycle"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/transport/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/reference-host/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/transport/Cargo.toml",
+        "crates/transport/tests/lifecycle.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "media": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-reference-host",
+        "--test",
+        "media"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/reference-host/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/tests/media.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "network": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-reference-host",
+        "--test",
+        "policy"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/reference-host/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/tests/policy.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "http_stream": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-reference-host",
+        "--test",
+        "http_stream"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/reference-host/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/tests/http_stream.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "events": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-reference-host",
+        "--test",
+        "events"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/reference-host/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/tests/events.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "recovery": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-reference-host",
+        "--test",
+        "recovery"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/reference-host/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/tests/recovery.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "cancel": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-reference-host",
+        "--test",
+        "cancel"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/reference-host/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/tests/cancel.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "six_operations": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-reference-host",
+        "--test",
+        "six_operations"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/reference-host/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/tests/six_operations.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "cli": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-tools",
+        "--test",
+        "run"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/tools/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src",
+        "crates/reference-host/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/tools/Cargo.toml",
+        "crates/tools/tests/run.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "author": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-tools",
+        "--test",
+        "author"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/tools/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src",
+        "crates/reference-host/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/tools/Cargo.toml",
+        "crates/tools/tests/author.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml",
+        "templates/rust/Cargo.lock",
+        "templates/rust/Cargo.toml",
+        "templates/rust/manifest.json",
+        "templates/rust/src/lib.rs",
+        "templates/rust/template-lock.json",
+        "templates/rust/vendor-sdk/sdk/rust/Cargo.toml",
+        "templates/rust/vendor-sdk/sdk/rust/src/generated.rs",
+        "templates/rust/vendor-sdk/sdk/rust/src/guest.rs",
+        "templates/rust/vendor-sdk/sdk/rust/src/host.rs",
+        "templates/rust/vendor-sdk/sdk/rust/src/lib.rs",
+        "templates/rust/vendor-sdk/wit/vendor-adapter.wit",
+        "templates/template-lock.json"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "replay": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-tools",
+        "--test",
+        "replay"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/tools/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src",
+        "crates/reference-host/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/tools/Cargo.toml",
+        "crates/tools/tests/replay.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "profile": {
+      "command": [
+        "{cargo}",
+        "test",
+        "--manifest-path",
+        "{sdk}/Cargo.toml",
+        "--locked",
+        "--offline",
+        "-p",
+        "bgx-adapter-v2-reference-host",
+        "--test",
+        "profile"
+      ],
+      "cwd": "{sdk}",
+      "sourceDirectories": [
+        "crates/reference-host/src",
+        "sdk/rust/src",
+        "schemas",
+        "protocol",
+        "wit",
+        "crates/validator/src",
+        "crates/ports/src",
+        "crates/runtime/src",
+        "crates/transport/src"
+      ],
+      "sourceFiles": [
+        "Cargo.lock",
+        "Cargo.toml",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/tests/profile.rs",
+        "examples/capabilities.json",
+        "examples/payloads.json",
+        "operation-contracts.json",
+        "rust-toolchain.toml",
+        "sdk/rust/Cargo.toml",
+        "templates/profile/manifest.json",
+        "templates/profile/profile.json",
+        "templates/rust/src/lib.rs"
+      ],
+      "scope": "TASK_LOCAL"
+    },
+    "form": {
+      "command": [
+        "{node}",
+        "--test",
+        "{sdk}/tools/form-reference/tests/forms.test.ts"
+      ],
+      "cwd": "{sdk}/tools/form-reference",
+      "sourceDirectories": [
+        "tools/form-reference/src",
+        "sdk/typescript/src"
+      ],
+      "sourceFiles": [
+        "tools/form-reference/package.json",
+        "tools/form-reference/package-lock.json",
+        "tools/form-reference/tsconfig.json",
+        "tools/form-reference/index.html",
+        "tools/form-reference/tests/forms.test.ts",
+        "protocol/schema-policy.json",
+        "schemas/interaction-values.schema.json"
+      ],
+      "scope": "TASK_LOCAL"
+    }
+  },
+  "chains": [
+    {
+      "id": "real-probe",
+      "cases": [
+        "C12",
+        "C19"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "fixture",
+        "ffprobeJson",
+        "brokerFacts",
+        "validationResponse"
+      ],
+      "acceptance": [
+        "Save fixture SHA256 + real raw ffprobe JSON SHA256; assert measured PTS have unequal adjacent deltas rather than infer VFR from extension/fps.",
+        "Import same bytes through actual MediaBroker/ProbeTool, compare public width/height/duration/normalized timestamps to parsed real facts and execute point/box/mask/timeSpan boundary cases.",
+        "Out-of-bounds/mismatched mask/media ID rejects before HTTP effects; zero guessed frame rate. Above ffprobe alone does not close this case."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${FFMPEG_ABS}",
+            "-nostdin",
+            "-y",
+            "-f",
+            "lavfi",
+            "-i",
+            "testsrc2=s=16x16:r=30:d=0.3",
+            "-vf",
+            "select='eq(n,0)+eq(n,1)+eq(n,4)',setpts=PTS-STARTPTS",
+            "-fps_mode",
+            "vfr",
+            "-c:v",
+            "libx264",
+            "${CASE_ROOT_ABS}/vfr.mp4"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${FFPROBE_ABS}",
+            "-v",
+            "error",
+            "-protocol_whitelist",
+            "file",
+            "-select_streams",
+            "v:0",
+            "-show_entries",
+            "stream=codec_type,width,height,duration:format=duration:frame=media_type,best_effort_timestamp_time",
+            "-of",
+            "json",
+            "-i",
+            "${CASE_ROOT_ABS}/vfr.mp4"
+          ]
+        }
+      ],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    },
+    {
+      "id": "three-packages",
+      "cases": [
+        "C09",
+        "C10",
+        "C16",
+        "C17",
+        "C25",
+        "C31",
+        "C33"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "binaryIdentities",
+        "packageIdentities",
+        "capabilities",
+        "serviceState",
+        "responses",
+        "mediaFacts"
+      ],
+      "acceptance": [
+        "Hash same CLI + worker before/after all package runs; record distinct verified package identities, actual process PIDs and per-command logs/exit codes.",
+        "Hash exact video.generate input schemaJson UTF-8 bytes across all three: expected 832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f. Include prompt/strength unchanged.",
+        "workflow model advertises three capabilities video.generate/video.speech/video.edit with distinct adapter-local operations; execute their advertised input shapes.",
+        "Actual output bytes fetched into host-media sink then stat; receipt hashes/kind/geometry/time agree with broker facts. Explicit video missing must fail, never substitute PNG/WAV.",
+        "Endpoint origin comes from actual ready JSON; no fixed port/global user defaults. Query/cancel only where package contract allows, not invented for sync."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "build",
+            "--sdk",
+            "${SDK_ABS}",
+            "--project",
+            "${SYNC_PROJECT_ABS}",
+            "--offline"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "build",
+            "--sdk",
+            "${SDK_ABS}",
+            "--project",
+            "${CLOUD_PROJECT_ABS}",
+            "--offline"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "build",
+            "--sdk",
+            "${SDK_ABS}",
+            "--project",
+            "${WORKFLOW_PROJECT_ABS}",
+            "--offline"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${PYTHON_ABS}",
+            "packages/vendor-adapter-contract/v2/fixtures/services/sync_api.py",
+            "--workspace",
+            "${SYNC_SERVICE_WORKSPACE_ABS}",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "0",
+            "--video-fixture",
+            "${VIDEO_FIXTURE_ABS}"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${PYTHON_ABS}",
+            "packages/vendor-adapter-contract/v2/fixtures/services/async_api.py",
+            "--workspace",
+            "${CLOUD_SERVICE_WORKSPACE_ABS}",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "0",
+            "--video-fixture",
+            "${VIDEO_FIXTURE_ABS}"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${PYTHON_ABS}",
+            "packages/vendor-adapter-contract/v2/fixtures/services/workflow_api.py",
+            "--workspace",
+            "${WORKFLOW_SERVICE_WORKSPACE_ABS}",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "0",
+            "--video-fixture",
+            "${VIDEO_FIXTURE_ABS}"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "caps",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "probe",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "submit",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "query",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "cancel",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        }
+      ],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    },
+    {
+      "id": "upload",
+      "cases": [
+        "C11",
+        "C19",
+        "C25"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "originalInvocation",
+        "executionInvocation",
+        "uploadProof",
+        "mediaFacts",
+        "responses"
+      ],
+      "acceptance": [
+        "Source digest/length, host media stat and vendor upload proof match; only invocation handle differs, all other user fields retain exact semantics.",
+        "Fresh CLI rehydrates from durable ID; expired/foreign handle or proof rejects without remote effects. No arbitrary output/manifest overwrite.",
+        "Retain separate input and execution receipts; later form identity checks distinguish exact original bytes from substituted handle invocation."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "upload",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "submit",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "query",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json",
+            "--request-id",
+            "${ORIGINAL_REQUEST_ID}"
+          ]
+        }
+      ],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    },
+    {
+      "id": "multi-output",
+      "cases": [
+        "C13"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "serviceState",
+        "responses",
+        "mediaFacts"
+      ],
+      "acceptance": [
+        "Execute sync structured analyze and a request for image+audio from actual service; both distinct media descriptors download into sink and stat before final result.",
+        "Compare actual file hashes/kind/length and structured data schema; a synthetic native array or service-only HTTP result does not close C13.",
+        "Run explicit partial_output response and retain delivered artifacts with standard terminal failure; never complete success for partial."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "submit",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        }
+      ],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    },
+    {
+      "id": "stream-events",
+      "cases": [
+        "C14",
+        "C21",
+        "C22"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "serviceState",
+        "events",
+        "responses",
+        "observationTimeline"
+      ],
+      "acceptance": [
+        "Normal service flush: first standard text event is observed/fsynced before service EOF; ordered unique sequences and host ACK consumption precede terminal Response.",
+        "duplicate_usage replaces same reported snapshot; do not sum duplicates. Compare reported decimals/units without estimating consumption.",
+        "disconnect/partial_output emits terminal failure with retained partial data; EOF alone cannot become success; service connection/call count proves no reconnect/retry.",
+        "Reuse native bounded-retention and opaque-byte proofs rather than repeat 256MiB test; new chain covers WASM adapter parser and CLI persistence only."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "submit",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        }
+      ],
+      "note": "Typed proof consumes original gated observation, raw CLI JSONL, and exact record tape. ACK evidence is successful ordered host-stream.emit-event results before later reads/final Response; no fabricated ACK timestamp. serviceState is {faults:[selectors to actual disconnect/partial_output flow records]}."
+    },
+    {
+      "id": "recover",
+      "cases": [
+        "C18",
+        "C19",
+        "C23",
+        "C27"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "acceptedCheckpoint",
+        "killBarrier",
+        "serviceStateBefore",
+        "serviceStateAfter",
+        "queryResponse",
+        "binaryIdentities"
+      ],
+      "acceptance": [
+        "Save barrier/checkpoint before killing child; durable original random vendor ID and resume present before restart. No timing guess or new submit fallback.",
+        "Fresh-process query uses original ID, outputs stable byte digests, service submitCount stays exactly one before/after service+host restart.",
+        "Config/package/credential reference mismatch fails explicitly; provide fresh opaque credential lease from explicit reference if applicable; never old process handle.",
+        "Explicit query-only timeout/disconnect preserves accepted CP and next explicit query is permitted; no automatic resubmit or implicit poll cap."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "submit",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${PYTHON_ABS}",
+            "packages/vendor-adapter-contract/v2/fixtures/services/async_api.py",
+            "--workspace",
+            "${ORIGINAL_SERVICE_WORKSPACE_ABS}",
+            "--host",
+            "127.0.0.1",
+            "--port",
+            "${ORIGINAL_SERVICE_PORT}",
+            "--video-fixture",
+            "${VIDEO_FIXTURE_ABS}"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "query",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json",
+            "--request-id",
+            "${ORIGINAL_REQUEST_ID}"
+          ]
+        }
+      ],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    },
+    {
+      "id": "unknown-acceptance",
+      "cases": [
+        "C23",
+        "C34"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "acceptedUnknownCheckpoint",
+        "serviceStateBefore",
+        "serviceStateAfter",
+        "responses"
+      ],
+      "acceptance": [
+        "Save acceptance_unknown host state, no fabricated known vendor ID and no success receipt; service state retained after restart proves one accepted POST.",
+        "GET /state may be used only as test evidence to compare counters and hidden ID; do not feed it into ordinary CLI recovery as a fake discovery fallback.",
+        "No second POST on fresh query/reopen. When ID never reached adapter, truthful unknown acceptance may remain unresolved rather than claim successful recovery."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "submit",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        }
+      ],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    },
+    {
+      "id": "cancel-isolation",
+      "cases": [
+        "C18",
+        "C23",
+        "C24"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "jobA",
+        "jobB",
+        "serviceStateBefore",
+        "serviceStateAfter",
+        "cancelResponse",
+        "queryBResponse"
+      ],
+      "acceptance": [
+        "Cancel A dispatches only original A vendor ID; B still progresses to measured successful result and service counters show B cancelCount unchanged.",
+        "Observer drop/CLI close releases local resources without incrementing remote cancelCount; do not treat software shutdown as remote cancellation.",
+        "remote_confirmed requires real remote cancelled=true/interrupted=true plus matching terminal state; remote_requested alone still requires query; terminal completed job returns cancelled=false.",
+        "Network error/timeout/dropped RPC cannot report confirmed cancellation. Host worker cleanup affects only matching Control/request, not sibling B."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "submit",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "cancel",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json",
+            "--request-id",
+            "${A_ORIGINAL_REQUEST_ID}"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "query",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json",
+            "--request-id",
+            "${B_ORIGINAL_REQUEST_ID}"
+          ]
+        }
+      ],
+      "note": "serviceStateBefore explicitly selects {kind:ACCEPTED_CHECKPOINTS_BEFORE_CANCEL,acceptedA,acceptedB,bAfterCancelA} selectors. These durable anchors are not mislabelled an uncaptured before-service snapshot. Final real monotone service counters and original command taskRefs prove A-only cancellation and B success."
+    },
+    {
+      "id": "replay-current",
+      "cases": [
+        "C28"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "replayReport",
+        "networkCounters",
+        "transcript"
+      ],
+      "acceptance": [
+        "Actual WorkerClient reexecutes same guest, exact ordered port calls/results and Response, no real broker/network; service request count cannot increase.",
+        "Missing/additional/different call/response/package/hash fails. Signing/raw secrets deny recording; never redact into an unreplayable PASS tape.",
+        "Conform source ACTUALLY_EXECUTED only for replay; command/exit/hash manifest entries remain EVIDENCE_DECLARATION. Required C01-C36 list fixed, missing/NOT_RUN global false."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "packages/vendor-adapter-contract/v2/Cargo.toml",
+            "--locked",
+            "--offline",
+            "-p",
+            "bgx-adapter-v2-tools",
+            "--test",
+            "replay",
+            "--",
+            "--nocapture"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "record",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json",
+            "--transcript",
+            "${HOST_WORKSPACE_ABS}/receipts/new-tape.json",
+            "--seed",
+            "${SEED_U64}",
+            "--now-unix-ms",
+            "${TIME_U64}"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "replay",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--transcript",
+            "${TAPE_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/replay-report.json"
+          ]
+        }
+      ],
+      "note": "networkCounters is {capture:selector to original replay counter capture,mutations:{name:{execution,transcript:selector}}}; seven distinct actual failures bind seven isolated raw tape mutations. Response bytes use schema-derived generated struct field order; transcript digest uses logical sorted JSON."
+    },
+    {
+      "id": "profile-parity",
+      "cases": [
+        "C29"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "profileResponse",
+        "codeResponse",
+        "serviceState"
+      ],
+      "acceptance": [
+        "Compare actual public Rust author source native execution with the profile interpreter for identical capabilities, input and public result. Record runtime=NATIVE_PUBLIC_RUST_SOURCE honestly; do not call this WASM.",
+        "Retain separate actual profile loopback HTTP/vault bearer and custom-header captures, with generated plans, nonsecret credential references, observed bodies and standard results. Do not claim native Rust made the HTTP request.",
+        "Unsupported programs fail explicitly rather than runtime fallback; shared suite validates installation, budgets, source pointers and common lifecycle."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "cargo",
+            "test",
+            "--manifest-path",
+            "packages/vendor-adapter-contract/v2/Cargo.toml",
+            "--locked",
+            "--offline",
+            "-p",
+            "bgx-adapter-v2-reference-host",
+            "--test",
+            "profile"
+          ]
+        }
+      ],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    },
+    {
+      "id": "form-cli",
+      "cases": [
+        "C30"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "exportedInvocation",
+        "inputIdentity",
+        "executionIdentity",
+        "response",
+        "browserEvidence"
+      ],
+      "acceptance": [
+        "Actual browser import actual capabilities Response plus complete public seed Invocation, choose model/capability, fill fields and required point/box/mask/timeSpan or media upload where advertised.",
+        "Export request JSON in browser; hash actual downloaded file and exact decoded payloadJson UTF-8 string; both equal CLI original input identity before normalization (no-media).",
+        "Actual WASM executes browser-produced request, receipt passes public result/error/usage schema and form imports/renders it; save screenshots and file/DOM evidence with hashes.",
+        "Unknown/unrenderable required interaction must block; no private UI wire, guessed schema defaults or network submission from form."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "npm",
+            "--prefix",
+            "packages/vendor-adapter-contract/v2/tools/form-reference",
+            "run",
+            "check"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "npm",
+            "--prefix",
+            "packages/vendor-adapter-contract/v2/tools/form-reference",
+            "test"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "npm",
+            "--prefix",
+            "packages/vendor-adapter-contract/v2/tools/form-reference",
+            "run",
+            "build"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${PYTHON_ABS}",
+            "-m",
+            "http.server",
+            "${FORM_PORT}",
+            "--bind",
+            "127.0.0.1",
+            "--directory",
+            "${FORM_PUBLIC_ROOT_ABS}"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "submit",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        }
+      ],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    },
+    {
+      "id": "matrix",
+      "cases": [
+        "C06",
+        "C08",
+        "C14",
+        "C20",
+        "C23",
+        "C24",
+        "C34"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "scenarioResults",
+        "sourceClosure",
+        "missingCaseRejection"
+      ],
+      "acceptance": [
+        "Actual normal/error/rate_limit/disconnect/slow/duplicate_usage/partial_output/acceptance_unknown where applicable; unavailable scenario explicitly records inapplicable reason, cannot skip required case.",
+        "Capture command/exit/stdout/stderr/standard receipts, service counters, actual source+binary hashes; no credentials or raw headers.",
+        "Missing case/duplicate case/unknown case/nonzero command/hash mismatch/NOT_RUN/C28 not actually executed => conformant=false. Manifest declarations alone never runtime proof."
+      ],
+      "commandTemplates": [
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "submit",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json"
+          ]
+        },
+        {
+          "execution": "NOT_EXECUTED",
+          "readiness": "EXISTING_ENTRYPOINT_AFTER_EXPLICIT_ARTIFACT_AND_INPUT_PROVISIONING",
+          "argv": [
+            "${CLI_ABS}",
+            "query",
+            "--sdk",
+            "${SDK_ABS}",
+            "--worker",
+            "${WORKER_ABS}",
+            "--package",
+            "${PACKAGE_ABS}",
+            "--workspace",
+            "${HOST_WORKSPACE_ABS}",
+            "--config",
+            "${CONFIG_ABS}",
+            "--input",
+            "${INVOCATION_ABS}",
+            "--output",
+            "${HOST_WORKSPACE_ABS}/receipts/${UNIQUE_RECEIPT}.json",
+            "--request-id",
+            "${ORIGINAL_REQUEST_ID}"
+          ]
+        }
+      ],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    },
+    {
+      "id": "candidate",
+      "cases": [
+        "C01",
+        "C02",
+        "C03",
+        "C26",
+        "C32",
+        "C35"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "candidateInventory",
+        "twoBuildIdentities",
+        "isolationEvidence"
+      ],
+      "acceptance": [
+        "Final staged SDK/public inventory and isolation source digest, reproducible locked build and clean cache/network prerequisite proof. Existing SD20/SD21 task-local logs reuse only their recorded closure.",
+        "C35 stays NOT_RUN until ordered final candidate verification."
+      ],
+      "commandTemplates": [],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    },
+    {
+      "id": "external-author",
+      "cases": [
+        "C36"
+      ],
+      "implementation": "STRUCTURED_PROOF_V1",
+      "status": "NOT_RUN",
+      "requiredArtifacts": [
+        "independentAuthorEvidence",
+        "newOperationInvocation",
+        "binaryIdentities"
+      ],
+      "acceptance": [
+        "Existing team fixtures/templates/Node exports are not independent external author evidence. New operation+parameter must use released public SDK only; do not mark complete automatically."
+      ],
+      "commandTemplates": [],
+      "note": "Implemented typed artifact validator. Definitions never assert execution; missing real captured artifacts remain NOT_RUN. Only explicit CLI artifact roots authorize retained external directories."
+    }
+  ]
+}

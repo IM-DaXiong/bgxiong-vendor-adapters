@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/video-target-keyframes-v1/declaration.schema.json",
+  "type": "object",
+  "properties": {
+    "profileId": {
+      "const": "video-target-keyframes-v1"
+    },
+    "revision": {
+      "type": "integer",
+      "const": 1
+    },
+    "tools": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "positivePoint",
+          "negativePoint",
+          "box"
+        ]
+      }
+    },
+    "directions": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "$ref": "selection.schema.json#/$defs/direction"
+      }
+    },
+    "resultRepresentations": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "maskOverlay",
+          "maskArtifact",
+          "centroidSummary"
+        ]
+      }
+    },
+    "roles": {
+      "type": "object",
+      "properties": {
+        "trackingPreview": {
+          "$ref": "selection.schema.json#/$defs/operationRef"
+        },
+        "generate": {
+          "$ref": "selection.schema.json#/$defs/operationRef"
+        }
+      },
+      "required": [
+        "trackingPreview",
+        "generate"
+      ],
+      "additionalProperties": false
+    },
+    "trackingDependencies": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "sourceMedia",
+          "range",
+          "selection",
+          "targetId",
+          "packageIdentity",
+          "frameGeometry"
+        ]
+      }
+    },
+    "referenceChangeInvalidatesTracking": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "profileId",
+    "revision",
+    "tools",
+    "directions",
+    "resultRepresentations",
+    "roles",
+    "trackingDependencies",
+    "referenceChangeInvalidatesTracking"
+  ],
+  "additionalProperties": false
+}

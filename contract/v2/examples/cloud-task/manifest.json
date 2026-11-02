@@ -1,0 +1,39 @@
+{
+  "artifactSha256": "3bbc9f87d198a158a86148b0ee6ea9f3b67ed04709f1b851452e74f889c8d719",
+  "displayName": "cloud-task executable example",
+  "entry": "adapter.wasm",
+  "language": "rust",
+  "limits": {
+    "fuel": 1000000000,
+    "memoryBytes": 67108864,
+    "outputBytes": 1048576,
+    "wallMs": 30000
+  },
+  "optionalFeatures": [],
+  "pluginId": "local.examples.cloud",
+  "protocolRange": {
+    "max": 2,
+    "min": 2
+  },
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "allowPrivateNetwork": true,
+    "auth": [
+      "bearer"
+    ],
+    "embeddedHeaders": [],
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "mediaSlots": [
+      "image"
+    ],
+    "networkHosts": [],
+    "stateBytes": 0
+  },
+  "requiredFeatures": [],
+  "schemaVersion": 2,
+  "version": "1.0.1"
+}

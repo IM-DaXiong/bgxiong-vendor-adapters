@@ -3,21 +3,21 @@
 > **Project external developer standard (human-readable field dictionary)**  
 > Third-party adapter authors **must** read this before implementing a plugin.  
 > Wire field names are always **camelCase**.  
-> Closed sets (operations, capabilitySlots, errorCodes, …) live in `protocol/vendor-adapter-protocol.json` (the Rust SDK embeds that file next to `lib.rs`). This repository does not include private host source.  
+> Closed sets (operations, capabilitySlots, errorCodes, …) live in `protocol/vendor-adapter-protocol.json` (the Rust SDK embeds that file next to `lib.rs`). Host trust paths and providerKinds stay in `packages/app-contracts/v1/vendor-adapter.json`.  
 > 中文版: [`HOST_PAYLOAD.zh-CN.md`](HOST_PAYLOAD.zh-CN.md)
-
-Published path: `contract/v1/HOST_PAYLOAD.en.md`. Contract release **1.2.0**.
 
 ## Authority map
 
 | Role | Path |
 |------|------|
-| **This document (English field dictionary)** | `contract/v1/HOST_PAYLOAD.en.md` |
+| **This document (English field dictionary)** | `packages/vendor-adapter-contract/v1/HOST_PAYLOAD.en.md` |
 | Chinese edition | `HOST_PAYLOAD.zh-CN.md` |
 | WIT world + host imports | `wit/vendor-adapter.wit` |
 | Envelope & response helpers | `sdk/rust` (`Invocation`, `Response`, `SubmitResult`, `QueryResult`, `Output`) |
 | Manifest & runtime-caps schemas | `schemas/manifest.schema.json`, `schemas/runtime-caps.schema.json` |
-| Closed sets | `protocol/vendor-adapter-protocol.json` |
+| Host implementation cross-check | `src-tauri/src/adapter_host/bridges/*_provider.rs` |
+| Capability projection | `src-tauri/src/adapter_host/bridges/caps_adapter.rs` |
+| RCD validation | `src-tauri/src/vendor_adapter_gateway/domain/runtime_caps.rs` |
 
 `examples/` are **specimens only**, not the field standard. Standard = this document (or the Chinese edition) + WIT + schemas + SDK types.
 
@@ -373,6 +373,19 @@ SDK: `submit_accepted_with_applied` / `submit_completed_with_applied` + `Applied
 The host only understands this document — never a vendor node graph.
 
 ---
+
+
+### 5.1 Video prompt projection descriptor (contract 1.3.0)
+
+A video/keyframe model may declare `promptProjection` on its model entry in the existing capabilities JSON. No WIT call is added. See `schemas/prompt-projection-capability.schema.json` and SDK type `PromptProjection`.
+
+- `profileId` and `version` identify an exactly registered deterministic projector. The host never infers them from plugin names, model display names or workflow nodes.
+- `defaultMethodName` names an installed standard Skill package. Missing, corrupt or incompatible defaults are explicitly unavailable; another package is never substituted.
+- `inputModes` is nonempty, unique and uses protocol `inputModeIds`. When runtime caps declare `implementedModeIds`, it must be a subset. Only protocol `promptProjectionSlots` (video/keyframe) may carry the descriptor; post-process slots may not.
+- Ready model capabilities without a format declaration select the explicitly identified neutral `generic@1` format. Missing, failed or unconfirmed capabilities are unavailable, never a reason to assume Generic. Before a model call, the requested mode must belong to both the actual model's `implementedModeIds` and the selected format's `inputModes`. Unknown profiles/versions, unsupported modes and unavailable packages remain structured failures; no declared format is replaced. The SDK declares neutral fields; platform syntax lives in separate adapters.
+
+Before the first model call the host freezes the target, method package digest/body hash/resource hashes, content method and text model. Default and custom methods share the service and projector exit. GUI, F1 and MCP use the same business request, task and receipt.
+
 
 ## 6. How developers should use this
 
