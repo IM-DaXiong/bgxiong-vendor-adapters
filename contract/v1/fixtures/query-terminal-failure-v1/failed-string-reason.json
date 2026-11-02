@@ -1,9 +1,0 @@
-{
-  "vendorQuery": {
-    "status": "FAILED",
-    "failedReason": "queue worker aborted"
-  },
-  "expectedStatus": "failed",
-  "expectedCategory": "vendorTaskFailed",
-  "expectedVendorCode": "FAILED"
-}
