@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/image-projection-v1/input.example.schema.json",
+  "type": "object",
+  "properties": {
+    "prompt": {"type": "string"},
+    "outputProjection": {"type": "string", "enum": ["flat", "equirectangular360"], "default": "flat"},
+    "source": {
+      "type": "object",
+      "properties": {"mediaId": {"type": "string", "minLength": 1}},
+      "required": ["mediaId"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["prompt", "outputProjection", "source"],
+  "additionalProperties": false
+}

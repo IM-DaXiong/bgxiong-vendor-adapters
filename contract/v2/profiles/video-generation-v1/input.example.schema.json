@@ -1,0 +1,201 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/video-generation-v1/input.example.schema.json",
+  "title": "VideoGenerationV1InputExample",
+  "description": "Neutral public example for video.generate input: one operation with inputMode=first_last_frame, pixel width/height size representation, fixed fps, enum durationSeconds, ranged seed/width/height, optional negativePrompt, ordered media refs. Not a platform package and not a combination rule engine.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "inputMode",
+    "prompt",
+    "durationSeconds",
+    "fps",
+    "aspectRatio",
+    "width",
+    "height",
+    "firstFrame",
+    "lastFrame"
+  ],
+  "properties": {
+    "inputMode": {
+      "const": "first_last_frame",
+      "description": "One operation declares exactly one inputMode via const. Selecting another mode means selecting another operation with full identity."
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1,
+      "description": "User-confirmed full prompt text. Preserve newlines and any material-reference text; do not truncate or rewrite."
+    },
+    "negativePrompt": {
+      "type": "string",
+      "description": "Optional. Declare only when supported. Empty string means the user cleared the field; do not restore a default."
+    },
+    "durationSeconds": {
+      "type": "integer",
+      "enum": [
+        5,
+        10
+      ],
+      "default": 5,
+      "description": "Duration in whole seconds. This example uses enum. Alternatives: const (fixed) or minimum/maximum/multipleOf (range). Do not advertise fractional seconds as connected unless the consumer truly supports them."
+    },
+    "fps": {
+      "type": "integer",
+      "const": 24,
+      "default": 24,
+      "description": "Generation frame rate in frames/second. This example uses a fixed const. Alternatives: enum or integer range. Submit the declared fixed value even when the control is locked; do not overwrite with playback fps."
+    },
+    "aspectRatio": {
+      "type": "string",
+      "enum": [
+        "16:9",
+        "9:5",
+        "1:1"
+      ],
+      "default": "16:9",
+      "description": "Aspect ratio strings come from the package declaration. Unusual declared values such as 9:5 must not be filtered by a local common-ratio whitelist. Matching aspect to width/height is adapter business validation."
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 640,
+      "maximum": 1920,
+      "multipleOf": 8,
+      "default": 1280,
+      "description": "Pixel width. This example uses the pixel size representation. Do not also send resolution or resolutionValue in the same request."
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 360,
+      "maximum": 1080,
+      "multipleOf": 8,
+      "default": 720,
+      "description": "Pixel height. Same size-representation rule as width."
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 2147483647,
+      "default": 0,
+      "description": "Integer seed within the declared range. Hosts that use IEEE-754 numbers must stay within the exact integer range they can represent; out-of-range values are structural errors, not silent truncation."
+    },
+    "firstFrame": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "$ref": "#/$defs/MediaRef"
+      },
+      "description": "Ordered first-frame image refs. Bytes travel on the existing controlled media channel; only mediaId appears here."
+    },
+    "lastFrame": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "$ref": "#/$defs/MediaRef"
+      },
+      "description": "Ordered last-frame image refs."
+    },
+    "referenceAudios": {
+      "type": "array",
+      "minItems": 0,
+      "maxItems": 2,
+      "items": {
+        "$ref": "#/$defs/MediaRef"
+      },
+      "description": "Optional ordered reference audio refs. Usage is advanced.audioUsage; do not confuse reference audio with generate-audio output options."
+    },
+    "advanced": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Closed scalar set declared by the package. Host-side vendorFeatureDraft keys must land only on declared advanced (or other declared) fields; never drop silently and never also send a duplicate vendorFeatures bag.",
+      "properties": {
+        "audioUsage": {
+          "type": "string",
+          "enum": [
+            "voice_timbre",
+            "soundtrack_copy"
+          ],
+          "default": "voice_timbre",
+          "description": "How referenceAudios are used. Distinct from generateAudio."
+        },
+        "generateAudio": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether the package should request generated audio in the output when supported."
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 20,
+          "description": "Example closed-set scalar. Packages declare only the scalars they support."
+        }
+      }
+    }
+  },
+  "$defs": {
+    "MediaRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mediaId"
+      ],
+      "properties": {
+        "mediaId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        }
+      }
+    },
+    "NamedResolutionExample": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Illustrative alternative size representation: named resolution tier id. A real operation that chooses this representation omits width/height and resolutionValue.",
+      "required": [
+        "resolution"
+      ],
+      "properties": {
+        "resolution": {
+          "type": "string",
+          "enum": [
+            "sd",
+            "hd",
+            "u_custom_tier"
+          ],
+          "description": "Submit the package-provided tier id, never the UI label text."
+        }
+      }
+    },
+    "MegapixelResolutionExample": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Illustrative alternative size representation: megapixels. A real operation that chooses this representation omits width/height and named resolution.",
+      "required": [
+        "resolutionValue"
+      ],
+      "properties": {
+        "resolutionValue": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "kind",
+            "value"
+          ],
+          "properties": {
+            "kind": {
+              "const": "megapixels"
+            },
+            "value": {
+              "type": "number",
+              "minimum": 0.5,
+              "maximum": 4,
+              "multipleOf": 0.1
+            }
+          }
+        }
+      }
+    }
+  }
+}

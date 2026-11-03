@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/image-projection-v1/projection.schema.json",
+  "type": "string",
+  "enum": ["flat", "equirectangular360"]
+}

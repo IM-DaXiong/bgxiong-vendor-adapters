@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/video-target-keyframes-v1/frame-index.schema.json",
+  "type": "object",
+  "properties": {
+    "requestId": { "$ref": "selection.schema.json#/$defs/nonEmptyString" },
+    "selectionDigest": { "$ref": "selection.schema.json#/$defs/digest" },
+    "complete": { "type": "boolean" },
+    "pages": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["cursor", "nextCursor", "startMs", "endMs", "mediaId", "available"],
+        "properties": {
+          "cursor": { "type": "string", "minLength": 1 },
+          "nextCursor": { "type": ["string", "null"], "minLength": 1 },
+          "startMs": { "$ref": "selection.schema.json#/$defs/nonNegInt" },
+          "endMs": { "$ref": "selection.schema.json#/$defs/nonNegInt" },
+          "mediaId": { "$ref": "selection.schema.json#/$defs/nonEmptyString" },
+          "available": { "type": "boolean" }
+        }
+      }
+    }
+  },
+  "required": ["requestId", "selectionDigest", "pages", "complete"],
+  "additionalProperties": false
+}

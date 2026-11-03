@@ -1,0 +1,339 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Generated from profiles/video-target-keyframes-v1/tracking.input.schema.json sha256:7a4509c6a3959ee8ec4e0706e9e0d5b6f354d3d2596c5dcfdf5bd888573f5a67 and selection.schema.json sha256:e5cdaee30069b350946eba046ca8940d001ed4876813932cf22d731fd4b5b1de. Do not edit; run export-profile-schemas.py.",
+  "type": "object",
+  "properties": {
+    "sourceIdentity": {
+      "$ref": "#/$defs/sourceIdentity"
+    },
+    "range": {
+      "$ref": "#/$defs/timeRangeMs"
+    },
+    "selection": {
+      "$ref": "#/$defs/selection"
+    },
+    "direction": {
+      "$ref": "#/$defs/direction"
+    },
+    "anchorKeyframeId": {
+      "$ref": "#/$defs/nonEmptyString"
+    },
+    "requestedCoverage": {
+      "$ref": "#/$defs/timeRangeMs"
+    },
+    "requestDigest": {
+      "$ref": "#/$defs/digest"
+    }
+  },
+  "required": [
+    "sourceIdentity",
+    "range",
+    "selection",
+    "direction",
+    "anchorKeyframeId",
+    "requestedCoverage",
+    "requestDigest"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonNegInt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "positiveInt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timeRangeMs": {
+      "type": "object",
+      "properties": {
+        "startMs": {
+          "$ref": "#/$defs/nonNegInt"
+        },
+        "endMs": {
+          "$ref": "#/$defs/nonNegInt"
+        }
+      },
+      "required": [
+        "startMs",
+        "endMs"
+      ],
+      "additionalProperties": false
+    },
+    "frameGeometry": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "$ref": "#/$defs/positiveInt"
+        },
+        "height": {
+          "$ref": "#/$defs/positiveInt"
+        },
+        "rotation": {
+          "type": "integer",
+          "enum": [
+            0,
+            90,
+            180,
+            270
+          ]
+        }
+      },
+      "required": [
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "sourceIdentity": {
+      "type": "object",
+      "properties": {
+        "mediaId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "contentDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "selectedRange": {
+          "$ref": "#/$defs/timeRangeMs"
+        },
+        "displayGeometry": {
+          "type": "object",
+          "properties": {
+            "widthPx": {
+              "$ref": "#/$defs/positiveInt"
+            },
+            "heightPx": {
+              "$ref": "#/$defs/positiveInt"
+            },
+            "rotationDegrees": {
+              "type": "integer",
+              "enum": [
+                0,
+                90,
+                180,
+                270
+              ]
+            },
+            "mirrored": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "widthPx",
+            "heightPx",
+            "rotationDegrees",
+            "mirrored"
+          ],
+          "additionalProperties": false
+        },
+        "timeBase": {
+          "type": "string",
+          "const": "ms-from-selected-range-start"
+        },
+        "packageId": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "required": [
+        "mediaId",
+        "contentDigest",
+        "selectedRange",
+        "displayGeometry",
+        "timeBase",
+        "packageId"
+      ],
+      "additionalProperties": false
+    },
+    "point": {
+      "type": "object",
+      "properties": {
+        "pointId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "label": {
+          "type": "string",
+          "enum": [
+            "positive",
+            "negative"
+          ]
+        }
+      },
+      "required": [
+        "pointId",
+        "x",
+        "y",
+        "label"
+      ],
+      "additionalProperties": false
+    },
+    "box": {
+      "type": "object",
+      "properties": {
+        "boxId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "boxId",
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "keyframe": {
+      "type": "object",
+      "properties": {
+        "keyframeId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "timeMs": {
+          "$ref": "#/$defs/nonNegInt"
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          }
+        },
+        "box": {
+          "$ref": "#/$defs/box"
+        }
+      },
+      "required": [
+        "keyframeId",
+        "timeMs",
+        "points"
+      ],
+      "additionalProperties": false
+    },
+    "operationRef": {
+      "type": "object",
+      "properties": {
+        "operationId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "operationVersion": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "inputSchemaDigest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "required": [
+        "operationId",
+        "operationVersion",
+        "inputSchemaDigest"
+      ],
+      "additionalProperties": false
+    },
+    "maskArtifact": {
+      "type": "object",
+      "properties": {
+        "artifactId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "pageIndexRef": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "artifactId",
+        "digest"
+      ],
+      "additionalProperties": false
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "towardStart",
+        "towardEnd",
+        "both"
+      ]
+    },
+    "selection": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "const": 1
+        },
+        "sourceIdentity": {
+          "$ref": "#/$defs/sourceIdentity"
+        },
+        "targetId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "revision": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "frameGeometry": {
+          "$ref": "#/$defs/frameGeometry"
+        },
+        "keyframes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/keyframe"
+          }
+        },
+        "selectionDigest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "sourceIdentity",
+        "targetId",
+        "revision",
+        "frameGeometry",
+        "keyframes",
+        "selectionDigest"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "x-resourceHint": {
+    "blocking": false,
+    "basis": "mask-only tracking; no diffusion",
+    "vramPeakBytes": null,
+    "message": "跟踪预览只跑遮罩，不触发扩散生成。"
+  }
+}

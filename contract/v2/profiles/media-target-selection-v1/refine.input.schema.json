@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/refine.input.schema.json",
+  "type": "object",
+  "properties": {
+    "freeze": {
+      "$ref": "freeze.schema.json"
+    },
+    "selection": {
+      "$ref": "selection.schema.json"
+    },
+    "tracking": {
+      "$ref": "tracking-receipt.schema.json"
+    }
+  },
+  "required": [
+    "freeze",
+    "selection"
+  ],
+  "additionalProperties": false
+}

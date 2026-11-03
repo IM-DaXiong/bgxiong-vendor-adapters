@@ -1,0 +1,1378 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/host.schema.json",
+  "$defs": {
+    "Selection": {
+      "type": "object",
+      "properties": {
+        "bindingId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "bindingId",
+        "modelId"
+      ],
+      "additionalProperties": false
+    },
+    "HostMedia": {
+      "type": "object",
+      "properties": {
+        "mediaId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "assetId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "mediaId",
+        "assetId"
+      ],
+      "additionalProperties": false
+    },
+    "Pin": {
+      "type": "object",
+      "properties": {
+        "bindingId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "packageId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "packageVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "bundleSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "adapterSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "runtimeSha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "sdkPackageDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "sdkContractRelease": {
+          "type": "string",
+          "minLength": 1
+        },
+        "speechProfileVersion": {
+          "const": 1
+        },
+        "runtimeContractVersion": {
+          "const": 1
+        },
+        "operationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operationVersion": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "inputSchemaDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "outputSchemaDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "resumeSchemaDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "resourceDigests": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "resourceId": {
+                "type": "string",
+                "minLength": 1
+              },
+              "sha256": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            },
+            "required": [
+              "resourceId",
+              "sha256"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "descriptorDigest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "modelRevision": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "bindingId",
+        "modelId",
+        "packageId",
+        "packageVersion",
+        "bundleSha256",
+        "adapterSha256",
+        "runtimeSha256",
+        "sdkPackageDigest",
+        "sdkContractRelease",
+        "speechProfileVersion",
+        "runtimeContractVersion",
+        "operationId",
+        "operationVersion",
+        "inputSchemaDigest",
+        "outputSchemaDigest",
+        "resumeSchemaDigest",
+        "resourceDigests",
+        "descriptorDigest"
+      ],
+      "additionalProperties": false
+    },
+    "SpeechDraft": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "selection": {
+          "$ref": "#/$defs/Selection"
+        },
+        "input": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json"
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HostMedia"
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "selection",
+        "input"
+      ],
+      "additionalProperties": false
+    },
+    "SubmitSpeech": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "selection": {
+          "$ref": "#/$defs/Selection"
+        },
+        "input": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json"
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HostMedia"
+          }
+        },
+        "clientRequestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "writebackToken": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "selection",
+        "input",
+        "clientRequestId"
+      ],
+      "additionalProperties": false
+    },
+    "SpeechBindResult": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "$ref": "#/$defs/SpeechDraft"
+        },
+        "effectiveInput": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json"
+        },
+        "notices": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Notice"
+          }
+        },
+        "executable": {
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "enum": [
+                  "INVALID_PACKAGE",
+                  "UNSUPPORTED_VERSION",
+                  "UNSUPPORTED_FEATURE",
+                  "INVALID_INPUT",
+                  "UNAUTHORIZED",
+                  "PERMISSION_DENIED",
+                  "UPSTREAM_ERROR",
+                  "RATE_LIMITED",
+                  "TIMEOUT",
+                  "ACCEPTANCE_UNKNOWN",
+                  "RESOURCE_UNAVAILABLE",
+                  "CANCEL_UNSUPPORTED",
+                  "INTERNAL_ERROR"
+                ]
+              },
+              "pointer": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "pointer",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "pin": {
+          "$ref": "#/$defs/Pin"
+        }
+      },
+      "required": [
+        "original",
+        "effectiveInput",
+        "notices",
+        "executable",
+        "issues",
+        "pin"
+      ],
+      "additionalProperties": false
+    },
+    "BatchDraft": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "selection": {
+          "$ref": "#/$defs/Selection"
+        },
+        "input": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/batch.input.schema.json"
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HostMedia"
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "selection",
+        "input"
+      ],
+      "additionalProperties": false
+    },
+    "SubmitBatch": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "selection": {
+          "$ref": "#/$defs/Selection"
+        },
+        "input": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/batch.input.schema.json"
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HostMedia"
+          }
+        },
+        "clientRequestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "writebackToken": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "selection",
+        "input",
+        "clientRequestId"
+      ],
+      "additionalProperties": false
+    },
+    "BatchBindResult": {
+      "type": "object",
+      "properties": {
+        "original": {
+          "$ref": "#/$defs/BatchDraft"
+        },
+        "effectiveInput": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/batch.input.schema.json"
+        },
+        "notices": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Notice"
+          }
+        },
+        "executable": {
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "enum": [
+                  "INVALID_PACKAGE",
+                  "UNSUPPORTED_VERSION",
+                  "UNSUPPORTED_FEATURE",
+                  "INVALID_INPUT",
+                  "UNAUTHORIZED",
+                  "PERMISSION_DENIED",
+                  "UPSTREAM_ERROR",
+                  "RATE_LIMITED",
+                  "TIMEOUT",
+                  "ACCEPTANCE_UNKNOWN",
+                  "RESOURCE_UNAVAILABLE",
+                  "CANCEL_UNSUPPORTED",
+                  "INTERNAL_ERROR"
+                ]
+              },
+              "pointer": {
+                "type": "string"
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "pointer",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "pin": {
+          "$ref": "#/$defs/Pin"
+        }
+      },
+      "required": [
+        "original",
+        "effectiveInput",
+        "notices",
+        "executable",
+        "issues",
+        "pin"
+      ],
+      "additionalProperties": false
+    },
+    "AudioAsset": {
+      "type": "object",
+      "properties": {
+        "assetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "mediaId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "completeness": {
+          "enum": [
+            "complete",
+            "partial"
+          ]
+        },
+        "itemId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "assetId",
+        "mediaId",
+        "completeness"
+      ],
+      "additionalProperties": false
+    },
+    "TaskRef": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "taskId"
+      ],
+      "additionalProperties": false
+    },
+    "SubmitReceipt": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pin": {
+          "$ref": "#/$defs/Pin"
+        },
+        "notices": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Notice"
+          }
+        }
+      },
+      "required": [
+        "taskId",
+        "requestId",
+        "pin",
+        "notices"
+      ],
+      "additionalProperties": false
+    },
+    "TaskView": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "state": {
+          "enum": [
+            "queued",
+            "running",
+            "completed",
+            "failed",
+            "cancelled"
+          ]
+        },
+        "cancelRequested": {
+          "type": "boolean"
+        },
+        "progress": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "fraction": {
+                  "anyOf": [
+                    {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "message": {
+                  "anyOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "fraction",
+                "message"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AudioAsset"
+          }
+        },
+        "error": {
+          "anyOf": [
+            {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "notices": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Notice"
+          }
+        },
+        "writeback": {
+          "enum": [
+            "not_requested",
+            "pending",
+            "completed",
+            "failed"
+          ]
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "itemId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^[^\\u0000]+$"
+                  },
+                  "status": {
+                    "const": "succeeded"
+                  },
+                  "mediaId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^[^\\u0000]+$"
+                  },
+                  "data": {
+                    "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/SpeechData"
+                  }
+                },
+                "required": [
+                  "itemId",
+                  "status",
+                  "mediaId"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "itemId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^[^\\u0000]+$"
+                  },
+                  "status": {
+                    "const": "failed"
+                  },
+                  "error": {
+                    "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+                  },
+                  "data": {
+                    "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/SpeechData"
+                  }
+                },
+                "required": [
+                  "itemId",
+                  "status",
+                  "error"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "itemId": {
+                    "type": "string",
+                    "minLength": 1,
+                    "pattern": "^[^\\u0000]+$"
+                  },
+                  "status": {
+                    "const": "cancelled"
+                  },
+                  "data": {
+                    "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/SpeechData"
+                  }
+                },
+                "required": [
+                  "itemId",
+                  "status"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          }
+        }
+      },
+      "required": [
+        "taskId",
+        "requestId",
+        "state",
+        "cancelRequested",
+        "progress",
+        "outputs",
+        "error",
+        "notices",
+        "writeback"
+      ],
+      "additionalProperties": false
+    },
+    "CancelReceipt": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestRecorded": {
+          "type": "boolean"
+        },
+        "execution": {
+          "enum": [
+            "stop_requested",
+            "stopped",
+            "continues",
+            "already_finished"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "taskId",
+        "requestRecorded",
+        "execution"
+      ],
+      "additionalProperties": false
+    },
+    "ModelEntry": {
+      "type": "object",
+      "properties": {
+        "selection": {
+          "$ref": "#/$defs/Selection"
+        },
+        "packageId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "packageVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "availability": {
+          "enum": [
+            "not_checked",
+            "ready",
+            "needs_resources",
+            "unavailable"
+          ]
+        },
+        "descriptor": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/descriptor.schema.json"
+        }
+      },
+      "required": [
+        "selection",
+        "packageId",
+        "packageVersion",
+        "availability"
+      ],
+      "additionalProperties": false
+    },
+    "ListModels": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "ListVoices": {
+      "type": "object",
+      "properties": {
+        "selection": {
+          "$ref": "#/$defs/Selection"
+        },
+        "cursor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "selection"
+      ],
+      "additionalProperties": false
+    },
+    "ReadEvents": {
+      "type": "object",
+      "properties": {
+        "taskId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "cursor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "taskId"
+      ],
+      "additionalProperties": false
+    },
+    "HostEvent": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "taskId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "event": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "snapshot"
+                },
+                "value": {
+                  "$ref": "#/$defs/TaskView"
+                }
+              },
+              "required": [
+                "type",
+                "value"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "audio_chunk"
+                },
+                "media": {
+                  "$ref": "#/$defs/AudioAsset"
+                }
+              },
+              "required": [
+                "type",
+                "media"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "const": "notice"
+                },
+                "notice": {
+                  "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Notice"
+                }
+              },
+              "required": [
+                "type",
+                "notice"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "cursor",
+        "taskId",
+        "event"
+      ],
+      "additionalProperties": false
+    },
+    "ModelsPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/ModelEntry"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
+    },
+    "EventsPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/HostEvent"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
+    },
+    "VoicesPage": {
+      "type": "object",
+      "properties": {
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Voice"
+          }
+        },
+        "nextCursor": {
+          "anyOf": [
+            {
+              "type": "string",
+              "minLength": 1
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "items",
+        "nextCursor"
+      ],
+      "additionalProperties": false
+    },
+    "VoicePage": {
+      "type": "object",
+      "properties": {
+        "available": {
+          "enum": [
+            "yes",
+            "no",
+            "unknown"
+          ]
+        },
+        "page": {
+          "$ref": "#/$defs/VoicesPage"
+        },
+        "media": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/AudioAsset"
+          }
+        },
+        "notices": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Notice"
+          }
+        }
+      },
+      "required": [
+        "available",
+        "page",
+        "media",
+        "notices"
+      ],
+      "additionalProperties": false
+    },
+    "SpeechBindResultReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/SpeechBindResult"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "BatchBindResultReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/BatchBindResult"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "SubmitReceiptReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/SubmitReceipt"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "TaskViewReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/TaskView"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "CancelReceiptReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/CancelReceipt"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "ModelsPageReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/ModelsPage"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "VoicePageReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/VoicePage"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    },
+    "EventsPageReply": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": true
+            },
+            "value": {
+              "$ref": "#/$defs/EventsPage"
+            }
+          },
+          "required": [
+            "ok",
+            "value"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "ok": {
+              "const": false
+            },
+            "error": {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+            }
+          },
+          "required": [
+            "ok",
+            "error"
+          ],
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "anyOf": [
+    {
+      "$ref": "#/$defs/Selection"
+    },
+    {
+      "$ref": "#/$defs/HostMedia"
+    },
+    {
+      "$ref": "#/$defs/Pin"
+    },
+    {
+      "$ref": "#/$defs/SpeechDraft"
+    },
+    {
+      "$ref": "#/$defs/SubmitSpeech"
+    },
+    {
+      "$ref": "#/$defs/SpeechBindResult"
+    },
+    {
+      "$ref": "#/$defs/BatchDraft"
+    },
+    {
+      "$ref": "#/$defs/SubmitBatch"
+    },
+    {
+      "$ref": "#/$defs/BatchBindResult"
+    },
+    {
+      "$ref": "#/$defs/AudioAsset"
+    },
+    {
+      "$ref": "#/$defs/TaskRef"
+    },
+    {
+      "$ref": "#/$defs/SubmitReceipt"
+    },
+    {
+      "$ref": "#/$defs/TaskView"
+    },
+    {
+      "$ref": "#/$defs/CancelReceipt"
+    },
+    {
+      "$ref": "#/$defs/ModelEntry"
+    },
+    {
+      "$ref": "#/$defs/ListModels"
+    },
+    {
+      "$ref": "#/$defs/ListVoices"
+    },
+    {
+      "$ref": "#/$defs/ReadEvents"
+    },
+    {
+      "$ref": "#/$defs/HostEvent"
+    },
+    {
+      "$ref": "#/$defs/ModelsPage"
+    },
+    {
+      "$ref": "#/$defs/EventsPage"
+    },
+    {
+      "$ref": "#/$defs/VoicesPage"
+    },
+    {
+      "$ref": "#/$defs/VoicePage"
+    },
+    {
+      "$ref": "#/$defs/SpeechBindResultReply"
+    },
+    {
+      "$ref": "#/$defs/BatchBindResultReply"
+    },
+    {
+      "$ref": "#/$defs/SubmitReceiptReply"
+    },
+    {
+      "$ref": "#/$defs/TaskViewReply"
+    },
+    {
+      "$ref": "#/$defs/CancelReceiptReply"
+    },
+    {
+      "$ref": "#/$defs/ModelsPageReply"
+    },
+    {
+      "$ref": "#/$defs/VoicePageReply"
+    },
+    {
+      "$ref": "#/$defs/EventsPageReply"
+    }
+  ]
+}

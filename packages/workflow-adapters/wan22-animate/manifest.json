@@ -1,0 +1,42 @@
+{
+  "artifactSha256": "9befc940bb93f49871007ce6b38fb5774027b2a489e58cc9bdbc31aeb9efb066",
+  "displayName": "Wan 2.2 Animate 人物替换（ComfyUI）",
+  "entry": "adapter.wasm",
+  "language": "rust",
+  "limits": {
+    "fuel": 20000000000,
+    "memoryBytes": 268435456,
+    "outputBytes": 1048576,
+    "wallMs": 180000
+  },
+  "optionalFeatures": [],
+  "pluginId": "local.bgx.wan22-animate",
+  "protocolRange": {
+    "max": 2,
+    "min": 2
+  },
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "allowPrivateNetwork": true,
+    "auth": [
+      "bearer"
+    ],
+    "embeddedHeaders": [],
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "mediaSlots": [
+      "video",
+      "image"
+    ],
+    "networkHosts": [],
+    "stateBytes": 0
+  },
+  "requiredFeatures": [
+    "video-target-keyframes-v1"
+  ],
+  "schemaVersion": 2,
+  "version": "0.2.2"
+}

@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source",
+    "sourceRange",
+    "replacement",
+    "prompt",
+    "negativePrompt",
+    "width",
+    "height",
+    "fps",
+    "audio",
+    "advanced"
+  ],
+  "properties": {
+    "source": {
+      "$ref": "#/$defs/mediaRef",
+      "x-mediaKind": "video"
+    },
+    "sourceRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mediaId",
+        "startMs",
+        "endMs"
+      ],
+      "properties": {
+        "mediaId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "startMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "endMs": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "replacement": {
+      "$ref": "#/$defs/mediaRef",
+      "x-mediaKind": "image"
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "negativePrompt": {
+      "type": "string"
+    },
+    "width": {
+      "type": "integer",
+      "minimum": 16,
+      "multipleOf": 16,
+      "default": 1280,
+      "x-portraitDefault": 720
+    },
+    "height": {
+      "type": "integer",
+      "minimum": 16,
+      "multipleOf": 16,
+      "default": 720,
+      "x-portraitDefault": 1280
+    },
+    "fps": {
+      "type": "integer",
+      "minimum": 1,
+      "default": 24
+    },
+    "audio": {
+      "enum": [
+        "source",
+        "none"
+      ],
+      "default": "source"
+    },
+    "advanced": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "windowFrames",
+        "overlapFrames",
+        "seed",
+        "steps",
+        "cfg",
+        "sampler",
+        "scheduler",
+        "samplingShift",
+        "distillLoraStrength",
+        "relightLoraStrength"
+      ],
+      "properties": {
+        "windowFrames": {
+          "type": "integer",
+          "minimum": 5,
+          "default": 77
+        },
+        "overlapFrames": {
+          "type": "integer",
+          "minimum": 1,
+          "default": 5
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991,
+          "default": 0
+        },
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 6
+        },
+        "cfg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 30,
+          "default": 1
+        },
+        "sampler": {
+          "enum": [
+            "euler",
+            "euler_ancestral",
+            "dpmpp_2m",
+            "dpmpp_sde",
+            "uni_pc",
+            "lcm"
+          ],
+          "default": "euler"
+        },
+        "scheduler": {
+          "enum": [
+            "simple",
+            "normal",
+            "karras",
+            "exponential",
+            "sgm_uniform",
+            "beta"
+          ],
+          "default": "simple"
+        },
+        "samplingShift": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "default": 8
+        },
+        "distillLoraStrength": {
+          "type": "number",
+          "minimum": -4,
+          "maximum": 4,
+          "default": 1
+        },
+        "relightLoraStrength": {
+          "type": "number",
+          "minimum": -4,
+          "maximum": 4,
+          "default": 1
+        }
+      }
+    }
+  },
+  "$defs": {
+    "mediaRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mediaId"
+      ],
+      "properties": {
+        "mediaId": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "x-resourceHint": {
+    "blocking": false,
+    "basis": "RTX 4090 24GB 初始参考，非实测；W05 实测显存峰值后定稿",
+    "reference": {
+      "width": 1280,
+      "height": 720,
+      "fps": 24,
+      "windowFrames": 77,
+      "overlapFrames": 5
+    },
+    "vramPeakBytes": null,
+    "message": "按 4090 24GB 的初始默认（1280×720、每段 77 帧）设定；分辨率、每段帧数和段数越大，显存与耗时越高。显存更大的机器可自行调高，本提示不阻断提交。"
+  }
+}

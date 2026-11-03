@@ -1,0 +1,510 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$comment": "Generated from profiles/video-target-keyframes-v1/progress.schema.json sha256:a45298f139be92567b37d7976b67df94c22ce7f042dc23fbaabf63198e875a4a, tracking-receipt.schema.json sha256:3abb762975b5d5dc34cee80c521630702f7da791a67e95f7bae8a168b3f12257 and selection.schema.json sha256:e5cdaee30069b350946eba046ca8940d001ed4876813932cf22d731fd4b5b1de. Do not edit; run export-profile-schemas.py.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/progress"
+    },
+    {
+      "$ref": "#/$defs/receipt"
+    }
+  ],
+  "$defs": {
+    "nonEmptyString": {
+      "type": "string",
+      "minLength": 1
+    },
+    "nonNegInt": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "positiveInt": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "timeRangeMs": {
+      "type": "object",
+      "properties": {
+        "startMs": {
+          "$ref": "#/$defs/nonNegInt"
+        },
+        "endMs": {
+          "$ref": "#/$defs/nonNegInt"
+        }
+      },
+      "required": [
+        "startMs",
+        "endMs"
+      ],
+      "additionalProperties": false
+    },
+    "frameGeometry": {
+      "type": "object",
+      "properties": {
+        "width": {
+          "$ref": "#/$defs/positiveInt"
+        },
+        "height": {
+          "$ref": "#/$defs/positiveInt"
+        },
+        "rotation": {
+          "type": "integer",
+          "enum": [
+            0,
+            90,
+            180,
+            270
+          ]
+        }
+      },
+      "required": [
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "sourceIdentity": {
+      "type": "object",
+      "properties": {
+        "mediaId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "contentDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "selectedRange": {
+          "$ref": "#/$defs/timeRangeMs"
+        },
+        "displayGeometry": {
+          "type": "object",
+          "properties": {
+            "widthPx": {
+              "$ref": "#/$defs/positiveInt"
+            },
+            "heightPx": {
+              "$ref": "#/$defs/positiveInt"
+            },
+            "rotationDegrees": {
+              "type": "integer",
+              "enum": [
+                0,
+                90,
+                180,
+                270
+              ]
+            },
+            "mirrored": {
+              "type": "boolean"
+            }
+          },
+          "required": [
+            "widthPx",
+            "heightPx",
+            "rotationDegrees",
+            "mirrored"
+          ],
+          "additionalProperties": false
+        },
+        "timeBase": {
+          "type": "string",
+          "const": "ms-from-selected-range-start"
+        },
+        "packageId": {
+          "$ref": "#/$defs/nonEmptyString"
+        }
+      },
+      "required": [
+        "mediaId",
+        "contentDigest",
+        "selectedRange",
+        "displayGeometry",
+        "timeBase",
+        "packageId"
+      ],
+      "additionalProperties": false
+    },
+    "point": {
+      "type": "object",
+      "properties": {
+        "pointId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "label": {
+          "type": "string",
+          "enum": [
+            "positive",
+            "negative"
+          ]
+        }
+      },
+      "required": [
+        "pointId",
+        "x",
+        "y",
+        "label"
+      ],
+      "additionalProperties": false
+    },
+    "box": {
+      "type": "object",
+      "properties": {
+        "boxId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "width": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "height": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "boxId",
+        "x",
+        "y",
+        "width",
+        "height"
+      ],
+      "additionalProperties": false
+    },
+    "keyframe": {
+      "type": "object",
+      "properties": {
+        "keyframeId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "timeMs": {
+          "$ref": "#/$defs/nonNegInt"
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          }
+        },
+        "box": {
+          "$ref": "#/$defs/box"
+        }
+      },
+      "required": [
+        "keyframeId",
+        "timeMs",
+        "points"
+      ],
+      "additionalProperties": false
+    },
+    "operationRef": {
+      "type": "object",
+      "properties": {
+        "operationId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "operationVersion": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "inputSchemaDigest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "required": [
+        "operationId",
+        "operationVersion",
+        "inputSchemaDigest"
+      ],
+      "additionalProperties": false
+    },
+    "maskArtifact": {
+      "type": "object",
+      "properties": {
+        "artifactId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "digest": {
+          "$ref": "#/$defs/digest"
+        },
+        "pageIndexRef": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "artifactId",
+        "digest"
+      ],
+      "additionalProperties": false
+    },
+    "direction": {
+      "type": "string",
+      "enum": [
+        "towardStart",
+        "towardEnd",
+        "both"
+      ]
+    },
+    "selection": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "type": "integer",
+          "const": 1
+        },
+        "sourceIdentity": {
+          "$ref": "#/$defs/sourceIdentity"
+        },
+        "targetId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "revision": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "frameGeometry": {
+          "$ref": "#/$defs/frameGeometry"
+        },
+        "keyframes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/keyframe"
+          }
+        },
+        "selectionDigest": {
+          "$ref": "#/$defs/digest"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "sourceIdentity",
+        "targetId",
+        "revision",
+        "frameGeometry",
+        "keyframes",
+        "selectionDigest"
+      ],
+      "additionalProperties": false
+    },
+    "progress": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "revision": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "selectionDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "stage": {
+          "type": "string",
+          "enum": [
+            "queued",
+            "loading",
+            "towardEnd",
+            "towardStart",
+            "finalizing"
+          ]
+        },
+        "direction": {
+          "$ref": "#/$defs/direction"
+        },
+        "totalFrames": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "processedFrames": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "lastCompletedTimeMs": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 0
+        },
+        "coveredRanges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/timeRangeMs"
+          }
+        }
+      },
+      "required": [
+        "requestId",
+        "revision",
+        "selectionDigest",
+        "stage",
+        "direction",
+        "totalFrames",
+        "processedFrames",
+        "lastCompletedTimeMs",
+        "coveredRanges"
+      ],
+      "additionalProperties": false
+    },
+    "receipt": {
+      "type": "object",
+      "properties": {
+        "requestId": {
+          "$ref": "#/$defs/nonEmptyString"
+        },
+        "sourceDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "range": {
+          "$ref": "#/$defs/timeRangeMs"
+        },
+        "direction": {
+          "$ref": "#/$defs/direction"
+        },
+        "selectionDigest": {
+          "$ref": "#/$defs/digest"
+        },
+        "operationRef": {
+          "$ref": "#/$defs/operationRef"
+        },
+        "outputGeometry": {
+          "type": "object",
+          "properties": {
+            "width": {
+              "$ref": "#/$defs/positiveInt"
+            },
+            "height": {
+              "$ref": "#/$defs/positiveInt"
+            }
+          },
+          "required": [
+            "width",
+            "height"
+          ],
+          "additionalProperties": false
+        },
+        "outputFps": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "resolvedKeyframes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "keyframeId": {
+                "$ref": "#/$defs/nonEmptyString"
+              },
+              "resolvedTimeMs": {
+                "$ref": "#/$defs/nonNegInt"
+              },
+              "frameIndex": {
+                "$ref": "#/$defs/nonNegInt"
+              }
+            },
+            "required": [
+              "keyframeId",
+              "resolvedTimeMs",
+              "frameIndex"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "coveredRanges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/timeRangeMs"
+          }
+        },
+        "lostRanges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/timeRangeMs"
+          }
+        },
+        "uncomputedRanges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/timeRangeMs"
+          }
+        },
+        "skipRanges": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/timeRangeMs"
+          }
+        },
+        "ready": {
+          "type": "boolean"
+        },
+        "readyReason": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "previewMediaRef": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "maskArtifact": {
+          "$ref": "#/$defs/maskArtifact"
+        },
+        "framePageIndexRef": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        }
+      },
+      "required": [
+        "requestId",
+        "sourceDigest",
+        "range",
+        "direction",
+        "selectionDigest",
+        "operationRef",
+        "outputGeometry",
+        "resolvedKeyframes",
+        "coveredRanges",
+        "lostRanges",
+        "uncomputedRanges",
+        "skipRanges",
+        "ready",
+        "maskArtifact"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

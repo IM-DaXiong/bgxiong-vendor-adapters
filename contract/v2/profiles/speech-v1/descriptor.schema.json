@@ -1,0 +1,260 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/descriptor.schema.json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "modes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "enum": [
+              "plain",
+              "voice_design",
+              "reference_clone"
+            ]
+          },
+          "support": {
+            "enum": [
+              "supported",
+              "unsupported",
+              "unknown"
+            ]
+          }
+        },
+        "required": [
+          "mode",
+          "support"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "pointer": {
+            "type": "string",
+            "pattern": "^($|/)"
+          },
+          "support": {
+            "enum": [
+              "supported",
+              "unsupported",
+              "unknown"
+            ]
+          },
+          "numericRange": {
+            "type": "object",
+            "properties": {
+              "min": {
+                "type": "number"
+              },
+              "max": {
+                "type": "number"
+              }
+            },
+            "required": [],
+            "additionalProperties": false
+          },
+          "values": {
+            "type": "array",
+            "items": {},
+            "minItems": 1
+          }
+        },
+        "required": [
+          "pointer",
+          "support"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "enum": [
+              "plain",
+              "voice_design",
+              "reference_clone"
+            ]
+          },
+          "field": {
+            "enum": [
+              "/reference/audio",
+              "/reference/promptText",
+              "/voiceId"
+            ]
+          },
+          "reason": {
+            "enum": [
+              "model_requires_reference",
+              "model_requires_transcript",
+              "model_requires_voice"
+            ]
+          }
+        },
+        "required": [
+          "mode",
+          "field",
+          "reason"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "references": {
+      "type": "object",
+      "properties": {
+        "mimeTypes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "durationMs": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        },
+        "requiresTranscript": {
+          "type": "boolean"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "emotionVector": {
+      "type": "object",
+      "properties": {
+        "dimensions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "elementRange": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": "number"
+            },
+            "max": {
+              "type": "number"
+            }
+          },
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "dimensions"
+      ],
+      "additionalProperties": false
+    },
+    "outputMimeTypes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "textLimit": {
+      "type": "object",
+      "properties": {
+        "unit": {
+          "enum": [
+            "unicode_scalars",
+            "utf8_bytes",
+            "model_tokens"
+          ]
+        },
+        "max": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "unit",
+        "max"
+      ],
+      "additionalProperties": false
+    },
+    "runtimeProfiles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^\\u0000]+$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "id"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "namespace": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^\\u0000]+$"
+          },
+          "key": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^\\u0000]+$"
+          },
+          "schema": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/SchemaRef"
+          },
+          "label": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "namespace",
+          "key"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schemaVersion"
+  ],
+  "additionalProperties": false
+}

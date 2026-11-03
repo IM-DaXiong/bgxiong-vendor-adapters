@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 2,
+  "features": [
+    {
+      "id": "submission-rejection-v1",
+      "requiredImports": [],
+      "semantics": "Original submit context may explicitly certify non-acceptance through an atomic checkpoint write; error codes never imply rejection"
+    },
+    {
+      "id": "image-projection-v1",
+      "requiredImports": [],
+      "semantics": "Declared image projection, per-media result identity and decoded equirectangular geometry"
+    },
+    {
+      "id": "stream-events-v1",
+      "requiredImports": [
+        "host-http-stream",
+        "host-stream"
+      ],
+      "semantics": "Managed pull bytes and ordered events with bounded backpressure"
+    },
+    {
+      "id": "media-target-selection-v1",
+      "requiredImports": [],
+      "semantics": "Paginated media target analysis, per-shot selection, tracking preview receipts and freeze digest"
+    },
+    {
+      "id": "video-target-keyframes-v1",
+      "requiredImports": [],
+      "semantics": "Multi-keyframe video target correction, directional tracking progress/receipts, opaque mask freeze without analysisId"
+    }
+  ],
+  "baseImports": [
+    "host-http",
+    "host-media",
+    "host-credential",
+    "host-state",
+    "host-log",
+    "host-checkpoint"
+  ],
+  "unsupportedAuthModes": [
+    "http-sigv4",
+    "oauth2-device-code"
+  ],
+  "supportedAuthorRuntimes": [
+    "rust",
+    "profile"
+  ],
+  "semanticRequirements": [
+    "local-ref-closure",
+    "strict-schema-keywords",
+    "operation-dispatch-validation",
+    "binding-equals-profile",
+    "accepted-checkpoint-before-receipt",
+    "no-submit-on-recovery",
+    "single-final-response",
+    "upload-provenance",
+    "no-production-configuration"
+  ]
+}

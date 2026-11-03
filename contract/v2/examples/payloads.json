@@ -1,0 +1,56 @@
+{
+  "validSubmit": {
+    "schemaVersion": 2,
+    "modelId": "example-model",
+    "capabilityKey": "video.generate",
+    "operationId": "example/render",
+    "operationVersion": 1,
+    "inputSchemaDigest": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f",
+    "input": {
+      "prompt": "example",
+      "strength": 0.5
+    },
+    "media": [],
+    "configuration": {
+      "endpointBaseUrl": "https://example.invalid"
+    },
+    "uploads": []
+  },
+  "invalidHostLeak": {
+    "schemaVersion": 2,
+    "modelId": "example-model",
+    "capabilityKey": "video.generate",
+    "operationId": "example/render",
+    "operationVersion": 1,
+    "inputSchemaDigest": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f",
+    "input": {
+      "prompt": "example",
+      "strength": 0.5
+    },
+    "media": [],
+    "configuration": {
+      "endpointBaseUrl": "https://example.invalid"
+    },
+    "host": {
+      "kind": "fc"
+    },
+    "uploads": []
+  },
+  "invalidOperationInput": {
+    "schemaVersion": 2,
+    "modelId": "example-model",
+    "capabilityKey": "video.generate",
+    "operationId": "example/render",
+    "operationVersion": 1,
+    "inputSchemaDigest": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f",
+    "input": {
+      "prompt": "example",
+      "unknown": true
+    },
+    "media": [],
+    "configuration": {
+      "endpointBaseUrl": "https://example.invalid"
+    },
+    "uploads": []
+  }
+}

@@ -1,0 +1,445 @@
+{
+  "$defs": {
+    "accepted": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "accepted"
+        },
+        "vendorTaskId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "appliedParams": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "resumeToken": {},
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/usage.schema.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "vendorTaskId",
+        "appliedParams",
+        "resumeToken",
+        "usage"
+      ],
+      "additionalProperties": false
+    },
+    "completed": {
+      "type": "object",
+      "properties": {
+        "kind": {
+          "const": "completed"
+        },
+        "vendorTaskId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "appliedParams": {
+          "type": [
+            "object",
+            "null"
+          ]
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "text"
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "text": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "role",
+                  "text"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "media"
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "media": {
+                    "$ref": "https://bgxiong.local/vendor-adapter/v2/media-input.schema.json"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "role",
+                  "media"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "minItems": 0
+        },
+        "data": {},
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/usage.schema.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "kind",
+        "vendorTaskId",
+        "appliedParams",
+        "outputs",
+        "data",
+        "usage"
+      ],
+      "additionalProperties": false
+    },
+    "query": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "enum": [
+            "queued",
+            "running",
+            "succeeded",
+            "failed",
+            "cancelled",
+            "expired"
+          ]
+        },
+        "outputs": {
+          "type": "array",
+          "items": {
+            "oneOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "text"
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "text": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "role",
+                  "text"
+                ],
+                "additionalProperties": false
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "const": "media"
+                  },
+                  "role": {
+                    "type": "string",
+                    "minLength": 1
+                  },
+                  "media": {
+                    "$ref": "https://bgxiong.local/vendor-adapter/v2/media-input.schema.json"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "role",
+                  "media"
+                ],
+                "additionalProperties": false
+              }
+            ]
+          },
+          "minItems": 0
+        },
+        "data": {},
+        "usage": {
+          "anyOf": [
+            {
+              "$ref": "https://bgxiong.local/vendor-adapter/v2/usage.schema.json"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "progress": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "fraction": {
+                  "type": [
+                    "number",
+                    "null"
+                  ],
+                  "minimum": 0,
+                  "maximum": 1
+                },
+                "message": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "fraction",
+                "message"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "terminalFailure": {
+          "anyOf": [
+            {
+              "type": "object",
+              "properties": {
+                "category": {
+                  "enum": [
+                    "vendorTaskFailed",
+                    "vendorTaskCancelled",
+                    "vendorTaskExpired"
+                  ]
+                },
+                "message": {
+                  "type": "string"
+                },
+                "vendorCode": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "details": {
+                  "type": [
+                    "object",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "category",
+                "message",
+                "vendorCode",
+                "details"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "resumeToken": {}
+      },
+      "required": [
+        "status",
+        "outputs",
+        "data",
+        "usage",
+        "progress",
+        "terminalFailure",
+        "resumeToken"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "failed",
+                  "cancelled",
+                  "expired"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "terminalFailure": {
+                "type": "object",
+                "properties": {
+                  "category": {
+                    "enum": [
+                      "vendorTaskFailed",
+                      "vendorTaskCancelled",
+                      "vendorTaskExpired"
+                    ]
+                  },
+                  "message": {
+                    "type": "string"
+                  },
+                  "vendorCode": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "details": {
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  }
+                },
+                "required": [
+                  "category",
+                  "message",
+                  "vendorCode",
+                  "details"
+                ],
+                "additionalProperties": false
+              },
+              "progress": {
+                "type": "null"
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "terminalFailure": {
+                "type": "null"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "succeeded"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "progress": {
+                "type": "null"
+              },
+              "outputs": {
+                "minItems": 0
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "failed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "terminalFailure": {
+                "properties": {
+                  "category": {
+                    "const": "vendorTaskFailed"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "cancelled"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "terminalFailure": {
+                "properties": {
+                  "category": {
+                    "const": "vendorTaskCancelled"
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "expired"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "terminalFailure": {
+                "properties": {
+                  "category": {
+                    "const": "vendorTaskExpired"
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/accepted"
+    },
+    {
+      "$ref": "#/$defs/completed"
+    },
+    {
+      "$ref": "#/$defs/query"
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/result.schema.json"
+}

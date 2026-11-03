@@ -1,0 +1,115 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/video-target-keyframes-v1/frame-page.schema.json",
+  "type": "object",
+  "properties": {
+    "requestId": {
+      "$ref": "selection.schema.json#/$defs/nonEmptyString"
+    },
+    "selectionDigest": {
+      "$ref": "selection.schema.json#/$defs/digest"
+    },
+    "page": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "minLength": 1
+        },
+        "complete": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "cursor",
+        "nextCursor",
+        "complete"
+      ],
+      "additionalProperties": false
+    },
+    "frames": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "frameIndex": {
+            "$ref": "selection.schema.json#/$defs/nonNegInt"
+          },
+          "timeMs": {
+            "$ref": "selection.schema.json#/$defs/nonNegInt"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "covered",
+              "lost",
+              "uncomputed",
+              "skip"
+            ]
+          },
+          "centroid": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ],
+            "additionalProperties": false
+          },
+          "maskPageRef": {
+            "type": [
+              "object",
+              "null"
+            ],
+            "properties": {
+              "artifactId": {
+                "$ref": "selection.schema.json#/$defs/nonEmptyString"
+              },
+              "digest": {
+                "$ref": "selection.schema.json#/$defs/digest"
+              }
+            },
+            "required": [
+              "artifactId",
+              "digest"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "frameIndex",
+          "timeMs",
+          "state"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "requestId",
+    "selectionDigest",
+    "page",
+    "frames"
+  ],
+  "additionalProperties": false
+}

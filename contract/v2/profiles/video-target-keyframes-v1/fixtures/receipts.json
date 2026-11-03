@@ -1,0 +1,620 @@
+{
+  "valid": {
+    "declaration": {
+      "profileId": "video-target-keyframes-v1",
+      "revision": 1,
+      "tools": [
+        "positivePoint",
+        "negativePoint",
+        "box"
+      ],
+      "directions": [
+        "towardStart",
+        "towardEnd",
+        "both"
+      ],
+      "resultRepresentations": [
+        "maskOverlay",
+        "maskArtifact",
+        "centroidSummary"
+      ],
+      "roles": {
+        "trackingPreview": {
+          "operationId": "video.trackingPreview",
+          "operationVersion": "1.0.0",
+          "inputSchemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "generate": {
+          "operationId": "video.generate",
+          "operationVersion": "1.0.0",
+          "inputSchemaDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        }
+      },
+      "trackingDependencies": [
+        "sourceMedia",
+        "range",
+        "selection",
+        "targetId",
+        "packageIdentity",
+        "frameGeometry"
+      ],
+      "referenceChangeInvalidatesTracking": false
+    },
+    "selection": {
+      "schemaVersion": 1,
+      "sourceIdentity": {
+        "mediaId": "media-vtk-1",
+        "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "selectedRange": {
+          "startMs": 0,
+          "endMs": 5000
+        },
+        "displayGeometry": {
+          "widthPx": 1920,
+          "heightPx": 1080,
+          "rotationDegrees": 0,
+          "mirrored": false
+        },
+        "timeBase": "ms-from-selected-range-start",
+        "packageId": "example.video-target-keyframes.demo"
+      },
+      "targetId": "target-1",
+      "revision": "r1",
+      "frameGeometry": {
+        "width": 1920,
+        "height": 1080,
+        "rotation": 0
+      },
+      "keyframes": [
+        {
+          "keyframeId": "kf0",
+          "timeMs": 2000,
+          "points": [
+            {
+              "pointId": "p0",
+              "x": 960.0,
+              "y": 540.0,
+              "label": "positive"
+            }
+          ]
+        }
+      ],
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "selectionWithBox": {
+      "schemaVersion": 1,
+      "sourceIdentity": {
+        "mediaId": "media-vtk-1",
+        "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "selectedRange": {
+          "startMs": 0,
+          "endMs": 5000
+        },
+        "displayGeometry": {
+          "widthPx": 1920,
+          "heightPx": 1080,
+          "rotationDegrees": 0,
+          "mirrored": false
+        },
+        "timeBase": "ms-from-selected-range-start",
+        "packageId": "example.video-target-keyframes.demo"
+      },
+      "targetId": "target-1",
+      "revision": "r1",
+      "frameGeometry": {
+        "width": 1920,
+        "height": 1080,
+        "rotation": 0
+      },
+      "keyframes": [
+        {
+          "keyframeId": "kf0",
+          "timeMs": 2000,
+          "points": [
+            {
+              "pointId": "p0",
+              "x": 960.0,
+              "y": 540.0,
+              "label": "positive"
+            }
+          ],
+          "box": {
+            "boxId": "b0",
+            "x": 800.0,
+            "y": 400.0,
+            "width": 200.0,
+            "height": 300.0
+          }
+        }
+      ],
+      "selectionDigest": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+    },
+    "trackingInput": {
+      "sourceIdentity": {
+        "mediaId": "media-vtk-1",
+        "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "selectedRange": {
+          "startMs": 0,
+          "endMs": 5000
+        },
+        "displayGeometry": {
+          "widthPx": 1920,
+          "heightPx": 1080,
+          "rotationDegrees": 0,
+          "mirrored": false
+        },
+        "timeBase": "ms-from-selected-range-start",
+        "packageId": "example.video-target-keyframes.demo"
+      },
+      "range": {
+        "startMs": 0,
+        "endMs": 5000
+      },
+      "selection": {
+        "schemaVersion": 1,
+        "sourceIdentity": {
+          "mediaId": "media-vtk-1",
+          "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "selectedRange": {
+            "startMs": 0,
+            "endMs": 5000
+          },
+          "displayGeometry": {
+            "widthPx": 1920,
+            "heightPx": 1080,
+            "rotationDegrees": 0,
+            "mirrored": false
+          },
+          "timeBase": "ms-from-selected-range-start",
+          "packageId": "example.video-target-keyframes.demo"
+        },
+        "targetId": "target-1",
+        "revision": "r1",
+        "frameGeometry": {
+          "width": 1920,
+          "height": 1080,
+          "rotation": 0
+        },
+        "keyframes": [
+          {
+            "keyframeId": "kf0",
+            "timeMs": 2000,
+            "points": [
+              {
+                "pointId": "p0",
+                "x": 960.0,
+                "y": 540.0,
+                "label": "positive"
+              }
+            ]
+          }
+        ],
+        "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "direction": "both",
+      "anchorKeyframeId": "kf0",
+      "requestedCoverage": {
+        "startMs": 0,
+        "endMs": 5000
+      },
+      "requestDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "progress": {
+      "requestId": "req-1",
+      "revision": "r1",
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "stage": "towardEnd",
+      "direction": "towardEnd",
+      "totalFrames": 125,
+      "processedFrames": 60,
+      "lastCompletedTimeMs": 2400,
+      "coveredRanges": [
+        {
+          "startMs": 2000,
+          "endMs": 2400
+        }
+      ]
+    },
+    "trackingReceiptReady": {
+      "requestId": "req-1",
+      "sourceDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "range": {
+        "startMs": 0,
+        "endMs": 5000
+      },
+      "direction": "both",
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "operationRef": {
+        "operationId": "video.trackingPreview",
+        "operationVersion": "1.0.0",
+        "inputSchemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "outputGeometry": {
+        "width": 1920,
+        "height": 1080
+      },
+      "outputFps": 25.0,
+      "resolvedKeyframes": [
+        {
+          "keyframeId": "kf0",
+          "resolvedTimeMs": 2000,
+          "frameIndex": 50
+        }
+      ],
+      "coveredRanges": [
+        {
+          "startMs": 0,
+          "endMs": 5000
+        }
+      ],
+      "lostRanges": [],
+      "uncomputedRanges": [],
+      "skipRanges": [],
+      "ready": true,
+      "readyReason": null,
+      "previewMediaRef": "preview-track-1",
+      "maskArtifact": {
+        "artifactId": "mask-1",
+        "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "pageIndexRef": "page-index-1"
+      },
+      "framePageIndexRef": "page-index-1"
+    },
+    "trackingReceiptNotReady": {
+      "requestId": "req-1",
+      "sourceDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "range": {
+        "startMs": 0,
+        "endMs": 5000
+      },
+      "direction": "towardEnd",
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "operationRef": {
+        "operationId": "video.trackingPreview",
+        "operationVersion": "1.0.0",
+        "inputSchemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "outputGeometry": {
+        "width": 1920,
+        "height": 1080
+      },
+      "outputFps": 25.0,
+      "resolvedKeyframes": [
+        {
+          "keyframeId": "kf0",
+          "resolvedTimeMs": 2000,
+          "frameIndex": 50
+        }
+      ],
+      "lostRanges": [],
+      "skipRanges": [],
+      "maskArtifact": {
+        "artifactId": "mask-1",
+        "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "pageIndexRef": "page-index-1"
+      },
+      "framePageIndexRef": "page-index-1",
+      "coveredRanges": [
+        {
+          "startMs": 2000,
+          "endMs": 5000
+        }
+      ],
+      "uncomputedRanges": [
+        {
+          "startMs": 0,
+          "endMs": 2000
+        }
+      ],
+      "ready": false,
+      "readyReason": "requested coverage incomplete for towardEnd",
+      "previewMediaRef": "preview-partial-1"
+    },
+    "framePage": {
+      "requestId": "req-1",
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "page": {
+        "cursor": null,
+        "nextCursor": null,
+        "complete": true
+      },
+      "frames": [
+        {
+          "frameIndex": 50,
+          "timeMs": 2000,
+          "state": "covered",
+          "centroid": {
+            "x": 960.0,
+            "y": 540.0
+          },
+          "maskPageRef": {
+            "artifactId": "mask-1",
+            "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          }
+        },
+        {
+          "frameIndex": 10,
+          "timeMs": 400,
+          "state": "covered",
+          "centroid": {
+            "x": 950.0,
+            "y": 530.0
+          },
+          "maskPageRef": {
+            "artifactId": "mask-1",
+            "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+          }
+        }
+      ]
+    },
+    "generationFreeze": {
+      "trackingReceiptDigest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "maskArtifact": {
+        "artifactId": "mask-1",
+        "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+      },
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "sourceDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "range": {
+        "startMs": 0,
+        "endMs": 5000
+      },
+      "packageIdentity": {
+        "packageId": "example.video-target-keyframes.demo",
+        "packageVersion": "0.1.0",
+        "operationId": "video.generate",
+        "operationVersion": "1.0.0",
+        "inputSchemaDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    }
+  },
+  "invalid": {
+    "selectionPointOutsideGeometry": {
+      "schemaVersion": 1,
+      "sourceIdentity": {
+        "mediaId": "media-vtk-1",
+        "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "selectedRange": {
+          "startMs": 0,
+          "endMs": 5000
+        },
+        "displayGeometry": {
+          "widthPx": 1920,
+          "heightPx": 1080,
+          "rotationDegrees": 0,
+          "mirrored": false
+        },
+        "timeBase": "ms-from-selected-range-start",
+        "packageId": "example.video-target-keyframes.demo"
+      },
+      "targetId": "target-1",
+      "revision": "r1",
+      "frameGeometry": {
+        "width": 1920,
+        "height": 1080,
+        "rotation": 0
+      },
+      "keyframes": [
+        {
+          "keyframeId": "kf0",
+          "timeMs": 2000,
+          "points": [
+            {
+              "pointId": "p0",
+              "x": 5000.0,
+              "y": 540.0,
+              "label": "positive"
+            }
+          ]
+        }
+      ],
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    },
+    "trackingMissingAnchor": {
+      "sourceIdentity": {
+        "mediaId": "media-vtk-1",
+        "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "selectedRange": {
+          "startMs": 0,
+          "endMs": 5000
+        },
+        "displayGeometry": {
+          "widthPx": 1920,
+          "heightPx": 1080,
+          "rotationDegrees": 0,
+          "mirrored": false
+        },
+        "timeBase": "ms-from-selected-range-start",
+        "packageId": "example.video-target-keyframes.demo"
+      },
+      "range": {
+        "startMs": 0,
+        "endMs": 5000
+      },
+      "selection": {
+        "schemaVersion": 1,
+        "sourceIdentity": {
+          "mediaId": "media-vtk-1",
+          "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "selectedRange": {
+            "startMs": 0,
+            "endMs": 5000
+          },
+          "displayGeometry": {
+            "widthPx": 1920,
+            "heightPx": 1080,
+            "rotationDegrees": 0,
+            "mirrored": false
+          },
+          "timeBase": "ms-from-selected-range-start",
+          "packageId": "example.video-target-keyframes.demo"
+        },
+        "targetId": "target-1",
+        "revision": "r1",
+        "frameGeometry": {
+          "width": 1920,
+          "height": 1080,
+          "rotation": 0
+        },
+        "keyframes": [
+          {
+            "keyframeId": "kf0",
+            "timeMs": 2000,
+            "points": [
+              {
+                "pointId": "p0",
+                "x": 960.0,
+                "y": 540.0,
+                "label": "positive"
+              }
+            ]
+          }
+        ],
+        "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "direction": "both",
+      "anchorKeyframeId": "kf-missing",
+      "requestedCoverage": {
+        "startMs": 0,
+        "endMs": 5000
+      },
+      "requestDigest": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+    },
+    "receiptReadyWithoutCoverage": {
+      "requestId": "req-1",
+      "sourceDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "range": {
+        "startMs": 0,
+        "endMs": 5000
+      },
+      "direction": "both",
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "operationRef": {
+        "operationId": "video.trackingPreview",
+        "operationVersion": "1.0.0",
+        "inputSchemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "outputGeometry": {
+        "width": 1920,
+        "height": 1080
+      },
+      "outputFps": 25.0,
+      "resolvedKeyframes": [
+        {
+          "keyframeId": "kf0",
+          "resolvedTimeMs": 2000,
+          "frameIndex": 50
+        }
+      ],
+      "coveredRanges": [],
+      "lostRanges": [],
+      "uncomputedRanges": [
+        {
+          "startMs": 0,
+          "endMs": 5000
+        }
+      ],
+      "skipRanges": [],
+      "ready": true,
+      "readyReason": null,
+      "previewMediaRef": "preview-track-1",
+      "maskArtifact": {
+        "artifactId": "mask-1",
+        "digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+        "pageIndexRef": "page-index-1"
+      },
+      "framePageIndexRef": "page-index-1"
+    },
+    "freezeMaskMismatch": {
+      "trackingReceiptDigest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "maskArtifact": {
+        "artifactId": "mask-1",
+        "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+      },
+      "selectionDigest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "sourceDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "range": {
+        "startMs": 0,
+        "endMs": 5000
+      },
+      "packageIdentity": {
+        "packageId": "example.video-target-keyframes.demo",
+        "packageVersion": "0.1.0",
+        "operationId": "video.generate",
+        "operationVersion": "1.0.0",
+        "inputSchemaDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    },
+    "declarationEmptyTools": {
+      "profileId": "video-target-keyframes-v1",
+      "revision": 1,
+      "tools": [],
+      "directions": [
+        "towardStart",
+        "towardEnd",
+        "both"
+      ],
+      "resultRepresentations": [
+        "maskOverlay",
+        "maskArtifact",
+        "centroidSummary"
+      ],
+      "roles": {
+        "trackingPreview": {
+          "operationId": "video.trackingPreview",
+          "operationVersion": "1.0.0",
+          "inputSchemaDigest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+        },
+        "generate": {
+          "operationId": "video.generate",
+          "operationVersion": "1.0.0",
+          "inputSchemaDigest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        }
+      },
+      "trackingDependencies": [
+        "sourceMedia",
+        "range",
+        "selection",
+        "targetId",
+        "packageIdentity",
+        "frameGeometry"
+      ],
+      "referenceChangeInvalidatesTracking": false
+    },
+    "selectionNoTools": {
+      "schemaVersion": 1,
+      "sourceIdentity": {
+        "mediaId": "media-vtk-1",
+        "contentDigest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "selectedRange": {
+          "startMs": 0,
+          "endMs": 5000
+        },
+        "displayGeometry": {
+          "widthPx": 1920,
+          "heightPx": 1080,
+          "rotationDegrees": 0,
+          "mirrored": false
+        },
+        "timeBase": "ms-from-selected-range-start",
+        "packageId": "example.video-target-keyframes.demo"
+      },
+      "targetId": "target-1",
+      "revision": "r1",
+      "frameGeometry": {
+        "width": 1920,
+        "height": 1080,
+        "rotation": 0
+      },
+      "keyframes": [
+        {
+          "keyframeId": "kf0",
+          "timeMs": 2000,
+          "points": []
+        }
+      ],
+      "selectionDigest": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+    }
+  },
+  "note": "Schema validity necessary but not sufficient. Host rejects expired digests, cross-source refs, and unconfirmed ready claims."
+}

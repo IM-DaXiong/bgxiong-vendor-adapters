@@ -1,0 +1,14 @@
+{
+  "valid": [
+    {"imageArtifacts": []},
+    {"imageArtifacts": [{"mediaId": "image-1", "role": "result", "projection": "flat"}]},
+    {"imageArtifacts": [{"mediaId": "image-1", "role": "result", "projection": "equirectangular360"}]}
+  ],
+  "invalid": [
+    {},
+    {"imageArtifacts": [{"mediaId": "image-1", "role": "result", "projection": "cubemap"}]},
+    {"imageArtifacts": [{"mediaId": "image-1", "projection": "flat"}]},
+    {"imageArtifacts": [], "platformData": {}}
+  ],
+  "note": "Schema validity alone is insufficient: nonempty successful outputs and per-media identity, role, request choice and geometry require joint profile/host validation. Empty data is only valid for non-success query states."
+}

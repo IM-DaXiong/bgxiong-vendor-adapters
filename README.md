@@ -84,3 +84,13 @@ community/
 公众号搜索 **天途影像**，可在后台私信联系。
 
 WeChat Official Account: search **天途影像** and message us in the backend.
+
+## 与主仓同级克隆（跨机器）
+
+主程序仓为 `bgxiong-ai-story`。验收/开发适配器时，默认把本开源仓克隆到其同级目录 `../bgxiong-vendor-adapters`（不要写死盘符）。
+
+```powershell
+git clone https://github.com/IM-DaXiong/bgxiong-vendor-adapters.git <实际开发根>/bgxiong-vendor-adapters
+```
+
+本仓库为第三方适配器 **Git 真源（公开）**。本机若另有产物/缓存根目录名，不得替代本仓库作为 git 远程。
