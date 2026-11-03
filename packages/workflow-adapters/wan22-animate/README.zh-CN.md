@@ -52,3 +52,7 @@ JSON帧页与index使用SDK已有opaque file合同（application/octet-stream）
 ## 0.2.11 传播侧与裁剪坐标
 
 配套companion升0.2.4；较早纠正及等距取正向传播，较晚纠正取反向，不OR并保持单state。源点与框按真实Comfy整数中心裁剪及裁后宽高分别缩放。此前单state短GPU方块探针两向相同，未证明质量改善；新版本尚须统一安装owner及用户路径验收，不覆盖0.2.10或已装0.2.3。
+
+## 0.2.12 单向跟踪续办合同
+
+修正包声明tracking-resume方向为公开towardStart/towardEnd/both，与实际accepted_result一致，避免单向Comfy已受理但SDK拒checkpoint。既有真实accepted回执三方向均用公开validator验证，旧forward/backward拒绝。companion仍0.2.4，不覆盖011；旧冻结任务及已完成原成果必须沿合法owner恢复，安装012不等于旧任务已恢复。用户路径与实际成果验收另行记录。

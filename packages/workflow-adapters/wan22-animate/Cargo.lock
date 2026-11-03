@@ -167,7 +167,7 @@ dependencies = [
 
 [[package]]
 name = "bgx-wan22-animate"
-version = "0.2.11"
+version = "0.2.12"
 dependencies = [
  "bgx-adapter-v2-reference-host",
  "bgx-adapter-v2-sdk",

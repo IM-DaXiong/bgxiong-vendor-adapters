@@ -183,17 +183,28 @@ mod tests {
     fn tracking_acceptance_and_resume_validate_against_the_published_contract() {
         let caps = super::capabilities();
         let contract = serde_json::from_value(caps["capabilityContracts"][0].clone()).unwrap();
-        let accepted = crate::tracking::accepted_result("prompt-1", "request-1", "digest-1", "both");
-        let result = serde_json::from_value(accepted.clone()).unwrap();
-        bgx_adapter_v2_validator::result::validate_declared_result(
-            &contract, super::TRACKING_OPERATION_ID, 1, "submit", &result,
-        ).unwrap();
-        let mut invalid = accepted;
-        invalid["resumeToken"].as_object_mut().unwrap().remove("trackingRequestId");
-        let invalid = serde_json::from_value(invalid).unwrap();
-        assert!(bgx_adapter_v2_validator::result::validate_declared_result(
-            &contract, super::TRACKING_OPERATION_ID, 1, "submit", &invalid,
-        ).is_err());
+        for direction in ["towardStart", "towardEnd", "both"] {
+            let accepted = crate::tracking::accepted_result("prompt-1", "request-1", "digest-1", direction);
+            let result = serde_json::from_value(accepted.clone()).unwrap();
+            bgx_adapter_v2_validator::result::validate_declared_result(
+                &contract, super::TRACKING_OPERATION_ID, 1, "submit", &result,
+            ).unwrap();
+            let mut invalid = accepted;
+            invalid["resumeToken"].as_object_mut().unwrap().remove("trackingRequestId");
+            let invalid = serde_json::from_value(invalid).unwrap();
+            assert!(bgx_adapter_v2_validator::result::validate_declared_result(
+                &contract, super::TRACKING_OPERATION_ID, 1, "submit", &invalid,
+            ).is_err());
+        }
+
+        for retired_direction in ["forward", "backward"] {
+            let accepted = crate::tracking::accepted_result("prompt-1", "request-1", "digest-1", retired_direction);
+            let invalid = serde_json::from_value(accepted).unwrap();
+            assert!(bgx_adapter_v2_validator::result::validate_declared_result(
+                &contract, super::TRACKING_OPERATION_ID, 1, "submit", &invalid,
+            ).is_err());
+        }
+
     }
 
     #[test]
