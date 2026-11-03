@@ -62,6 +62,20 @@ fn check(control: &Control) -> Result<()> {
     Ok(())
 }
 
+// PTS is an optional measurement requested by the selected operation. Absence
+// means it was not measured, rather than contradicting another measurement.
+// Never copy cached PTS into a lease: the lease always uses this request's probe.
+fn same_measured_facts(a: &MediaStat, b: &MediaStat) -> bool {
+    if let (Some(a), Some(b)) = (&a.timestamps_ms, &b.timestamps_ms) {
+        if a != b { return false; }
+    }
+    let mut a = a.clone();
+    let mut b = b.clone();
+    a.timestamps_ms = None;
+    b.timestamps_ms = None;
+    a == b
+}
+
 #[derive(Clone)]
 pub struct DevelopmentWorkspace {
     root: PathBuf,
@@ -491,7 +505,11 @@ impl MediaBroker {
             Ok(_) => {}
             Err(existing) if existing.error.kind() == io::ErrorKind::AlreadyExists => {
                 let previous = bounded_json(&record_path, budget("maxFrameBytes"))?;
-                if previous != serde_json::to_value(&grant).unwrap() {
+                let previous: Grant = serde_json::from_value(previous)
+                    .map_err(|_| error("INVALID_INPUT", "Stored media identity is malformed"))?;
+                if previous.package != grant.package || previous.binding_id != grant.binding_id
+                    || previous.identity != grant.identity || previous.file_name != grant.file_name
+                    || !same_measured_facts(&previous.stat, &grant.stat) {
                     return Err(error(
                         "INVALID_INPUT",
                         "Existing media identity has different measured facts",
@@ -548,7 +566,7 @@ impl MediaBroker {
         if !scope.valid() {
             return Err(error("INVALID_INPUT", "Media lease scope is invalid"));
         }
-        let grant: Grant = serde_json::from_value(bounded_json(
+        let mut grant: Grant = serde_json::from_value(bounded_json(
             &self.grant_path(scope, identity),
             budget("maxFrameBytes"),
         )?)
@@ -585,13 +603,14 @@ impl MediaBroker {
             self.probe.as_ref(),
             control,
         )?;
-        if measured != grant.stat || grant.file_name != format!("{}.{extension}", identity.r#digest)
+        if !same_measured_facts(&measured, &grant.stat) || grant.file_name != format!("{}.{extension}", identity.r#digest)
         {
             return Err(error(
                 "INVALID_INPUT",
                 "Saved media metadata no longer matches its content",
             ));
         }
+        grant.stat = measured;
         let file = File::open(object).map_err(io_error)?;
         let modified = file
             .metadata()

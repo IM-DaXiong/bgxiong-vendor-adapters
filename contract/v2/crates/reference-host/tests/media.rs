@@ -312,10 +312,10 @@ fn explicit_probe_protocol_reports_actual_timestamps_and_reaps_faulting_tools() 
     let video = directory.path().join("input.mp4");
     fs::write(&video, b"\0\0\0\x18ftypmp42\0\0\0\0mp42isom").unwrap();
     let mut broker = MediaBroker::new(
-        workspace,
+        workspace.clone(),
         Duration::from_secs(60),
         Some(ProbeTool {
-            executable: tool,
+            executable: tool.clone(),
             timeout: Duration::from_millis(200),
             frame_timestamps: true,
         }),
@@ -339,6 +339,42 @@ fn explicit_probe_protocol_reports_actual_timestamps_and_reaps_faulting_tools() 
         lease.stat.r#timestamps_ms,
         Some(vec!["0".into(), "40".into(), "120".into()])
     );
+    let mut lean = MediaBroker::new(workspace.clone(), Duration::from_secs(60), Some(ProbeTool {
+        executable: tool.clone(), timeout: Duration::from_millis(200), frame_timestamps: false,
+    })).unwrap();
+    for entry in fs::read_dir(directory.path().join("staging")).unwrap() {
+        fs::write(entry.unwrap().path().join("probe-mode"), "good").unwrap();
+    }
+    fs::write(directory.path().join("objects/probe-mode"), "good").unwrap();
+    // Same identity across tracking (PTS requested) and generation (not requested).
+    let without_pts = lean.import_file(&scope(), "vfr", &video, "video", &control).unwrap();
+    assert_eq!(without_pts.identity, lease.identity);
+    assert!(without_pts.stat.timestamps_ms.is_none());
+    assert!(lean.rehydrate(&scope(), &lease.identity, &control).unwrap().stat.timestamps_ms.is_none());
+    let first_lean = lean.import_file(&scope(), "lean-first", &video, "video", &control).unwrap();
+    let later_rich = broker.import_file(&scope(), "lean-first", &video, "video", &control).unwrap();
+    assert_eq!(later_rich.identity, first_lean.identity);
+    assert_eq!(later_rich.stat.timestamps_ms, lease.stat.timestamps_ms);
+    assert_eq!(broker.rehydrate(&scope(), &first_lean.identity, &control).unwrap().stat.timestamps_ms, lease.stat.timestamps_ms);
+    let grant_path = fs::read_dir(directory.path().join("grants")).unwrap().map(|p| p.unwrap().path())
+        .find(|p| serde_json::from_slice::<serde_json::Value>(&fs::read(p).unwrap()).unwrap()["identity"]["id"] == "vfr").unwrap();
+    let original = fs::read(&grant_path).unwrap();
+    let mut altered: serde_json::Value = serde_json::from_slice(&original).unwrap();
+    altered["stat"]["timestampsMs"][1] = serde_json::json!("41");
+    fs::write(&grant_path, serde_json::to_vec(&altered).unwrap()).unwrap();
+    assert!(broker.import_file(&scope(), "vfr", &video, "video", &control).is_err());
+    assert!(broker.rehydrate(&scope(), &lease.identity, &control).is_err());
+    altered = serde_json::from_slice(&original).unwrap();
+    altered["stat"]["width"] = serde_json::json!(17);
+    fs::write(&grant_path, serde_json::to_vec(&altered).unwrap()).unwrap();
+    assert!(lean.import_file(&scope(), "vfr", &video, "video", &control).is_err());
+    fs::write(&grant_path, original).unwrap();
+    fs::remove_file(directory.path().join("objects/probe-mode")).unwrap();
+    for entry in fs::read_dir(directory.path().join("staging")).unwrap() {
+        let path = entry.unwrap().path();
+        if path != session { fs::remove_file(path.join("probe-mode")).unwrap(); }
+    }
+    lean.close().unwrap();
     for mode in ["hang", "overflow", "malformed"] {
         fs::write(session.join("probe-mode"), mode).unwrap();
         assert!(broker
