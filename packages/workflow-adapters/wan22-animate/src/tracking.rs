@@ -320,14 +320,14 @@ fn publish_frames(
             "frames": page_frames
         });
         let bytes = serde_json::to_vec(&page).map_err(|_| upstream("Tracking page cannot be encoded"))?;
-        let (handle, stat) = comfy::create_file(h, "application/json", &bytes)?;
+        let (handle, stat) = comfy::create_opaque_file(h, &bytes)?;
         outputs.push(comfy::media_output("framePage", &handle, &stat));
         index_pages.push(json!({"cursor": cursor, "nextCursor": next, "startMs": start, "endMs": end,
             "mediaId": stat["id"], "available": true}));
     }
     let index = json!({"requestId": request_id, "selectionDigest": selection_digest, "complete": true, "pages": index_pages});
     let bytes = serde_json::to_vec(&index).map_err(|_| upstream("Tracking index cannot be encoded"))?;
-    let (handle, stat) = comfy::create_file(h, "application/json", &bytes)?;
+    let (handle, stat) = comfy::create_opaque_file(h, &bytes)?;
     outputs.push(comfy::media_output("frameIndex", &handle, &stat));
     let index_id = stat["id"].clone();
     let receipt = json!({
@@ -408,7 +408,24 @@ mod tests {
     }
 
     /// Companion manifest over HTTP, mask PNGs into managed media, package-built JSON files.
-    struct FakeHost { manifest: Value, files: Vec<(String, Vec<u8>)>, next: u32, urls: Vec<String> }
+    struct FakeHost {
+        manifest: Value, files: Vec<(String, Vec<u8>)>, next: u32, urls: Vec<String>,
+        broker: bgx_adapter_v2_reference_host::media::MediaBroker,
+        scope: bgx_adapter_v2_reference_host::media::LeaseScope,
+        _directory: tempfile::TempDir,
+    }
+    impl FakeHost {
+        fn new(manifest: Value) -> Self {
+            use bgx_adapter_v2_reference_host::media::{DevelopmentWorkspace,MediaBroker,LeaseScope};
+            let directory=tempfile::tempdir().unwrap();
+            let workspace=DevelopmentWorkspace::create(directory.path()).unwrap();
+            let broker=MediaBroker::new(workspace, std::time::Duration::from_secs(60), None).unwrap();
+            let scope=LeaseScope{package:bgx_adapter_v2_validator::identity::PackageIdentity{
+                plugin_id:crate::capability::PLUGIN_ID.into(),version:env!("CARGO_PKG_VERSION").into(),digest:"ab".repeat(32)},
+                binding_id:"test-binding".into(),request_id:"req-1".into()};
+            Self{manifest,files:Vec::new(),next:0,urls:Vec::new(),broker,scope,_directory:directory}
+        }
+    }
     fn successful_history_without_export_images() -> Value {
         json!({"prompt-1":{"status":{"status_str":"success","completed":true},
             "outputs":{"src":{"images":[{"filename":"source.mp4","type":"input","subfolder":""}],"animated":[true]}}}})
@@ -435,17 +452,22 @@ mod tests {
                     json!({"status": 200, "payload": {"handle": alloc::format!("png-{}", self.next)}}),
                 "host-http.execute" =>
                     json!({"status": 200, "payload": {"bytes": serde_json::to_vec(&self.manifest).unwrap()}}),
-                "host-media.create" => json!(alloc::format!("file-{}", self.next)),
+                "host-media.create" => json!(self.broker.create(&self.scope,args["kind"].as_str().unwrap(),args["mimeHint"].as_str().unwrap())?),
                 "host-media.write" => {
                     let handle = args["handle"].as_str().unwrap().to_string();
                     let bytes: Vec<u8> = serde_json::from_value(args["bytes"].clone()).unwrap();
+                    self.broker.write(&self.scope,&handle,&bytes,&bgx_adapter_v2_transport::Control::new(None))?;
                     self.files.push((handle, bytes));
                     Value::Null
                 }
-                "host-media.finish" => Value::Null,
+                "host-media.finish" => {
+                    self.broker.finish(&self.scope,args["handle"].as_str().unwrap(),&bgx_adapter_v2_transport::Control::new(None))?;
+                    Value::Null
+                },
                 "host-media.info" => {
                     let handle = args["handle"].as_str().unwrap();
-                    let kind = if handle.starts_with("png-") { "image" } else { "file" };
+                    if !handle.starts_with("png-") { return Ok(serde_json::to_value(self.broker.info(&self.scope,handle)?).unwrap()); }
+                    let kind = "image";
                     json!({"id": alloc::format!("id-{handle}"), "kind": kind,
                         "mime": if kind == "image" { "image/png" } else { "application/json" },
                         "fileName": alloc::format!("{}.{}", "ab".repeat(32), if kind == "image" { "png" } else { "json" }),
@@ -477,7 +499,12 @@ mod tests {
             "skipRanges": [], "ready": false, "readyReason": "uncomputed frames remain"});
         let config = json!({"endpointBaseUrl": "http://127.0.0.1:8188", "credentialRef": null});
         let ctx = Ctx { config: &config, budget_ms: 10000 };
-        let mut h = FakeHost { manifest, files: Vec::new(), next: 0, urls: Vec::new() };
+        let mut h = FakeHost::new(manifest);
+        // Reproduce the old real-broker failure, then exercise the supported opaque path below.
+        let control=bgx_adapter_v2_transport::Control::new(None);
+        let old=h.broker.create(&h.scope,"file","application/json").unwrap();
+        h.broker.write(&h.scope,&old,b"{\"page\":1}",&control).unwrap();
+        assert!(h.broker.finish(&h.scope,&old,&control).is_err(),"JSON has no recognized byte signature; typed MIME cannot be invented");
         let resume = json!({"resumeToken":{"promptId":"prompt-1","trackingRequestId":"req-1","selectionDigest":selection_digest,"direction":"both"}});
         let mut query = query(&mut h, &ctx, &resume, "prompt-1").unwrap();
         assert_eq!(query["status"], "succeeded");
@@ -518,7 +545,7 @@ mod tests {
     fn manifest_of_another_request_is_rejected() {
         let config = json!({"endpointBaseUrl": "http://127.0.0.1:8188", "credentialRef": null});
         let ctx = Ctx { config: &config, budget_ms: 10000 };
-        let mut h = FakeHost { manifest: json!({"requestId": "other", "selectionDigest": "sha256:sel"}), files: Vec::new(), next: 0, urls: Vec::new() };
+        let mut h = FakeHost::new(json!({"requestId": "other", "selectionDigest": "sha256:sel"}));
         assert!(publish_frames(&mut h, &ctx, "req-1", "sha256:sel").is_err());
     }
 }

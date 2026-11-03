@@ -485,8 +485,8 @@ pub fn download_image(
 }
 
 /// Writes package-built bytes as one managed file. Returns (handle, stat).
-pub fn create_file(h: &mut dyn Host, mime: &str, bytes: &[u8]) -> Result<(String, Value), Failure> {
-    let handle = port(h, "host-media.create", json!({"kind": "file", "mimeHint": mime}))?
+pub fn create_opaque_file(h: &mut dyn Host, bytes: &[u8]) -> Result<(String, Value), Failure> {
+    let handle = port(h, "host-media.create", json!({"kind": "file", "mimeHint": "application/octet-stream"}))?
         .as_str()
         .ok_or_else(malformed)?
         .to_string();
@@ -741,7 +741,7 @@ pub fn ensure_companion_nodes_tracking(h: &mut dyn Host, ctx: &Ctx) -> Result<()
     Ok(())
 }
 
-fn encode(s: &str) -> String {
+pub(crate) fn encode(s: &str) -> String {
     let mut out = String::new();
     for b in s.bytes() {
         if b.is_ascii_alphanumeric() || matches!(b, b'-' | b'_' | b'.' | b'~') {

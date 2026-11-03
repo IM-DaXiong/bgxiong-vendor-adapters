@@ -1,4 +1,4 @@
-# Wan 2.2 Animate 独立适配包 0.2.7
+# Wan 2.2 Animate 独立适配包 0.2.8
 
 人物替换（Mix）及动作驱动（Move）在提交前自动准备参考图：EXIF方向校正、完整等比缩放、居中放置并补普通中性灰背景。无需把图片手动裁成视频比例，不裁人物、不拉伸、无AI扩图。透明部分在灰底上合成；原图保持不动。可解码且在资源预算内的任意尺寸/比例均走同一准备策略，低清或极端比例参考仍可能缺少有效面部细节。
 
@@ -35,3 +35,7 @@
 ## 0.2.7 单任务取消
 
 跟踪取消只POST /api/jobs/{job_id}/cancel，不使用全局interrupt。服务返回true仅表示remote_requested，false为local_only；HTTP或响应错误显式失败，不假称已停止。SDK/companion与生成unsupported合同不改。
+
+## 0.2.8 受管JSON成果文件
+
+JSON帧页与index使用SDK已有opaque file合同（application/octet-stream），内容继续按公开JSON profile解析验证。完整query测试使用真实MediaBroker完成文件收尾，不再用无条件成功的file mock。SDK、companion和宿主安全规则不改。

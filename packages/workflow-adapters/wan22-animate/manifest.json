@@ -1,5 +1,5 @@
 {
-  "artifactSha256": "575fc8ab8efc1d6b4f1b8367091c647cb78dd33c9af2b741ca69379f9b43f638",
+  "artifactSha256": "f1e309fddcebf6d82ba634ae9f0b9c497f713bca5e49ebf08e2a3e50dd8261cd",
   "displayName": "Wan 2.2 Animate 人物替换（ComfyUI）",
   "entry": "adapter.wasm",
   "language": "rust",
@@ -38,5 +38,5 @@
     "video-target-keyframes-v1"
   ],
   "schemaVersion": 2,
-  "version": "0.2.7"
+  "version": "0.2.8"
 }

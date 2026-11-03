@@ -2,7 +2,7 @@
 
 [package]
 name = "bgx-wan22-animate"
-version = "0.2.7"
+version = "0.2.8"
 edition = "2021"
 license = "LicenseRef-Proprietary"
 publish = false
@@ -21,3 +21,7 @@ debug = 0
 incremental = false
 [dev-dependencies]
 bgx-adapter-v2-validator = { path = "../../../contract/v2/crates/validator" }
+
+bgx-adapter-v2-reference-host = { path = "../../../contract/v2/crates/reference-host" }
+bgx-adapter-v2-transport = { path = "../../../contract/v2/crates/transport" }
+tempfile = "3"
