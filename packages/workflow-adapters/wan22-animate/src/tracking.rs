@@ -353,44 +353,15 @@ fn publish_frames(
     Ok((receipt, outputs))
 }
 
-/// Cancel at frame boundary: interrupt current execution and delete queued item.
-/// ACCEPTANCE_UNKNOWN paths must not resubmit.
-pub fn cancel(
-    h: &mut dyn Host,
-    ctx: &Ctx,
-    vendor_task_id: &str,
-) -> Result<Value, Failure> {
-    // Best-effort interrupt; Comfy applies between nodes (frame boundary for our graph).
-    let _ = comfy::exchange_public(
-        h,
-        ctx,
-        "POST",
-        "/interrupt",
-        json!({"kind": "none"}),
-        vec![],
-        false,
-    );
-    let body = serde_json::to_vec(&json!({
-        "delete": [vendor_task_id]
-    }))
-    .map_err(|_| Failure::new("INTERNAL_ERROR", "cancel payload"))?;
-    // Do not treat lost acknowledgment as a signal to resubmit tracking.
-    match comfy::exchange_public(
-        h,
-        ctx,
-        "POST",
-        "/queue",
-        json!({"kind": "bytes", "bytes": body}),
-        vec![json!({"name": "Content-Type", "value": "application/json"})],
-        true,
-    ) {
-        Ok(_) => Ok(json!({"status": "cancelled", "vendorTaskId": vendor_task_id})),
-        Err(e) if e.code == "ACCEPTANCE_UNKNOWN" => Ok(json!({
-            "status": "cancel_unknown",
-            "vendorTaskId": vendor_task_id,
-            "message": "Cancel acknowledgment was lost; do not resubmit"
-        })),
-        Err(e) => Err(e),
+/// Request cancellation of this exact prompt; acknowledgment does not prove execution stopped.
+pub fn cancel(h: &mut dyn Host, ctx: &Ctx, vendor_task_id: &str) -> Result<Value, Failure> {
+    if vendor_task_id.is_empty() { return Err(invalid("cancel requires the original prompt id")); }
+    let path = alloc::format!("/api/jobs/{}/cancel", comfy::encode(vendor_task_id));
+    let result = comfy::exchange_public(h, ctx, "POST", &path, json!({"kind":"none"}), vec![], false)?;
+    match result.get("cancelled").and_then(Value::as_bool) {
+        Some(true) => Ok(json!({"outcome":"remote_requested"})),
+        Some(false) => Ok(json!({"outcome":"local_only"})),
+        None => Err(upstream("ComfyUI cancellation response has no boolean acknowledgement")),
     }
 }
 
@@ -399,6 +370,42 @@ mod tests {
     use super::*;
     use alloc::{string::String, vec::Vec};
     use bgx_adapter_v2_sdk::{host::HostError, HostPortCallV2};
+
+    #[test]
+    fn cancellation_targets_only_original_job_and_uses_the_public_outcome_contract() {
+        struct CancelHost { status:u64, response:Value, calls:Vec<Value> }
+        impl Host for CancelHost {
+            fn call(&mut self,call:HostPortCallV2)->Result<Value,HostError>{
+                let call=serde_json::to_value(call).unwrap();
+                assert_eq!(call["method"],"host-http.execute");
+                self.calls.push(call);
+                if self.status == 0 { return Err(serde_json::from_value(json!({"code":"TIMEOUT","message":"lost cancellation acknowledgment"})).unwrap()); }
+                Ok(json!({"status":self.status,"payload":{"bytes":serde_json::to_vec(&self.response).unwrap()}}))
+            }
+        }
+        let config=json!({"endpointBaseUrl":"http://127.0.0.1:8188","credentialRef":null});
+        let ctx=Ctx{config:&config,budget_ms:10000};
+        let registry=bgx_adapter_v2_validator::SchemaRegistry::public().unwrap();
+        for (response,expected) in [(json!({"cancelled":true}),"remote_requested"),(json!({"cancelled":false}),"local_only")] {
+            let mut h=CancelHost{status:200,response,calls:Vec::new()};
+            let result=cancel(&mut h,&ctx,"original/id ?").unwrap();
+            assert_eq!(result,json!({"outcome":expected}));
+            registry.validate_dispatch("cancel","result",&result).unwrap();
+            let _:bgx_adapter_v2_sdk::ControlOperationsV2CancelResult=serde_json::from_value(result).unwrap();
+            assert_eq!(h.calls.len(),1);
+            assert_eq!(h.calls[0]["args"]["plan"]["url"],"http://127.0.0.1:8188/api/jobs/original%2Fid%20%3F/cancel");
+            assert_eq!(h.calls[0]["args"]["plan"]["method"],"POST");
+            assert_eq!(h.calls[0]["args"]["plan"]["body"],json!({"kind":"none"}));
+        }
+        for (status,response) in [(0,json!({})),(500,json!({"error":"failure"})),(404,json!({})),(200,json!({})),(200,json!({"cancelled":"true"}))] {
+            let mut h=CancelHost{status,response,calls:Vec::new()};
+            assert!(cancel(&mut h,&ctx,"original-job").is_err());
+            assert_eq!(h.calls.len(),1,"errors must not retry or fall back to global interruption");
+            assert_eq!(h.calls[0]["args"]["plan"]["url"],"http://127.0.0.1:8188/api/jobs/original-job/cancel");
+        }
+        let mut h=CancelHost{status:200,response:json!({"cancelled":true}),calls:Vec::new()};
+        assert!(cancel(&mut h,&ctx,"").is_err());assert!(h.calls.is_empty());
+    }
 
     /// Companion manifest over HTTP, mask PNGs into managed media, package-built JSON files.
     struct FakeHost { manifest: Value, files: Vec<(String, Vec<u8>)>, next: u32, urls: Vec<String> }
