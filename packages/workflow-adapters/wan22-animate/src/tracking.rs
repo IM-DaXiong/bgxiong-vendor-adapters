@@ -359,8 +359,7 @@ pub fn cancel(h: &mut dyn Host, ctx: &Ctx, vendor_task_id: &str) -> Result<Value
     let path = alloc::format!("/api/jobs/{}/cancel", comfy::encode(vendor_task_id));
     let result = comfy::exchange_public(h, ctx, "POST", &path, json!({"kind":"none"}), vec![], false)?;
     match result.get("cancelled").and_then(Value::as_bool) {
-        Some(true) => Ok(json!({"outcome":"remote_requested"})),
-        Some(false) => Ok(json!({"outcome":"local_only"})),
+        Some(_) => Ok(json!({"outcome":"remote_requested"})),
         None => Err(upstream("ComfyUI cancellation response has no boolean acknowledgement")),
     }
 }
@@ -371,8 +370,8 @@ mod tests {
     use alloc::{string::String, vec::Vec};
     use bgx_adapter_v2_sdk::{host::HostError, HostPortCallV2};
 
-    #[test]
-    fn cancellation_targets_only_original_job_and_uses_the_public_outcome_contract() {
+    #[tokio::test]
+    async fn cancellation_targets_only_original_job_and_uses_the_public_outcome_contract() {
         struct CancelHost { status:u64, response:Value, calls:Vec<Value> }
         impl Host for CancelHost {
             fn call(&mut self,call:HostPortCallV2)->Result<Value,HostError>{
@@ -386,17 +385,53 @@ mod tests {
         let config=json!({"endpointBaseUrl":"http://127.0.0.1:8188","credentialRef":null});
         let ctx=Ctx{config:&config,budget_ms:10000};
         let registry=bgx_adapter_v2_validator::SchemaRegistry::public().unwrap();
-        for (response,expected) in [(json!({"cancelled":true}),"remote_requested"),(json!({"cancelled":false}),"local_only")] {
+        let declaration=crate::capability::capabilities()["capabilityContracts"][0].clone();
+        let operation=&declaration["operations"][2];
+        assert_eq!(operation["execution"]["cancellation"],"remote");
+        assert_eq!(declaration["operations"][0]["execution"]["cancellation"],"unsupported");
+        let fixtures:Value=serde_json::from_str(include_str!("../../../../contract/v2/profiles/video-target-keyframes-v1/fixtures/receipts.json")).unwrap();
+        let submit:bgx_adapter_v2_sdk::OperationSubmitV2=serde_json::from_value(json!({
+            "schemaVersion":2,"modelId":"wan2.2-animate-14b","capabilityKey":"video.edit",
+            "operationId":crate::capability::TRACKING_OPERATION_ID,"operationVersion":1,"inputSchemaDigest":operation["inputSchema"]["digest"],
+            "input":fixtures["valid"]["trackingInput"],"configuration":config,
+            "media":[{"id":"media-vtk-1","kind":"video","handle":"source-lease","mime":"video/mp4","fileName":"source.mp4","byteLength":"100"}],"uploads":[]
+        })).unwrap();
+        let original=bgx_adapter_v2_validator::validate_input(&serde_json::from_value(declaration).unwrap(),&submit).unwrap();
+        let task:bgx_adapter_v2_sdk::OperationTaskRefV2=serde_json::from_value(json!({
+            "schemaVersion":2,"modelId":"wan2.2-animate-14b","capabilityKey":"video.edit",
+            "operationId":crate::capability::TRACKING_OPERATION_ID,"operationVersion":1,
+            "configuration":config,"vendorTaskId":"original/id ?",
+            "resumeToken":{"promptId":"original/id ?","trackingRequestId":"req-1","selectionDigest":"ab".repeat(32),"direction":"both"}
+        })).unwrap();
+        let invocation:bgx_adapter_v2_sdk::Invocation=serde_json::from_value(json!({
+            "protocolVersion":2,"operation":"cancel","profileId":"test-binding","bindingId":"test-binding","capabilitySlot":"video",
+            "requestId":"cancel-1","budgetMs":10000,"negotiatedVersion":2,"enabledFeatures":[],"payloadJson":serde_json::to_string(&task).unwrap()
+        })).unwrap();
+        let scope=bgx_adapter_v2_reference_host::media::LeaseScope{
+            package:bgx_adapter_v2_validator::identity::PackageIdentity{plugin_id:crate::capability::PLUGIN_ID.into(),version:env!("CARGO_PKG_VERSION").into(),digest:"ab".repeat(32)},
+            binding_id:"test-binding".into(),request_id:"cancel-1".into()
+        };
+        let cancellation=bgx_adapter_v2_reference_host::cancel::RequestCancellation::new(scope.clone(),&original,bgx_adapter_v2_transport::Control::new(None)).unwrap();
+        assert!(cancellation.local_outcome(&scope).unwrap().is_none(),"remote declaration must dispatch the exact job endpoint");
+        for (response,expected) in [(json!({"cancelled":true}),"remote_requested"),(json!({"cancelled":false}),"remote_requested")] {
             let mut h=CancelHost{status:200,response,calls:Vec::new()};
             let result=cancel(&mut h,&ctx,"original/id ?").unwrap();
             assert_eq!(result,json!({"outcome":expected}));
             registry.validate_dispatch("cancel","result",&result).unwrap();
             let _:bgx_adapter_v2_sdk::ControlOperationsV2CancelResult=serde_json::from_value(result).unwrap();
+            let wire:bgx_adapter_v2_sdk::Response=serde_json::from_value(json!({"protocolVersion":2,"operation":"cancel","dataJson":json!({"outcome":expected}).to_string()})).unwrap();
+            let context=bgx_adapter_v2_validator::validate_task_input(&original,&task,"cancel","original/id ?").unwrap();
+            bgx_adapter_v2_validator::validate_response(&invocation,&wire,Some(&context)).unwrap();
+            let receipt=cancellation.request_remote(&scope,&original,&task,"original/id ?",&invocation,&bgx_adapter_v2_transport::Control::new(None),||async{Ok(wire)}).await.unwrap();
+            assert!(receipt.query_required());assert!(!receipt.remote_confirmed());
+
             assert_eq!(h.calls.len(),1);
             assert_eq!(h.calls[0]["args"]["plan"]["url"],"http://127.0.0.1:8188/api/jobs/original%2Fid%20%3F/cancel");
             assert_eq!(h.calls[0]["args"]["plan"]["method"],"POST");
             assert_eq!(h.calls[0]["args"]["plan"]["body"],json!({"kind":"none"}));
         }
+        let wrong:bgx_adapter_v2_sdk::Response=serde_json::from_value(json!({"protocolVersion":2,"operation":"cancel","dataJson":json!({"outcome":"local_only"}).to_string()})).unwrap();
+        assert!(cancellation.request_remote(&scope,&original,&task,"original/id ?",&invocation,&bgx_adapter_v2_transport::Control::new(None),||async{Ok(wrong)}).await.is_err(),"a structurally valid local-only result contradicts the remote declaration");
         for (status,response) in [(0,json!({})),(500,json!({"error":"failure"})),(404,json!({})),(200,json!({})),(200,json!({"cancelled":"true"}))] {
             let mut h=CancelHost{status,response,calls:Vec::new()};
             assert!(cancel(&mut h,&ctx,"original-job").is_err());

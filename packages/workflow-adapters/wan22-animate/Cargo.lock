@@ -167,7 +167,7 @@ dependencies = [
 
 [[package]]
 name = "bgx-wan22-animate"
-version = "0.2.8"
+version = "0.2.9"
 dependencies = [
  "bgx-adapter-v2-reference-host",
  "bgx-adapter-v2-sdk",
@@ -176,6 +176,7 @@ dependencies = [
  "serde_json",
  "sha2",
  "tempfile",
+ "tokio",
 ]
 
 [[package]]

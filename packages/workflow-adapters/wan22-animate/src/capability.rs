@@ -148,7 +148,7 @@ fn tracking_operation() -> Value {
             {"role": "framePage", "kind": "file", "minCount": 1, "maxCount": null},
             {"role": "maskFrame", "kind": "image", "minCount": 0, "maxCount": null}
         ],
-        "execution": {"mode": "asynchronous", "streaming": true, "cancellation": "best_effort", "resumable": true, "remoteIdempotency": false}
+        "execution": {"mode": "asynchronous", "streaming": true, "cancellation": "remote", "resumable": true, "remoteIdempotency": false}
     })
 }
 
@@ -219,7 +219,7 @@ mod tests {
         assert_eq!(mix["version"], 3);
         assert_eq!(mov["version"], 1);
         assert_eq!(trk["version"], 1);
-        assert_eq!(trk["execution"]["cancellation"], "best_effort");
+        assert_eq!(trk["execution"]["cancellation"], "remote");
         let roles: Vec<(&str, &str)> = trk["outputSlots"].as_array().unwrap().iter()
             .map(|s| (s["role"].as_str().unwrap(), s["kind"].as_str().unwrap())).collect();
         assert_eq!(roles, [("frameIndex", "file"), ("framePage", "file"), ("maskFrame", "image")]);
