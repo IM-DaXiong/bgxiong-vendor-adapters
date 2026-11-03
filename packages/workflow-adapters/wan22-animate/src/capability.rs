@@ -16,6 +16,7 @@ pub const TRACKING_INPUT_SCHEMA: &str = include_str!("../schemas/tracking.input.
 pub const TRACKING_OUTPUT_SCHEMA: &str = include_str!("../schemas/tracking.output.schema.json");
 pub const OUTPUT_SCHEMA: &str = include_str!("../schemas/output.schema.json");
 pub const CONFIG_SCHEMA: &str = include_str!("../schemas/config.schema.json");
+pub const TRACKING_RESUME_SCHEMA: &str = include_str!("../schemas/tracking-resume.schema.json");
 pub const RESUME_SCHEMA: &str = include_str!("../schemas/resume.schema.json");
 
 pub const MIX_OPERATION_VERSION: &str = "3.0.0";
@@ -137,7 +138,7 @@ fn tracking_operation() -> Value {
         "label": "目标跟踪预览",
         "inputSchema": reference("tracking-input", TRACKING_INPUT_SCHEMA),
         "outputSchema": reference("tracking-output", TRACKING_OUTPUT_SCHEMA),
-        "resumeSchema": reference("resume", RESUME_SCHEMA),
+        "resumeSchema": reference("tracking-resume", TRACKING_RESUME_SCHEMA),
         "uiSchema": {"controls": tracking_controls()},
         "mediaSlots": [
             {"role": "source", "inputPointer": TRACKING_SOURCE_POINTER, "mediaKind": "video", "minCount": 1, "maxCount": 1}
@@ -168,7 +169,8 @@ pub fn capabilities() -> Value {
             schema("tracking-output", TRACKING_OUTPUT_SCHEMA),
             schema("output", OUTPUT_SCHEMA),
             schema("config", CONFIG_SCHEMA),
-            schema("resume", RESUME_SCHEMA)
+            schema("resume", RESUME_SCHEMA),
+            schema("tracking-resume", TRACKING_RESUME_SCHEMA)
         ]
     }]})
 }
@@ -176,6 +178,23 @@ pub fn capabilities() -> Value {
 #[cfg(test)]
 mod tests {
     use serde_json::Value;
+
+    #[test]
+    fn tracking_acceptance_and_resume_validate_against_the_published_contract() {
+        let caps = super::capabilities();
+        let contract = serde_json::from_value(caps["capabilityContracts"][0].clone()).unwrap();
+        let accepted = crate::tracking::accepted_result("prompt-1", "request-1", "digest-1", "both");
+        let result = serde_json::from_value(accepted.clone()).unwrap();
+        bgx_adapter_v2_validator::result::validate_declared_result(
+            &contract, super::TRACKING_OPERATION_ID, 1, "submit", &result,
+        ).unwrap();
+        let mut invalid = accepted;
+        invalid["resumeToken"].as_object_mut().unwrap().remove("trackingRequestId");
+        let invalid = serde_json::from_value(invalid).unwrap();
+        assert!(bgx_adapter_v2_validator::result::validate_declared_result(
+            &contract, super::TRACKING_OPERATION_ID, 1, "submit", &invalid,
+        ).is_err());
+    }
 
     #[test]
     fn schemas_are_json_and_digests_match() {

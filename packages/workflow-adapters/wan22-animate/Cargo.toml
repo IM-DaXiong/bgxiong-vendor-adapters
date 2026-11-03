@@ -2,7 +2,7 @@
 
 [package]
 name = "bgx-wan22-animate"
-version = "0.2.3"
+version = "0.2.4"
 edition = "2021"
 license = "LicenseRef-Proprietary"
 publish = false
@@ -19,3 +19,5 @@ sha2 = { version = "=0.10.9", default-features = false }
 panic = "abort"
 debug = 0
 incremental = false
+[dev-dependencies]
+bgx-adapter-v2-validator = { path = "../../../contract/v2/crates/validator" }

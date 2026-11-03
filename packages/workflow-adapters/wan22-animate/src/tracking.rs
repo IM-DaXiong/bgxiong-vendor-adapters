@@ -68,18 +68,22 @@ pub fn submit(
         },
     );
     let prompt_id = comfy::submit(h, ctx, &graph, request_id)?;
-    Ok(json!({
+    Ok(accepted_result(&prompt_id, request_id, &tr.selection.selection_digest, tr.direction.as_str()))
+}
+
+pub(crate) fn accepted_result(prompt_id: &str, request_id: &str, selection_digest: &str, direction: &str) -> Value {
+    json!({
         "kind": "accepted",
         "vendorTaskId": prompt_id,
-        "appliedParams": {"direction": tr.direction.as_str()},
+        "appliedParams": {"direction": direction},
         "resumeToken": {
             "promptId": prompt_id,
             "trackingRequestId": request_id,
-            "selectionDigest": tr.selection.selection_digest,
-            "direction": tr.direction.as_str()
+            "selectionDigest": selection_digest,
+            "direction": direction
         },
         "usage": null
-    }))
+    })
 }
 
 fn seed_progress(
