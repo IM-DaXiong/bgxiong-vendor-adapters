@@ -5,7 +5,7 @@ use alloc::vec;
 use bgx_adapter_v2_sdk::Host;
 use serde_json::{json, Value};
 
-use crate::comfy::{self, text, Ctx, Remote};
+use crate::comfy::{self, text, Ctx, PromptLifecycle};
 use crate::graph;
 use crate::mapping;
 use crate::target_keyframes::{self, Direction, TrackingRequest};
@@ -137,18 +137,18 @@ pub fn query(
     };
     let selection_digest = p.pointer("/resumeToken/selectionDigest").and_then(Value::as_str).unwrap_or("");
     let direction = p.pointer("/resumeToken/direction").and_then(Value::as_str).unwrap_or("both");
-    let remote = comfy::status(h, ctx, vendor_task_id, graph::TRACKING_OUTPUT_NODE)?;
+    let remote = comfy::lifecycle_status(h, ctx, vendor_task_id)?;
     match remote {
-        Remote::Queued => {
+        PromptLifecycle::Queued => {
             let data = public_progress(tracking_request_id, selection_digest, direction, "queued", progress);
             Ok(running_envelope("queued", data, p))
         }
-        Remote::Running => {
+        PromptLifecycle::Running => {
             let stage = progress.as_ref().and_then(|item| item["stage"].as_str()).unwrap_or("loading").to_string();
             let data = public_progress(tracking_request_id, selection_digest, direction, &stage, progress);
             Ok(running_envelope("running", data, p))
         }
-        Remote::Succeeded(_files) => {
+        PromptLifecycle::Succeeded => {
             let (receipt, outputs) = publish_frames(h, ctx, tracking_request_id, selection_digest)?;
             Ok(json!({
                 "status": "succeeded",
@@ -160,7 +160,7 @@ pub fn query(
                 "resumeToken": p["resumeToken"].clone()
             }))
         }
-        Remote::Failed(vendor) => Ok(json!({
+        PromptLifecycle::Failed(vendor) => Ok(json!({
             "status": "failed",
             "outputs": [],
             "data": Value::Null,
@@ -174,7 +174,7 @@ pub fn query(
             },
             "resumeToken": p["resumeToken"].clone()
         })),
-        Remote::Lost => Ok(json!({
+        PromptLifecycle::Lost => Ok(json!({
             "status": "failed",
             "outputs": [],
             "data": Value::Null,
@@ -401,13 +401,29 @@ mod tests {
     use bgx_adapter_v2_sdk::{host::HostError, HostPortCallV2};
 
     /// Companion manifest over HTTP, mask PNGs into managed media, package-built JSON files.
-    struct FakeHost { manifest: Value, files: Vec<(String, Vec<u8>)>, next: u32 }
+    struct FakeHost { manifest: Value, files: Vec<(String, Vec<u8>)>, next: u32, urls: Vec<String> }
+    fn successful_history_without_export_images() -> Value {
+        json!({"prompt-1":{"status":{"status_str":"success","completed":true},
+            "outputs":{"src":{"images":[{"filename":"source.mp4","type":"input","subfolder":""}],"animated":[true]}}}})
+    }
     impl Host for FakeHost {
         fn call(&mut self, call: HostPortCallV2) -> Result<Value, HostError> {
             let call = serde_json::to_value(call).unwrap();
             let args = &call["args"];
             self.next += 1;
+            if let Some(url) = args.pointer("/plan/url").and_then(Value::as_str) { self.urls.push(url.to_string()); }
             Ok(match call["method"].as_str().unwrap() {
+                "host-http.execute" if args["plan"]["url"].as_str().unwrap().contains("/history/") =>
+                    json!({"status":200,"payload":{"handle":"history-json"}}),
+                "host-http.execute" if args["plan"]["url"].as_str().unwrap().ends_with("/queue") =>
+                    json!({"status":200,"payload":{"bytes":serde_json::to_vec(&json!({"queue_running":[],"queue_pending":[]})).unwrap()}}),
+                "host-media.read" if args["handle"] == "history-json" => {
+                    let bytes=serde_json::to_vec(&successful_history_without_export_images()).unwrap();
+                    let offset=args["offset"].as_str().unwrap().parse::<usize>().unwrap();
+                    let count=args["maxBytes"].as_u64().unwrap() as usize;
+                    json!(bytes[offset..(offset+count).min(bytes.len())].to_vec())
+                }
+                "host-media.release" => Value::Null,
                 "host-http.execute" if args["plan"]["url"].as_str().unwrap().contains("/view?") =>
                     json!({"status": 200, "payload": {"handle": alloc::format!("png-{}", self.next)}}),
                 "host-http.execute" =>
@@ -454,12 +470,18 @@ mod tests {
             "skipRanges": [], "ready": false, "readyReason": "uncomputed frames remain"});
         let config = json!({"endpointBaseUrl": "http://127.0.0.1:8188", "credentialRef": null});
         let ctx = Ctx { config: &config, budget_ms: 10000 };
-        let mut h = FakeHost { manifest, files: Vec::new(), next: 0 };
-        let (receipt, outputs) = publish_frames(&mut h, &ctx, "req-1", &selection_digest).unwrap();
+        let mut h = FakeHost { manifest, files: Vec::new(), next: 0, urls: Vec::new() };
+        let resume = json!({"resumeToken":{"promptId":"prompt-1","trackingRequestId":"req-1","selectionDigest":selection_digest,"direction":"both"}});
+        let mut query = query(&mut h, &ctx, &resume, "prompt-1").unwrap();
+        assert_eq!(query["status"], "succeeded");
+        let receipt = query["data"].clone();
+        let outputs = query["outputs"].as_array().unwrap().clone();
         let contract = serde_json::from_value(crate::capability::capabilities()["capabilityContracts"][0].clone()).unwrap();
-        let mut query = json!({"status":"succeeded", "outputs":outputs, "data":receipt,
-            "usage":null, "progress":null, "terminalFailure":null,
-            "resumeToken":{"promptId":"prompt-1","trackingRequestId":"req-1","selectionDigest":selection_digest,"direction":"both"}});
+        assert!(h.urls.iter().any(|u|u.ends_with("/history/prompt-1")));
+        assert!(h.urls.iter().any(|u|u.ends_with("/tracking/req-1/manifest")));
+        assert_eq!(h.urls.iter().filter(|u|u.contains("/view?")).count(),59);
+        assert!(comfy::status(&mut h, &ctx, "prompt-1", "track.export").is_err(),
+            "ordinary generation must still reject success without its declared output file");
         bgx_adapter_v2_validator::result::validate_declared_result(
             &contract, crate::capability::TRACKING_OPERATION_ID, 1, "query", &serde_json::from_value(query.clone()).unwrap(),
         ).unwrap();
@@ -489,7 +511,7 @@ mod tests {
     fn manifest_of_another_request_is_rejected() {
         let config = json!({"endpointBaseUrl": "http://127.0.0.1:8188", "credentialRef": null});
         let ctx = Ctx { config: &config, budget_ms: 10000 };
-        let mut h = FakeHost { manifest: json!({"requestId": "other", "selectionDigest": "sha256:sel"}), files: Vec::new(), next: 0 };
+        let mut h = FakeHost { manifest: json!({"requestId": "other", "selectionDigest": "sha256:sel"}), files: Vec::new(), next: 0, urls: Vec::new() };
         assert!(publish_frames(&mut h, &ctx, "req-1", "sha256:sel").is_err());
     }
 }

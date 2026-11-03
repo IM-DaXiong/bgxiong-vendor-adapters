@@ -332,7 +332,7 @@ fn large_json(h: &mut dyn Host, ctx: &Ctx, path: &str) -> Result<Value, Failure>
 }
 
 /// Queue is read before history so a prompt finishing in between is seen as done.
-pub fn status(h: &mut dyn Host, ctx: &Ctx, id: &str, output_node: &str) -> Result<Remote, Failure> {
+fn prompt_history(h: &mut dyn Host, ctx: &Ctx, id: &str) -> Result<(PromptLifecycle, Value), Failure> {
     let queue = exchange(
         h,
         ctx,
@@ -344,13 +344,13 @@ pub fn status(h: &mut dyn Host, ctx: &Ctx, id: &str, output_node: &str) -> Resul
     )?;
     let history = large_json(h, ctx, &format!("/history/{}", encode(id)))?;
     let Some(entry) = history.get(id) else {
-        return Ok(if listed(&queue, "queue_running", id) {
-            Remote::Running
+        return Ok((if listed(&queue, "queue_running", id) {
+            PromptLifecycle::Running
         } else if listed(&queue, "queue_pending", id) {
-            Remote::Queued
+            PromptLifecycle::Queued
         } else {
-            Remote::Lost
-        });
+            PromptLifecycle::Lost
+        }, Value::Null));
     };
     match entry["status"]["status_str"].as_str() {
         Some("success") => {}
@@ -361,9 +361,29 @@ pub fn status(h: &mut dyn Host, ctx: &Ctx, id: &str, output_node: &str) -> Resul
                     .and_then(|x| x[1]["exception_type"].as_str())
                     .map(str::to_string)
             });
-            return Ok(Remote::Failed(node));
+            return Ok((PromptLifecycle::Failed(node), entry.clone()));
         }
-        _ => return Ok(Remote::Running),
+        _ => return Ok((PromptLifecycle::Running, entry.clone())),
+    }
+    Ok((PromptLifecycle::Succeeded, entry.clone()))
+}
+
+/// Prompt execution facts independent of whether the operation publishes a video or manifest.
+pub enum PromptLifecycle { Queued, Running, Succeeded, Failed(Option<String>), Lost }
+
+pub fn lifecycle_status(h: &mut dyn Host, ctx: &Ctx, id: &str) -> Result<PromptLifecycle, Failure> {
+    Ok(prompt_history(h, ctx, id)?.0)
+}
+
+/// Generation still requires one file from its declared output node.
+pub fn status(h: &mut dyn Host, ctx: &Ctx, id: &str, output_node: &str) -> Result<Remote, Failure> {
+    let (state, entry) = prompt_history(h, ctx, id)?;
+    match state {
+        PromptLifecycle::Queued => return Ok(Remote::Queued),
+        PromptLifecycle::Running => return Ok(Remote::Running),
+        PromptLifecycle::Failed(reason) => return Ok(Remote::Failed(reason)),
+        PromptLifecycle::Lost => return Ok(Remote::Lost),
+        PromptLifecycle::Succeeded => {}
     }
     let files = entry["outputs"][output_node]["images"]
         .as_array()
