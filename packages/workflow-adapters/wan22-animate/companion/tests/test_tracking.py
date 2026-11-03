@@ -374,10 +374,10 @@ class MultiKeyframeContractTests(unittest.TestCase):
         np.testing.assert_array_equal(both[0], toward_start[0])
         np.testing.assert_array_equal(both[1], toward_start[1])
         np.testing.assert_array_equal(both[7], toward_end[7])
-        # Inside span: nearer/tie→earlier uses towardStart; nearer later uses towardEnd.
-        np.testing.assert_array_equal(both[3], toward_start[3])
-        np.testing.assert_array_equal(both[4], toward_start[4])
-        np.testing.assert_array_equal(both[5], toward_end[5])
+        # Inside span: nearer/tie→earlier propagates forward; nearer later propagates backward.
+        np.testing.assert_array_equal(both[3], toward_end[3])
+        np.testing.assert_array_equal(both[4], toward_end[4])
+        np.testing.assert_array_equal(both[5], toward_start[5])
         np.testing.assert_array_equal(both[2], toward_end[2])
 
         # towardEnd cannot invent frames before the earliest correction.

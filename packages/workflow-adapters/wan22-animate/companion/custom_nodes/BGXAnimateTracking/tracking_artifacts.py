@@ -717,7 +717,7 @@ def register_routes():
         here = Path(__file__).resolve()
         digest = hashlib.sha256(here.read_bytes()).hexdigest()
         payload = {
-            "version": "0.2.3",
+            "version": "0.2.4",
             "module": here.name,
             "moduleDigest": f"sha256:{digest}",
         }

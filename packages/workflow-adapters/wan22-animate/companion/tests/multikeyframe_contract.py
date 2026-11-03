@@ -143,7 +143,7 @@ def merge_directional_without_or(
       - towardEnd never invents frames before the earliest correction.
       - towardStart never invents frames after the latest correction.
       - both: outside the keyframe span use the only covering side; inside the span
-        pick by nearest correction (tie → earlier / towardStart).
+        pick by nearest correction (tie → earlier / towardEnd).
     """
     if direction not in ('towardEnd', 'towardStart', 'both'):
         raise ValueError(f'unknown direction {direction}')
@@ -179,9 +179,9 @@ def merge_directional_without_or(
             elif i > last_kf:
                 choose = 'towardEnd'
             elif side == 'earlier':
-                choose = 'towardStart'
-            elif side == 'later':
                 choose = 'towardEnd'
+            elif side == 'later':
+                choose = 'towardStart'
             else:
                 raise ValueError(f'cannot assign frame {i}')
             src = toward_start if choose == 'towardStart' else toward_end
@@ -218,9 +218,9 @@ def assert_no_or_merge(
         elif i > last_kf:
             expect = 'towardEnd'
         elif side == 'earlier':
-            expect = 'towardStart'
-        elif side == 'later':
             expect = 'towardEnd'
+        elif side == 'later':
+            expect = 'towardStart'
         else:
             continue
         te = toward_end.get(i)

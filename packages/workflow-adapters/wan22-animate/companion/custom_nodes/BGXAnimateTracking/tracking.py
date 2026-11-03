@@ -78,9 +78,9 @@ def merge_directional_without_or(
             elif i > last_kf:
                 choose = "towardEnd"
             elif side == "earlier":
-                choose = "towardStart"
-            elif side == "later":
                 choose = "towardEnd"
+            elif side == "later":
+                choose = "towardStart"
             else:
                 raise ValueError(f"cannot assign frame {i}")
             src = toward_start if choose == "towardStart" else toward_end
