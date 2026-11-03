@@ -15,10 +15,10 @@
       "sources": [
         {
           "path": "sdk/rust/src/generated.rs",
-          "sha256": "ec08bd56de652ddb67bf861107d523ebe209dab7e569b2e271d3fbc3e32b670b"
+          "sha256": "4563077b568d9be2877df91b651ac3d40d3cb4bd3c1f4eb86076c001f9de87cd"
         }
       ],
-      "sha256": "ec08bd56de652ddb67bf861107d523ebe209dab7e569b2e271d3fbc3e32b670b",
+      "sha256": "4563077b568d9be2877df91b651ac3d40d3cb4bd3c1f4eb86076c001f9de87cd",
       "transform": "byte-copy"
     },
     {
@@ -81,14 +81,14 @@
       "sources": [
         {
           "path": "Cargo.toml",
-          "sha256": "a709d989ffa9bd46b74311499679003570734a07cc63e7ffec074dc53c3183a0"
+          "sha256": "982226c1fdbd3669d7689d1c8d1bc1a6e667edafa9e8185bb60e5af051ed705e"
         },
         {
           "path": "sdk/rust/Cargo.toml",
           "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7"
         }
       ],
-      "sha256": "e6113f4af6d805589b02401f00b31bf74ebe7d4fbb9f89f8b4504972ea3ce18d",
+      "sha256": "c64048d594975c87a3a321e7f385f9a5167b1099a547ade81ce14a2d44ca6f6b",
       "transform": "flatten public workspace metadata/dependencies; omit host-only development dependencies"
     },
     {

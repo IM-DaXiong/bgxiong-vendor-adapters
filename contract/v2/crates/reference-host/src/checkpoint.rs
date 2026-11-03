@@ -371,6 +371,7 @@ pub(crate) fn validate(value: &Value) -> Result<()> {
         let valid_resolution = matches!((value["state"].as_str(), resolution["outcome"].as_str()),
             (Some("rejected"), Some("rejected"))
             | (Some("acceptance_unknown" | "accepted" | "terminal"), Some("unresolved")))
+            || (value["state"] == "terminal" && resolution["outcome"] == "completed" && result["kind"] == "completed" && value["resumeToken"].is_null())
             || (value["state"] == "rejected" && resolution["outcome"] == "unresolved" && value.get("submissionRejection").is_some());
         if resolution["requestId"] != value["requestId"]
             || resolution["requestDigest"] != value["requestDigest"]

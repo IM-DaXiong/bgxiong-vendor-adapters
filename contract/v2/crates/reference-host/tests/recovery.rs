@@ -673,3 +673,54 @@ fn secrets_invalid_tokens_oversized_state_and_schema_corruption_never_become_acc
     drop(db);
     assert!(CheckpointStore::open(&workspace, policy()).is_err());
 }
+
+#[test]
+fn reviewed_completion_preserves_frozen_contract_and_requires_real_media() {
+    let directory = tempfile::tempdir().unwrap();
+    let workspace = DevelopmentWorkspace::create(directory.path()).unwrap();
+    let mut store = CheckpointStore::open(&workspace, policy()).unwrap();
+    let mut media = broker(&workspace);
+    let package = package("1.0.0");
+    let binding = binding(&package);
+    let owner = scope(&package, "completed-original");
+    let mut declaration = serde_json::to_value(contract()).unwrap();
+    declaration["operations"][0]["outputSlots"] = json!([{"role":"mask","kind":"image","minCount":1,"maxCount":1}]);
+    let declaration: CapabilityContractV2 = serde_json::from_value(declaration).unwrap();
+    let request = request(&declaration, json!([]), binding.configuration().clone());
+    let ctx = validate_input(&declaration, &request).unwrap();
+    let mut session = Session::prepare(&mut store, &package, &binding, &owner, &ctx,
+        &media.validation_context(&owner), &media, "configuration-one").unwrap();
+    session.begin_submit(&mut store).unwrap();
+    let original = store.read("completed-original","completed-original").unwrap().unwrap();
+    let frozen = || -> Vec<u8> { rusqlite::Connection::open(workspace.root().join("checkpoint-fixtures.sqlite")).unwrap()
+        .query_row("SELECT frozen FROM checkpoint_fixture WHERE request_id='completed-original'",[],|r|r.get(0)).unwrap() };
+    let original_frozen = frozen();
+    let evidence = json!({"schemaVersion":1,"requestId":"completed-original","requestDigest":original["requestDigest"],
+        "outcome":"completed","authority":"operator_reviewed","reviewedBy":"maintenance",
+        "evidence":[{"reference":"original-history.json","sha256":hash_bytes(b"original history")}],"reason":"Original task completed"});
+    assert!(bgx_adapter_v2_reference_host::resolution::prepare_operator_reviewed(&original,&serde_json::from_slice::<Value>(&original_frozen).unwrap(),"2",&evidence).is_err());
+    let path = workspace.root().join("mask.png");
+    image::RgbImage::from_pixel(3,2,image::Rgb([20u8,30,40])).save(&path).unwrap();
+    let lease = media.import_file(&owner,"mask-0",&path,"image",&Control::new(None)).unwrap();
+    let result = json!({"kind":"completed","vendorTaskId":"real-task-731","appliedParams":null,"data":{"description":"Done"},"usage":null,
+        "outputs":[{"kind":"media","role":"mask","media":{"id":"mask-0","kind":"image","handle":lease.handle,"mime":lease.stat.r#mime,"fileName":lease.file_name,"byteLength":lease.stat.r#byte_length}}]});
+    let mut forged = result.clone(); forged["outputs"][0]["media"]["handle"] = json!("not-a-lease");
+    assert!(session.prepare_reviewed_completion("2",&evidence,&serde_json::from_value(forged).unwrap(),&mut media,&owner,&Control::new(None)).is_err());
+    let typed = serde_json::from_value(result).unwrap();
+    assert!(session.prepare_reviewed_completion("1",&evidence,&typed,&mut media,&owner,&Control::new(None)).is_err());
+    let mut foreign = evidence.clone(); foreign["requestId"] = json!("other");
+    assert!(session.prepare_reviewed_completion("2",&foreign,&typed,&mut media,&owner,&Control::new(None)).is_err());
+    let next = session.prepare_reviewed_completion("2",&evidence,&typed,&mut media,&owner,&Control::new(None)).unwrap();
+    assert_eq!(next["state"],"terminal"); assert!(next["resumeToken"].is_null());
+    assert_eq!(store.read("completed-original","completed-original").unwrap().unwrap(),original);
+    let mut stale = Session::recover(&store,"completed-original",&package,&binding,"configuration-one").unwrap();
+    session.apply_reviewed_completion(&mut store,"2",&evidence,&typed,&mut media,&Control::new(None)).unwrap();
+    assert!(stale.apply_reviewed_completion(&mut store,"2",&evidence,&typed,&mut media,&Control::new(None)).is_err());
+    assert_eq!(frozen(),original_frozen);
+    drop(store);
+    let store = CheckpointStore::open(&workspace,policy()).unwrap();
+    let recovered = Session::recover(&store,"completed-original",&package,&binding,"configuration-one").unwrap();
+    assert_eq!(recovered.checkpoint(),&next);
+    assert!(recovered.query_context(&mut media,&owner,&Control::new(None)).is_err());
+    assert!(recovered.prepare_reviewed_completion("3",&evidence,&typed,&mut media,&owner,&Control::new(None)).is_err());
+}

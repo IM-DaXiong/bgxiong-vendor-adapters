@@ -174,7 +174,13 @@ impl Session {
         let saved = store
             .load(request_id)?
             .ok_or_else(|| fail("RESOURCE_UNAVAILABLE", "Original checkpoint is missing"))?;
-        let checkpoint = saved.checkpoint;
+        Self::recover_snapshot(saved.checkpoint, saved.frozen, package, binding, configuration_ref)
+    }
+    /// Explicit retained rows supplied by an authorized embedding host. No storage mutation.
+    pub fn recover_snapshot(checkpoint: Value, frozen: Value, package: &VerifiedPackage,
+        binding: &Binding, configuration_ref: &str) -> Result<Self> {
+        validate(&checkpoint)?;
+
         if checkpoint["package"] != value(package.identity())
             || binding.package() != package.identity()
             || checkpoint["bindingId"] != binding.id()
@@ -183,8 +189,8 @@ impl Session {
         {
             return Err(fail("RESOURCE_UNAVAILABLE", "Pinned package, binding or configuration is unavailable; query cannot use a replacement"));
         }
-        validate_frozen_checkpoint(&checkpoint, &saved.frozen)?;
-        let frozen: Frozen = serde_json::from_value(saved.frozen).map_err(|_| invalid())?;
+        validate_frozen_checkpoint(&checkpoint, &frozen)?;
+        let frozen: Frozen = serde_json::from_value(frozen).map_err(|_| invalid())?;
         Ok(Self {
             features: package.enabled_features().clone(),
             checkpoint,
@@ -199,6 +205,58 @@ impl Session {
             return Err(invalid());
         }
         bgx_adapter_v2_validator::image_projection::enable(validate_input(&self.frozen.contract, request).map_err(|_| invalid())?, &self.features).map_err(|_| invalid())
+    }
+    /// Offline completion adjudication; never grants submission or query authority.
+    /// Reuses the ordinary result candidate, including all output/media checks.
+    pub fn prepare_reviewed_completion(&self, expected_revision: &str, evidence: &Value,
+        result: &OperationResultV2, media: &mut MediaBroker, scope: &LeaseScope,
+        control: &Control) -> Result<Value> {
+        crate::resolution::validate_reviewed(&self.checkpoint, &value(&self.frozen), expected_revision, evidence)?;
+        if evidence["outcome"] != "completed" || value(result)["kind"] != "completed"
+            || value(&scope.package) != self.checkpoint["package"]
+            || scope.binding_id != self.checkpoint["bindingId"]
+            || scope.request_id != self.checkpoint["requestId"] {
+            return Err(invalid());
+        }
+        let mut request = self.frozen.request.clone();
+        let identities = self.checkpoint["mediaIdentities"].as_array().ok_or_else(invalid)?;
+        for item in request["media"].as_array_mut().ok_or_else(invalid)? {
+            let identity = identities.iter().find(|id| id["id"] == item["id"] && id["kind"] == item["kind"]).ok_or_else(invalid)?;
+            let lease = media.rehydrate(scope, &serde_json::from_value(identity.clone()).map_err(|_| invalid())?, control)
+                .map_err(|_| fail("RESOURCE_UNAVAILABLE", "Original media is missing or changed"))?;
+            item["handle"] = json!(lease.handle);
+        }
+        let request: OperationSubmitV2 = serde_json::from_value(request).map_err(|_| invalid())?;
+        let context = self.retained_submission_context(&request)?;
+        let mut host = media.validation_context(scope);
+        for proof in &self.frozen.uploads {
+            host.uploads_by_ref.insert(proof.reference.clone(), UploadProvenance {
+                media_digest: proof.media_digest.clone(), package: scope.package.clone(),
+                binding_id: scope.binding_id.clone(), configuration_digest: proof.configuration_digest.clone(),
+                media_id: proof.media_id.clone(),
+            });
+        }
+        validate_host_media(&context, &host).map_err(|_| invalid())?;
+        let mut next = self.candidate(&context, result, Some((media, scope)))?;
+        next["resolution"] = evidence.clone();
+        validate(&next)?;
+        if serde_json::to_vec(&next).map_err(|_| invalid())?.len()
+            > bgx_adapter_v2_ports::resource_policy()["limits"]["maxStateBytes"].as_u64().unwrap() as usize {
+            return Err(fail("BUDGET_EXCEEDED", "Resolved checkpoint exceeds state byte budget"));
+        }
+        Ok(next)
+    }
+    /// Store-backed completion uses the same candidate followed by exact checkpoint CAS.
+    pub fn apply_reviewed_completion(&mut self, store: &mut CheckpointStore, expected_revision: &str,
+        evidence: &Value, result: &OperationResultV2, media: &mut MediaBroker,
+        control: &Control) -> Result<()> {
+        let scope = LeaseScope {
+            package: serde_json::from_value(self.checkpoint["package"].clone()).map_err(|_| invalid())?,
+            binding_id: self.checkpoint["bindingId"].as_str().ok_or_else(invalid)?.into(),
+            request_id: self.checkpoint["requestId"].as_str().ok_or_else(invalid)?.into(),
+        };
+        let next = self.prepare_reviewed_completion(expected_revision, evidence, result, media, &scope, control)?;
+        self.commit(store, next)
     }
     pub fn checkpoint(&self) -> &Value {
         &self.checkpoint

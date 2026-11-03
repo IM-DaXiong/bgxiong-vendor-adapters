@@ -15,6 +15,42 @@ pub fn prepare_operator_reviewed(
     expected_revision: &str,
     evidence: &Value,
 ) -> Result<Value> {
+    validate_reviewed(checkpoint, frozen, expected_revision, evidence)?;
+    if evidence["outcome"] == "completed" {
+        return Err(fail("INVALID_INPUT", "Completed recovery requires the original session and live media broker"));
+    }
+    let revision = decimal_u64(expected_revision)
+        .map_err(|_| fail("INVALID_INPUT", "Checkpoint revision is invalid"))?
+        .checked_add(1)
+        .ok_or_else(|| fail("BUDGET_EXCEEDED", "Checkpoint revision is exhausted"))?;
+    let mut next = checkpoint.clone();
+    next["revision"] = json!(revision.to_string());
+    next["resolution"] = evidence.clone();
+    if evidence["outcome"] == "rejected" {
+        next["state"] = json!("rejected");
+    }
+    validate(&next)?;
+    if serde_json::to_vec(&next).map_err(|_| fail("INVALID_INPUT", "Resolution cannot be serialized"))?.len() > resource_policy()["limits"]["maxStateBytes"].as_u64().unwrap() as usize {
+        return Err(fail("BUDGET_EXCEEDED", "Resolved checkpoint exceeds public state byte budget"));
+    }
+    Ok(next)
+}
+
+/// Pluggable-store variant; the same validation followed by the store's exact CAS.
+pub fn apply_operator_reviewed(
+    store: &mut CheckpointStore,
+    request_id: &str,
+    expected_revision: &str,
+    evidence: &Value,
+) -> Result<Value> {
+    let saved = store.load(request_id)?
+        .ok_or_else(|| fail("RESOURCE_UNAVAILABLE", "Original checkpoint is missing"))?;
+    let next = prepare_operator_reviewed(&saved.checkpoint, &saved.frozen, expected_revision, evidence)?;
+    store.update(&saved.checkpoint, &next)?;
+    Ok(next)
+}
+
+pub(crate) fn validate_reviewed(checkpoint: &Value, frozen: &Value, expected_revision: &str, evidence: &Value) -> Result<()> {
     let max = resource_policy()["limits"]["maxStateBytes"].as_u64().unwrap() as usize;
     for value in [checkpoint, frozen, evidence] {
         if serde_json::to_vec(value).map_err(|_| fail("INVALID_INPUT", "Resolution cannot be serialized"))?.len() > max {
@@ -36,33 +72,5 @@ pub fn prepare_operator_reviewed(
     {
         return Err(fail("INVALID_INPUT", "Resolution evidence belongs to another frozen request"));
     }
-    let revision = decimal_u64(expected_revision)
-        .map_err(|_| fail("INVALID_INPUT", "Checkpoint revision is invalid"))?
-        .checked_add(1)
-        .ok_or_else(|| fail("BUDGET_EXCEEDED", "Checkpoint revision is exhausted"))?;
-    let mut next = checkpoint.clone();
-    next["revision"] = json!(revision.to_string());
-    next["resolution"] = evidence.clone();
-    if evidence["outcome"] == "rejected" {
-        next["state"] = json!("rejected");
-    }
-    validate(&next)?;
-    if serde_json::to_vec(&next).map_err(|_| fail("INVALID_INPUT", "Resolution cannot be serialized"))?.len() > max {
-        return Err(fail("BUDGET_EXCEEDED", "Resolved checkpoint exceeds public state byte budget"));
-    }
-    Ok(next)
-}
-
-/// Pluggable-store variant; the same validation followed by the store's exact CAS.
-pub fn apply_operator_reviewed(
-    store: &mut CheckpointStore,
-    request_id: &str,
-    expected_revision: &str,
-    evidence: &Value,
-) -> Result<Value> {
-    let saved = store.load(request_id)?
-        .ok_or_else(|| fail("RESOURCE_UNAVAILABLE", "Original checkpoint is missing"))?;
-    let next = prepare_operator_reviewed(&saved.checkpoint, &saved.frozen, expected_revision, evidence)?;
-    store.update(&saved.checkpoint, &next)?;
-    Ok(next)
+    Ok(())
 }

@@ -143,6 +143,16 @@ LicenseRef-Proprietary 是当前许可标识，本文没有授予额外使用或
 
 这次增加版本为1的审阅证据schema及checkpoint可选resolution/rejected状态；协议及WIT仍2.0.0，六种adapter操作不变。生成链为 `generate_contracts.py` → `generate_wit.py` → `sync_templates.py --write`，不可手改生成文件；无需让独立包声明不存在的remote reconcile feature。
 
+#### 已完成成果的维护恢复 / Reviewed terminal completion
+
+授权维护者可将 `acceptance_unknown` 核实为 `completed`，不开放 `accepted` 恢复，不提供重发权限。证据仍使用公开 resolution schema（`outcome: completed`），宿主负责审阅原始服务记录与请求身份闭环，核实所有证据文件hash。没有保存原HTTP受理响应时，可使用服务端原始历史和原请求逐字段关联；不能补造一份受理回执。
+
+`prepare-resolution --input ABS` 在原四项输入之外接受 `completion`：`{result,media,workspace,package,config}`。后三项必须由宿主从原冻结任务定位原受管workspace、原版本包目录与原运行config，不能由业务结果选择其他包/配置。`result` 是标准 `SubmitCompletedV2`（没有resumeToken，outputs初始必须为空）；`media` 每项严格为 `{id,role,kind,mime,path,sha256,byteLength,fileName}`，path为原始成果绝对路径、byteLength为十进制字符串。媒体id可预先分配用于JSON索引引用，但不接受伪造handle；工具把同一打开文件流暂存并核hash，经真实broker导入，再填充真实outputs。
+
+工具验证原package/binding/configuration、checkpoint/frozen摘要、原输入媒体、输出schema/slots和媒体租约，返回原 `{expectedRevision,checkpoint}`，完整结果在checkpoint.result。只允许unknown→terminal completed，resumeToken保持null；原冻结合同不改。操作只读包/配置/证据、不运行guest、不出网、不读取凭证内容；会在原workspace登记成果objects/grants，但不写宿主DB或独立checkpoint库。宿主仍须短事务双CAS提交，再完成本地成果导入；准备成功不等于任务已完成。
+
+Embedded hosts use `Session::prepare_reviewed_completion` for a candidate, or `apply_reviewed_completion` for exact checkpoint-store CAS. Both reuse the ordinary Session result validation with live MediaBroker leases. The original frozen request stays unchanged; completed results carry no resume token. The CLI prepares only and never submits, queries a vendor, or commits host task state. An operator-reviewed completed outcome without the completion/media context is rejected.
+
 随后定位的新提交拒绝漏洞使用 `submission-rejection-v1` 公开feature修复：包明确证明未受理后，经原submit上下文的checkpoint.write写入submissionRejection/rejected，详见SDK合同。宿主仅在已集成持久checkpoint终态消费后公布该feature；其requiredImports为空（复用基础host-checkpoint）。正常Response.error不能覆盖该持久拒绝事实，亦不能把未明确拒绝的unknown自动改failed。SDK CLI/worker均需使用包含该feature catalog的同一构建。
 
 ### 包检查预算
