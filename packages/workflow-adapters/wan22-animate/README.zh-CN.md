@@ -1,4 +1,4 @@
-# Wan 2.2 Animate 独立适配包 0.2.1
+# Wan 2.2 Animate 独立适配包 0.2.3
 
 人物替换（Mix）及动作驱动（Move）在提交前自动准备参考图：EXIF方向校正、完整等比缩放、居中放置并补普通中性灰背景。无需把图片手动裁成视频比例，不裁人物、不拉伸、无AI扩图。透明部分在灰底上合成；原图保持不动。可解码且在资源预算内的任意尺寸/比例均走同一准备策略，低清或极端比例参考仍可能缺少有效面部细节。
 
@@ -15,3 +15,7 @@
 ## 0.2.0 视频目标多关键帧跟踪预览
 
 新增操作 `local.bgx.wan22-animate/tracking-preview`（profile `video-target-keyframes-v1`）。多关键帧同一 SAM2 状态；nearest-keyframe 归属禁止 OR；mask-only 导出 maskArtifact；Mix 可读同一遮罩不再重跑 SAM。参考准备仍为 contain-gray-v1。不覆盖已发布 0.1.4。
+
+## 0.2.3 跨机器构建
+
+内嵌公共合同及测试fixture仅引用本公开仓contract/v2，不再依赖作者机器盘符。JSON与Python以LF检出，避免生成schema被CRLF误判为过期。companion identity与包同为0.2.3；不覆盖0.2.2。GPU实际验收单独记录，不以编译通过代替。

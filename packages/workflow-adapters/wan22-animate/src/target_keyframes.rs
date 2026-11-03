@@ -636,7 +636,7 @@ mod tests {
     #[test]
     fn public_profile_fixture_parses_and_old_source_fields_are_rejected() {
         let fixtures: Value = serde_json::from_str(include_str!(
-            "L:/00Dev/bgxiong-ai-story/packages/vendor-adapter-contract/v2/profiles/video-target-keyframes-v1/fixtures/receipts.json"
+            "../../../../contract/v2/profiles/video-target-keyframes-v1/fixtures/receipts.json"
         ))
         .unwrap();
         let input = &fixtures["valid"]["trackingInput"];

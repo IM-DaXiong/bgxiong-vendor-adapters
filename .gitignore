@@ -4,3 +4,6 @@
 **/.bgx-sdk/
 **/__pycache__/
 *.pyc
+
+# Explicit locally built SDK worker for package validation.
+/contract/v2/bin/
