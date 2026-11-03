@@ -43,3 +43,9 @@ JSON帧页与index使用SDK已有opaque file合同（application/octet-stream）
 ## 0.2.9 明确远端取消能力
 
 跟踪声明remote，实际单任务取消HTTP200且cancelled为布尔时返回remote_requested；true/false都不等于远端已停。SDK旧best_effort按既有owner仅支持本地取消，旧dispatcher不一致保留为独立遗留，不修改旧冻结合同。普通生成仍unsupported。
+# 0.2.10 跟踪遮罩与生成采样网格
+
+生成使用已确认遮罩时，读取原遮罩manifest，核对来源摘要、范围、ready、帧序号及实际PTS，再传给companion已有的PTS重采样入口。修复源60fps的126帧遮罩用于12fps/25帧输出时漏传时间表的错误。companion仍为0.2.3，不能改成包版本号。
+
+升级必须走软件统一安装owner；保留旧任务与成果，新包重新跟踪取得自身ready。0.2.10标准包不能覆盖0.2.9。包内36项行为测试通过；真实成片及两个宿主签收以主项目视频跟踪执行记录为准，本文不预写产品通过。
+

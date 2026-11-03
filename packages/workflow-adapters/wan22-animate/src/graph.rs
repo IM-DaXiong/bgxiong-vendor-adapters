@@ -19,6 +19,8 @@ pub struct Inputs<'a> {
     pub replacement_file: &'a str,
     /// Target points already mapped into the generation frame (character replace only).
     pub points: &'a [Point],
+    /// Actual source-grid times from the confirmed mask manifest (not output fps).
+    pub mask_frame_times_ms: &'a [u64],
 }
 
 fn link(node: &str, slot: u64) -> Value {
@@ -140,6 +142,7 @@ pub fn build(r: &Request, plan: &Plan, inputs: &Inputs) -> Value {
                 "digest": art.digest,
                 "expected_frame_count": plan.frames,
                 "target_fps": r.fps,
+                "frame_times_json": serde_json::to_string(inputs.mask_frame_times_ms).expect("integer times serialize"),
                 "out_width": r.width,
                 "out_height": r.height
             }),
@@ -407,6 +410,7 @@ mod tests {
                     source_file: "src.mp4",
                     replacement_file: "ref.png",
                     points: &pts,
+                    mask_frame_times_ms: &[],
                 },
             ),
             p,
@@ -642,12 +646,14 @@ mod tests {
                 source_file: "s.mp4",
                 replacement_file: "r.png",
                 points: &[],
+                mask_frame_times_ms: &[0, 16, 33, 50],
             },
         );
         let obj = g.as_object().unwrap();
         assert_eq!(obj["sam"]["class_type"], "BGXAnimateMaskArtifactLoad");
         assert!(!obj.contains_key("sam.model"));
         assert_eq!(obj["sam"]["inputs"]["artifact_id"], "art-1");
+        assert_eq!(obj["sam"]["inputs"]["frame_times_json"], "[0,16,33,50]");
         assert!(obj.contains_key("mask.block"));
     }
 

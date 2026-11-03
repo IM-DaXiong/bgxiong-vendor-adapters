@@ -13,6 +13,46 @@ use crate::Failure;
 
 const TRACKING_PROGRESS_BASE: &str = "/bgx/wan22-animate/tracking";
 
+/// The immutable mask manifest owns its source sampling grid. Generation passes
+/// that grid to the companion's existing PTS remapper, even at another output fps.
+pub fn generation_frame_times(
+    h: &mut dyn Host, ctx: &Ctx, artifact: &target_keyframes::MaskArtifactRef,
+    source_stat: &Value, span_ms: u64,
+) -> Result<alloc::vec::Vec<u64>, Failure> {
+    if artifact.artifact_id.is_empty() || !artifact.artifact_id.bytes().all(|c| c.is_ascii_alphanumeric() || b"._-".contains(&c)) {
+        return Err(invalid("Mask artifact identity is invalid"));
+    }
+    let path = alloc::format!("{TRACKING_PROGRESS_BASE}/{}/manifest", artifact.artifact_id);
+    let man = comfy::exchange_public(h, ctx, "GET", &path, json!({"kind":"none"}), vec![], false)?;
+    validate_generation_frame_times(&man, artifact, &sha_ref(source_stat)?, span_ms)
+}
+
+fn validate_generation_frame_times(
+    man: &Value, artifact: &target_keyframes::MaskArtifactRef, source_digest: &str, span_ms: u64,
+) -> Result<alloc::vec::Vec<u64>, Failure> {
+    if man["requestId"] != artifact.artifact_id || man["digest"] != artifact.digest
+        || man["sourceDigest"] != source_digest || man["ready"] != true
+        || man["range"]["startMs"].as_u64() != Some(0) || man["range"]["endMs"].as_u64() != Some(span_ms) {
+        return Err(invalid("Mask manifest does not match the confirmed source and range"));
+    }
+    let frames = man["frames"].as_array().filter(|f| !f.is_empty())
+        .ok_or_else(|| invalid("Mask manifest has no source frame times"))?;
+    if man["frameCount"].as_u64() != Some(frames.len() as u64) {
+        return Err(invalid("Mask manifest frame count is inconsistent"));
+    }
+    let mut times = alloc::vec::Vec::with_capacity(frames.len());
+    for (i, frame) in frames.iter().enumerate() {
+        let time = frame["timeMs"].as_u64().filter(|t| *t < span_ms)
+            .ok_or_else(|| invalid("Mask source frame time is outside the range"))?;
+        if frame["frameIndex"].as_u64() != Some(i as u64) || frame["state"] != "covered"
+            || (i == 0 && time != 0) || times.last().is_some_and(|last| *last >= time) {
+            return Err(invalid("Mask source frame grid is incomplete or not increasing"));
+        }
+        times.push(time);
+    }
+    Ok(times)
+}
+
 fn invalid(message: &'static str) -> Failure {
     Failure::new("INVALID_INPUT", message)
 }
@@ -367,6 +407,21 @@ pub fn cancel(h: &mut dyn Host, ctx: &Ctx, vendor_task_id: &str) -> Result<Value
 #[cfg(test)]
 mod tests {
     use super::*;
+    #[test]
+    fn generation_uses_confirmed_source_grid_and_rejects_mismatched_manifest() {
+        let artifact = target_keyframes::MaskArtifactRef { artifact_id: "track".into(), digest: "sha256:mask".into() };
+        let man = json!({"requestId":"track","digest":"sha256:mask","sourceDigest":"sha256:source",
+            "ready":true,"range":{"startMs":0,"endMs":100},"frameCount":4,"frames":[
+                {"frameIndex":0,"timeMs":0,"state":"covered"},{"frameIndex":1,"timeMs":16,"state":"covered"},
+                {"frameIndex":2,"timeMs":33,"state":"covered"},{"frameIndex":3,"timeMs":50,"state":"covered"}]});
+        assert_eq!(validate_generation_frame_times(&man,&artifact,"sha256:source",100).unwrap(), vec![0,16,33,50]);
+        for (pointer, value) in [("/digest",json!("wrong")),("/sourceDigest",json!("wrong")),("/ready",json!(false)),
+            ("/range/endMs",json!(101)),("/frameCount",json!(3)),("/frames/2/timeMs",json!(16)),
+            ("/frames/1/frameIndex",json!(2)),("/frames/3/state",json!("lost"))] {
+            let mut bad=man.clone();*bad.pointer_mut(pointer).unwrap()=value;
+            assert!(validate_generation_frame_times(&bad,&artifact,"sha256:source",100).is_err(),"{pointer}");
+        }
+    }
     use alloc::{string::String, vec::Vec};
     use bgx_adapter_v2_sdk::{host::HostError, HostPortCallV2};
 

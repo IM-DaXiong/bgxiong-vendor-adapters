@@ -126,6 +126,10 @@ fn submit(h: &mut dyn Host, request: &Invocation, p: &Value) -> Result<Value, Fa
         if r.mask_artifact.is_some() {
             comfy::ensure_companion_nodes_tracking(h, &ctx)?;
         }
+        let mask_frame_times = if let Some(artifact) = &r.mask_artifact {
+            let stat = comfy::port(h, "host-media.info", json!({"handle":text(source,"handle")?}))?;
+            tracking::generation_frame_times(h, &ctx, artifact, &stat, r.end_ms-r.start_ms)?
+        } else { alloc::vec::Vec::new() };
         let points = match &r.replace {
             Some(rep) => {
                 // Companion nodes must be present before any upload or GPU work.
@@ -143,9 +147,9 @@ fn submit(h: &mut dyn Host, request: &Invocation, p: &Value) -> Result<Value, Fa
             }
             None => alloc::vec::Vec::new(),
         };
-        Ok((ctx, r, plan, points))
+        Ok((ctx, r, plan, points, mask_frame_times))
     })();
-    let (ctx, r, plan, points) = match decided {
+    let (ctx, r, plan, points, mask_frame_times) = match decided {
         Ok(ready) => ready,
         Err(error) => return Err(persist_local_rejection(h, request, error)),
     };
@@ -159,6 +163,7 @@ fn submit(h: &mut dyn Host, request: &Invocation, p: &Value) -> Result<Value, Fa
             source_file: &source_file,
             replacement_file: &replacement_file,
             points: &points,
+            mask_frame_times_ms: &mask_frame_times,
         },
     );
     let id = comfy::submit(h, &ctx, &graph, &request.r#request_id)?;
