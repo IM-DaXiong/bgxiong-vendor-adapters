@@ -423,8 +423,10 @@ mod tests {
                 "host-media.info" => {
                     let handle = args["handle"].as_str().unwrap();
                     let kind = if handle.starts_with("png-") { "image" } else { "file" };
-                    json!({"id": alloc::format!("id-{handle}"), "kind": kind, "mime": "x/y", "fileName": "f.bin",
-                        "byteLength": "3", "sha256": "ab".repeat(32), "width": null, "height": null,
+                    json!({"id": alloc::format!("id-{handle}"), "kind": kind,
+                        "mime": if kind == "image" { "image/png" } else { "application/json" },
+                        "fileName": alloc::format!("{}.{}", "ab".repeat(32), if kind == "image" { "png" } else { "json" }),
+                        "byteLength": "3", "sha256": "ab".repeat(32), "width": if kind == "image" { json!(16) } else { Value::Null }, "height": if kind == "image" { json!(16) } else { Value::Null },
                         "durationMs": null, "timestampsMs": null})
                 }
                 other => panic!("unexpected port {other}"),
@@ -440,15 +442,31 @@ mod tests {
             frames.push(json!({"frameIndex": i, "timeMs": i * 40, "state": state,
                 "relPath": alloc::format!("masks/frame_{i:05}.png")}));
         }
-        let manifest = json!({"requestId": "req-1", "selectionDigest": "sha256:sel", "digest": "sha256:mask",
-            "range": {"startMs": 0, "endMs": 2440}, "frames": frames, "sourceDigest": "sha256:src",
-            "direction": "both", "operationRef": {}, "outputGeometry": {"width": 16, "height": 16},
+        let selection_digest = alloc::format!("sha256:{}", "cd".repeat(32));
+        let manifest = json!({"requestId": "req-1", "selectionDigest": selection_digest, "digest": alloc::format!("sha256:{}", "ab".repeat(32)),
+            "range": {"startMs": 0, "endMs": 2440}, "frames": frames, "sourceDigest": alloc::format!("sha256:{}", "ef".repeat(32)),
+            "direction": "both", "operationRef": {
+                "operationId": crate::capability::TRACKING_OPERATION_ID,
+                "operationVersion": crate::capability::TRACKING_OPERATION_VERSION,
+                "inputSchemaDigest": crate::capability::capabilities()["capabilityContracts"][0]["operations"][2]["inputSchema"]["digest"]
+            }, "outputGeometry": {"width": 16, "height": 16},
             "resolvedKeyframes": [], "coveredRanges": [], "lostRanges": [], "uncomputedRanges": [],
             "skipRanges": [], "ready": false, "readyReason": "uncomputed frames remain"});
         let config = json!({"endpointBaseUrl": "http://127.0.0.1:8188", "credentialRef": null});
         let ctx = Ctx { config: &config, budget_ms: 10000 };
         let mut h = FakeHost { manifest, files: Vec::new(), next: 0 };
-        let (receipt, outputs) = publish_frames(&mut h, &ctx, "req-1", "sha256:sel").unwrap();
+        let (receipt, outputs) = publish_frames(&mut h, &ctx, "req-1", &selection_digest).unwrap();
+        let contract = serde_json::from_value(crate::capability::capabilities()["capabilityContracts"][0].clone()).unwrap();
+        let mut query = json!({"status":"succeeded", "outputs":outputs, "data":receipt,
+            "usage":null, "progress":null, "terminalFailure":null,
+            "resumeToken":{"promptId":"prompt-1","trackingRequestId":"req-1","selectionDigest":selection_digest,"direction":"both"}});
+        bgx_adapter_v2_validator::result::validate_declared_result(
+            &contract, crate::capability::TRACKING_OPERATION_ID, 1, "query", &serde_json::from_value(query.clone()).unwrap(),
+        ).unwrap();
+        query["data"]["operationRef"]["inputSchemaDigest"] = json!("");
+        assert!(bgx_adapter_v2_validator::result::validate_declared_result(
+            &contract, crate::capability::TRACKING_OPERATION_ID, 1, "query", &serde_json::from_value(query).unwrap(),
+        ).is_err(), "a missing SDK-validated input digest must not be published as a successful tracking receipt");
         let count = |role: &str| outputs.iter().filter(|o| o["role"] == role).count();
         assert_eq!((count("maskFrame"), count("framePage"), count("frameIndex")), (59, 2, 1));
         let index_id = &outputs.iter().find(|o| o["role"] == "frameIndex").unwrap()["media"]["id"];

@@ -357,14 +357,9 @@ fn submit_tracking(h: &mut dyn Host, request: &Invocation, p: &Value) -> Result<
         Ok(ready) => ready,
         Err(error) => return Err(persist_local_rejection(h, request, error)),
     };
+    // The SDK validated this immutable declaration before any package side effect.
+    let input_schema_digest = text(p, "inputSchemaDigest")?.to_string();
     let source_file = uploaded(h, &ctx, p, &tr.source_media_id)?;
-    let caps = capability::capabilities();
-    let input_schema_digest = caps["operations"]
-        .as_array()
-        .and_then(|ops| ops.iter().find(|o| o["id"] == capability::TRACKING_OPERATION_ID))
-        .and_then(|o| o["inputSchema"]["digest"].as_str())
-        .unwrap_or("")
-        .to_string();
     let accepted = tracking::submit(
         h,
         &ctx,
