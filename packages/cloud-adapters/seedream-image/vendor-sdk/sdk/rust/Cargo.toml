@@ -14,6 +14,6 @@
 
 ["dependencies"]
 "serde" = { "version" = "=1.0.228", "default-features" = false, "features" = ["alloc", "derive"] }
-"serde_json" = { "version" = "=1.0.149", "default-features" = false, "features" = ["alloc", "arbitrary_precision"] }
+"serde_json" = { "version" = "=1.0.149", "default-features" = false, "features" = ["alloc"] }
 "wit-bindgen" = { "version" = "=0.51.0", "default-features" = false, "features" = ["macros", "realloc"], "optional" = true }
 "dlmalloc" = { "version" = "=0.2.14", "features" = ["global"], "optional" = true }

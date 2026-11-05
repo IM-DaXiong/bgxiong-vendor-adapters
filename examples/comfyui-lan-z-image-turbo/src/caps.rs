@@ -59,3 +59,29 @@ pub fn runtime_caps_doc() -> Result<Value, String> {
         "slots": [image_slot()?]
     }))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use bgx_vendor_adapter_sdk::PromptProjection;
+
+    /// VS29: the prompt projection fields are optional; an image adapter declares none and the
+    /// SDK refuses one on a non-video slot.
+    #[test]
+    fn image_slot_has_no_prompt_projection() {
+        let doc = runtime_caps_doc().expect("caps");
+        assert!(doc["slots"][0].get("promptProjection").is_none());
+        let manifest: Value =
+            serde_json::from_str(include_str!("../manifest.json")).expect("manifest json");
+        for model in manifest["capabilitySlots"][0]["models"]
+            .as_array()
+            .expect("manifest models")
+        {
+            assert!(model.get("promptProjection").is_none());
+        }
+        let projection =
+            PromptProjection::new("x", 1, "x-prompt-writing", vec!["text_to_video".into()])
+                .expect("valid descriptor");
+        assert!(projection.validate_for_slot("image", &[]).is_err());
+    }
+}

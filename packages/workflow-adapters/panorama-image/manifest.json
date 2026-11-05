@@ -1,5 +1,5 @@
 {
-  "artifactSha256": "744ea3636c3bd8f8b568038cdf2eb7656f90158e24cf4670d4e0a0b1b3115703",
+  "artifactSha256": "af81b8c39d721eb9e8370c085139451281ac2a5c0846995bf99ff4c6dabdd860",
   "displayName": "本地 ComfyUI 单图扩展全景（ERP）",
   "entry": "adapter.wasm",
   "language": "rust",
@@ -35,5 +35,5 @@
     "image-projection-v1"
   ],
   "schemaVersion": 2,
-  "version": "1.0.1"
+  "version": "1.0.2"
 }

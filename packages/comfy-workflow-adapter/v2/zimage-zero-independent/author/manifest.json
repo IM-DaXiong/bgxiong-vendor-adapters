@@ -1,5 +1,5 @@
 {
-  "artifactSha256": "79be9b09003379fb419e583e06d885b51227345c7b5ac7521b2bc2b92afb6d32",
+  "artifactSha256": "fe71bebcbd2892d819b1af2d6dfd8e32839ca544183607e2b4fa7a39339451e0",
   "displayName": "Zero Author Z Image Turbo",
   "entry": "adapter.wasm",
   "language": "rust",
@@ -33,5 +33,5 @@
   },
   "requiredFeatures": [],
   "schemaVersion": 2,
-  "version": "1.0.1"
+  "version": "1.0.2"
 }

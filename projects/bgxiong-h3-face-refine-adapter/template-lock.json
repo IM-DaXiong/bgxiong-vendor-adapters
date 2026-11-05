@@ -15,10 +15,10 @@
       "sources": [
         {
           "path": "sdk/rust/src/generated.rs",
-          "sha256": "3da973606bdfdc0c4bd02a09c53c02b1bd3d4d1b3c050c5234a710e6e3056b19"
+          "sha256": "4563077b568d9be2877df91b651ac3d40d3cb4bd3c1f4eb86076c001f9de87cd"
         }
       ],
-      "sha256": "3da973606bdfdc0c4bd02a09c53c02b1bd3d4d1b3c050c5234a710e6e3056b19",
+      "sha256": "4563077b568d9be2877df91b651ac3d40d3cb4bd3c1f4eb86076c001f9de87cd",
       "transform": "byte-copy"
     },
     {
@@ -48,10 +48,21 @@
       "sources": [
         {
           "path": "sdk/rust/src/lib.rs",
-          "sha256": "b7815e04d21b98e2f0261eb014160a52c02e806e793f100ae0f240d7d61ee7d7"
+          "sha256": "b81d939cf51c023ac473f78d5fb4a4da330963e773c161d00ac620ba2f46b4c3"
         }
       ],
-      "sha256": "b7815e04d21b98e2f0261eb014160a52c02e806e793f100ae0f240d7d61ee7d7",
+      "sha256": "b81d939cf51c023ac473f78d5fb4a4da330963e773c161d00ac620ba2f46b4c3",
+      "transform": "byte-copy"
+    },
+    {
+      "target": "vendor-sdk/sdk/rust/src/submission_rejection.rs",
+      "sources": [
+        {
+          "path": "sdk/rust/src/submission_rejection.rs",
+          "sha256": "e0a91cc6475ed5e67a2c327e20c9efbfbcdd66ce5d7813d2b9d7eac91617dab2"
+        }
+      ],
+      "sha256": "e0a91cc6475ed5e67a2c327e20c9efbfbcdd66ce5d7813d2b9d7eac91617dab2",
       "transform": "byte-copy"
     },
     {
@@ -70,14 +81,14 @@
       "sources": [
         {
           "path": "Cargo.toml",
-          "sha256": "a709d989ffa9bd46b74311499679003570734a07cc63e7ffec074dc53c3183a0"
+          "sha256": "982226c1fdbd3669d7689d1c8d1bc1a6e667edafa9e8185bb60e5af051ed705e"
         },
         {
           "path": "sdk/rust/Cargo.toml",
           "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7"
         }
       ],
-      "sha256": "e6113f4af6d805589b02401f00b31bf74ebe7d4fbb9f89f8b4504972ea3ce18d",
+      "sha256": "c64048d594975c87a3a321e7f385f9a5167b1099a547ade81ce14a2d44ca6f6b",
       "transform": "flatten public workspace metadata/dependencies; omit host-only development dependencies"
     },
     {
@@ -85,7 +96,7 @@
       "sources": [
         {
           "path": "Cargo.lock",
-          "sha256": "98bca224e371f07a87b6094e31a5e5c6a9eaa9500672e33612af2bf8e947d385"
+          "sha256": "91a0d379c98fbb25b6cd348c8100850147e3a832d02818b645f8f287e648fe89"
         },
         {
           "path": "sdk/rust/Cargo.toml",

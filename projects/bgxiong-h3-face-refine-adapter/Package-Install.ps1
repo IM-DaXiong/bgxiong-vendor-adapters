@@ -1,4 +1,4 @@
-param()
+param([string]$ValidatedWasmPath = '')
 $ErrorActionPreference = 'Stop'
 $root = $PSScriptRoot
 $versionLine = Get-Content -LiteralPath (Join-Path $root 'Cargo.toml') | Where-Object { $_ -match '^version = "([^"]+)"$' } | Select-Object -First 1
@@ -6,15 +6,16 @@ if ($versionLine -notmatch '^version = "([^"]+)"$') { throw 'Missing package ver
 $version = $Matches[1]
 $out = Join-Path $root ('install-' + $version)
 if (Test-Path -LiteralPath $out) { throw "Refusing to overwrite distribution: $out" }
-$wasm = Join-Path $root 'target/wasm32-wasip2/release/h3_face_refine_adapter.wasm'
-if (-not (Test-Path -LiteralPath $wasm)) { throw 'Build wasm32-wasip2 release first' }
+$wasm = if ($ValidatedWasmPath) { [IO.Path]::GetFullPath($ValidatedWasmPath) } else { Join-Path $root 'adapter.wasm' }
+if (-not (Test-Path -LiteralPath $wasm)) { throw 'Build/check with the public SDK first, then provide its validated WASM.' }
 $manifestPath = Join-Path $root 'manifest.json'
 $manifest = Get-Content -LiteralPath $manifestPath -Raw | ConvertFrom-Json
+if ($manifest.version -ne $version -or $manifest.artifactSha256 -ne (Get-FileHash -LiteralPath $wasm -Algorithm SHA256).Hash.ToLowerInvariant()) { throw 'Validated manifest, source version and WASM differ.' }
 $manifest.version = $version
 $manifest.artifactSha256 = (Get-FileHash -LiteralPath $wasm -Algorithm SHA256).Hash.ToLowerInvariant()
 $utf8 = [Text.UTF8Encoding]::new($false)
 [IO.File]::WriteAllText($manifestPath, ($manifest | ConvertTo-Json -Depth 40) + "`n", $utf8)
-Copy-Item -LiteralPath $wasm -Destination (Join-Path $root 'adapter.wasm')
+if ([IO.Path]::GetFullPath($wasm) -ne [IO.Path]::GetFullPath((Join-Path $root 'adapter.wasm'))) { Copy-Item -LiteralPath $wasm -Destination (Join-Path $root 'adapter.wasm') }
 $manifestHash = (Get-FileHash -LiteralPath $manifestPath -Algorithm SHA256).Hash.ToLowerInvariant()
 $inventory = "$manifestHash manifest.json`n$($manifest.artifactSha256) adapter.wasm`n"
 [IO.File]::WriteAllText((Join-Path $root 'manifest.sha256'), $inventory, $utf8)

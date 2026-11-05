@@ -1,24 +1,23 @@
 # Vendor Adapter Rust SDK
 
 Status: **supported**. This is the only language SDK with library code today; Python /
-TypeScript / TinyGo are 暂不支持 (see their READMEs).
+TypeScript / TinyGo are 暂不支持; the installer includes Rust SDK code only.
 
 `bgx-vendor-adapter-sdk` covers the JSON envelope that crosses the host boundary and the
 payload builders for `submit` / `query`. The WIT world lives in
-[`../../wit/vendor-adapter.wit`](../../wit/vendor-adapter.wit) and is generated in your own
+[`../wit/vendor-adapter.wit`](../wit/vendor-adapter.wit) and is generated in your own
 crate with `wit-bindgen`; this SDK stays free of `wit-bindgen` so the same code compiles for
 host-side tests and for `bgx-adapter dev`.
 
-Closed sets (`protocolHostMajor`, `operations`, `capabilitySlots`) are read from
-`packages/app-contracts/v1/vendor-adapter.json` at compile time, so the SDK cannot drift from
-the client. Keep this crate inside the repo tree, or vendor that JSON at the same relative
-path when you copy the crate out.
+Closed sets are read from the crate-local `src/vendor-adapter-protocol.json` at compile
+time. Keep that file with `src/lib.rs` when you copy this crate. The supported field contract,
+schemas and upgrade notes are in the enclosing `vendor-adapter-v1/` package.
 
 ## Use
 
 ```toml
 [dependencies]
-bgx-vendor-adapter-sdk = { path = "../bgxiong-ai-story/packages/vendor-adapter-contract/v1/sdk/rust" }
+bgx-vendor-adapter-sdk = { path = "vendor-sdk" }
 ```
 
 ```rust
@@ -58,10 +57,10 @@ Rules the host enforces, so build for them from the start:
 
 ## Build
 
-Rust adapters ship a **precompiled** `adapter.wasm` component, so users need no runtime download:
+Published Rust plugins can ship a **precompiled** `adapter.wasm` component. The bundled source examples omit the binary; importing their source requires a Rust toolchain with `cargo-component`:
 
 ```bash
 cargo component build --release --target wasm32-wasip2
-bgx-adapter check .
-bgx-adapter pack .
 ```
+
+Import the plugin root in Settings → Third-party adapters. The optional `bgx-adapter` developer CLI is not required for the app import flow.

@@ -6,6 +6,7 @@ extern crate std;
 
 pub mod host;
 pub mod guest;
+pub mod submission_rejection;
 pub use host::Host;
 pub use guest::Adapter;
 

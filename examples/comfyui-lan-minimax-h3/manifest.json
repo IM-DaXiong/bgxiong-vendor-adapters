@@ -2,7 +2,7 @@
   "schemaVersion": 2,
   "pluginId": "local.example.comfyui-lan-h3",
   "displayName": "LAN ComfyUI MiniMax H3",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "language": "rust",
   "optionalFeatures": ["video-reference-media-v1"],
   "entry": "adapter.wasm",
@@ -11,9 +11,9 @@
       "slot": "video",
       "taskType": "text_to_video",
       "models": [
-        { "modelId": "h3.t2v", "displayName": "MiniMax H3 text to video" },
-        { "modelId": "h3.i2v.turbo", "displayName": "MiniMax H3 turbo single-image reference" },
-        { "modelId": "h3.r2v.turbo", "displayName": "MiniMax H3 turbo multi-reference" }
+        { "modelId": "h3.t2v", "displayName": "MiniMax H3 text to video", "promptProjection": { "profileId": "h3", "version": 1, "defaultMethodName": "h3-prompt-writing", "inputModes": ["text_to_video"] } },
+        { "modelId": "h3.i2v.turbo", "displayName": "MiniMax H3 turbo single-image reference", "promptProjection": { "profileId": "h3", "version": 1, "defaultMethodName": "h3-prompt-writing", "inputModes": ["image_to_video"] } },
+        { "modelId": "h3.r2v.turbo", "displayName": "MiniMax H3 turbo multi-reference", "promptProjection": { "profileId": "h3", "version": 1, "defaultMethodName": "h3-prompt-writing", "inputModes": ["multi_image_to_video"] } }
       ],
       "supportsAsync": true,
       "maxReferenceImages": 3,

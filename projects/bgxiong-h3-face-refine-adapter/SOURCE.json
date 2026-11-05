@@ -1,6 +1,6 @@
 {
     "pluginId":  "local.thirdparty.h3-face-refine",
-    "version":  "1.0.0-a29",
+    "version":  "1.0.0-a30",
     "upstream":  {
                      "repo":  "https://github.com/Carasibana/ComfyUI-H3-FaceRefine",
                      "commit":  "d8521d14fe0d721d80cd9417fff5a559cbc21aba",

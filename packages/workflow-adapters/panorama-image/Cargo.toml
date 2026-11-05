@@ -4,7 +4,7 @@ exclude = ["vendor-sdk/sdk/rust"]
 
 [package]
 name = "comfy-panorama-image-adapter"
-version = "1.0.1"
+version = "1.0.2"
 edition = "2021"
 license = "LicenseRef-Proprietary"
 publish = false

@@ -11,15 +11,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
 
 [[package]]
-name = "bgx-zeroauthor-zimage-turbo"
-version = "1.0.1"
-dependencies = [
- "bgx-adapter-v2-sdk",
- "serde_json",
- "sha2",
-]
-
-[[package]]
 name = "bgx-adapter-v2-sdk"
 version = "2.0.0"
 dependencies = [
@@ -27,6 +18,15 @@ dependencies = [
  "serde",
  "serde_json",
  "wit-bindgen",
+]
+
+[[package]]
+name = "bgx-zeroauthor-zimage-turbo"
+version = "1.0.2"
+dependencies = [
+ "bgx-adapter-v2-sdk",
+ "serde_json",
+ "sha2",
 ]
 
 [[package]]
@@ -171,9 +171,9 @@ checksum = "65cd87c9a6d60536580b316ad985726104730a5151c99845f2490428ef91240a"
 
 [[package]]
 name = "log"
-version = "0.4.34"
+version = "0.4.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f9f8bd3e56ce4dfc153cf470fffbfa98c7620958b312ca5c3a4b8d5181fd13c6"
+checksum = "5d15f86d12da44cd8d4ec3c73984537eb7f4cadcb9776a575a0a8a05ca11005c"
 
 [[package]]
 name = "memchr"
