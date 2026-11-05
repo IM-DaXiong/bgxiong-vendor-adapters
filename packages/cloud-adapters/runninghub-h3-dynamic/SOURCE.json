@@ -1,0 +1,141 @@
+{
+  "packageId": "local.thirdparty.runninghub-h3-dynamic",
+  "version": "1.2.6",
+  "sdkRelease": "2.0.0",
+  "sourceOrigin": "repository packages/cloud-adapters/runninghub-h3-dynamic",
+  "sourceManifestSha256": "075290650d15b12e9af547f290695ea1d5384feee981d089dfb3c66cd3ded90f",
+  "notes": [
+    "Current authoritative standalone 1.2.6 source; frozen public SDK 2.0.0 mirror unchanged; adopts submission-rejection-v1.",
+    "Submit/query group budgets increased from 180000 to 540000 ms; upload failures durably record explicit non-submission and user-readable reasons.",
+    "Consume the managed SDK video facts without an extra container whitelist; retain real MIME/basename and strict measured media facts.",
+    "All consumed managed HTTP, media and checkpoint returns decode through frozen public SDK DTOs.",
+    "QuickTime, MP4 and EBML stat fixtures come from real SDK media probing. QA remux copies are not new cloud tasks.",
+    "Requires the paired generic application video collect/storage fix 20e2acf7b (main cherry-pick may differ).",
+    "Only the current source is maintained here; history remains in Git."
+  ],
+  "sourceFiles": [
+    {
+      "path": "Build.ps1",
+      "sha256": "910e19ff969902668ce1165b7b8cb44948e94857432fe95f1a4e95e284e4a767"
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "a3cf883335d9cb1a48b522a344e0e8b824eca87f3554f7543ef36156b80d30f0"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "b0b49ef2905453e6a0db361576ff1e3d70d0a2cc6e199687e94ee8056b4f7a9c"
+    },
+    {
+      "path": "README.md",
+      "sha256": "c7bc4aae2ec26261d8eed95e732eebf116d68b98c1f03c2e0bfb3a85eeb2280a"
+    },
+    {
+      "path": "fixtures/sdk-managed-video-ebml.json",
+      "sha256": "929f55193b63702ea8fc1b9fd47190b80ed502ce61ab015806068ccd249a7d5c"
+    },
+    {
+      "path": "fixtures/sdk-managed-video-mp4.json",
+      "sha256": "048b949756d2b159a4a52f55fda8114f845be92f19e5f597a17c3d73a60a0ac9"
+    },
+    {
+      "path": "fixtures/sdk-managed-video-quicktime.json",
+      "sha256": "8ee30d2121887ff06fcfe1a8587236a37361d9c21f8e4c65d8e485a016926554"
+    },
+    {
+      "path": "installation/adapter-install.template.json",
+      "sha256": "5f075d7f57aecb6a5e3c57ccb731c78af24041591bae731e7433c017b1a4bea7"
+    },
+    {
+      "path": "manifest.json",
+      "sha256": "075290650d15b12e9af547f290695ea1d5384feee981d089dfb3c66cd3ded90f"
+    },
+    {
+      "path": "manifest.sha256",
+      "sha256": "b79ec95860bcaf59be22deb624a5ae6331edd59e50d088f9219444d6714b173a"
+    },
+    {
+      "path": "schemas/config.json",
+      "sha256": "fd5402d436e5d65354ef07704366eb29c2185ce1f3bae902e303c0ee6961317a"
+    },
+    {
+      "path": "schemas/input.json",
+      "sha256": "c4a29183d346165ea2578c4e6517ed0cecfe122f9d1bc0ec39b8793f194257f9"
+    },
+    {
+      "path": "schemas/output.json",
+      "sha256": "98e4072da37274b9bb4d1eff28c0862e07018a98e1f22b47fca1983b663ed05f"
+    },
+    {
+      "path": "schemas/resume.json",
+      "sha256": "db563f4b0a4ec28961e4e8416ffeb46deeda1bd728008c8f073d94358fa85696"
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "8ca5fae20c01945c2fbb5eac4373bd3aacd21340534212dee33a13ec70638a87"
+    },
+    {
+      "path": "src/tests.rs",
+      "sha256": "b6a202dfee4cbc81d89d1f40c458d2e4d1df7baeb2ab2925d4eb0af0b447b658"
+    },
+    {
+      "path": "src/workflow-api.json",
+      "sha256": "bd9993ae0aa5014f1aef6385508e89f522fa55b15bfeefd631625e2bf248a88f"
+    },
+    {
+      "path": "template-lock.json",
+      "sha256": "dd05c5c2ce912eb87544acc11a815cc7f6c9ae36a4d640e8a469fc0355c542c0"
+    },
+    {
+      "path": "vendor-sdk/sdk/rust/Cargo.toml",
+      "sha256": "e6113f4af6d805589b02401f00b31bf74ebe7d4fbb9f89f8b4504972ea3ce18d"
+    },
+    {
+      "path": "vendor-sdk/sdk/rust/src/generated.rs",
+      "sha256": "ec08bd56de652ddb67bf861107d523ebe209dab7e569b2e271d3fbc3e32b670b"
+    },
+    {
+      "path": "vendor-sdk/sdk/rust/src/guest.rs",
+      "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8"
+    },
+    {
+      "path": "vendor-sdk/sdk/rust/src/host.rs",
+      "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067"
+    },
+    {
+      "path": "vendor-sdk/sdk/rust/src/lib.rs",
+      "sha256": "b81d939cf51c023ac473f78d5fb4a4da330963e773c161d00ac620ba2f46b4c3"
+    },
+    {
+      "path": "vendor-sdk/wit/vendor-adapter.wit",
+      "sha256": "c1bf96aa89f35378f05684919c5e0ecac740092761066ce222dde4267b2d892a"
+    }
+  ],
+  "repositoryValidation": {
+    "jsonAndCredentials": "PASS_NO_EMBEDDED_CREDENTIAL_FINDINGS",
+    "cargoMetadata": "PASS_LOCKED_OFFLINE_SINGLE_MEMBER_WORKSPACE",
+    "buildScriptSyntax": "PASS",
+    "nativeBehaviorTests": {
+      "passed": 8,
+      "failed": 0,
+      "ignored": 0
+    },
+    "nativeBuildTarget": "outside host workspace target",
+    "cloudGeneration": "NOT_RUN",
+    "standardSdkBuildCheckPackThisPublishingStep": "NOT_RUN; previous 1.2.2 evidence described separately"
+  },
+  "baseVersion": "1.2.3",
+  "baseSourceOrigin": "runninghub-h3-author-20261027/delivery/RunningHub-H3-Dynamic-1.2.2/source",
+  "builtArtifactSha256": "43da3b18c3831478744d2af3af0c3513f87456fa4013f8feb7f630fe016d0aaf",
+  "sdkSource": "Generated mirrors refreshed using the bundled public CLI init; no manual edits to generated files",
+  "latestFix": "LF schema identity, new immutable package version, full reference input declaration; real host install acceptance tracked separately",
+  "currentVerification": {
+    "publicSdkBuildCheckPack": "PASS",
+    "nativeBehaviorTests": {
+      "passed": 9,
+      "failed": 0
+    },
+    "realCloudGeneration": "NOT_RUN",
+    "hostInstallation": "PASS_REAL_SDK_TEMP_DB_AND_CURRENT_APP_COMMITTED"
+  }
+}

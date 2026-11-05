@@ -1,0 +1,46 @@
+{
+  "configuration": {
+    "endpointBaseUrl": "http://YOUR-COMFYUI-HOST:8188"
+  },
+  "network": {
+    "origins": [
+      "http://YOUR-COMFYUI-HOST:8188"
+    ],
+    "deniedHosts": [],
+    "allowEmbeddedAuthorization": false,
+    "deniedNetworks": [],
+    "allowPrivate": true
+  },
+  "bindingRevision": 1,
+  "credentials": [],
+  "mediaTtlMs": 3600000,
+  "budgetMs": {
+    "query": 120000,
+    "cancel": 60000,
+    "probe": 60000,
+    "capabilities": 60000,
+    "submit": 120000
+  },
+  "trust": {
+    "publishers": [],
+    "revokedVersions": [],
+    "supportedFeatures": [],
+    "denylistedHosts": [],
+    "isFresh": false,
+    "revokedKeys": [],
+    "revokedPlugins": []
+  },
+  "configurationRef": "comfy-h3-continuum-author-v1",
+  "transport": {
+    "writeTimeoutMs": 60000,
+    "handshakeTimeoutMs": 10000,
+    "cancelGraceMs": 100,
+    "shutdownTimeoutMs": 10000
+  },
+  "bindingId": "comfy-h3-continuum-author-example",
+  "probe": {
+    "executable": "D:/your-managed-runtime/ffprobe.exe",
+    "timeoutMs": 30000,
+    "frameTimestamps": false
+  }
+}

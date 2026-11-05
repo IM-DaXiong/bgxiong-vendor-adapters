@@ -1,0 +1,41 @@
+{
+  "bindingId": "flux2-ordered-reference-author",
+  "bindingRevision": 1,
+  "configurationRef": "flux2-author-v1",
+  "configuration": {
+    "endpointBaseUrl": "http://YOUR-COMFY-HOST:8188"
+  },
+  "trust": {
+    "publishers": [],
+    "revokedPlugins": [],
+    "revokedVersions": [],
+    "revokedKeys": [],
+    "denylistedHosts": [],
+    "isFresh": false,
+    "supportedFeatures": []
+  },
+  "network": {
+    "origins": [
+      "http://YOUR-COMFY-HOST:8188"
+    ],
+    "allowPrivate": true,
+    "allowEmbeddedAuthorization": false,
+    "deniedHosts": [],
+    "deniedNetworks": []
+  },
+  "credentials": [],
+  "mediaTtlMs": 3600000,
+  "transport": {
+    "handshakeTimeoutMs": 10000,
+    "writeTimeoutMs": 60000,
+    "shutdownTimeoutMs": 10000,
+    "cancelGraceMs": 100
+  },
+  "budgetMs": {
+    "capabilities": 60000,
+    "probe": 60000,
+    "submit": 120000,
+    "query": 120000,
+    "cancel": 60000
+  }
+}

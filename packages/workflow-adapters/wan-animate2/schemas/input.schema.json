@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["source", "sourceRange", "replacement", "prompt", "negativePrompt", "width", "height", "fps", "audio", "advanced"],
+  "properties": {
+    "source": { "$ref": "#/$defs/mediaRef", "x-mediaKind": "video", "title": "驱动视频（动作来源）" },
+    "sourceRange": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mediaId", "startMs", "endMs"],
+      "properties": {
+        "mediaId": { "type": "string", "minLength": 1 },
+        "startMs": { "type": "integer", "minimum": 0 },
+        "endMs": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "replacement": { "$ref": "#/$defs/mediaRef", "x-mediaKind": "image", "title": "角色图片（外观来源）" },
+    "prompt": { "type": "string", "minLength": 1, "title": "角色外观与背景描述" },
+    "negativePrompt": { "type": "string", "title": "负面提示词", "default": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走" },
+    "width": { "type": "integer", "minimum": 16, "multipleOf": 16, "default": 832, "x-portraitDefault": 480 },
+    "height": { "type": "integer", "minimum": 16, "multipleOf": 16, "default": 480, "x-portraitDefault": 832 },
+    "fps": { "type": "integer", "minimum": 1, "maximum": 120, "default": 30 },
+    "audio": { "enum": ["source", "none"], "default": "source" },
+    "advanced": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["motionPrompt", "segmentFrames", "seed", "steps", "cfg", "sampler", "scheduler", "samplingShift", "poseStrength", "poseStartPercent", "poseEndPercent", "referenceImageStrength", "contextWindows", "cacheDevice", "cacheDtype"],
+      "properties": {
+        "motionPrompt": { "type": "string", "title": "动作描述（只描述动作，可留空=沿用外观描述）", "default": "" },
+        "segmentFrames": { "type": "integer", "minimum": 5, "title": "每段帧数（4n+1）", "default": 81 },
+        "seed": { "type": "integer", "minimum": 0, "maximum": 9007199254740991, "title": "种子", "default": 0 },
+        "steps": { "type": "integer", "minimum": 1, "maximum": 100, "title": "步数", "default": 10 },
+        "cfg": { "type": "number", "minimum": 0, "maximum": 30, "title": "CFG", "default": 1 },
+        "sampler": { "enum": ["lcm", "euler", "euler_ancestral", "dpmpp_2m", "dpmpp_sde", "uni_pc"], "title": "采样器", "default": "lcm" },
+        "scheduler": { "enum": ["simple", "normal", "karras", "exponential", "sgm_uniform", "beta"], "title": "调度器", "default": "simple" },
+        "samplingShift": { "type": "number", "minimum": 0, "maximum": 100, "title": "采样偏移", "default": 5 },
+        "poseStrength": { "type": "number", "minimum": 0, "maximum": 10, "title": "动作跟随强度", "default": 1 },
+        "poseStartPercent": { "type": "number", "minimum": 0, "maximum": 1, "title": "动作影响起点", "default": 0 },
+        "poseEndPercent": { "type": "number", "minimum": 0, "maximum": 1, "title": "动作影响终点", "default": 1 },
+        "referenceImageStrength": { "type": "number", "minimum": 0, "maximum": 10, "title": "角色外观保持强度", "default": 1 },
+        "contextWindows": { "type": "boolean", "title": "长片上下文窗口（每段内滑窗，省显存）", "default": false },
+        "cacheDevice": { "enum": ["gpu", "cpu"], "title": "动作缓存位置", "default": "gpu" },
+        "cacheDtype": { "enum": ["int8", "default", "int4"], "title": "动作缓存精度", "default": "int8" }
+      }
+    }
+  },
+  "$defs": {
+    "mediaRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mediaId"],
+      "properties": { "mediaId": { "type": "string", "minLength": 1 } }
+    }
+  },
+  "x-resourceHint": {
+    "blocking": false,
+    "basis": "原件默认（int8 蒸馏 DiT、每段 81 帧、10 步）；未实测显存峰值",
+    "reference": { "width": 832, "height": 480, "fps": 30, "segmentFrames": 81 },
+    "vramPeakBytes": null,
+    "message": "按原件默认（832×480、每段 81 帧、10 步）设定；分辨率、每段帧数和段数越大，显存与耗时越高。显存紧张时可开启「长片上下文窗口」或把动作缓存放到 CPU。本提示不阻断提交。"
+  }
+}

@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "packageId": "local.thirdparty.comfy-panorama-image",
+  "packageVersion": "1.0.0",
+  "note": "模型不入 git。本机 IM-DaXiong 已下载到 E:；另一台验收机按同清单落盘。不跑 Comfy 实采样。",
+  "customNodes": [
+    {
+      "name": "ComfyUI-Panorama-Stickers",
+      "url": "https://github.com/nomadoor/ComfyUI-Panorama-Stickers",
+      "localClone": "E:/bgxiong/data/comfyui_custom_nodes/ComfyUI-Panorama-Stickers",
+      "required": true,
+      "purpose": "PanoramaStickers 无头 sticker_image/sticker_state 组装 ERP 控制图"
+    }
+  ],
+  "assets": [
+    {
+      "role": "diffusion_models",
+      "fileName": "flux-2-klein-base-4b.safetensors",
+      "comfyRelativePath": "models/diffusion_models/flux-2-klein-base-4b.safetensors",
+      "localPath": "E:/bgxiong/data/models/comfyui/diffusion_models/flux-2-klein-base-4b.safetensors",
+      "byteLength": 7751105712,
+      "sha256": "9c5fed22b76baea749d88fc2abe3ad53245e7b21a0d353a762665eea00043b92",
+      "license": "Apache-2.0",
+      "upstream": {
+        "repo": "Comfy-Org/vae-text-encorder-for-flux-klein-4b",
+        "path": "split_files/diffusion_models/flux-2-klein-base-4b.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/vae-text-encorder-for-flux-klein-4b/resolve/main/split_files/diffusion_models/flux-2-klein-base-4b.safetensors",
+        "revision": "main",
+        "note": "必须使用 base-4B，禁止蒸馏版"
+      }
+    },
+    {
+      "role": "text_encoders",
+      "fileName": "qwen_3_4b.safetensors",
+      "comfyRelativePath": "models/text_encoders/qwen_3_4b.safetensors",
+      "localPath": "E:/bgxiong/data/models/comfyui/text_encoders/qwen_3_4b.safetensors",
+      "byteLength": 8044982048,
+      "sha256": "6c671498573ac2f7a5501502ccce8d2b08ea6ca2f661c458e708f36b36edfc5a",
+      "license": "Apache-2.0",
+      "upstream": {
+        "repo": "Comfy-Org/vae-text-encorder-for-flux-klein-4b",
+        "path": "split_files/text_encoders/qwen_3_4b.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/vae-text-encorder-for-flux-klein-4b/resolve/main/split_files/text_encoders/qwen_3_4b.safetensors",
+        "revision": "main"
+      }
+    },
+    {
+      "role": "vae",
+      "fileName": "flux2-vae.safetensors",
+      "comfyRelativePath": "models/vae/flux2-vae.safetensors",
+      "localPath": "E:/bgxiong/data/models/comfyui/vae/flux2-vae.safetensors",
+      "byteLength": 336211292,
+      "sha256": "868fe7b343cc8f3a19dbcfcafbc3d5f888802be3f89bd81b65b3621a066ce8f3",
+      "license": "Apache-2.0",
+      "upstream": {
+        "repo": "Comfy-Org/vae-text-encorder-for-flux-klein-9b",
+        "path": "split_files/vae/flux2-vae.safetensors",
+        "url": "https://huggingface.co/Comfy-Org/vae-text-encorder-for-flux-klein-9b/resolve/main/split_files/vae/flux2-vae.safetensors",
+        "revision": "main"
+      }
+    },
+    {
+      "role": "loras",
+      "fileName": "flux-2-klein-4B-360-erp-outpaint-lora_V1.safetensors",
+      "comfyRelativePath": "models/loras/flux-2-klein-4B-360-erp-outpaint-lora_V1.safetensors",
+      "localPath": "E:/bgxiong/data/models/comfyui/loras/flux-2-klein-4B-360-erp-outpaint-lora_V1.safetensors",
+      "byteLength": 46224184,
+      "sha256": "567cc22de03800d2c9d4309e0cf6f971cc00da6b39fb26b0311031f2563de166",
+      "license": "See upstream model card",
+      "upstream": {
+        "repo": "nomadoor/flux-2-klein-4B-360-erp-outpaint-lora",
+        "path": "flux-2-klein-4B-360-erp-outpaint-lora_V1.safetensors",
+        "url": "https://huggingface.co/nomadoor/flux-2-klein-4B-360-erp-outpaint-lora/resolve/main/flux-2-klein-4B-360-erp-outpaint-lora_V1.safetensors",
+        "revision": "main"
+      }
+    }
+  ]
+}

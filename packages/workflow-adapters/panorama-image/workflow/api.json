@@ -1,0 +1,164 @@
+{
+  "100": {
+    "class_type": "LoadImage",
+    "inputs": {
+      "image": "reference.png"
+    }
+  },
+  "48": {
+    "class_type": "UNETLoader",
+    "inputs": {
+      "unet_name": "flux-2-klein-base-4b.safetensors",
+      "weight_dtype": "default"
+    }
+  },
+  "63": {
+    "class_type": "LoraLoaderModelOnly",
+    "inputs": {
+      "model": [
+        "48",
+        0
+      ],
+      "lora_name": "flux-2-klein-4B-360-erp-outpaint-lora_V1.safetensors",
+      "strength_model": 0.9
+    }
+  },
+  "44": {
+    "class_type": "CLIPLoader",
+    "inputs": {
+      "clip_name": "qwen_3_4b.safetensors",
+      "type": "flux2",
+      "device": "default"
+    }
+  },
+  "43": {
+    "class_type": "VAELoader",
+    "inputs": {
+      "vae_name": "flux2-vae.safetensors"
+    }
+  },
+  "6": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "44",
+        0
+      ],
+      "text": "Fill the green spaces according to the image. Outpaint as a seamless 360 equirectangular panorama (2:1). Keep the horizon level. Match left and right edges."
+    }
+  },
+  "33": {
+    "class_type": "CLIPTextEncode",
+    "inputs": {
+      "clip": [
+        "44",
+        0
+      ],
+      "text": "text, worst quality, blurry, ugly"
+    }
+  },
+  "70": {
+    "class_type": "PanoramaStickers",
+    "inputs": {
+      "output_preset": "2048",
+      "coverage": "360",
+      "bg_color": "#00ff00",
+      "state_json": "{\"version\":1,\"projection_model\":\"pinhole_rectilinear\",\"alpha_mode\":\"straight\",\"coverage\":360,\"bg_color\":\"#00ff00\",\"output_preset\":2048,\"assets\":{},\"stickers\":[],\"shots\":[],\"painting\":{\"version\":1,\"groups\":[],\"paint\":{\"strokes\":[]},\"mask\":{\"strokes\":[]},\"raster_objects\":[]},\"painting_layer\":null,\"ui_settings\":{\"invert_view_x\":false,\"invert_view_y\":false,\"preview_quality\":\"balanced\"},\"active\":{\"selected_sticker_id\":null,\"selected_shot_id\":null}}",
+      "fps": 24,
+      "sticker_image": [
+        "100",
+        0
+      ],
+      "sticker_state": "{\"kind\":\"pano_sticker_state\",\"version\":1,\"pose\":{\"yaw_deg\":0.0,\"pitch_deg\":0.0,\"roll_deg\":0.0,\"hFOV_deg\":90.0}}"
+    }
+  },
+  "52": {
+    "class_type": "VAEEncode",
+    "inputs": {
+      "pixels": [
+        "70",
+        0
+      ],
+      "vae": [
+        "43",
+        0
+      ]
+    }
+  },
+  "49": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": [
+        "6",
+        0
+      ],
+      "latent": [
+        "52",
+        0
+      ]
+    }
+  },
+  "55": {
+    "class_type": "ReferenceLatent",
+    "inputs": {
+      "conditioning": [
+        "33",
+        0
+      ],
+      "latent": [
+        "52",
+        0
+      ]
+    }
+  },
+  "31": {
+    "class_type": "KSampler",
+    "inputs": {
+      "model": [
+        "63",
+        0
+      ],
+      "positive": [
+        "49",
+        0
+      ],
+      "negative": [
+        "55",
+        0
+      ],
+      "latent_image": [
+        "52",
+        0
+      ],
+      "seed": 12345,
+      "steps": 20,
+      "cfg": 5,
+      "sampler_name": "euler",
+      "scheduler": "simple",
+      "denoise": 1
+    }
+  },
+  "8": {
+    "class_type": "VAEDecode",
+    "inputs": {
+      "samples": [
+        "31",
+        0
+      ],
+      "vae": [
+        "43",
+        0
+      ]
+    }
+  },
+  "66": {
+    "class_type": "SaveImage",
+    "inputs": {
+      "images": [
+        "8",
+        0
+      ],
+      "filename_prefix": "bgxiong_panorama_erp"
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "packageDirectory": "package",
+  "manifestSha256": "BUILD_GENERATED_MANIFEST_SHA256",
+  "hostConfig": {
+    "bindingId": "minimax-m3-manual",
+    "bindingRevision": 1,
+    "configurationRef": "minimax-m3-v1",
+    "configuration": {
+      "endpointBaseUrl": "https://api.minimax.chat",
+      "credentialRef": "minimax-m3-user-key"
+    },
+    "network": {
+      "origins": [
+        "https://api.minimax.chat",
+        "https://api.minimaxi.com"
+      ],
+      "allowPrivate": false,
+      "allowEmbeddedAuthorization": false,
+      "deniedHosts": [],
+      "deniedNetworks": []
+    },
+    "credentials": [],
+    "trust": {
+      "publishers": [],
+      "revokedPlugins": [],
+      "revokedVersions": [],
+      "revokedKeys": [],
+      "denylistedHosts": [],
+      "isFresh": false,
+      "supportedFeatures": []
+    },
+    "mediaTtlMs": 3600000,
+    "transport": {
+      "handshakeTimeoutMs": 10000,
+      "writeTimeoutMs": 60000,
+      "shutdownTimeoutMs": 10000,
+      "cancelGraceMs": 100
+    },
+    "budgetMs": {
+      "capabilities": 60000,
+      "probe": 60000,
+      "submit": 180000,
+      "query": 180000,
+      "cancel": 60000
+    },
+    "probe": null
+  },
+  "authentication": {
+    "source": "userInput",
+    "fields": [
+      {
+        "reference": "minimax-m3-user-key",
+        "label": "MiniMax API Key",
+        "mode": "bearer",
+        "origins": [
+        "https://api.minimax.chat",
+        "https://api.minimaxi.com"
+        ],
+        "customHeader": null
+      }
+    ]
+  },
+  "managedMediaProbe": true
+}

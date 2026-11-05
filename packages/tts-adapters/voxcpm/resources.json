@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "packageId": "local.tts.voxcpm",
+  "version": "1.0.0-a",
+  "resources": [
+    {
+      "id": "voxcpm2_checkpoints",
+      "kind": "huggingface_repo",
+      "repoId": "openbmb/VoxCPM2"
+    },
+    {
+      "id": "pip_voxcpm2",
+      "kind": "pip_requirements",
+      "file": "companion/requirements.txt"
+    }
+  ]
+}

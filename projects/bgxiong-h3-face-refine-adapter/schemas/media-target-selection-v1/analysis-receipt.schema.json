@@ -1,0 +1,173 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/media-target-selection-v1/analysis-receipt.schema.json",
+  "type": "object",
+  "properties": {
+    "analysisId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "revision": {
+      "type": "string",
+      "minLength": 1
+    },
+    "digest": {
+      "type": "string",
+      "minLength": 1
+    },
+    "source": {
+      "$ref": "source-identity.schema.json"
+    },
+    "coveredRange": {
+      "type": "object",
+      "properties": {
+        "startMs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "endMs": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "startMs",
+        "endMs"
+      ],
+      "additionalProperties": false
+    },
+    "page": {
+      "type": "object",
+      "properties": {
+        "cursor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "nextCursor": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "complete": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "cursor",
+        "nextCursor",
+        "complete"
+      ],
+      "additionalProperties": false
+    },
+    "shots": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "shotId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "range": {
+            "type": "object",
+            "properties": {
+              "startMs": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "endMs": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "startMs",
+              "endMs"
+            ],
+            "additionalProperties": false
+          },
+          "representativeFrameMs": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "candidates": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "candidateId": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "box": {
+                  "type": "object",
+                  "properties": {
+                    "x": {
+                      "type": "number"
+                    },
+                    "y": {
+                      "type": "number"
+                    },
+                    "width": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    },
+                    "height": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    }
+                  },
+                  "required": [
+                    "x",
+                    "y",
+                    "width",
+                    "height"
+                  ],
+                  "additionalProperties": false
+                },
+                "previewMediaId": {
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "minLength": 1
+                },
+                "score": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              },
+              "required": [
+                "candidateId",
+                "box"
+              ],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": [
+          "shotId",
+          "range",
+          "representativeFrameMs",
+          "candidates"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "analysisId",
+    "revision",
+    "digest",
+    "source",
+    "coveredRange",
+    "page",
+    "shots"
+  ],
+  "additionalProperties": false
+}

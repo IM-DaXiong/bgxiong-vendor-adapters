@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "endpointBaseUrl",
+    "credentialRef"
+  ],
+  "properties": {
+    "endpointBaseUrl": {
+      "type": "string",
+      "minLength": 1,
+      "title": "ComfyUI 根地址",
+      "description": "本机或私网 ComfyUI origin，无尾斜杠。默认 http://127.0.0.1:8188；须纳入安装网络授权。"
+    },
+    "credentialRef": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "string",
+          "minLength": 1
+        }
+      ],
+      "title": "可选凭据引用",
+      "description": "同源 Comfy 认证；无认证时为 null。凭据 origin 必须是网络授权子集。"
+    }
+  }
+}

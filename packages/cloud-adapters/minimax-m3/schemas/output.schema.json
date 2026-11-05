@@ -1,0 +1,11 @@
+{
+  "type": "object",
+  "properties": {
+    "model": { "type": "string", "const": "MiniMax-M3" },
+    "providerRequestId": { "type": ["string", "null"] },
+    "finishReason": { "type": "string", "enum": ["stop", "length", "content_filter"] },
+    "reasoningContent": { "type": ["string", "null"] },
+    "assistantMessageJson": { "type": "string" }
+  },
+  "required": ["model", "providerRequestId", "finishReason", "reasoningContent", "assistantMessageJson"], "additionalProperties": false
+}

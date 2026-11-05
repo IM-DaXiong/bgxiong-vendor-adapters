@@ -1,0 +1,518 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "text": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mode": {
+      "enum": [
+        "plain",
+        "voice_design",
+        "reference_clone"
+      ],
+      "default": "plain"
+    },
+    "voiceId": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^[^\\u0000]+$"
+    },
+    "voiceDesign": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "genderHint": {
+          "type": "string"
+        },
+        "ageHint": {
+          "type": "string"
+        },
+        "emotion": {
+          "type": "string"
+        },
+        "speakingStyle": {
+          "type": "string"
+        },
+        "speedHint": {
+          "type": "string"
+        },
+        "controlPrompt": {
+          "type": "string"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "reference": {
+      "type": "object",
+      "properties": {
+        "audio": {
+          "type": "object",
+          "properties": {
+            "mediaId": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\u0000]+$"
+            }
+          },
+          "required": [
+            "mediaId"
+          ],
+          "additionalProperties": false
+        },
+        "promptText": {
+          "type": "string"
+        },
+        "styleControl": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "audio"
+      ],
+      "additionalProperties": false
+    },
+    "emotionControl": {
+      "type": "object",
+      "properties": {
+        "mode": {
+          "enum": [
+            "none",
+            "inherit_speaker",
+            "text",
+            "audio_reference",
+            "vector"
+          ]
+        },
+        "text": {
+          "type": "string"
+        },
+        "audio": {
+          "type": "object",
+          "properties": {
+            "mediaId": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\u0000]+$"
+            }
+          },
+          "required": [
+            "mediaId"
+          ],
+          "additionalProperties": false
+        },
+        "vector": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          }
+        },
+        "alpha": {
+          "type": "number"
+        },
+        "useRandom": {
+          "type": "boolean"
+        },
+        "intervalSilenceMs": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "maxTextTokensPerSegment": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "additionalProperties": false
+    },
+    "language": {
+      "type": "string",
+      "minLength": 1
+    },
+    "instruction": {
+      "type": "string"
+    },
+    "rate": {
+      "type": "object",
+      "properties": {
+        "unit": {
+          "enum": [
+            "speed_ratio",
+            "duration_ratio"
+          ]
+        },
+        "value": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "unit",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "volumeDb": {
+      "type": "number"
+    },
+    "pitchSemitones": {
+      "type": "number"
+    },
+    "seed": {
+      "type": "string",
+      "pattern": "^(?:0|[1-9][0-9]{0,18}|1[0-7][0-9]{18}|18[0-3][0-9]{17}|184[0-3][0-9]{16}|1844[0-5][0-9]{15}|18446[0-6][0-9]{14}|184467[0-3][0-9]{13}|1844674[0-3][0-9]{12}|184467440[0-6][0-9]{10}|1844674407[0-2][0-9]{9}|18446744073[0-6][0-9]{8}|1844674407370[0-8][0-9]{6}|18446744073709[0-4][0-9]{5}|184467440737095[0-4][0-9]{4}|18446744073709550[0-9]{3}|18446744073709551[0-5][0-9]{2}|1844674407370955160[0-9]{1}|1844674407370955161[0-4]|18446744073709551615)$"
+    },
+    "pronunciation": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "alphabet": {
+            "enum": [
+              "ipa",
+              "pinyin",
+              "custom"
+            ]
+          },
+          "value": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "text",
+          "alphabet",
+          "value"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "pauses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "afterScalar": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          },
+          "durationMs": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 9007199254740991
+          }
+        },
+        "required": [
+          "afterScalar",
+          "durationMs"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "outputPreference": {
+      "type": "object",
+      "properties": {
+        "mime": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "sampleRateHz": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "channels": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "execution": {
+      "type": "object",
+      "properties": {
+        "delivery": {
+          "enum": [
+            "complete",
+            "stream"
+          ],
+          "default": "complete"
+        },
+        "runtimeProfile": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        }
+      },
+      "required": [],
+      "additionalProperties": false
+    },
+    "extensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "namespace": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^\\u0000]+$"
+          },
+          "key": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[^\\u0000]+$"
+          },
+          "value": {}
+        },
+        "required": [
+          "namespace",
+          "key",
+          "value"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "text"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "MediaRef": {
+      "type": "object",
+      "properties": {
+        "mediaId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        }
+      },
+      "required": [
+        "mediaId"
+      ],
+      "additionalProperties": false
+    },
+    "Extension": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "key": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "value": {}
+      },
+      "required": [
+        "namespace",
+        "key",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "Notice": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "enum": [
+            "optional_not_applied",
+            "optional_unconfirmed",
+            "metadata_invalid",
+            "metadata_unknown",
+            "capability_unknown",
+            "partial_output"
+          ]
+        },
+        "pointer": {
+          "type": "string",
+          "pattern": "^($|/)"
+        },
+        "message": {
+          "type": "string"
+        },
+        "itemId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        }
+      },
+      "required": [
+        "code",
+        "pointer",
+        "message"
+      ],
+      "additionalProperties": false
+    },
+    "Error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "enum": [
+            "INVALID_PACKAGE",
+            "UNSUPPORTED_VERSION",
+            "UNSUPPORTED_FEATURE",
+            "INVALID_INPUT",
+            "UNAUTHORIZED",
+            "PERMISSION_DENIED",
+            "UPSTREAM_ERROR",
+            "RATE_LIMITED",
+            "TIMEOUT",
+            "ACCEPTANCE_UNKNOWN",
+            "RESOURCE_UNAVAILABLE",
+            "CANCEL_UNSUPPORTED",
+            "INTERNAL_ERROR"
+          ]
+        },
+        "message": {
+          "type": "string"
+        },
+        "retryable": {
+          "type": "boolean"
+        },
+        "vendorCode": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "vendorRequestId": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      },
+      "required": [
+        "code",
+        "message",
+        "retryable",
+        "vendorCode",
+        "vendorRequestId"
+      ],
+      "additionalProperties": false
+    },
+    "SpeechData": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "attachments": {
+          "type": "array",
+          "items": {}
+        }
+      },
+      "required": [
+        "schemaVersion"
+      ],
+      "additionalProperties": false
+    },
+    "Voice": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "label": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "preview": {
+          "type": "object",
+          "properties": {
+            "mediaId": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "^[^\\u0000]+$"
+            }
+          },
+          "required": [
+            "mediaId"
+          ],
+          "additionalProperties": false
+        },
+        "extensions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "namespace": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^\\u0000]+$"
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^\\u0000]+$"
+              },
+              "value": {}
+            },
+            "required": [
+              "namespace",
+              "key",
+              "value"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "id"
+      ],
+      "additionalProperties": false
+    },
+    "SchemaRef": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "^[^\\u0000]+$"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      },
+      "required": [
+        "id",
+        "digest"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

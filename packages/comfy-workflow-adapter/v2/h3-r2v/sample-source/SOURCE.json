@@ -1,0 +1,21 @@
+{
+  "source": "ComfyUI-API/minimax-h3/video_minimax_h3_r2v.json",
+  "sourceSha256": "3bd2d683b44c8eba2271cac3c81cd80e8e7ec98b6b4cf57bc5bbec8c37431997",
+  "apiExport": "ComfyUI native Export (API), 2026-10-23, unmodified",
+  "apiSha256": "877b443b02517b9cfc10fa8046ee461fb5c050ec18a39c7f50cd5205c89a73af",
+  "mapping": {
+    "prompt": "138.value",
+    "referenceImages": [
+      "137.image ->136.ref_images.ref_image_0",
+      "139.image ->136.ref_images.ref_image_1"
+    ],
+    "seed": "129.noise_seed",
+    "steps": "124.steps",
+    "width": "136.width",
+    "height": "136.height",
+    "durationSeconds": "132.value",
+    "fps": "130.fps and131.expression constant24"
+  },
+  "timing": "17k+5; 8s/24fps =>192 frames, native jointly generated audio",
+  "scope": "exactly2 ordered reference originals; no input audio/video, no first/last roles"
+}

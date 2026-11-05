@@ -1,0 +1,45 @@
+{
+    "schemaVersion":  1,
+    "packageId":  "local.tts.voxcpm",
+    "version":  "1.0.0-a",
+    "displayName":  "VoxCPM2 A-pack (plain)",
+    "adapter":  {
+                    "path":  "dist-pack/adapter.wasm",
+                    "sha256":  "89b6da229f3aeaffd716375801dd89ac471fc50e94adf0eafbae2f0f0f667945"
+                },
+    "runtimes":  [
+                     {
+                         "id":  "voxcpm-companion-windows-x64",
+                         "version":  "1.0.0",
+                         "os":  "windows",
+                         "arch":  "x86_64",
+                         "code":  {
+                                      "path":  "companion",
+                                      "sha256":  "PENDING_DIR_INVENTORY"
+                                  },
+                         "executable":  {
+                                            "source":  "code",
+                                            "path":  "start-sidecar.ps1"
+                                        }
+                     }
+                 ],
+    "models":  [
+                   {
+                       "modelId":  "openbmb/VoxCPM2",
+                       "runtimeId":  "voxcpm-companion-windows-x64",
+                       "resourceIds":  [
+                                           "voxcpm2_checkpoints",
+                                           "pip_voxcpm2"
+                                       ],
+                       "speech":  {
+                                      "schemaVersion":  1,
+                                      "modes":  {
+                                                    "plain":  "supported",
+                                                    "voice_design":  "supported",
+                                                    "reference_clone":  "supported"
+                                                },
+                                      "notes":  "T17 scaffolds pack; plain synth requires local checkpoints (not bundled)."
+                                  }
+                   }
+               ]
+}

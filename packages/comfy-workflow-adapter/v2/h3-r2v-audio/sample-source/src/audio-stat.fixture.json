@@ -1,0 +1,12 @@
+{
+  "kind": "audio",
+  "mime": "audio/x-wav",
+  "byteLength": "1536044",
+  "sha256": "40592b47a0160e28a344e9422899e530c74bb8b85768b1d9f9c1777be3546d4b",
+  "width": null,
+  "height": null,
+  "durationMs": "8000",
+  "timestampsMs": null,
+  "id": "audio-input-1",
+  "fileName": "40592b47a0160e28a344e9422899e530c74bb8b85768b1d9f9c1777be3546d4b.wav"
+}

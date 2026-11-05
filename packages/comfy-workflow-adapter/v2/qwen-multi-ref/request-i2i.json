@@ -1,0 +1,18 @@
+{
+  "prompt": "Use image 1 as the scene. Change the blue book to the red book in image 2. Keep the panda, library and composition of image 1.",
+  "width": 1024,
+  "height": 1024,
+  "seed": 20261023,
+  "negativePrompt": "blurry, low quality",
+  "advanced": {
+    "steps": 12
+  },
+  "referenceImages": [
+    {
+      "mediaId": "image-input-1"
+    },
+    {
+      "mediaId": "image-input-2"
+    }
+  ]
+}

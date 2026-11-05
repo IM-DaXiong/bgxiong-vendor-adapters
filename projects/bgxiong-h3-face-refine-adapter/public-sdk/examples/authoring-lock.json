@@ -1,0 +1,2889 @@
+{
+  "schemaVersion": 1,
+  "sdkRelease": "2.0.0",
+  "status": "MEASURED_ARTIFACTS_RUNTIME_EVIDENCE_SEPARATE",
+  "scope": "ACTUAL_EXAMPLE_ARTIFACTS_AND_TASK_LOCAL_MOCK_EVIDENCE",
+  "note": "Exact source/build/pack hashes only. Runtime assertions belong to immutable RunRoot reports, including the sync primary-error delta; no global SDK_READY claim.",
+  "dependencyPolicy": "Independent author workspaces. Only public ../../sdk/rust path dependency and exact public registry versions; no application/private crate. Generate the author Cargo.lock from the sealed public dependency source before --locked builds.",
+  "sharedVideoInputSchemaDigest": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f",
+  "examples": [
+    {
+      "id": "sync-api",
+      "status": "MEASURED_ARTIFACTS_RUNTIME_EVIDENCE_SEPARATE",
+      "pluginId": "local.examples.sync",
+      "project": "examples/sync-api",
+      "sourceFiles": [
+        {
+          "path": "examples/sync-api/Cargo.toml",
+          "sha256": "bfc4c11b180f029d28abad5f6b467d134fdee01fe5faca8f5b4aede6071079ae"
+        },
+        {
+          "path": "examples/sync-api/src/lib.rs",
+          "sha256": "9e17e5e29cf9b3f87cd1d7514c01f6fef6e5551d4de36bec2a8ec26afbe19c4d",
+          "previousVerifiedSha256": "9867148c581dcd7bdea1a28e51d109d64342521b4b4de1074544e3a94cf5a01c"
+        },
+        {
+          "path": "examples/sync-api/manifest.json",
+          "sha256": "47ca5b7c48cfd7a0d94c1e2d1677dd22af59529f67d5bf4da462146913f79351",
+          "inputSha256BeforeBuild": "1e2724c100a233b3275458c0375e085c25f3cd903e80a3d06a523fc239b5bba8"
+        }
+      ],
+      "sharedSources": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "a709d989ffa9bd46b74311499679003570734a07cc63e7ffec074dc53c3183a0"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "2fff857cf7a12beef6aba5883fd61b4bc4e42a8ab22a6d83624e6568ae1b3aa8"
+        },
+        {
+          "path": "sdk/rust/Cargo.toml",
+          "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7"
+        },
+        {
+          "path": "sdk/rust/src/lib.rs",
+          "sha256": "b7815e04d21b98e2f0261eb014160a52c02e806e793f100ae0f240d7d61ee7d7"
+        },
+        {
+          "path": "sdk/rust/src/generated.rs",
+          "sha256": "c3a3475ac0953cc5036797029e82a5f9d1357640d0af4cb0cc21282669693e0c"
+        },
+        {
+          "path": "sdk/rust/src/host.rs",
+          "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067"
+        },
+        {
+          "path": "sdk/rust/src/guest.rs",
+          "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8"
+        },
+        {
+          "path": "wit/vendor-adapter.wit",
+          "sha256": "e5423c4fe1a909534f6b8893db254e8ceef1fbe59dcc0270222b8e3598b496b5"
+        },
+        {
+          "path": "protocol/schema-policy.json",
+          "sha256": "b693c26b60a27c6d34b21902ebc52f33309564ff973770a0f3d2fec45834e280"
+        },
+        {
+          "path": "examples/capabilities.json",
+          "sha256": "af33181bbfaba34a444ea79111641f526d6ff7fa2ec1e9941c2c19007c639360"
+        },
+        {
+          "path": "crates/tools/src/author.rs",
+          "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+        },
+        {
+          "path": "templates/rust/Cargo.lock",
+          "sha256": "92ae08ed467aff3fe8374bc4fd3128edb762b39738a029d9399d50691e2744d9"
+        }
+      ],
+      "sharedVideoInput": {
+        "source": "examples/capabilities.json",
+        "pointer": "/capabilities/0/schemas/0/schemaJson",
+        "sha256": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f",
+        "resolution": "Each source reads the same schemaJson through include_str; the exact source string, without JSON reserialization, is hashed for video.generate."
+      },
+      "buildCacheRoot": "examples/sync-api/.bgx-sdk/",
+      "generatedFiles": [
+        {
+          "target": "examples/sync-api/Cargo.lock",
+          "sources": [
+            {
+              "path": "Cargo.lock",
+              "sha256": "2fff857cf7a12beef6aba5883fd61b4bc4e42a8ab22a6d83624e6568ae1b3aa8"
+            },
+            {
+              "path": "examples/sync-api/Cargo.toml",
+              "sha256": "bfc4c11b180f029d28abad5f6b467d134fdee01fe5faca8f5b4aede6071079ae"
+            },
+            {
+              "path": "templates/rust/Cargo.lock",
+              "sha256": "92ae08ed467aff3fe8374bc4fd3128edb762b39738a029d9399d50691e2744d9"
+            }
+          ],
+          "transform": "public-template-lock-package-name-substitution-with-root-registry-closure-check",
+          "sha256": "3dffe475621c97ba95a87fc5698ec91937a439f1b579d238829aab2124fbe789",
+          "status": "MEASURED_AFTER_ACTUAL_BUILD_AND_CHECK"
+        },
+        {
+          "target": "examples/sync-api/.bgx-sdk/target/wasm32-wasip2/release/bgx_example_sync_api.wasm",
+          "sources": [
+            {
+              "path": "examples/sync-api/Cargo.toml",
+              "sha256": "bfc4c11b180f029d28abad5f6b467d134fdee01fe5faca8f5b4aede6071079ae"
+            },
+            {
+              "path": "examples/sync-api/src/lib.rs",
+              "sha256": "9e17e5e29cf9b3f87cd1d7514c01f6fef6e5551d4de36bec2a8ec26afbe19c4d",
+              "previousVerifiedSha256": "9867148c581dcd7bdea1a28e51d109d64342521b4b4de1074544e3a94cf5a01c"
+            },
+            {
+              "path": "examples/sync-api/manifest.json",
+              "sha256": "47ca5b7c48cfd7a0d94c1e2d1677dd22af59529f67d5bf4da462146913f79351",
+              "inputSha256BeforeBuild": "1e2724c100a233b3275458c0375e085c25f3cd903e80a3d06a523fc239b5bba8"
+            },
+            {
+              "path": "Cargo.toml",
+              "sha256": "a709d989ffa9bd46b74311499679003570734a07cc63e7ffec074dc53c3183a0"
+            },
+            {
+              "path": "Cargo.lock",
+              "sha256": "2fff857cf7a12beef6aba5883fd61b4bc4e42a8ab22a6d83624e6568ae1b3aa8"
+            },
+            {
+              "path": "sdk/rust/Cargo.toml",
+              "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7"
+            },
+            {
+              "path": "sdk/rust/src/lib.rs",
+              "sha256": "b7815e04d21b98e2f0261eb014160a52c02e806e793f100ae0f240d7d61ee7d7"
+            },
+            {
+              "path": "sdk/rust/src/generated.rs",
+              "sha256": "c3a3475ac0953cc5036797029e82a5f9d1357640d0af4cb0cc21282669693e0c"
+            },
+            {
+              "path": "sdk/rust/src/host.rs",
+              "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067"
+            },
+            {
+              "path": "sdk/rust/src/guest.rs",
+              "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8"
+            },
+            {
+              "path": "wit/vendor-adapter.wit",
+              "sha256": "e5423c4fe1a909534f6b8893db254e8ceef1fbe59dcc0270222b8e3598b496b5"
+            },
+            {
+              "path": "protocol/schema-policy.json",
+              "sha256": "b693c26b60a27c6d34b21902ebc52f33309564ff973770a0f3d2fec45834e280"
+            },
+            {
+              "path": "examples/capabilities.json",
+              "sha256": "af33181bbfaba34a444ea79111641f526d6ff7fa2ec1e9941c2c19007c639360"
+            },
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "locked-release-cdylib-wasm32-wasip2",
+          "sha256": "cf1da565882bac1971e680bc967bf1579ac2436cd4ea72ef39b4b91ffeff65d7",
+          "status": "MEASURED_AFTER_ACTUAL_BUILD_AND_CHECK"
+        },
+        {
+          "target": "examples/sync-api/adapter.wasm",
+          "sources": [
+            {
+              "path": "examples/sync-api/.bgx-sdk/target/wasm32-wasip2/release/bgx_example_sync_api.wasm",
+              "sha256": "cf1da565882bac1971e680bc967bf1579ac2436cd4ea72ef39b4b91ffeff65d7",
+              "inputSha256BeforeBuild": "2ca6e409fd045b355e8c2e17f85dc85891c93418ece74a7a8811c48ea7025ca6"
+            }
+          ],
+          "transform": "copy-verified-wasm-build-output",
+          "sha256": "cf1da565882bac1971e680bc967bf1579ac2436cd4ea72ef39b4b91ffeff65d7",
+          "status": "MEASURED_AFTER_ACTUAL_BUILD_AND_CHECK"
+        },
+        {
+          "target": "examples/sync-api/manifest.json",
+          "sources": [
+            {
+              "path": "examples/sync-api/manifest.json",
+              "sha256": "47ca5b7c48cfd7a0d94c1e2d1677dd22af59529f67d5bf4da462146913f79351",
+              "inputSha256BeforeBuild": "1e2724c100a233b3275458c0375e085c25f3cd903e80a3d06a523fc239b5bba8"
+            },
+            {
+              "path": "examples/sync-api/adapter.wasm",
+              "sha256": "cf1da565882bac1971e680bc967bf1579ac2436cd4ea72ef39b4b91ffeff65d7",
+              "inputSha256BeforeBuild": "2ca6e409fd045b355e8c2e17f85dc85891c93418ece74a7a8811c48ea7025ca6"
+            }
+          ],
+          "transform": "replace-artifactSha256-after-successful-build",
+          "sha256": "47ca5b7c48cfd7a0d94c1e2d1677dd22af59529f67d5bf4da462146913f79351",
+          "status": "MEASURED_AFTER_ACTUAL_BUILD_AND_CHECK"
+        },
+        {
+          "target": "examples/sync-api/manifest.sha256",
+          "sources": [
+            {
+              "path": "examples/sync-api/manifest.json",
+              "sha256": "47ca5b7c48cfd7a0d94c1e2d1677dd22af59529f67d5bf4da462146913f79351",
+              "inputSha256BeforeBuild": "1e2724c100a233b3275458c0375e085c25f3cd903e80a3d06a523fc239b5bba8"
+            },
+            {
+              "path": "examples/sync-api/adapter.wasm",
+              "sha256": "cf1da565882bac1971e680bc967bf1579ac2436cd4ea72ef39b4b91ffeff65d7",
+              "inputSha256BeforeBuild": "2ca6e409fd045b355e8c2e17f85dc85891c93418ece74a7a8811c48ea7025ca6"
+            }
+          ],
+          "transform": "stream-sha256-exact-runtime-manifest-and-entry",
+          "sha256": "ea8fcfb44c98214693ae8f8da32b79906ae348659ffdfdbcfd4416e39b414061",
+          "status": "MEASURED_AFTER_ACTUAL_BUILD_AND_CHECK"
+        },
+        {
+          "target": "examples/sync-api/.bgx-sdk/logs/metadata.json",
+          "sources": [
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "explicit-author-build-command-evidence",
+          "sha256": "5c8278a60623282996a91eb49240290f81700a3fb45624f164283adc638f7b28",
+          "status": "MEASURED_AFTER_ACTUAL_BUILD_AND_CHECK"
+        },
+        {
+          "target": "examples/sync-api/.bgx-sdk/logs/metadata.log",
+          "sources": [
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "explicit-author-build-command-evidence",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": "MEASURED_AFTER_ACTUAL_BUILD_AND_CHECK"
+        },
+        {
+          "target": "examples/sync-api/.bgx-sdk/logs/build.log",
+          "sources": [
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "explicit-author-build-command-evidence",
+          "sha256": "04cfbba17da1106c8c2a3b68d30419d4f89f3cf8f48e35e6a512c4025a6a8cae",
+          "status": "MEASURED_AFTER_ACTUAL_BUILD_AND_CHECK"
+        }
+      ],
+      "ignoredBuildCacheRoots": [
+        "examples/sync-api/.bgx-sdk/cargo-home",
+        "examples/sync-api/.bgx-sdk/target",
+        "examples/sync-api/.bgx-sdk/cargo-run",
+        "examples/sync-api/.bgx-sdk/logs"
+      ],
+      "packRunRoot": {
+        "root": "EXPLICIT_NEW_MARKED_RUN_ROOT",
+        "files": [
+          {
+            "target": "packages/sync-api/manifest.json",
+            "sources": [
+              {
+                "path": "examples/sync-api/manifest.json",
+                "sha256": "47ca5b7c48cfd7a0d94c1e2d1677dd22af59529f67d5bf4da462146913f79351"
+              }
+            ],
+            "sha256": "47ca5b7c48cfd7a0d94c1e2d1677dd22af59529f67d5bf4da462146913f79351",
+            "status": "MEASURED_AFTER_ACTUAL_PACK"
+          },
+          {
+            "target": "packages/sync-api/adapter.wasm",
+            "sources": [
+              {
+                "path": "examples/sync-api/adapter.wasm",
+                "sha256": "cf1da565882bac1971e680bc967bf1579ac2436cd4ea72ef39b4b91ffeff65d7"
+              }
+            ],
+            "sha256": "cf1da565882bac1971e680bc967bf1579ac2436cd4ea72ef39b4b91ffeff65d7",
+            "status": "MEASURED_AFTER_ACTUAL_PACK"
+          },
+          {
+            "target": "packages/sync-api/manifest.sha256",
+            "sources": [
+              {
+                "path": "examples/sync-api/manifest.sha256",
+                "sha256": "ea8fcfb44c98214693ae8f8da32b79906ae348659ffdfdbcfd4416e39b414061"
+              }
+            ],
+            "sha256": "ea8fcfb44c98214693ae8f8da32b79906ae348659ffdfdbcfd4416e39b414061",
+            "status": "MEASURED_AFTER_ACTUAL_PACK"
+          }
+        ]
+      },
+      "cacheTransfers": [
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/CACHEDIR.TAG",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/CACHEDIR.TAG",
+          "sha256": "6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2",
+          "copied": true,
+          "alreadyIdentical": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/anyhow-1.0.104.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/anyhow-1.0.104.crate",
+          "sha256": "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/bitflags-2.13.2.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/bitflags-2.13.2.crate",
+          "sha256": "3ded4057c258ba199e2d26386d3af3780957ecaee6c4ef4041c6b4b8b97c0b06",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4.crate",
+          "sha256": "3078c7629b62d3f0439517fa394996acacc5cbc91c5a20d8c658e77abd503a71",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/cfg-if-1.0.5.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/cfg-if-1.0.5.crate",
+          "sha256": "4e7648175b45a9a48536d676f68d918270699102aa8dab5496df06904c914600",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/cpufeatures-0.2.17.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/cpufeatures-0.2.17.crate",
+          "sha256": "59ed5838eebb26a2bb2e58f6d5b5316989ae9d08bab10e0e6d103e656d1b0280",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/crypto-common-0.1.7.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/crypto-common-0.1.7.crate",
+          "sha256": "78c8292055d1c1df0cce5d180393dc8cce0abec0a7102adb6c7b1eef6016d60a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/digest-0.10.7.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/digest-0.10.7.crate",
+          "sha256": "9ed9a281f7bc9b7576e61468ba615a66a5c8cfdff42420a70aa82701a3b1e292",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/dlmalloc-0.2.14.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/dlmalloc-0.2.14.crate",
+          "sha256": "ad5208a115eaba24916f7456929832e310a81518c641f93fee4f89aa93aa3675",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/equivalent-1.0.3.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/equivalent-1.0.3.crate",
+          "sha256": "00d174d5400e5e8fd687ad1049e2f578285fa914201b1af7e8b112a4546bd826",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/foldhash-0.1.5.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/foldhash-0.1.5.crate",
+          "sha256": "d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/generic-array-0.14.7.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/generic-array-0.14.7.crate",
+          "sha256": "85649ca51fd72272d7821adaf274ad91c288277713d9c18820d8499a7ff69e9a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.15.5.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.15.5.crate",
+          "sha256": "9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.17.1.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.17.1.crate",
+          "sha256": "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/heck-0.5.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/heck-0.5.0.crate",
+          "sha256": "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/id-arena-2.3.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/id-arena-2.3.0.crate",
+          "sha256": "3d3067d79b975e8844ca9eb072e16b31c3c1c36928edf9c6789548c524d0d954",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/indexmap-2.14.2.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/indexmap-2.14.2.crate",
+          "sha256": "cc4e190f5d26ca7051642629da2c52fc03bde85a03197c99408dcd291734c855",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/itoa-1.0.18.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/itoa-1.0.18.crate",
+          "sha256": "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/leb128fmt-0.1.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/leb128fmt-0.1.0.crate",
+          "sha256": "09edd9e8b54e49e587e4f6295a7d29c3ea94d469cb40ab8ca70b288248a81db2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/log-0.4.34.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/log-0.4.34.crate",
+          "sha256": "f9f8bd3e56ce4dfc153cf470fffbfa98c7620958b312ca5c3a4b8d5181fd13c6",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/memchr-2.8.3.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/memchr-2.8.3.crate",
+          "sha256": "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/prettyplease-0.2.37.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/prettyplease-0.2.37.crate",
+          "sha256": "479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/proc-macro2-1.0.107.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/proc-macro2-1.0.107.crate",
+          "sha256": "985e7ec9bb745e6ce6535b544d84d6cd6f7ad8bd711c398938ae983b91a766d9",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/quote-1.0.47.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/quote-1.0.47.crate",
+          "sha256": "1fbf4db142a473a8d80c26bbf18454ed458bf8d26c8219c331daecfdbd079001",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/semver-1.0.28.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/semver-1.0.28.crate",
+          "sha256": "8a7852d02fc848982e0c167ef163aaff9cd91dc640ba85e263cb1ce46fae51cd",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/serde-1.0.228.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde-1.0.228.crate",
+          "sha256": "9a8e94ea7f378bd32cbbd37198a4a91436180c5bb472411e48b5ec2e2124ae9e",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228.crate",
+          "sha256": "41d385c7d4ca58e59fc732af25c3983b67ac852c1a25000afe1175de458b67ad",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_derive-1.0.228.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_derive-1.0.228.crate",
+          "sha256": "d540f220d3187173da220f885ab66608367b6574e925011a9353e4badda91d79",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.149.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.149.crate",
+          "sha256": "83fc039473c5595ace860d8c4fafa220ff474b3fc6bfdb4293327f1a37e94d86",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/sha2-0.10.9.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/sha2-0.10.9.crate",
+          "sha256": "a7507d819769d01a365ab707794a4084392c824f54a7a6a7862f8c3d0892b283",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/syn-2.0.119.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/syn-2.0.119.crate",
+          "sha256": "872831b642d1a07999a962a351ed35b955ea2cfc8f3862091e2a240a84f17297",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/typenum-1.20.1.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/typenum-1.20.1.crate",
+          "sha256": "b6f5e870be6c3b371b77fe0ee0bafb859fa4964b4404c27de1d380043c4dda20",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-ident-1.0.27.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-ident-1.0.27.crate",
+          "sha256": "a2c754d6c33795a1c324727428e5a7dedb5b06195f9890bdbcba760d3e246563",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-xid-0.2.6.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-xid-0.2.6.crate",
+          "sha256": "ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/version_check-0.9.5.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/version_check-0.9.5.crate",
+          "sha256": "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-encoder-0.244.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-encoder-0.244.0.crate",
+          "sha256": "990065f2fe63003fe337b932cfb5e3b80e0b4d0f5ff650e6985b1048f62c8319",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-metadata-0.244.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-metadata-0.244.0.crate",
+          "sha256": "bb0e353e6a2fbdc176932bbaab493762eb1255a7900fe0fea1a2f96c296cc909",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/wasmparser-0.244.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasmparser-0.244.0.crate",
+          "sha256": "47b807c72e1bac69382b3a6fb3dbe8ea4c0ed87ff5629b8685ae6b9a611028fe",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-link-0.2.1.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-link-0.2.1.crate",
+          "sha256": "f0805222e57f7521d6a62e36fa9163bc891acd422f971defe97d64e70d0a4fe5",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-sys-0.61.2.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-sys-0.61.2.crate",
+          "sha256": "ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-0.51.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-0.51.0.crate",
+          "sha256": "d7249219f66ced02969388cf2bb044a09756a083d0fab1e566056b04d9fbcaa5",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-core-0.51.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-core-0.51.0.crate",
+          "sha256": "ea61de684c3ea68cb082b7a88508a8b27fcc8b797d738bfc99a82facf1d752dc",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-0.51.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-0.51.0.crate",
+          "sha256": "b7c566e0f4b284dd6561c786d9cb0142da491f46a9fbed79ea69cdad5db17f21",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-macro-0.51.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-macro-0.51.0.crate",
+          "sha256": "0c0f9bfd77e6a48eccf51359e3ae77140a7f50b1e2ebfe62422d8afdaffab17a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-component-0.244.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-component-0.244.0.crate",
+          "sha256": "9d66ea20e9553b30172b5e831994e35fbde2d165325bec84fc43dbf6f4eb9cb2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-parser-0.244.0.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-parser-0.244.0.crate",
+          "sha256": "ecc8ac4bc1dc3381b7f59c34f00b67e18f910c2c0f50015669dde7def656a736",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/cache/index.crates.io-1949cf8c6b5b557f/zmij-1.0.23.crate",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/zmij-1.0.23.crate",
+          "sha256": "29666d0abbfad1e3dc4dcf6144730dd3a3ab225bbbdac83319345b1b44ccfc1b",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/config.json",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/config.json",
+          "sha256": "5b943a2c6f7eb743f7308aba07bdbb47d9ae44aafecd832d7f15df186afbafb3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/l/log",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/l/log",
+          "sha256": "a75991da988ce93760221f19db4f0d0eeca0e82d00d5f3ddc88c4806542178c4",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/s/syn",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/s/syn",
+          "sha256": "6e4b8cca104375a312ce2e6012078f345505bd90bc3c85f15fc6f15606404365",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/an/yh/anyhow",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/an/yh/anyhow",
+          "sha256": "a529c91ec8630f952709743b04c9e375efffad3311b6e8a7b3b8928b9dd3e7f3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bi/tf/bitflags",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bi/tf/bitflags",
+          "sha256": "6713b703da401faa62e3df0a4a42a7d14a9d777511ac010512a5dd7b3417faaa",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bl/oc/block-buffer",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bl/oc/block-buffer",
+          "sha256": "01c56856aa2b0252ce0d90752ec2c0106edff7db2c1bdf35d60244762fd18419",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cf/g-/cfg-if",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cf/g-/cfg-if",
+          "sha256": "8f6eaea0f7fc5f6848486cbdf55738698871d39e9120c4c1c68fe5c964696d7d",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cp/uf/cpufeatures",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cp/uf/cpufeatures",
+          "sha256": "dd29f42e05ee3cf258f4ecf10c43c47625306fbb3f041106ac48cf33d02b1435",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cr/yp/crypto-common",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cr/yp/crypto-common",
+          "sha256": "888aa37a81634f87ae790d68b432c51f0c88a238fc08a760171958e263daef2f",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/di/ge/digest",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/di/ge/digest",
+          "sha256": "4a9f0a9b47df415003371f47ed05c5a48bab33e642a3476e8ad1d4124178cfa3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/dl/ma/dlmalloc",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/dl/ma/dlmalloc",
+          "sha256": "e962ffaf2c6fdb1ab08059fa8a1dbcd359b02bf38f7bbf1d5daa246ac2c6f147",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/eq/ui/equivalent",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/eq/ui/equivalent",
+          "sha256": "729049a64e52f4c604ddd11332dee727e46c1771e868f5316f0761c75817b5f4",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/fo/ld/foldhash",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/fo/ld/foldhash",
+          "sha256": "5a2c4fd3754fa9dff1655c21c0f42fbaba26071a94ed5254903ac25101de4df7",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ge/ne/generic-array",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ge/ne/generic-array",
+          "sha256": "ca57d9fc384febb27edb69462550ed8e38f8e11d2c074260759055af41affcb4",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ha/sh/hashbrown",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ha/sh/hashbrown",
+          "sha256": "1e697f50eb6bb6eeff9221f8ae844c3929285f3a779a3ee621895cc3efa40598",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/he/ck/heck",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/he/ck/heck",
+          "sha256": "e569491216ead0f0c8bb3d72240e07cbc98b7dd3e0407ecac51a5e520882ff19",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/id/-a/id-arena",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/id/-a/id-arena",
+          "sha256": "aee6a98d7e5c05a578eb11a7495e1ccf7228373fd08c0b3e8f17b136b94390c0",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/in/de/indexmap",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/in/de/indexmap",
+          "sha256": "6789d067d0c98e65c26b0e967636b39b2c86a0bbab2e0892d1a4d8512b7252bb",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/it/oa/itoa",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/it/oa/itoa",
+          "sha256": "358ec410c0eb6e99d0bd115834b6f94aa92791f87d684c29f2dc7a62b7887b48",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/le/b1/leb128fmt",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/le/b1/leb128fmt",
+          "sha256": "1437ec53a6655b3d9f294760e26f090db0a411fa606b0b661be70097eefb9045",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/li/bc/libc",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/li/bc/libc",
+          "sha256": "0c0c0edd0d15a477311bebab5f7b35d68767bb2ebeea274f85404cd2921c498a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/me/mc/memchr",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/me/mc/memchr",
+          "sha256": "fd6ae4fcce894bf67403c653f73a6fe48bfa1fac66a04e2caec70e1f36343d05",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/et/prettyplease",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/et/prettyplease",
+          "sha256": "c1f6370bc6bd9659d0511db0158f7c5ddefd1ca821f3972bba319cf7e03351c7",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/oc/proc-macro2",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/oc/proc-macro2",
+          "sha256": "95228f72462ea6fa119430877d1c7abb7a22346da05473c37ecc12e678174b69",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/qu/ot/quote",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/qu/ot/quote",
+          "sha256": "bf97b4d031ad9a1159e896720b9227fb39947f370b48cb8ded9abd27b1515feb",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/mv/semver",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/mv/semver",
+          "sha256": "2e36b1b3016b5ce75289e087611a460b9b58d040511db1babc01dda7ede8b003",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde",
+          "sha256": "8fa7dcf631674523357d78dd82a9e8ec91e6822bf658e996962382d5b03a06f2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_core",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_core",
+          "sha256": "00f5412df941bf2bb3aa7fe7e2456fabff8ce96f324060645cb84a1a0200647c",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_derive",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_derive",
+          "sha256": "04e32a953a39f321a61f4914b3b22025f8476f6d5f7140025e3766c28c6af06d",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_json",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_json",
+          "sha256": "525ff45985535d4cfd3e7335c39c865054c919a6d89588e5bd93acca3fb524d6",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/sh/a2/sha2",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/sh/a2/sha2",
+          "sha256": "bba8e4f9ea268bcd9adf4264bf907886ec9c642d8066d58cb4307c9027482af3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ty/pe/typenum",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ty/pe/typenum",
+          "sha256": "0aa39a82563fb4c1959ea3ce514ada50075c436f0ed5f6edcdabb90e995f7f18",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-ident",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-ident",
+          "sha256": "a0821e0a18fc924414c5454be047fc48ecc7b14fc2ed26683a101f4007d7a261",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-xid",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-xid",
+          "sha256": "863a573cce77526b878921bd5de8f16d0160711fa0da9bac5825f84fb64faae1",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ve/rs/version_check",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ve/rs/version_check",
+          "sha256": "3b59bb407ec049518d98a4baee28599d2724767aad5c95c1b2f25ef511008a3d",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-encoder",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-encoder",
+          "sha256": "1fb35a97ce01db55ddf1655f8aba501be403d63b66722e0b5de23cb3d6635259",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-metadata",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-metadata",
+          "sha256": "9cb46bdb2eab527bd5bcafb1219d42cb7b846f26cc2c6df5d465ff526d62b7ef",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasmparser",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasmparser",
+          "sha256": "10ecc8aa141c59d79d5e279a0d61b18ddb4e1bdd546e058767e57dd5d27e8b15",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-link",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-link",
+          "sha256": "d22f6b9ac1dea4587d049cfe5acaa4a769c18feb63dd29aa61bee99837a06546",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-sys",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-sys",
+          "sha256": "beab389ed4ab8a0aca87fde6a1195814c27d62aae5f6ffb39bb2207ad2f9ad66",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen",
+          "sha256": "2018de6f23aa02b562536edea3766c0ed4a2618974899cb28d56cb5ea2b41abd",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-core",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-core",
+          "sha256": "161431c8a50528ca82b35e5bb0ad1681aef97166a80da18298ae649a9c089d1e",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust",
+          "sha256": "2639227039148a6c6523e9c9a2f968266a354827b9a2bd02eea880cc697b57e5",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust-macro",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust-macro",
+          "sha256": "6394d63a24c12fbf9be92aecf4ad4d508ab107318a7455ee320b4ebf1b222b30",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-component",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-component",
+          "sha256": "9d8b294c18f515ad96fb8be10803bd3577277ff684deee7a98655651ad14dc03",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-parser",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-parser",
+          "sha256": "ce06131a566acf530e79471a9fb8f77134707bbe42bef42d0f1486f0d33d4496",
+          "copied": true
+        },
+        {
+          "sourceRoot": "RUN_ROOT",
+          "source": "cache/previous-download/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/zm/ij/zmij",
+          "target": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/zm/ij/zmij",
+          "sha256": "2292a52a2f4a8089d5327151f1d5e68496608311cfec6e1d564a6f5202a1931e",
+          "copied": true
+        }
+      ]
+    },
+    {
+      "id": "cloud-task",
+      "status": "BUILT_AND_EXECUTED_TASK_LOCAL_MOCK",
+      "pluginId": "local.examples.cloud",
+      "project": "examples/cloud-task",
+      "sourceFiles": [
+        {
+          "path": "examples/cloud-task/Cargo.toml",
+          "sha256": "89480a0b836cf40cf17578270fa81c80a538513c5b9710f9a7b2069426e0bcd7"
+        },
+        {
+          "path": "examples/cloud-task/src/lib.rs",
+          "sha256": "5f65f24617f184606ea7f2fb8fab2ee5ac78285c594c770f5210d04e58127588"
+        },
+        {
+          "path": "examples/cloud-task/manifest.json",
+          "sha256": "a4203babe2e13739af6904de8e1e1c4168ed313076819f8a8162dbbd8be78bb7",
+          "inputSha256BeforeBuild": "7aca321f7e4b145fad8d9c61238d84e90ff9420498432fe8266b160e1b1ab461"
+        }
+      ],
+      "sharedSources": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "a709d989ffa9bd46b74311499679003570734a07cc63e7ffec074dc53c3183a0"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "2fff857cf7a12beef6aba5883fd61b4bc4e42a8ab22a6d83624e6568ae1b3aa8"
+        },
+        {
+          "path": "sdk/rust/Cargo.toml",
+          "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7"
+        },
+        {
+          "path": "sdk/rust/src/lib.rs",
+          "sha256": "b7815e04d21b98e2f0261eb014160a52c02e806e793f100ae0f240d7d61ee7d7"
+        },
+        {
+          "path": "sdk/rust/src/generated.rs",
+          "sha256": "c3a3475ac0953cc5036797029e82a5f9d1357640d0af4cb0cc21282669693e0c"
+        },
+        {
+          "path": "sdk/rust/src/host.rs",
+          "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067"
+        },
+        {
+          "path": "sdk/rust/src/guest.rs",
+          "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8"
+        },
+        {
+          "path": "wit/vendor-adapter.wit",
+          "sha256": "e5423c4fe1a909534f6b8893db254e8ceef1fbe59dcc0270222b8e3598b496b5"
+        },
+        {
+          "path": "protocol/schema-policy.json",
+          "sha256": "b693c26b60a27c6d34b21902ebc52f33309564ff973770a0f3d2fec45834e280"
+        },
+        {
+          "path": "examples/capabilities.json",
+          "sha256": "af33181bbfaba34a444ea79111641f526d6ff7fa2ec1e9941c2c19007c639360"
+        },
+        {
+          "path": "crates/tools/src/author.rs",
+          "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+        },
+        {
+          "path": "templates/rust/Cargo.lock",
+          "sha256": "92ae08ed467aff3fe8374bc4fd3128edb762b39738a029d9399d50691e2744d9"
+        }
+      ],
+      "sharedVideoInput": {
+        "source": "examples/capabilities.json",
+        "pointer": "/capabilities/0/schemas/0/schemaJson",
+        "sha256": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f",
+        "resolution": "Each source reads the same schemaJson through include_str; the exact source string, without JSON reserialization, is hashed for video.generate."
+      },
+      "buildCacheRoot": "examples/cloud-task/.bgx-sdk/",
+      "generatedFiles": [
+        {
+          "target": "examples/cloud-task/Cargo.lock",
+          "sources": [
+            {
+              "path": "Cargo.lock",
+              "sha256": "2fff857cf7a12beef6aba5883fd61b4bc4e42a8ab22a6d83624e6568ae1b3aa8"
+            },
+            {
+              "path": "examples/cloud-task/Cargo.toml",
+              "sha256": "89480a0b836cf40cf17578270fa81c80a538513c5b9710f9a7b2069426e0bcd7"
+            },
+            {
+              "path": "templates/rust/Cargo.lock",
+              "sha256": "92ae08ed467aff3fe8374bc4fd3128edb762b39738a029d9399d50691e2744d9"
+            }
+          ],
+          "transform": "public-template-lock-package-name-substitution-with-root-registry-closure-check",
+          "sha256": "351aa53af06a3b5c2415d807f1a3b78fbe342df760a9e3fa8c5ff184db657a61",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/cloud-task/.bgx-sdk/target/wasm32-wasip2/release/bgx_example_cloud_task.wasm",
+          "sources": [
+            {
+              "path": "examples/cloud-task/Cargo.toml",
+              "sha256": "89480a0b836cf40cf17578270fa81c80a538513c5b9710f9a7b2069426e0bcd7"
+            },
+            {
+              "path": "examples/cloud-task/src/lib.rs",
+              "sha256": "5f65f24617f184606ea7f2fb8fab2ee5ac78285c594c770f5210d04e58127588"
+            },
+            {
+              "path": "examples/cloud-task/manifest.json",
+              "sha256": "a4203babe2e13739af6904de8e1e1c4168ed313076819f8a8162dbbd8be78bb7",
+              "inputSha256BeforeBuild": "7aca321f7e4b145fad8d9c61238d84e90ff9420498432fe8266b160e1b1ab461"
+            },
+            {
+              "path": "Cargo.toml",
+              "sha256": "a709d989ffa9bd46b74311499679003570734a07cc63e7ffec074dc53c3183a0"
+            },
+            {
+              "path": "Cargo.lock",
+              "sha256": "2fff857cf7a12beef6aba5883fd61b4bc4e42a8ab22a6d83624e6568ae1b3aa8"
+            },
+            {
+              "path": "sdk/rust/Cargo.toml",
+              "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7"
+            },
+            {
+              "path": "sdk/rust/src/lib.rs",
+              "sha256": "b7815e04d21b98e2f0261eb014160a52c02e806e793f100ae0f240d7d61ee7d7"
+            },
+            {
+              "path": "sdk/rust/src/generated.rs",
+              "sha256": "c3a3475ac0953cc5036797029e82a5f9d1357640d0af4cb0cc21282669693e0c"
+            },
+            {
+              "path": "sdk/rust/src/host.rs",
+              "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067"
+            },
+            {
+              "path": "sdk/rust/src/guest.rs",
+              "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8"
+            },
+            {
+              "path": "wit/vendor-adapter.wit",
+              "sha256": "e5423c4fe1a909534f6b8893db254e8ceef1fbe59dcc0270222b8e3598b496b5"
+            },
+            {
+              "path": "protocol/schema-policy.json",
+              "sha256": "b693c26b60a27c6d34b21902ebc52f33309564ff973770a0f3d2fec45834e280"
+            },
+            {
+              "path": "examples/capabilities.json",
+              "sha256": "af33181bbfaba34a444ea79111641f526d6ff7fa2ec1e9941c2c19007c639360"
+            },
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "locked-release-cdylib-wasm32-wasip2",
+          "sha256": "13a5e1d7e10a3893a797288d4eca5a5dd08f5a8bfe7a118e0a1b60fe766690c3",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/cloud-task/adapter.wasm",
+          "sources": [
+            {
+              "path": "examples/cloud-task/.bgx-sdk/target/wasm32-wasip2/release/bgx_example_cloud_task.wasm",
+              "sha256": "13a5e1d7e10a3893a797288d4eca5a5dd08f5a8bfe7a118e0a1b60fe766690c3"
+            }
+          ],
+          "transform": "copy-verified-wasm-build-output",
+          "sha256": "13a5e1d7e10a3893a797288d4eca5a5dd08f5a8bfe7a118e0a1b60fe766690c3",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/cloud-task/manifest.json",
+          "sources": [
+            {
+              "path": "examples/cloud-task/manifest.json",
+              "sha256": "a4203babe2e13739af6904de8e1e1c4168ed313076819f8a8162dbbd8be78bb7",
+              "inputSha256BeforeBuild": "7aca321f7e4b145fad8d9c61238d84e90ff9420498432fe8266b160e1b1ab461"
+            },
+            {
+              "path": "examples/cloud-task/adapter.wasm",
+              "sha256": "13a5e1d7e10a3893a797288d4eca5a5dd08f5a8bfe7a118e0a1b60fe766690c3"
+            }
+          ],
+          "transform": "replace-artifactSha256-after-successful-build",
+          "sha256": "a4203babe2e13739af6904de8e1e1c4168ed313076819f8a8162dbbd8be78bb7",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/cloud-task/manifest.sha256",
+          "sources": [
+            {
+              "path": "examples/cloud-task/manifest.json",
+              "sha256": "a4203babe2e13739af6904de8e1e1c4168ed313076819f8a8162dbbd8be78bb7"
+            },
+            {
+              "path": "examples/cloud-task/adapter.wasm",
+              "sha256": "13a5e1d7e10a3893a797288d4eca5a5dd08f5a8bfe7a118e0a1b60fe766690c3"
+            }
+          ],
+          "transform": "stream-sha256-exact-runtime-manifest-and-entry",
+          "sha256": "17336974072ec4f50b0d4ce6bee070e730583eb66fb5756c118cf976693e1329",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/cloud-task/.bgx-sdk/logs/metadata.json",
+          "sources": [
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "explicit-author-build-command-evidence",
+          "sha256": "b1d7bd9191354c09c8b0059d153893bea30b9104bcf27c29cfdb52249a0c1853",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/cloud-task/.bgx-sdk/logs/metadata.log",
+          "sources": [
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "explicit-author-build-command-evidence",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/cloud-task/.bgx-sdk/logs/build.log",
+          "sources": [
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "explicit-author-build-command-evidence",
+          "sha256": "ca318eda5dbc8ab73863c84634323f7d05aa90c6d1a88ea6627cf4eee713c96c",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        }
+      ],
+      "ignoredBuildCacheRoots": [
+        "examples/cloud-task/.bgx-sdk/cargo-home",
+        "examples/cloud-task/.bgx-sdk/target",
+        "examples/cloud-task/.bgx-sdk/cargo-run",
+        "examples/cloud-task/.bgx-sdk/logs"
+      ],
+      "packRunRoot": {
+        "root": "EXPLICIT_NEW_MARKED_RUN_ROOT",
+        "files": [
+          {
+            "target": "packages/cloud-task/manifest.json",
+            "sources": [
+              {
+                "path": "examples/cloud-task/manifest.json",
+                "sha256": "a4203babe2e13739af6904de8e1e1c4168ed313076819f8a8162dbbd8be78bb7"
+              }
+            ],
+            "sha256": "a4203babe2e13739af6904de8e1e1c4168ed313076819f8a8162dbbd8be78bb7",
+            "status": "MEASURED_AFTER_ACTUAL_PACK"
+          },
+          {
+            "target": "packages/cloud-task/adapter.wasm",
+            "sources": [
+              {
+                "path": "examples/cloud-task/adapter.wasm",
+                "sha256": "13a5e1d7e10a3893a797288d4eca5a5dd08f5a8bfe7a118e0a1b60fe766690c3"
+              }
+            ],
+            "sha256": "13a5e1d7e10a3893a797288d4eca5a5dd08f5a8bfe7a118e0a1b60fe766690c3",
+            "status": "MEASURED_AFTER_ACTUAL_PACK"
+          },
+          {
+            "target": "packages/cloud-task/manifest.sha256",
+            "sources": [
+              {
+                "path": "examples/cloud-task/manifest.sha256",
+                "sha256": "17336974072ec4f50b0d4ce6bee070e730583eb66fb5756c118cf976693e1329"
+              }
+            ],
+            "sha256": "17336974072ec4f50b0d4ce6bee070e730583eb66fb5756c118cf976693e1329",
+            "status": "MEASURED_AFTER_ACTUAL_PACK"
+          }
+        ]
+      },
+      "cacheTransfers": [
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/CACHEDIR.TAG",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/CACHEDIR.TAG",
+          "sha256": "6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/anyhow-1.0.104.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/anyhow-1.0.104.crate",
+          "sha256": "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/bitflags-2.13.2.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/bitflags-2.13.2.crate",
+          "sha256": "3ded4057c258ba199e2d26386d3af3780957ecaee6c4ef4041c6b4b8b97c0b06",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4.crate",
+          "sha256": "3078c7629b62d3f0439517fa394996acacc5cbc91c5a20d8c658e77abd503a71",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/cfg-if-1.0.5.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/cfg-if-1.0.5.crate",
+          "sha256": "4e7648175b45a9a48536d676f68d918270699102aa8dab5496df06904c914600",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/cpufeatures-0.2.17.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/cpufeatures-0.2.17.crate",
+          "sha256": "59ed5838eebb26a2bb2e58f6d5b5316989ae9d08bab10e0e6d103e656d1b0280",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/crypto-common-0.1.7.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/crypto-common-0.1.7.crate",
+          "sha256": "78c8292055d1c1df0cce5d180393dc8cce0abec0a7102adb6c7b1eef6016d60a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/digest-0.10.7.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/digest-0.10.7.crate",
+          "sha256": "9ed9a281f7bc9b7576e61468ba615a66a5c8cfdff42420a70aa82701a3b1e292",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/dlmalloc-0.2.14.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/dlmalloc-0.2.14.crate",
+          "sha256": "ad5208a115eaba24916f7456929832e310a81518c641f93fee4f89aa93aa3675",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/equivalent-1.0.3.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/equivalent-1.0.3.crate",
+          "sha256": "00d174d5400e5e8fd687ad1049e2f578285fa914201b1af7e8b112a4546bd826",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/foldhash-0.1.5.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/foldhash-0.1.5.crate",
+          "sha256": "d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/generic-array-0.14.7.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/generic-array-0.14.7.crate",
+          "sha256": "85649ca51fd72272d7821adaf274ad91c288277713d9c18820d8499a7ff69e9a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.15.5.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.15.5.crate",
+          "sha256": "9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.17.1.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.17.1.crate",
+          "sha256": "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/heck-0.5.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/heck-0.5.0.crate",
+          "sha256": "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/id-arena-2.3.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/id-arena-2.3.0.crate",
+          "sha256": "3d3067d79b975e8844ca9eb072e16b31c3c1c36928edf9c6789548c524d0d954",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/indexmap-2.14.2.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/indexmap-2.14.2.crate",
+          "sha256": "cc4e190f5d26ca7051642629da2c52fc03bde85a03197c99408dcd291734c855",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/itoa-1.0.18.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/itoa-1.0.18.crate",
+          "sha256": "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/leb128fmt-0.1.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/leb128fmt-0.1.0.crate",
+          "sha256": "09edd9e8b54e49e587e4f6295a7d29c3ea94d469cb40ab8ca70b288248a81db2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/log-0.4.34.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/log-0.4.34.crate",
+          "sha256": "f9f8bd3e56ce4dfc153cf470fffbfa98c7620958b312ca5c3a4b8d5181fd13c6",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/memchr-2.8.3.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/memchr-2.8.3.crate",
+          "sha256": "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/prettyplease-0.2.37.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/prettyplease-0.2.37.crate",
+          "sha256": "479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/proc-macro2-1.0.107.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/proc-macro2-1.0.107.crate",
+          "sha256": "985e7ec9bb745e6ce6535b544d84d6cd6f7ad8bd711c398938ae983b91a766d9",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/quote-1.0.47.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/quote-1.0.47.crate",
+          "sha256": "1fbf4db142a473a8d80c26bbf18454ed458bf8d26c8219c331daecfdbd079001",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/semver-1.0.28.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/semver-1.0.28.crate",
+          "sha256": "8a7852d02fc848982e0c167ef163aaff9cd91dc640ba85e263cb1ce46fae51cd",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde-1.0.228.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde-1.0.228.crate",
+          "sha256": "9a8e94ea7f378bd32cbbd37198a4a91436180c5bb472411e48b5ec2e2124ae9e",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228.crate",
+          "sha256": "41d385c7d4ca58e59fc732af25c3983b67ac852c1a25000afe1175de458b67ad",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_derive-1.0.228.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_derive-1.0.228.crate",
+          "sha256": "d540f220d3187173da220f885ab66608367b6574e925011a9353e4badda91d79",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.149.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.149.crate",
+          "sha256": "83fc039473c5595ace860d8c4fafa220ff474b3fc6bfdb4293327f1a37e94d86",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/sha2-0.10.9.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/sha2-0.10.9.crate",
+          "sha256": "a7507d819769d01a365ab707794a4084392c824f54a7a6a7862f8c3d0892b283",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/syn-2.0.119.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/syn-2.0.119.crate",
+          "sha256": "872831b642d1a07999a962a351ed35b955ea2cfc8f3862091e2a240a84f17297",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/typenum-1.20.1.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/typenum-1.20.1.crate",
+          "sha256": "b6f5e870be6c3b371b77fe0ee0bafb859fa4964b4404c27de1d380043c4dda20",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-ident-1.0.27.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-ident-1.0.27.crate",
+          "sha256": "a2c754d6c33795a1c324727428e5a7dedb5b06195f9890bdbcba760d3e246563",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-xid-0.2.6.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-xid-0.2.6.crate",
+          "sha256": "ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/version_check-0.9.5.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/version_check-0.9.5.crate",
+          "sha256": "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-encoder-0.244.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-encoder-0.244.0.crate",
+          "sha256": "990065f2fe63003fe337b932cfb5e3b80e0b4d0f5ff650e6985b1048f62c8319",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-metadata-0.244.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-metadata-0.244.0.crate",
+          "sha256": "bb0e353e6a2fbdc176932bbaab493762eb1255a7900fe0fea1a2f96c296cc909",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasmparser-0.244.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasmparser-0.244.0.crate",
+          "sha256": "47b807c72e1bac69382b3a6fb3dbe8ea4c0ed87ff5629b8685ae6b9a611028fe",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-link-0.2.1.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-link-0.2.1.crate",
+          "sha256": "f0805222e57f7521d6a62e36fa9163bc891acd422f971defe97d64e70d0a4fe5",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-sys-0.61.2.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-sys-0.61.2.crate",
+          "sha256": "ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-0.51.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-0.51.0.crate",
+          "sha256": "d7249219f66ced02969388cf2bb044a09756a083d0fab1e566056b04d9fbcaa5",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-core-0.51.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-core-0.51.0.crate",
+          "sha256": "ea61de684c3ea68cb082b7a88508a8b27fcc8b797d738bfc99a82facf1d752dc",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-0.51.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-0.51.0.crate",
+          "sha256": "b7c566e0f4b284dd6561c786d9cb0142da491f46a9fbed79ea69cdad5db17f21",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-macro-0.51.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-macro-0.51.0.crate",
+          "sha256": "0c0f9bfd77e6a48eccf51359e3ae77140a7f50b1e2ebfe62422d8afdaffab17a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-component-0.244.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-component-0.244.0.crate",
+          "sha256": "9d66ea20e9553b30172b5e831994e35fbde2d165325bec84fc43dbf6f4eb9cb2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-parser-0.244.0.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-parser-0.244.0.crate",
+          "sha256": "ecc8ac4bc1dc3381b7f59c34f00b67e18f910c2c0f50015669dde7def656a736",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/zmij-1.0.23.crate",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/zmij-1.0.23.crate",
+          "sha256": "29666d0abbfad1e3dc4dcf6144730dd3a3ab225bbbdac83319345b1b44ccfc1b",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/config.json",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/config.json",
+          "sha256": "5b943a2c6f7eb743f7308aba07bdbb47d9ae44aafecd832d7f15df186afbafb3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/l/log",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/l/log",
+          "sha256": "a75991da988ce93760221f19db4f0d0eeca0e82d00d5f3ddc88c4806542178c4",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/s/syn",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/s/syn",
+          "sha256": "6e4b8cca104375a312ce2e6012078f345505bd90bc3c85f15fc6f15606404365",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/an/yh/anyhow",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/an/yh/anyhow",
+          "sha256": "a529c91ec8630f952709743b04c9e375efffad3311b6e8a7b3b8928b9dd3e7f3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bi/tf/bitflags",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bi/tf/bitflags",
+          "sha256": "6713b703da401faa62e3df0a4a42a7d14a9d777511ac010512a5dd7b3417faaa",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bl/oc/block-buffer",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bl/oc/block-buffer",
+          "sha256": "01c56856aa2b0252ce0d90752ec2c0106edff7db2c1bdf35d60244762fd18419",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cf/g-/cfg-if",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cf/g-/cfg-if",
+          "sha256": "8f6eaea0f7fc5f6848486cbdf55738698871d39e9120c4c1c68fe5c964696d7d",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cp/uf/cpufeatures",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cp/uf/cpufeatures",
+          "sha256": "dd29f42e05ee3cf258f4ecf10c43c47625306fbb3f041106ac48cf33d02b1435",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cr/yp/crypto-common",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cr/yp/crypto-common",
+          "sha256": "888aa37a81634f87ae790d68b432c51f0c88a238fc08a760171958e263daef2f",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/di/ge/digest",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/di/ge/digest",
+          "sha256": "4a9f0a9b47df415003371f47ed05c5a48bab33e642a3476e8ad1d4124178cfa3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/dl/ma/dlmalloc",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/dl/ma/dlmalloc",
+          "sha256": "e962ffaf2c6fdb1ab08059fa8a1dbcd359b02bf38f7bbf1d5daa246ac2c6f147",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/eq/ui/equivalent",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/eq/ui/equivalent",
+          "sha256": "729049a64e52f4c604ddd11332dee727e46c1771e868f5316f0761c75817b5f4",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/fo/ld/foldhash",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/fo/ld/foldhash",
+          "sha256": "5a2c4fd3754fa9dff1655c21c0f42fbaba26071a94ed5254903ac25101de4df7",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ge/ne/generic-array",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ge/ne/generic-array",
+          "sha256": "ca57d9fc384febb27edb69462550ed8e38f8e11d2c074260759055af41affcb4",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ha/sh/hashbrown",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ha/sh/hashbrown",
+          "sha256": "1e697f50eb6bb6eeff9221f8ae844c3929285f3a779a3ee621895cc3efa40598",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/he/ck/heck",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/he/ck/heck",
+          "sha256": "e569491216ead0f0c8bb3d72240e07cbc98b7dd3e0407ecac51a5e520882ff19",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/id/-a/id-arena",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/id/-a/id-arena",
+          "sha256": "aee6a98d7e5c05a578eb11a7495e1ccf7228373fd08c0b3e8f17b136b94390c0",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/in/de/indexmap",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/in/de/indexmap",
+          "sha256": "6789d067d0c98e65c26b0e967636b39b2c86a0bbab2e0892d1a4d8512b7252bb",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/it/oa/itoa",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/it/oa/itoa",
+          "sha256": "358ec410c0eb6e99d0bd115834b6f94aa92791f87d684c29f2dc7a62b7887b48",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/le/b1/leb128fmt",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/le/b1/leb128fmt",
+          "sha256": "1437ec53a6655b3d9f294760e26f090db0a411fa606b0b661be70097eefb9045",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/li/bc/libc",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/li/bc/libc",
+          "sha256": "0c0c0edd0d15a477311bebab5f7b35d68767bb2ebeea274f85404cd2921c498a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/me/mc/memchr",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/me/mc/memchr",
+          "sha256": "fd6ae4fcce894bf67403c653f73a6fe48bfa1fac66a04e2caec70e1f36343d05",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/et/prettyplease",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/et/prettyplease",
+          "sha256": "c1f6370bc6bd9659d0511db0158f7c5ddefd1ca821f3972bba319cf7e03351c7",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/oc/proc-macro2",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/oc/proc-macro2",
+          "sha256": "95228f72462ea6fa119430877d1c7abb7a22346da05473c37ecc12e678174b69",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/qu/ot/quote",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/qu/ot/quote",
+          "sha256": "bf97b4d031ad9a1159e896720b9227fb39947f370b48cb8ded9abd27b1515feb",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/mv/semver",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/mv/semver",
+          "sha256": "2e36b1b3016b5ce75289e087611a460b9b58d040511db1babc01dda7ede8b003",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde",
+          "sha256": "8fa7dcf631674523357d78dd82a9e8ec91e6822bf658e996962382d5b03a06f2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_core",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_core",
+          "sha256": "00f5412df941bf2bb3aa7fe7e2456fabff8ce96f324060645cb84a1a0200647c",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_derive",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_derive",
+          "sha256": "04e32a953a39f321a61f4914b3b22025f8476f6d5f7140025e3766c28c6af06d",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_json",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_json",
+          "sha256": "525ff45985535d4cfd3e7335c39c865054c919a6d89588e5bd93acca3fb524d6",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/sh/a2/sha2",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/sh/a2/sha2",
+          "sha256": "bba8e4f9ea268bcd9adf4264bf907886ec9c642d8066d58cb4307c9027482af3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ty/pe/typenum",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ty/pe/typenum",
+          "sha256": "0aa39a82563fb4c1959ea3ce514ada50075c436f0ed5f6edcdabb90e995f7f18",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-ident",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-ident",
+          "sha256": "a0821e0a18fc924414c5454be047fc48ecc7b14fc2ed26683a101f4007d7a261",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-xid",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-xid",
+          "sha256": "863a573cce77526b878921bd5de8f16d0160711fa0da9bac5825f84fb64faae1",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ve/rs/version_check",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ve/rs/version_check",
+          "sha256": "3b59bb407ec049518d98a4baee28599d2724767aad5c95c1b2f25ef511008a3d",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-encoder",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-encoder",
+          "sha256": "1fb35a97ce01db55ddf1655f8aba501be403d63b66722e0b5de23cb3d6635259",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-metadata",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-metadata",
+          "sha256": "9cb46bdb2eab527bd5bcafb1219d42cb7b846f26cc2c6df5d465ff526d62b7ef",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasmparser",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasmparser",
+          "sha256": "10ecc8aa141c59d79d5e279a0d61b18ddb4e1bdd546e058767e57dd5d27e8b15",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-link",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-link",
+          "sha256": "d22f6b9ac1dea4587d049cfe5acaa4a769c18feb63dd29aa61bee99837a06546",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-sys",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-sys",
+          "sha256": "beab389ed4ab8a0aca87fde6a1195814c27d62aae5f6ffb39bb2207ad2f9ad66",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen",
+          "sha256": "2018de6f23aa02b562536edea3766c0ed4a2618974899cb28d56cb5ea2b41abd",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-core",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-core",
+          "sha256": "161431c8a50528ca82b35e5bb0ad1681aef97166a80da18298ae649a9c089d1e",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust",
+          "sha256": "2639227039148a6c6523e9c9a2f968266a354827b9a2bd02eea880cc697b57e5",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust-macro",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust-macro",
+          "sha256": "6394d63a24c12fbf9be92aecf4ad4d508ab107318a7455ee320b4ebf1b222b30",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-component",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-component",
+          "sha256": "9d8b294c18f515ad96fb8be10803bd3577277ff684deee7a98655651ad14dc03",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-parser",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-parser",
+          "sha256": "ce06131a566acf530e79471a9fb8f77134707bbe42bef42d0f1486f0d33d4496",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/zm/ij/zmij",
+          "target": "examples/cloud-task/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/zm/ij/zmij",
+          "sha256": "2292a52a2f4a8089d5327151f1d5e68496608311cfec6e1d564a6f5202a1931e",
+          "copied": true
+        }
+      ]
+    },
+    {
+      "id": "workflow",
+      "status": "BUILT_AND_EXECUTED_TASK_LOCAL_MOCK",
+      "pluginId": "local.examples.workflow",
+      "project": "examples/workflow",
+      "sourceFiles": [
+        {
+          "path": "examples/workflow/Cargo.toml",
+          "sha256": "5423eec8a973ac02a168db206ff7966e9a724c03969193aad3ba3fe9f8df5d4f"
+        },
+        {
+          "path": "examples/workflow/src/lib.rs",
+          "sha256": "5bbe0f1189ee4b434b6b2a71d4cf5439eeeba74d39dfc3510e75911b8e2b7a7a"
+        },
+        {
+          "path": "examples/workflow/manifest.json",
+          "sha256": "925d0a4be6ddcbbaf97d63213935eb6803acd97887db9bfb6b62b56603f72b32",
+          "inputSha256BeforeBuild": "1e705eb911353cb311f2b66d6dec8802747eb5e7e741d189c9b795da20dd36f1"
+        }
+      ],
+      "sharedSources": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "a709d989ffa9bd46b74311499679003570734a07cc63e7ffec074dc53c3183a0"
+        },
+        {
+          "path": "Cargo.lock",
+          "sha256": "2fff857cf7a12beef6aba5883fd61b4bc4e42a8ab22a6d83624e6568ae1b3aa8"
+        },
+        {
+          "path": "sdk/rust/Cargo.toml",
+          "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7"
+        },
+        {
+          "path": "sdk/rust/src/lib.rs",
+          "sha256": "b7815e04d21b98e2f0261eb014160a52c02e806e793f100ae0f240d7d61ee7d7"
+        },
+        {
+          "path": "sdk/rust/src/generated.rs",
+          "sha256": "c3a3475ac0953cc5036797029e82a5f9d1357640d0af4cb0cc21282669693e0c"
+        },
+        {
+          "path": "sdk/rust/src/host.rs",
+          "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067"
+        },
+        {
+          "path": "sdk/rust/src/guest.rs",
+          "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8"
+        },
+        {
+          "path": "wit/vendor-adapter.wit",
+          "sha256": "e5423c4fe1a909534f6b8893db254e8ceef1fbe59dcc0270222b8e3598b496b5"
+        },
+        {
+          "path": "protocol/schema-policy.json",
+          "sha256": "b693c26b60a27c6d34b21902ebc52f33309564ff973770a0f3d2fec45834e280"
+        },
+        {
+          "path": "examples/capabilities.json",
+          "sha256": "af33181bbfaba34a444ea79111641f526d6ff7fa2ec1e9941c2c19007c639360"
+        },
+        {
+          "path": "crates/tools/src/author.rs",
+          "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+        },
+        {
+          "path": "templates/rust/Cargo.lock",
+          "sha256": "92ae08ed467aff3fe8374bc4fd3128edb762b39738a029d9399d50691e2744d9"
+        }
+      ],
+      "sharedVideoInput": {
+        "source": "examples/capabilities.json",
+        "pointer": "/capabilities/0/schemas/0/schemaJson",
+        "sha256": "832ea7f6ccf75f5af0d5cdd0b431ab96c6e7c969645deb962a739d372508bf6f",
+        "resolution": "Each source reads the same schemaJson through include_str; the exact source string, without JSON reserialization, is hashed for video.generate."
+      },
+      "buildCacheRoot": "examples/workflow/.bgx-sdk/",
+      "generatedFiles": [
+        {
+          "target": "examples/workflow/Cargo.lock",
+          "sources": [
+            {
+              "path": "Cargo.lock",
+              "sha256": "2fff857cf7a12beef6aba5883fd61b4bc4e42a8ab22a6d83624e6568ae1b3aa8"
+            },
+            {
+              "path": "examples/workflow/Cargo.toml",
+              "sha256": "5423eec8a973ac02a168db206ff7966e9a724c03969193aad3ba3fe9f8df5d4f"
+            },
+            {
+              "path": "templates/rust/Cargo.lock",
+              "sha256": "92ae08ed467aff3fe8374bc4fd3128edb762b39738a029d9399d50691e2744d9"
+            }
+          ],
+          "transform": "public-template-lock-package-name-substitution-with-root-registry-closure-check",
+          "sha256": "0b272899fc1e80be400e6fe9cf443a982fc858eecb71b79878e23f13bebe1eec",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/workflow/.bgx-sdk/target/wasm32-wasip2/release/bgx_example_workflow.wasm",
+          "sources": [
+            {
+              "path": "examples/workflow/Cargo.toml",
+              "sha256": "5423eec8a973ac02a168db206ff7966e9a724c03969193aad3ba3fe9f8df5d4f"
+            },
+            {
+              "path": "examples/workflow/src/lib.rs",
+              "sha256": "5bbe0f1189ee4b434b6b2a71d4cf5439eeeba74d39dfc3510e75911b8e2b7a7a"
+            },
+            {
+              "path": "examples/workflow/manifest.json",
+              "sha256": "925d0a4be6ddcbbaf97d63213935eb6803acd97887db9bfb6b62b56603f72b32",
+              "inputSha256BeforeBuild": "1e705eb911353cb311f2b66d6dec8802747eb5e7e741d189c9b795da20dd36f1"
+            },
+            {
+              "path": "Cargo.toml",
+              "sha256": "a709d989ffa9bd46b74311499679003570734a07cc63e7ffec074dc53c3183a0"
+            },
+            {
+              "path": "Cargo.lock",
+              "sha256": "2fff857cf7a12beef6aba5883fd61b4bc4e42a8ab22a6d83624e6568ae1b3aa8"
+            },
+            {
+              "path": "sdk/rust/Cargo.toml",
+              "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7"
+            },
+            {
+              "path": "sdk/rust/src/lib.rs",
+              "sha256": "b7815e04d21b98e2f0261eb014160a52c02e806e793f100ae0f240d7d61ee7d7"
+            },
+            {
+              "path": "sdk/rust/src/generated.rs",
+              "sha256": "c3a3475ac0953cc5036797029e82a5f9d1357640d0af4cb0cc21282669693e0c"
+            },
+            {
+              "path": "sdk/rust/src/host.rs",
+              "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067"
+            },
+            {
+              "path": "sdk/rust/src/guest.rs",
+              "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8"
+            },
+            {
+              "path": "wit/vendor-adapter.wit",
+              "sha256": "e5423c4fe1a909534f6b8893db254e8ceef1fbe59dcc0270222b8e3598b496b5"
+            },
+            {
+              "path": "protocol/schema-policy.json",
+              "sha256": "b693c26b60a27c6d34b21902ebc52f33309564ff973770a0f3d2fec45834e280"
+            },
+            {
+              "path": "examples/capabilities.json",
+              "sha256": "af33181bbfaba34a444ea79111641f526d6ff7fa2ec1e9941c2c19007c639360"
+            },
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "locked-release-cdylib-wasm32-wasip2",
+          "sha256": "41b8fc68afb54d5c526f16f5d293bb89baeb444bebaf6c1b2ef16a4146787b18",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/workflow/adapter.wasm",
+          "sources": [
+            {
+              "path": "examples/workflow/.bgx-sdk/target/wasm32-wasip2/release/bgx_example_workflow.wasm",
+              "sha256": "41b8fc68afb54d5c526f16f5d293bb89baeb444bebaf6c1b2ef16a4146787b18"
+            }
+          ],
+          "transform": "copy-verified-wasm-build-output",
+          "sha256": "41b8fc68afb54d5c526f16f5d293bb89baeb444bebaf6c1b2ef16a4146787b18",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/workflow/manifest.json",
+          "sources": [
+            {
+              "path": "examples/workflow/manifest.json",
+              "sha256": "925d0a4be6ddcbbaf97d63213935eb6803acd97887db9bfb6b62b56603f72b32",
+              "inputSha256BeforeBuild": "1e705eb911353cb311f2b66d6dec8802747eb5e7e741d189c9b795da20dd36f1"
+            },
+            {
+              "path": "examples/workflow/adapter.wasm",
+              "sha256": "41b8fc68afb54d5c526f16f5d293bb89baeb444bebaf6c1b2ef16a4146787b18"
+            }
+          ],
+          "transform": "replace-artifactSha256-after-successful-build",
+          "sha256": "925d0a4be6ddcbbaf97d63213935eb6803acd97887db9bfb6b62b56603f72b32",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/workflow/manifest.sha256",
+          "sources": [
+            {
+              "path": "examples/workflow/manifest.json",
+              "sha256": "925d0a4be6ddcbbaf97d63213935eb6803acd97887db9bfb6b62b56603f72b32"
+            },
+            {
+              "path": "examples/workflow/adapter.wasm",
+              "sha256": "41b8fc68afb54d5c526f16f5d293bb89baeb444bebaf6c1b2ef16a4146787b18"
+            }
+          ],
+          "transform": "stream-sha256-exact-runtime-manifest-and-entry",
+          "sha256": "9d257ea423e36d33ae2535f06dfefbacbe957ec3653723602d506862531517be",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/workflow/.bgx-sdk/logs/metadata.json",
+          "sources": [
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "explicit-author-build-command-evidence",
+          "sha256": "a3d7259195724d258fd40f3f62dda47b294be12a57b05aa647daa05420a37a62",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/workflow/.bgx-sdk/logs/metadata.log",
+          "sources": [
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "explicit-author-build-command-evidence",
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        },
+        {
+          "target": "examples/workflow/.bgx-sdk/logs/build.log",
+          "sources": [
+            {
+              "path": "crates/tools/src/author.rs",
+              "sha256": "7f5be8aa174b8045391cb02311240b3d884598edf1855dd35e6073053949ac77"
+            }
+          ],
+          "transform": "explicit-author-build-command-evidence",
+          "sha256": "dcf437116fb395702ecaf7f46b1b8d3bc00e31c7d50c9144d0e61c080d695183",
+          "status": "MEASURED_AFTER_ACTUAL_EXECUTION"
+        }
+      ],
+      "ignoredBuildCacheRoots": [
+        "examples/workflow/.bgx-sdk/cargo-home",
+        "examples/workflow/.bgx-sdk/target",
+        "examples/workflow/.bgx-sdk/cargo-run",
+        "examples/workflow/.bgx-sdk/logs"
+      ],
+      "packRunRoot": {
+        "root": "EXPLICIT_NEW_MARKED_RUN_ROOT",
+        "files": [
+          {
+            "target": "packages/workflow/manifest.json",
+            "sources": [
+              {
+                "path": "examples/workflow/manifest.json",
+                "sha256": "925d0a4be6ddcbbaf97d63213935eb6803acd97887db9bfb6b62b56603f72b32"
+              }
+            ],
+            "sha256": "925d0a4be6ddcbbaf97d63213935eb6803acd97887db9bfb6b62b56603f72b32",
+            "status": "MEASURED_AFTER_ACTUAL_PACK"
+          },
+          {
+            "target": "packages/workflow/adapter.wasm",
+            "sources": [
+              {
+                "path": "examples/workflow/adapter.wasm",
+                "sha256": "41b8fc68afb54d5c526f16f5d293bb89baeb444bebaf6c1b2ef16a4146787b18"
+              }
+            ],
+            "sha256": "41b8fc68afb54d5c526f16f5d293bb89baeb444bebaf6c1b2ef16a4146787b18",
+            "status": "MEASURED_AFTER_ACTUAL_PACK"
+          },
+          {
+            "target": "packages/workflow/manifest.sha256",
+            "sources": [
+              {
+                "path": "examples/workflow/manifest.sha256",
+                "sha256": "9d257ea423e36d33ae2535f06dfefbacbe957ec3653723602d506862531517be"
+              }
+            ],
+            "sha256": "9d257ea423e36d33ae2535f06dfefbacbe957ec3653723602d506862531517be",
+            "status": "MEASURED_AFTER_ACTUAL_PACK"
+          }
+        ]
+      },
+      "cacheTransfers": [
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/CACHEDIR.TAG",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/CACHEDIR.TAG",
+          "sha256": "6d9d1d216e0f83abc5e5662ca62c92b4f23009466b54fa27321a69acdb778bb2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/anyhow-1.0.104.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/anyhow-1.0.104.crate",
+          "sha256": "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/bitflags-2.13.2.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/bitflags-2.13.2.crate",
+          "sha256": "3ded4057c258ba199e2d26386d3af3780957ecaee6c4ef4041c6b4b8b97c0b06",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/block-buffer-0.10.4.crate",
+          "sha256": "3078c7629b62d3f0439517fa394996acacc5cbc91c5a20d8c658e77abd503a71",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/cfg-if-1.0.5.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/cfg-if-1.0.5.crate",
+          "sha256": "4e7648175b45a9a48536d676f68d918270699102aa8dab5496df06904c914600",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/cpufeatures-0.2.17.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/cpufeatures-0.2.17.crate",
+          "sha256": "59ed5838eebb26a2bb2e58f6d5b5316989ae9d08bab10e0e6d103e656d1b0280",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/crypto-common-0.1.7.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/crypto-common-0.1.7.crate",
+          "sha256": "78c8292055d1c1df0cce5d180393dc8cce0abec0a7102adb6c7b1eef6016d60a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/digest-0.10.7.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/digest-0.10.7.crate",
+          "sha256": "9ed9a281f7bc9b7576e61468ba615a66a5c8cfdff42420a70aa82701a3b1e292",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/dlmalloc-0.2.14.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/dlmalloc-0.2.14.crate",
+          "sha256": "ad5208a115eaba24916f7456929832e310a81518c641f93fee4f89aa93aa3675",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/equivalent-1.0.3.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/equivalent-1.0.3.crate",
+          "sha256": "00d174d5400e5e8fd687ad1049e2f578285fa914201b1af7e8b112a4546bd826",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/foldhash-0.1.5.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/foldhash-0.1.5.crate",
+          "sha256": "d9c4f5dac5e15c24eb999c26181a6ca40b39fe946cbe4c263c7209467bc83af2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/generic-array-0.14.7.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/generic-array-0.14.7.crate",
+          "sha256": "85649ca51fd72272d7821adaf274ad91c288277713d9c18820d8499a7ff69e9a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.15.5.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.15.5.crate",
+          "sha256": "9229cfe53dfd69f0609a49f65461bd93001ea1ef889cd5529dd176593f5338a1",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.17.1.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/hashbrown-0.17.1.crate",
+          "sha256": "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/heck-0.5.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/heck-0.5.0.crate",
+          "sha256": "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/id-arena-2.3.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/id-arena-2.3.0.crate",
+          "sha256": "3d3067d79b975e8844ca9eb072e16b31c3c1c36928edf9c6789548c524d0d954",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/indexmap-2.14.2.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/indexmap-2.14.2.crate",
+          "sha256": "cc4e190f5d26ca7051642629da2c52fc03bde85a03197c99408dcd291734c855",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/itoa-1.0.18.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/itoa-1.0.18.crate",
+          "sha256": "8f42a60cbdf9a97f5d2305f08a87dc4e09308d1276d28c869c684d7777685682",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/leb128fmt-0.1.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/leb128fmt-0.1.0.crate",
+          "sha256": "09edd9e8b54e49e587e4f6295a7d29c3ea94d469cb40ab8ca70b288248a81db2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/log-0.4.34.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/log-0.4.34.crate",
+          "sha256": "f9f8bd3e56ce4dfc153cf470fffbfa98c7620958b312ca5c3a4b8d5181fd13c6",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/memchr-2.8.3.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/memchr-2.8.3.crate",
+          "sha256": "cf8baf1c55e62ffcace7a9f06f4bd9cd3f0c4beb022d3b367256b91b87513d98",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/prettyplease-0.2.37.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/prettyplease-0.2.37.crate",
+          "sha256": "479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/proc-macro2-1.0.107.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/proc-macro2-1.0.107.crate",
+          "sha256": "985e7ec9bb745e6ce6535b544d84d6cd6f7ad8bd711c398938ae983b91a766d9",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/quote-1.0.47.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/quote-1.0.47.crate",
+          "sha256": "1fbf4db142a473a8d80c26bbf18454ed458bf8d26c8219c331daecfdbd079001",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/semver-1.0.28.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/semver-1.0.28.crate",
+          "sha256": "8a7852d02fc848982e0c167ef163aaff9cd91dc640ba85e263cb1ce46fae51cd",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde-1.0.228.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde-1.0.228.crate",
+          "sha256": "9a8e94ea7f378bd32cbbd37198a4a91436180c5bb472411e48b5ec2e2124ae9e",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_core-1.0.228.crate",
+          "sha256": "41d385c7d4ca58e59fc732af25c3983b67ac852c1a25000afe1175de458b67ad",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_derive-1.0.228.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_derive-1.0.228.crate",
+          "sha256": "d540f220d3187173da220f885ab66608367b6574e925011a9353e4badda91d79",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.149.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/serde_json-1.0.149.crate",
+          "sha256": "83fc039473c5595ace860d8c4fafa220ff474b3fc6bfdb4293327f1a37e94d86",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/sha2-0.10.9.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/sha2-0.10.9.crate",
+          "sha256": "a7507d819769d01a365ab707794a4084392c824f54a7a6a7862f8c3d0892b283",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/syn-2.0.119.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/syn-2.0.119.crate",
+          "sha256": "872831b642d1a07999a962a351ed35b955ea2cfc8f3862091e2a240a84f17297",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/typenum-1.20.1.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/typenum-1.20.1.crate",
+          "sha256": "b6f5e870be6c3b371b77fe0ee0bafb859fa4964b4404c27de1d380043c4dda20",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-ident-1.0.27.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-ident-1.0.27.crate",
+          "sha256": "a2c754d6c33795a1c324727428e5a7dedb5b06195f9890bdbcba760d3e246563",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-xid-0.2.6.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/unicode-xid-0.2.6.crate",
+          "sha256": "ebc1c04c71510c7f702b52b7c350734c9ff1295c464a03335b00bb84fc54f853",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/version_check-0.9.5.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/version_check-0.9.5.crate",
+          "sha256": "0b928f33d975fc6ad9f86c8f283853ad26bdd5b10b7f1542aa2fa15e2289105a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-encoder-0.244.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-encoder-0.244.0.crate",
+          "sha256": "990065f2fe63003fe337b932cfb5e3b80e0b4d0f5ff650e6985b1048f62c8319",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-metadata-0.244.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasm-metadata-0.244.0.crate",
+          "sha256": "bb0e353e6a2fbdc176932bbaab493762eb1255a7900fe0fea1a2f96c296cc909",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasmparser-0.244.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wasmparser-0.244.0.crate",
+          "sha256": "47b807c72e1bac69382b3a6fb3dbe8ea4c0ed87ff5629b8685ae6b9a611028fe",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-link-0.2.1.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-link-0.2.1.crate",
+          "sha256": "f0805222e57f7521d6a62e36fa9163bc891acd422f971defe97d64e70d0a4fe5",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-sys-0.61.2.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/windows-sys-0.61.2.crate",
+          "sha256": "ae137229bcbd6cdf0f7b80a31df61766145077ddf49416a728b02cb3921ff3fc",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-0.51.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-0.51.0.crate",
+          "sha256": "d7249219f66ced02969388cf2bb044a09756a083d0fab1e566056b04d9fbcaa5",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-core-0.51.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-core-0.51.0.crate",
+          "sha256": "ea61de684c3ea68cb082b7a88508a8b27fcc8b797d738bfc99a82facf1d752dc",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-0.51.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-0.51.0.crate",
+          "sha256": "b7c566e0f4b284dd6561c786d9cb0142da491f46a9fbed79ea69cdad5db17f21",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-macro-0.51.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-bindgen-rust-macro-0.51.0.crate",
+          "sha256": "0c0f9bfd77e6a48eccf51359e3ae77140a7f50b1e2ebfe62422d8afdaffab17a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-component-0.244.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-component-0.244.0.crate",
+          "sha256": "9d66ea20e9553b30172b5e831994e35fbde2d165325bec84fc43dbf6f4eb9cb2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-parser-0.244.0.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/wit-parser-0.244.0.crate",
+          "sha256": "ecc8ac4bc1dc3381b7f59c34f00b67e18f910c2c0f50015669dde7def656a736",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/zmij-1.0.23.crate",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/cache/index.crates.io-1949cf8c6b5b557f/zmij-1.0.23.crate",
+          "sha256": "29666d0abbfad1e3dc4dcf6144730dd3a3ab225bbbdac83319345b1b44ccfc1b",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/config.json",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/config.json",
+          "sha256": "5b943a2c6f7eb743f7308aba07bdbb47d9ae44aafecd832d7f15df186afbafb3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/l/log",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/l/log",
+          "sha256": "a75991da988ce93760221f19db4f0d0eeca0e82d00d5f3ddc88c4806542178c4",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/s/syn",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/3/s/syn",
+          "sha256": "6e4b8cca104375a312ce2e6012078f345505bd90bc3c85f15fc6f15606404365",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/an/yh/anyhow",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/an/yh/anyhow",
+          "sha256": "a529c91ec8630f952709743b04c9e375efffad3311b6e8a7b3b8928b9dd3e7f3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bi/tf/bitflags",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bi/tf/bitflags",
+          "sha256": "6713b703da401faa62e3df0a4a42a7d14a9d777511ac010512a5dd7b3417faaa",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bl/oc/block-buffer",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/bl/oc/block-buffer",
+          "sha256": "01c56856aa2b0252ce0d90752ec2c0106edff7db2c1bdf35d60244762fd18419",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cf/g-/cfg-if",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cf/g-/cfg-if",
+          "sha256": "8f6eaea0f7fc5f6848486cbdf55738698871d39e9120c4c1c68fe5c964696d7d",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cp/uf/cpufeatures",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cp/uf/cpufeatures",
+          "sha256": "dd29f42e05ee3cf258f4ecf10c43c47625306fbb3f041106ac48cf33d02b1435",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cr/yp/crypto-common",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/cr/yp/crypto-common",
+          "sha256": "888aa37a81634f87ae790d68b432c51f0c88a238fc08a760171958e263daef2f",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/di/ge/digest",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/di/ge/digest",
+          "sha256": "4a9f0a9b47df415003371f47ed05c5a48bab33e642a3476e8ad1d4124178cfa3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/dl/ma/dlmalloc",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/dl/ma/dlmalloc",
+          "sha256": "e962ffaf2c6fdb1ab08059fa8a1dbcd359b02bf38f7bbf1d5daa246ac2c6f147",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/eq/ui/equivalent",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/eq/ui/equivalent",
+          "sha256": "729049a64e52f4c604ddd11332dee727e46c1771e868f5316f0761c75817b5f4",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/fo/ld/foldhash",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/fo/ld/foldhash",
+          "sha256": "5a2c4fd3754fa9dff1655c21c0f42fbaba26071a94ed5254903ac25101de4df7",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ge/ne/generic-array",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ge/ne/generic-array",
+          "sha256": "ca57d9fc384febb27edb69462550ed8e38f8e11d2c074260759055af41affcb4",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ha/sh/hashbrown",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ha/sh/hashbrown",
+          "sha256": "1e697f50eb6bb6eeff9221f8ae844c3929285f3a779a3ee621895cc3efa40598",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/he/ck/heck",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/he/ck/heck",
+          "sha256": "e569491216ead0f0c8bb3d72240e07cbc98b7dd3e0407ecac51a5e520882ff19",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/id/-a/id-arena",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/id/-a/id-arena",
+          "sha256": "aee6a98d7e5c05a578eb11a7495e1ccf7228373fd08c0b3e8f17b136b94390c0",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/in/de/indexmap",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/in/de/indexmap",
+          "sha256": "6789d067d0c98e65c26b0e967636b39b2c86a0bbab2e0892d1a4d8512b7252bb",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/it/oa/itoa",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/it/oa/itoa",
+          "sha256": "358ec410c0eb6e99d0bd115834b6f94aa92791f87d684c29f2dc7a62b7887b48",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/le/b1/leb128fmt",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/le/b1/leb128fmt",
+          "sha256": "1437ec53a6655b3d9f294760e26f090db0a411fa606b0b661be70097eefb9045",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/li/bc/libc",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/li/bc/libc",
+          "sha256": "0c0c0edd0d15a477311bebab5f7b35d68767bb2ebeea274f85404cd2921c498a",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/me/mc/memchr",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/me/mc/memchr",
+          "sha256": "fd6ae4fcce894bf67403c653f73a6fe48bfa1fac66a04e2caec70e1f36343d05",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/et/prettyplease",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/et/prettyplease",
+          "sha256": "c1f6370bc6bd9659d0511db0158f7c5ddefd1ca821f3972bba319cf7e03351c7",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/oc/proc-macro2",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/pr/oc/proc-macro2",
+          "sha256": "95228f72462ea6fa119430877d1c7abb7a22346da05473c37ecc12e678174b69",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/qu/ot/quote",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/qu/ot/quote",
+          "sha256": "bf97b4d031ad9a1159e896720b9227fb39947f370b48cb8ded9abd27b1515feb",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/mv/semver",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/mv/semver",
+          "sha256": "2e36b1b3016b5ce75289e087611a460b9b58d040511db1babc01dda7ede8b003",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde",
+          "sha256": "8fa7dcf631674523357d78dd82a9e8ec91e6822bf658e996962382d5b03a06f2",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_core",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_core",
+          "sha256": "00f5412df941bf2bb3aa7fe7e2456fabff8ce96f324060645cb84a1a0200647c",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_derive",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_derive",
+          "sha256": "04e32a953a39f321a61f4914b3b22025f8476f6d5f7140025e3766c28c6af06d",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_json",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/se/rd/serde_json",
+          "sha256": "525ff45985535d4cfd3e7335c39c865054c919a6d89588e5bd93acca3fb524d6",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/sh/a2/sha2",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/sh/a2/sha2",
+          "sha256": "bba8e4f9ea268bcd9adf4264bf907886ec9c642d8066d58cb4307c9027482af3",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ty/pe/typenum",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ty/pe/typenum",
+          "sha256": "0aa39a82563fb4c1959ea3ce514ada50075c436f0ed5f6edcdabb90e995f7f18",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-ident",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-ident",
+          "sha256": "a0821e0a18fc924414c5454be047fc48ecc7b14fc2ed26683a101f4007d7a261",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-xid",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/un/ic/unicode-xid",
+          "sha256": "863a573cce77526b878921bd5de8f16d0160711fa0da9bac5825f84fb64faae1",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ve/rs/version_check",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/ve/rs/version_check",
+          "sha256": "3b59bb407ec049518d98a4baee28599d2724767aad5c95c1b2f25ef511008a3d",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-encoder",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-encoder",
+          "sha256": "1fb35a97ce01db55ddf1655f8aba501be403d63b66722e0b5de23cb3d6635259",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-metadata",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasm-metadata",
+          "sha256": "9cb46bdb2eab527bd5bcafb1219d42cb7b846f26cc2c6df5d465ff526d62b7ef",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasmparser",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wa/sm/wasmparser",
+          "sha256": "10ecc8aa141c59d79d5e279a0d61b18ddb4e1bdd546e058767e57dd5d27e8b15",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-link",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-link",
+          "sha256": "d22f6b9ac1dea4587d049cfe5acaa4a769c18feb63dd29aa61bee99837a06546",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-sys",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/nd/windows-sys",
+          "sha256": "beab389ed4ab8a0aca87fde6a1195814c27d62aae5f6ffb39bb2207ad2f9ad66",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen",
+          "sha256": "2018de6f23aa02b562536edea3766c0ed4a2618974899cb28d56cb5ea2b41abd",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-core",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-core",
+          "sha256": "161431c8a50528ca82b35e5bb0ad1681aef97166a80da18298ae649a9c089d1e",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust",
+          "sha256": "2639227039148a6c6523e9c9a2f968266a354827b9a2bd02eea880cc697b57e5",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust-macro",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-bindgen-rust-macro",
+          "sha256": "6394d63a24c12fbf9be92aecf4ad4d508ab107318a7455ee320b4ebf1b222b30",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-component",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-component",
+          "sha256": "9d8b294c18f515ad96fb8be10803bd3577277ff684deee7a98655651ad14dc03",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-parser",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/wi/t-/wit-parser",
+          "sha256": "ce06131a566acf530e79471a9fb8f77134707bbe42bef42d0f1486f0d33d4496",
+          "copied": true
+        },
+        {
+          "sourceRoot": "SDK",
+          "source": "examples/sync-api/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/zm/ij/zmij",
+          "target": "examples/workflow/.bgx-sdk/cargo-home/registry/index/index.crates.io-1949cf8c6b5b557f/.cache/zm/ij/zmij",
+          "sha256": "2292a52a2f4a8089d5327151f1d5e68496608311cfec6e1d564a6f5202a1931e",
+          "copied": true
+        }
+      ]
+    }
+  ],
+  "changeRequest": "CR-SD27-authoring-generated-artifacts",
+  "buildCachePolicy": "ignoredBuildCacheRoots authorize transient compiler/dependency state only; never publish, stage or inventory an entire cache directory.",
+  "cacheTransferPolicy": {
+    "scope": "Only each example private cargo-home/registry; no user home or default cache",
+    "authorization": "Enumerate exact source/target/hash before each copy, then verify bytes and mark copied",
+    "forbidden": [
+      "config",
+      "config.toml",
+      "credentials",
+      "credentials.toml",
+      "symlink",
+      "reparse point",
+      "hardlink"
+    ]
+  },
+  "changeRequests": [
+    "CR-SD27-authoring-generated-artifacts",
+    "CR-SD27-windows-cargo-paths",
+    "CR-SD28-sync-stream-primary-error"
+  ],
+  "measuredRunLockSha256BeforeMetadataFinalization": "da6763617839c6421e2e6b8c7fa7a17a8bffa2bb6042bb5744448a3823f7fc40"
+}

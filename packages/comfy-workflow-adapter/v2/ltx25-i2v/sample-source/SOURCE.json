@@ -1,0 +1,21 @@
+{
+  "source": "ComfyUI-API/LTX2.5/video_ltx2_5_i2v.json",
+  "sourceSha256": "25f90a37c018d0dd268fc4309561e9d1dfc67994569db171cf17067596999ee0",
+  "apiExport": "ComfyUI native Export (API), 2026-10-23, unmodified",
+  "apiSha256": "8d174cd49390f6caf60565b09854e0f01295344f4ec4cc314e5b221d5fdeaf0d",
+  "mapping": {
+    "prompt": "409.value",
+    "width": "418.value",
+    "height": "421.value",
+    "durationSeconds": "413.value",
+    "fps": "425.value",
+    "seed": [
+      "423.noise_seed",
+      "442.noise_seed"
+    ],
+    "firstFrame": "395.image -> 433 -> 436 -> 429/439",
+    "strength": "429.strength"
+  },
+  "timing": "native duration * fps + 1; 8s/24fps =>193=8*24+1 frames, playback193/24=8.041667s; no trimming",
+  "scope": "one required original image, one generated AV MP4; native prompt enhancer off"
+}

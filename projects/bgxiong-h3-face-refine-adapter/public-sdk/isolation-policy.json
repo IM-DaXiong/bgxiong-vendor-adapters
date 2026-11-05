@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "publicRoot": "packages/vendor-adapter-contract/v2/",
+  "allowedRoots": ["packages/vendor-adapter-contract/v2/", "docs/dev/reports/sdk-v2-development/"],
+  "managementFile": "docs/dev/reports/20261019-sdk-v2-development.json",
+  "testWorkspaceRule": "explicit-new-temporary-directory-only",
+  "forbiddenTestRoots": ["src-tauri", "ui", "data", "logs", "installer-user-examples", "runtimes"],
+  "trackedOutsideAllowedRoots": "protected-content-and-inventory",
+  "untrackedOutsideAllowedRoots": "protected-content-and-inventory"
+}

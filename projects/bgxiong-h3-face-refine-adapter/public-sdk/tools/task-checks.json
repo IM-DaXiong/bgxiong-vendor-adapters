@@ -1,0 +1,806 @@
+{
+  "schemaVersion": 1,
+  "tasks": {
+    "SD00": {
+      "requiredPaths": [
+        "tools/capture_isolation.py",
+        "tools/check_isolation.py",
+        "isolation-policy.json"
+      ],
+      "commands": [
+        [
+          "{python}",
+          "{sdk}/tools/check_isolation.py",
+          "--baseline",
+          "{repo}/docs/dev/reports/sdk-v2-development/baseline.json"
+        ]
+      ]
+    },
+    "SD01": {
+      "requiredPaths": [
+        "Cargo.toml",
+        "Cargo.lock",
+        "rust-toolchain.toml",
+        ".gitignore",
+        "tools/check_sdk.ps1",
+        "tools/task-checks.json",
+        "crates/validator/Cargo.toml",
+        "crates/validator/src/lib.rs",
+        "crates/ports/Cargo.toml",
+        "crates/ports/src/lib.rs",
+        "crates/runtime/Cargo.toml",
+        "crates/runtime/src/lib.rs",
+        "crates/transport/Cargo.toml",
+        "crates/transport/src/lib.rs",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/src/lib.rs",
+        "crates/tools/Cargo.toml",
+        "crates/tools/src/main.rs",
+        "sdk/rust/Cargo.toml",
+        "sdk/rust/src/lib.rs"
+      ],
+      "commands": [
+        [
+          "INTERNAL_SD01"
+        ]
+      ]
+    },
+    "SD02": {
+      "requiredPaths": [
+        "protocol/vendor-adapter-protocol.json",
+        "protocol/schema-policy.json",
+        "protocol/host-feature-catalog.json",
+        "schemas/manifest.schema.json",
+        "schemas/worker-envelope.schema.json",
+        "schemas/host-ports.schema.json",
+        "schemas/checkpoint.schema.json",
+        "schemas/profile.schema.json",
+        "schemas/policy.schema.json",
+        "CONTRACT-DECISIONS.md"
+      ],
+      "commands": [
+        [
+          "{python}",
+          "-c",
+          "import copy,json,sys\nfrom pathlib import Path\nfrom jsonschema import Draft202012Validator\nfrom referencing import Registry,Resource\nroot=Path(sys.argv[1]); schemas={}\nfor path in sorted((root/'schemas').glob('*.json')):\n    schema=json.loads(path.read_text(encoding='utf-8')); Draft202012Validator.check_schema(schema)\n    assert schema['$schema']=='https://json-schema.org/draft/2020-12/schema'\n    assert schema['$id'] not in schemas\n    schemas[schema['$id']]=schema\nassert len(schemas)>=17, 'release contracts incomplete'\nregistry=Registry(retrieve=lambda uri: (_ for _ in ()).throw(ValueError('network schema forbidden')))\nfor uri,schema in schemas.items():registry=registry.with_resource(uri,Resource.from_contents(schema))\ndef refs(node):\n    if isinstance(node,dict):\n        if '$ref' in node:\n            uri,_,pointer=node['$ref'].partition('#')\n            target=schemas[uri] if uri else current\n            for segment in pointer.lstrip('/').split('/') if pointer else []:\n                target=target[segment.replace('~1','/').replace('~0','~')]\n        for value in node.values():refs(value)\n    elif isinstance(node,list):\n        for value in node:refs(value)\nfor current in schemas.values(): refs(current)\nfor filename in ['vendor-adapter-protocol.json','schema-policy.json','host-feature-catalog.json']:\n    json.loads((root/'protocol'/filename).read_text(encoding='utf-8'))\npolicy=json.loads((root/'protocol/schema-policy.json').read_text(encoding='utf-8'))\nDraft202012Validator(schemas['https://bgxiong.local/vendor-adapter/v2/policy.schema.json'],registry=registry).validate(policy)\nassert policy['networkReferences']=='forbidden' and policy['recursiveReferences']=='forbidden'\nassert policy['unknownValidationKeywords']=='reject'\nassert set(json.loads((root/'operation-contracts.json').read_text(encoding='utf-8'))['operations'])==set(json.loads((root/'protocol/vendor-adapter-protocol.json').read_text(encoding='utf-8'))['operations'])\nfor name in ['manifest','worker-envelope','host-ports','checkpoint','profile']:\n    schema=schemas['https://bgxiong.local/vendor-adapter/v2/'+name+'.schema.json']\n    validator=Draft202012Validator(schema,registry=registry)\n    assert not validator.is_valid({'unexpected':True}), name+' unknown fields accepted'\nprint('SD02_LOCAL=PASS schema_meta=PASS local_ref_closure=PASS policy=PASS unknown_fields_rejected=PASS')\n",
+          "{sdk}"
+        ],
+        [
+          "{python}",
+          "{sdk}/tools/validate_design.py"
+        ]
+      ]
+    },
+    "SD03": {
+      "requiredPaths": [
+        "tools/generate_contracts.py",
+        "sdk/rust/Cargo.toml",
+        "sdk/rust/src/lib.rs",
+        "sdk/rust/src/generated.rs",
+        "sdk/typescript/package.json",
+        "sdk/typescript/tsconfig.json",
+        "sdk/typescript/src/generated.ts",
+        "sdk/typescript/src/index.ts",
+        "sdk/typescript/package-lock.json",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "{python}",
+          "{sdk}/tools/generate_contracts.py",
+          "--check"
+        ],
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-sdk"
+        ],
+        [
+          "cargo",
+          "check",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-sdk",
+          "--target",
+          "wasm32-wasip2"
+        ],
+        [
+          "npm",
+          "--prefix",
+          "{sdk}/sdk/typescript",
+          "run",
+          "check"
+        ]
+      ]
+    },
+    "SD04": {
+      "requiredPaths": [
+        "crates/validator/Cargo.toml",
+        "crates/validator/src/lib.rs",
+        "crates/validator/src/schema_registry.rs",
+        "crates/validator/src/input.rs",
+        "crates/validator/src/context.rs",
+        "crates/validator/tests/strict_contract.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-validator",
+          "--test",
+          "strict_contract"
+        ]
+      ]
+    },
+    "SD05": {
+      "requiredPaths": [
+        "crates/validator/src/package.rs",
+        "crates/validator/src/identity.rs",
+        "crates/validator/tests/package_identity.rs",
+        "crates/validator/Cargo.toml",
+        "crates/validator/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-validator",
+          "--test",
+          "package_identity"
+        ]
+      ]
+    },
+    "SD06": {
+      "requiredPaths": [
+        "crates/validator/src/capabilities.rs",
+        "crates/validator/tests/capability_registry.rs",
+        "crates/validator/Cargo.toml",
+        "crates/validator/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-validator",
+          "--test",
+          "capability_registry"
+        ]
+      ]
+    },
+    "SD07": {
+      "requiredPaths": [
+        "crates/validator/src/media.rs",
+        "crates/validator/src/interaction.rs",
+        "crates/validator/tests/media_geometry.rs",
+        "crates/validator/Cargo.toml",
+        "crates/validator/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-validator",
+          "--test",
+          "media_geometry"
+        ]
+      ]
+    },
+    "SD08": {
+      "requiredPaths": [
+        "crates/validator/src/result.rs",
+        "crates/validator/src/usage.rs",
+        "crates/validator/tests/results.rs",
+        "crates/validator/Cargo.toml",
+        "crates/validator/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-validator",
+          "--test",
+          "results"
+        ]
+      ]
+    },
+    "SD09": {
+      "requiredPaths": [
+        "tools/generate_wit.py",
+        "wit/vendor-adapter.wit",
+        "crates/ports/Cargo.toml",
+        "crates/ports/src/lib.rs",
+        "crates/ports/src/generated.rs",
+        "crates/ports/tests/abi.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-ports",
+          "--test",
+          "abi"
+        ]
+      ]
+    },
+    "SD10": {
+      "requiredPaths": [
+        "sdk/rust/src/host.rs",
+        "sdk/rust/src/guest.rs",
+        "sdk/rust/tests/native_host.rs",
+        "sdk/rust/tests/compile_guest.rs",
+        "sdk/rust/Cargo.toml",
+        "sdk/rust/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-sdk",
+          "--test",
+          "native_host"
+        ],
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-sdk",
+          "--test",
+          "compile_guest"
+        ]
+      ]
+    },
+    "SD11": {
+      "requiredPaths": [
+        "crates/runtime/Cargo.toml",
+        "crates/runtime/src/lib.rs",
+        "crates/runtime/src/engine.rs",
+        "crates/runtime/src/guest.rs",
+        "crates/runtime/src/server.rs",
+        "crates/runtime/src/bin/bgx-adapter-v2-worker.rs",
+        "crates/runtime/tests/sandbox.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-runtime",
+          "--test",
+          "sandbox"
+        ]
+      ]
+    },
+    "SD12": {
+      "requiredPaths": [
+        "crates/transport/Cargo.toml",
+        "crates/transport/src/lib.rs",
+        "crates/transport/src/client.rs",
+        "crates/transport/src/framing.rs",
+        "crates/transport/src/process.rs",
+        "crates/transport/tests/lifecycle.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-transport",
+          "--test",
+          "lifecycle"
+        ]
+      ]
+    },
+    "SD13": {
+      "requiredPaths": [
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/src/media.rs",
+        "crates/reference-host/tests/media.rs",
+        "crates/reference-host/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-reference-host",
+          "--test",
+          "media"
+        ]
+      ]
+    },
+    "SD14": {
+      "requiredPaths": [
+        "crates/reference-host/src/policy.rs",
+        "crates/reference-host/src/credential.rs",
+        "crates/reference-host/src/http.rs",
+        "crates/reference-host/tests/policy.rs",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-reference-host",
+          "--test",
+          "policy"
+        ]
+      ]
+    },
+    "SD15": {
+      "requiredPaths": [
+        "crates/reference-host/src/http_stream.rs",
+        "crates/reference-host/tests/http_stream.rs",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-reference-host",
+          "--test",
+          "http_stream"
+        ]
+      ]
+    },
+    "SD16": {
+      "requiredPaths": [
+        "crates/reference-host/src/events.rs",
+        "crates/reference-host/tests/events.rs",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-reference-host",
+          "--test",
+          "events"
+        ]
+      ]
+    },
+    "SD17": {
+      "requiredPaths": [
+        "crates/reference-host/src/checkpoint.rs",
+        "crates/reference-host/src/session.rs",
+        "crates/reference-host/tests/recovery.rs",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-reference-host",
+          "--test",
+          "recovery"
+        ]
+      ]
+    },
+    "SD18": {
+      "requiredPaths": [
+        "crates/reference-host/src/cancel.rs",
+        "crates/reference-host/tests/cancel.rs",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-reference-host",
+          "--test",
+          "cancel"
+        ]
+      ]
+    },
+    "SD19": {
+      "requiredPaths": [
+        "crates/reference-host/src/lib.rs",
+        "crates/reference-host/src/config.rs",
+        "crates/reference-host/src/dispatch.rs",
+        "crates/reference-host/tests/six_operations.rs",
+        "crates/reference-host/Cargo.toml",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-reference-host",
+          "--test",
+          "six_operations"
+        ]
+      ]
+    },
+    "SD20": {
+      "requiredPaths": [
+        "templates/rust/Cargo.toml",
+        "templates/rust/src/lib.rs",
+        "templates/rust/manifest.json",
+        "templates/rust/README.md",
+        "tools/sync_templates.py",
+        "templates/template-lock.json",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "{python}",
+          "{sdk}/tools/sync_templates.py",
+          "--check",
+          "--self-test"
+        ]
+      ]
+    },
+    "SD21": {
+      "requiredPaths": [
+        "crates/tools/Cargo.toml",
+        "crates/tools/src/main.rs",
+        "crates/tools/src/author.rs",
+        "crates/tools/src/package.rs",
+        "crates/tools/tests/author.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-tools",
+          "--test",
+          "author"
+        ]
+      ]
+    },
+    "SD22": {
+      "requiredPaths": [
+        "crates/tools/src/run.rs",
+        "crates/tools/src/workspace.rs",
+        "crates/tools/tests/run.rs",
+        "crates/tools/Cargo.toml",
+        "crates/tools/src/main.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-tools",
+          "--test",
+          "run"
+        ]
+      ]
+    },
+    "SD23": {
+      "requiredPaths": [
+        "crates/tools/src/transcript.rs",
+        "crates/tools/src/conform.rs",
+        "crates/tools/tests/replay.rs",
+        "crates/tools/Cargo.toml",
+        "crates/tools/src/main.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-tools",
+          "--test",
+          "replay"
+        ]
+      ]
+    },
+    "SD24": {
+      "requiredPaths": [
+        "templates/profile/profile.json",
+        "templates/profile/manifest.json",
+        "crates/reference-host/src/profile.rs",
+        "crates/reference-host/tests/profile.rs",
+        "crates/reference-host/Cargo.toml",
+        "crates/reference-host/src/lib.rs",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "test",
+          "--manifest-path",
+          "{sdk}/Cargo.toml",
+          "--locked",
+          "-p",
+          "bgx-adapter-v2-reference-host",
+          "--test",
+          "profile"
+        ]
+      ]
+    },
+    "SD25": {
+      "requiredPaths": [
+        "tools/form-reference/package.json",
+        "tools/form-reference/package-lock.json",
+        "tools/form-reference/tsconfig.json",
+        "tools/form-reference/index.html",
+        "tools/form-reference/src/index.ts",
+        "tools/form-reference/src/renderer.ts",
+        "tools/form-reference/src/media.ts",
+        "tools/form-reference/tests/forms.test.ts"
+      ],
+      "commands": [
+        [
+          "npm",
+          "--prefix",
+          "{sdk}/tools/form-reference",
+          "test"
+        ],
+        [
+          "npm",
+          "--prefix",
+          "{sdk}/tools/form-reference",
+          "run",
+          "build"
+        ]
+      ]
+    },
+    "SD26": {
+      "requiredPaths": [
+        "fixtures/services/sync_api.py",
+        "fixtures/services/async_api.py",
+        "fixtures/services/workflow_api.py",
+        "fixtures/services/scenarios.json"
+      ],
+      "commands": [
+        [
+          "{python}",
+          "{sdk}/fixtures/services/sync_api.py",
+          "--self-test"
+        ],
+        [
+          "{python}",
+          "{sdk}/fixtures/services/async_api.py",
+          "--self-test"
+        ],
+        [
+          "{python}",
+          "{sdk}/fixtures/services/workflow_api.py",
+          "--self-test"
+        ]
+      ]
+    },
+    "SD27": {
+      "requiredPaths": [
+        "examples/sync-api/Cargo.toml",
+        "examples/sync-api/src/lib.rs",
+        "examples/sync-api/manifest.json",
+        "examples/cloud-task/Cargo.toml",
+        "examples/cloud-task/src/lib.rs",
+        "examples/cloud-task/manifest.json",
+        "examples/workflow/Cargo.toml",
+        "examples/workflow/src/lib.rs",
+        "examples/workflow/manifest.json",
+        "examples/authoring-lock.json",
+        "Cargo.toml",
+        "Cargo.lock"
+      ],
+      "commands": [
+        [
+          "cargo",
+          "build",
+          "--manifest-path",
+          "{sdk}/examples/sync-api/Cargo.toml",
+          "--locked",
+          "--target",
+          "wasm32-wasip2"
+        ],
+        [
+          "cargo",
+          "build",
+          "--manifest-path",
+          "{sdk}/examples/cloud-task/Cargo.toml",
+          "--locked",
+          "--target",
+          "wasm32-wasip2"
+        ],
+        [
+          "cargo",
+          "build",
+          "--manifest-path",
+          "{sdk}/examples/workflow/Cargo.toml",
+          "--locked",
+          "--target",
+          "wasm32-wasip2"
+        ]
+      ]
+    },
+    "SD28": {
+      "requiredPaths": [
+        "fixtures/conformance/cases.json",
+        "fixtures/conformance/expected.json",
+        "tools/run_conformance.py"
+      ],
+      "commands": [
+        [
+          "{python}",
+          "{sdk}/tools/run_conformance.py",
+          "--self-test"
+        ]
+      ]
+    },
+    "SD29": {
+      "requiredPaths": [
+        "tools/export_sdk.py",
+        "release-manifest.json",
+        "AUTHORING.zh-CN.md",
+        "HOST-INTEGRATION.zh-CN.md",
+        "CHANGELOG.md"
+      ],
+      "commands": [
+        [
+          "{python}",
+          "{sdk}/tools/export_sdk.py",
+          "--self-test"
+        ]
+      ]
+    },
+    "SD30": {
+      "requiredPaths": [
+        "AUTHOR-TASK.zh-CN.md",
+        "tools/check_author_evidence.py"
+      ],
+      "commands": [
+        [
+          "{python}",
+          "{sdk}/tools/check_author_evidence.py"
+        ]
+      ]
+    },
+    "SD31": {
+      "requiredPaths": [
+        "tools/verify_release.py",
+        "release-lock.json",
+        "RELEASE-STATUS.json"
+      ],
+      "commands": [
+        [
+          "{python}",
+          "{sdk}/tools/verify_release.py",
+          "--self-test"
+        ]
+      ]
+    },
+    "SD32": {
+      "requiredPaths": [
+        "HOST-ADOPTION-CHECKLIST.zh-CN.md",
+        "tools/check_adoption_manifest.py",
+        "schemas/adoption-evidence.schema.json",
+        "RELEASE-STATUS.json"
+      ],
+      "commands": [
+        [
+          "{python}",
+          "{sdk}/tools/check_adoption_manifest.py",
+          "--self-test"
+        ]
+      ]
+    }
+  }
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 2,
+  "operations": {
+    "capabilities": {
+      "input": "control-operations.schema.json#/$defs/capabilitiesInput",
+      "result": "control-operations.schema.json#/$defs/runtimeCaps"
+    },
+    "probe": {
+      "input": "control-operations.schema.json#/$defs/probeInput",
+      "result": "control-operations.schema.json#/$defs/probeResult"
+    },
+    "upload": {
+      "input": "control-operations.schema.json#/$defs/uploadInput",
+      "result": "control-operations.schema.json#/$defs/uploadResult"
+    },
+    "submit": {
+      "input": "operation-payload.schema.json#/$defs/submit",
+      "result": [
+        "result.schema.json#/$defs/accepted",
+        "result.schema.json#/$defs/completed"
+      ]
+    },
+    "query": {
+      "input": "operation-payload.schema.json#/$defs/taskRef",
+      "result": "result.schema.json#/$defs/query"
+    },
+    "cancel": {
+      "input": "operation-payload.schema.json#/$defs/taskRef",
+      "result": "control-operations.schema.json#/$defs/cancelResult"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "base": "ComfyUI-API/qwen_image_2_1/image_qwen_image_2_1_image_edit.json",
+  "baseSha256": "f3c2c1d3d72989971650f8701c777595b2ce773e956cca8584411ea347acac49",
+  "twoReferenceVariant": "workflow/source.json",
+  "variantSha256": "58cee191af55b06519a660d812de3bfca2c74946442048a747875939f0f39882",
+  "changes": [
+    "Keep original separate LoadImage470 and475, linked to image_1 and image_2 respectively",
+    "Disable prompt rewrite and enable explicit custom output dimensions; runtime binds confirmed prompt/seed/steps/size"
+  ],
+  "apiExport": "EXPORTED_BY_NATIVE_COMFYUI_UI",
+  "apiExportFile": "src/workflow-api.json",
+  "apiExportSha256": "2634692f58bc12faef189b6a21bbbce63b234616b43642c5ac2ef3b35fe114cf",
+  "notes": "Original file opened through native File/Open; native Export(API) filename confirmed. No generation submitted during export."
+}

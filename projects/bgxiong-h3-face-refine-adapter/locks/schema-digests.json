@@ -1,0 +1,16 @@
+{
+  "pluginId": "local.thirdparty.h3-face-refine",
+  "version": "1.0.0-a11",
+  "laneACommit": "3b6a7e738",
+  "digests": {
+    "analyze.input.schema.json": "56dba92e369463ff98ad7ac6aa9a66645b35d48c5ddf1458e71baa63a25647e0",
+    "analyze.output.schema.json": "69e3b014787b693b638c698752a958eb59edd8eeb4b0921b8ee7ad00bea079e0",
+    "configuration.schema.json": "22d4b06042fce6b97b2269886c9a81642cd5eb937320526d53d0904b1a58caa1",
+    "preview.input.schema.json": "69f14d9d865fb3baf6a244662e648c6fcacc126dca59c4f985ad1e96ff51ec1d",
+    "preview.output.schema.json": "c0cd2855f542b93f6867e4ce8bd40d64bb2fbef0829e18f4b74c70bb038fbc3b",
+    "refine.input.schema.json": "82c7767ef8a01c4dc6283c02b015e5119dd24f0e1cd7b28eaf3d542bb9f6822b",
+    "refine.output.schema.json": "de18e916d82f262db4e077acff4059f33d4c8cfd5576224a0eaabbcbae9134b0",
+    "resume.schema.json": "b4c26cb2bf750d2f61abf94bbefce1c416a0f9e1cc6c3f5240165a31fe1c9847"
+  },
+  "note": "Aligned to Lane A media-target-selection-v1; recompute after schema edits"
+}

@@ -1,0 +1,18 @@
+{
+  "type": "object",
+  "properties": {
+    "endpointBaseUrl": {
+      "type": "string",
+      "minLength": 1
+    },
+    "credentialRef": {
+      "type": "string",
+      "minLength": 1
+    }
+  },
+  "required": [
+    "endpointBaseUrl",
+    "credentialRef"
+  ],
+  "additionalProperties": false
+}

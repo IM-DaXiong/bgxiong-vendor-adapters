@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'unsafe-inline'; img-src blob:; media-src blob:; connect-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'">
+  <title>SDK v2 · Reference form</title>
+  <style>
+    :root { color-scheme: light; font: 16px/1.5 system-ui,sans-serif; color: #233140; background: #eef2f5; }
+    * { box-sizing: border-box; } body { margin: 0; } main { max-width: 1160px; margin: auto; padding: 28px; }
+    h1,h2,h3,p { margin: 0 0 12px; } h1 { font-size: 1.8rem; } h2 { font-size: 1.25rem; } h3 { font-size: 1rem; }
+    section,.card { background: white; border: 1px solid #c9d4df; border-radius: 12px; padding: 20px; margin-bottom: 18px; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,300px),1fr)); gap: 16px; }
+    .field { margin-bottom: 16px; } label { display: block; font-weight: 600; margin-bottom: 5px; }
+    input,select,textarea,button { font: inherit; } input:not([type=file]),select,textarea { width: 100%; padding: 8px; border: 1px solid #a8b8c8; border-radius: 5px; }
+    textarea { min-height: 96px; resize: vertical; } input[type=file] { max-width: 100%; } button { cursor: pointer; border: 1px solid #8eabc0; border-radius: 6px; padding: 8px 14px; background: #eef6fd; color: #143f60; }
+    button:disabled { opacity: .5; cursor: not-allowed; } .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 12px; }
+    .muted,small { color: #526778; } .warning { color: #8b350e; white-space: pre-wrap; } .status { min-height: 24px; white-space: pre-wrap; }
+    pre { background: #f5f7fa; border: 1px solid #d5dee6; padding: 12px; overflow: auto; max-height: 420px; white-space: pre-wrap; word-break: break-word; }
+    code { overflow-wrap: anywhere; } .required { color: #9c2d20; } .interaction { border: 1px solid #b8cbd8; padding: 10px; border-radius: 8px; }
+    .interaction img { display: block; max-width: 100%; max-height: 320px; height: auto; width: auto; touch-action: none; cursor: crosshair; margin: 10px auto; }
+    video,audio { max-width: 100%; } details { margin-top: 12px; } summary { cursor: pointer; } output { display: block; overflow-wrap: anywhere; }
+  </style>
+</head>
+<body>
+<main>
+  <header><p class="muted">Independent developer tool · SDK v2</p><h1>Reference form</h1><p>Import public capabilities and a complete submit Invocation. Edit local fixtures, export exact JSON, then validate and execute with the Rust CLI. This page makes no API requests.</p></header>
+  <section><h2>1. Import local public files</h2><div class="grid">
+    <div><label for="capabilities-file">Capabilities Response or RuntimeCapsV2</label><input id="capabilities-file" type="file" accept="application/json,.json"></div>
+    <div><label for="request-file">Complete submit Invocation (request seed)</label><input id="request-file" type="file" accept="application/json,.json"></div>
+    <div><label for="configuration-file">Optional nonsecret configuration object</label><input id="configuration-file" type="file" accept="application/json,.json"></div>
+  </div><p class="muted">Do not import secrets. Media handles and all Invocation envelope fields come from your seed; the browser never creates a host lease.</p><div id="status" class="status" role="status" aria-live="polite"></div></section>
+  <section><h2>2. Choose the public operation</h2><div class="grid"><div><label for="capability">Capability contract</label><select id="capability" disabled></select></div><div><label for="model">Model</label><select id="model" disabled></select></div><div><label for="operation">Operation</label><select id="operation" disabled></select></div></div><p class="muted">Changing this selection explicitly updates modelId, capabilityKey, operationId, operationVersion and inputSchemaDigest, plus the matching transport slot. Other seed fields remain visible below.</p><details><summary>Complete Invocation and media metadata</summary><pre id="envelope">Import a request seed.</pre></details></section>
+  <section><h2>3. Attach local preview fixtures</h2><div class="grid"><div><label for="fixture-id">Existing public media ID</label><select id="fixture-id" disabled></select></div><div><label for="fixture-file">Local fixture file</label><input id="fixture-file" type="file" disabled></div></div><p class="muted">Files only provide local previews and measured dimensions/time. Export preserves your seed's full media records. Configure the same files explicitly in CLI config.media; selected files are never uploaded by this page.</p><div id="fixture-summary"></div><div class="actions"><button id="clear-fixtures" type="button">Release all previews</button></div></section>
+  <form id="editor"><div class="grid"><section><h2>Configuration</h2><div id="configuration-form"></div></section><section><h2>Operation input</h2><div id="input-form"></div></section></div><section><h2>4. Export for Rust validation</h2><p>Browser controls present schema constraints. Rust schema/reference/media checks remain authoritative; export is not a validation receipt or an AI submission.</p><div id="unsupported" class="warning" role="status"></div><div class="actions"><button id="export" type="submit" disabled>Export request.json</button></div><output id="hashes"></output><details><summary>Exact exported request text</summary><pre id="request-preview"></pre></details></section></form>
+  <section><h2>5. Inspect a standard Response</h2><label for="receipt-file">CLI receipt JSON</label><input id="receipt-file" type="file" accept="application/json,.json"><p class="muted">Match the request-file and payloadJson hashes with the CLI's adjacent receipt provenance. The wire Response itself is displayed without adding private fields.</p><div id="receipt"></div></section>
+</main>
+<script type="module" src="./dist/tools/form-reference/src/index.js"></script>
+</body>
+</html>

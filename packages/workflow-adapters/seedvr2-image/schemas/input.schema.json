@@ -1,0 +1,141 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "source",
+    "parameters"
+  ],
+  "properties": {
+    "source": {
+      "type": "object",
+      "x-mediaKind": "image",
+      "additionalProperties": false,
+      "required": [
+        "mediaId"
+      ],
+      "properties": {
+        "mediaId": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "parameters": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "targetResolution": {
+          "type": "integer",
+          "minimum": 16,
+          "maximum": 16384,
+          "default": 1080
+        },
+        "maxResolution": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16384,
+          "default": 0
+        },
+        "seed": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2147483647,
+          "default": 42
+        },
+        "colorCorrection": {
+          "type": "string",
+          "enum": [
+            "lab",
+            "wavelet",
+            "wavelet_adaptive",
+            "hsv",
+            "adain",
+            "none"
+          ],
+          "default": "lab"
+        },
+        "enhancementModel": {
+          "type": "string",
+          "enum": [
+            "3b_fp16",
+            "7b_fp8_mixed",
+            "7b_fp16",
+            "7b_sharp_fp8_mixed"
+          ],
+          "default": "3b_fp16"
+        },
+        "inputNoiseScale": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0
+        },
+        "latentNoiseScale": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "default": 0
+        },
+        "encodeTiled": {
+          "type": "boolean",
+          "default": false
+        },
+        "decodeTiled": {
+          "type": "boolean",
+          "default": false
+        },
+        "swapIoComponents": {
+          "type": "boolean",
+          "default": false
+        },
+        "offloadDit": {
+          "type": "boolean",
+          "default": false
+        },
+        "offloadVae": {
+          "type": "boolean",
+          "default": false
+        },
+        "encodeTileSize": {
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 16384,
+          "default": 512
+        },
+        "decodeTileSize": {
+          "type": "integer",
+          "minimum": 64,
+          "maximum": 16384,
+          "default": 512
+        },
+        "encodeTileOverlap": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16384,
+          "default": 64
+        },
+        "decodeTileOverlap": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 16384,
+          "default": 64
+        },
+        "blocksToSwap": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 36,
+          "default": 0
+        },
+        "vaeModel": {
+          "type": "string",
+          "enum": [
+            "ema_vae_fp16.safetensors"
+          ],
+          "default": "ema_vae_fp16.safetensors"
+        }
+      },
+      "required": []
+    }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "packageDirectory": "package",
+  "manifestSha256": "BUILD_GENERATED_MANIFEST_SHA256",
+  "hostConfig": {
+    "bindingId": "runninghub-h3-spectrum-dynamic-manual",
+    "bindingRevision": 1,
+    "configurationRef": "runninghub-h3-spectrum-dynamic-v1",
+    "configuration": {
+      "endpointBaseUrl": "https://www.runninghub.cn",
+      "credentialRef": "runninghub-h3-user-key",
+      "instanceType": "plus"
+    },
+    "network": {
+      "origins": [
+        "https://www.runninghub.cn",
+        "https://rh-images-1252422369.cos.ap-beijing.myqcloud.com",
+        "https://rh-images-switch-1252422369.cos.ap-guangzhou.myqcloud.com",
+        "https://rh-images.xiaoyaoyou.com",
+        "https://rh-comfyui01.tos-cn-beijing.volces.com"
+      ],
+      "allowPrivate": false,
+      "allowEmbeddedAuthorization": false,
+      "deniedHosts": [],
+      "deniedNetworks": []
+    },
+    "credentials": [],
+    "trust": {
+      "publishers": [],
+      "revokedPlugins": [],
+      "revokedVersions": [],
+      "revokedKeys": [],
+      "denylistedHosts": [],
+      "isFresh": false,
+      "supportedFeatures": []
+    },
+    "mediaTtlMs": 3600000,
+    "transport": {
+      "handshakeTimeoutMs": 10000,
+      "writeTimeoutMs": 60000,
+      "shutdownTimeoutMs": 10000,
+      "cancelGraceMs": 100
+    },
+    "budgetMs": {
+      "capabilities": 60000,
+      "probe": 60000,
+      "submit": 180000,
+      "query": 180000,
+      "cancel": 60000
+    },
+    "probe": null
+  },
+  "authentication": {
+    "source": "userInput",
+    "fields": [
+      {
+        "reference": "runninghub-h3-user-key",
+        "label": "RunningHub API Key",
+        "mode": "bearer",
+        "origins": [
+          "https://www.runninghub.cn"
+        ],
+        "customHeader": null
+      }
+    ]
+  },
+  "managedMediaProbe": true
+}

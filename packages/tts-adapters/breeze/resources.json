@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "resources": [
+    {
+      "resourceId": "breeze2_checkpoints",
+      "kind": "model_weights",
+      "revision": "3e28c5151381a722f1d8661b4118c298caa77aa4",
+      "requiredMarkers": [
+        "config.json",
+        "model.safetensors.index.json",
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors",
+        "audio_tokenizer/config.json"
+      ],
+      "sha256Archive": "c9e5bbd07c1ccf2789e5f470814f2ab7e9baa24bbd4d5aecdf45a0e9f3622034",
+      "archiveUrl": "https://r.bgxiong.com/client/ai-story/runtimes/BreezeTTS/breeze-model-3e28c515-1.zip",
+      "totalBytes": 7683548724
+    },
+    {
+      "resourceId": "pip_breeze2",
+      "kind": "python_wheelhouse",
+      "pythonAbi": "cp312",
+      "sha256Archive": "a03d55e2f3d1c9b1936dca8d49eab2aa50e980b167e6991da1bead7bab0a0b2a",
+      "archiveUrl": "https://r.bgxiong.com/client/ai-story/runtimes/BreezeTTS/breeze-deps-cp312-cu128-1.0.1.zip",
+      "totalBytes": 3111774941
+    }
+  ]
+}

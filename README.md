@@ -1,4 +1,16 @@
-# BGXiong Vendor Adapters / 比格熊第三方适配器
+# bgxiong-third-party-adapters / 比格熊第三方适配器
+
+2026-11-05统一：本目录为开发和Git唯一根，公开仓库 https://github.com/IM-DaXiong/bgxiong-third-party-adapters 。
+
+- packages/：已合并主线包源码；Wan22以较新0.2.12及原未提交修改为准，其他包从原sources/main/packages合入。
+- projects/：独立工程及其唯一owner。
+- artifacts/：发行产物；records/：保全与核查证据；这两类本机资料不自动发布。
+- contract/、examples/：公开合同与教学材料。
+- 用户分发目录统一名称bgxiong-third-party-adapters；实际新发行落盘和安装验收另记，目录合并不等于全包构建通过。
+
+## 原公开仓说明（名称已统一）
+
+# 开发与使用说明
 
 开源的 **第三方算力平台适配器** 开发文档、SDK、模板与脱敏案例。  
 服务 [**比格熊数字导演工作站 / BGXiong**](https://www.bgxiong.com)：把本仓库交给智能体，再提供目标平台的 API 说明（与密钥），智能体即可按契约开发可导入的适配器插件。
@@ -87,10 +99,10 @@ WeChat Official Account: search **天途影像** and message us in the backend.
 
 ## 与主仓同级克隆（跨机器）
 
-主程序仓为 `bgxiong-ai-story`。验收/开发适配器时，默认把本开源仓克隆到其同级目录 `../bgxiong-vendor-adapters`（不要写死盘符）。
+主程序仓为 `bgxiong-ai-story`。验收/开发适配器时，默认把本开源仓克隆到其同级目录 `../bgxiong-third-party-adapters`（不要写死盘符）。
 
 ```powershell
-git clone https://github.com/IM-DaXiong/bgxiong-vendor-adapters.git <实际开发根>/bgxiong-vendor-adapters
+git clone https://github.com/IM-DaXiong/bgxiong-third-party-adapters.git <实际开发根>/bgxiong-third-party-adapters
 ```
 
 本仓库为第三方适配器 **Git 真源（公开）**。本机若另有产物/缓存根目录名，不得替代本仓库作为 git 远程。

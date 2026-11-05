@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 2,
+  "sdkRelease": "2.0.0",
+  "editableAuthorFiles": [
+    "Cargo.toml",
+    "src/lib.rs",
+    "manifest.json",
+    "README.md"
+  ],
+  "authorDependencyLock": "Cargo.lock",
+  "mirrorRoot": "vendor-sdk",
+  "generatedFiles": [
+    {
+      "target": "vendor-sdk/sdk/rust/src/generated.rs",
+      "sources": [
+        {
+          "path": "sdk/rust/src/generated.rs",
+          "sha256": "ec08bd56de652ddb67bf861107d523ebe209dab7e569b2e271d3fbc3e32b670b"
+        }
+      ],
+      "sha256": "ec08bd56de652ddb67bf861107d523ebe209dab7e569b2e271d3fbc3e32b670b",
+      "transform": "byte-copy"
+    },
+    {
+      "target": "vendor-sdk/sdk/rust/src/guest.rs",
+      "sources": [
+        {
+          "path": "sdk/rust/src/guest.rs",
+          "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8"
+        }
+      ],
+      "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8",
+      "transform": "byte-copy"
+    },
+    {
+      "target": "vendor-sdk/sdk/rust/src/host.rs",
+      "sources": [
+        {
+          "path": "sdk/rust/src/host.rs",
+          "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067"
+        }
+      ],
+      "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067",
+      "transform": "byte-copy"
+    },
+    {
+      "target": "vendor-sdk/sdk/rust/src/lib.rs",
+      "sources": [
+        {
+          "path": "sdk/rust/src/lib.rs",
+          "sha256": "b81d939cf51c023ac473f78d5fb4a4da330963e773c161d00ac620ba2f46b4c3"
+        }
+      ],
+      "sha256": "b81d939cf51c023ac473f78d5fb4a4da330963e773c161d00ac620ba2f46b4c3",
+      "transform": "byte-copy"
+    },
+    {
+      "target": "vendor-sdk/sdk/rust/src/submission_rejection.rs",
+      "sources": [
+        {
+          "path": "sdk/rust/src/submission_rejection.rs",
+          "sha256": "e0a91cc6475ed5e67a2c327e20c9efbfbcdd66ce5d7813d2b9d7eac91617dab2"
+        }
+      ],
+      "sha256": "e0a91cc6475ed5e67a2c327e20c9efbfbcdd66ce5d7813d2b9d7eac91617dab2",
+      "transform": "byte-copy"
+    },
+    {
+      "target": "vendor-sdk/wit/vendor-adapter.wit",
+      "sources": [
+        {
+          "path": "wit/vendor-adapter.wit",
+          "sha256": "c1bf96aa89f35378f05684919c5e0ecac740092761066ce222dde4267b2d892a"
+        }
+      ],
+      "sha256": "c1bf96aa89f35378f05684919c5e0ecac740092761066ce222dde4267b2d892a",
+      "transform": "byte-copy"
+    },
+    {
+      "target": "vendor-sdk/sdk/rust/Cargo.toml",
+      "sources": [
+        {
+          "path": "Cargo.toml",
+          "sha256": "a709d989ffa9bd46b74311499679003570734a07cc63e7ffec074dc53c3183a0"
+        },
+        {
+          "path": "sdk/rust/Cargo.toml",
+          "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7"
+        }
+      ],
+      "sha256": "e6113f4af6d805589b02401f00b31bf74ebe7d4fbb9f89f8b4504972ea3ce18d",
+      "transform": "flatten public workspace metadata/dependencies; omit host-only development dependencies"
+    },
+    {
+      "target": "Cargo.lock",
+      "sources": [
+        {
+          "path": "Cargo.lock",
+          "sha256": "91a0d379c98fbb25b6cd348c8100850147e3a832d02818b645f8f287e648fe89"
+        },
+        {
+          "path": "sdk/rust/Cargo.toml",
+          "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7"
+        },
+        {
+          "path": "templates/rust/Cargo.toml",
+          "sha256": "e3401a4921440d34a15887e753af20cf39db3577efef90d14ce149532aaadc8b"
+        }
+      ],
+      "sha256": "92ae08ed467aff3fe8374bc4fd3128edb762b39738a029d9399d50691e2744d9",
+      "transform": "prune public lock to standalone SDK normal dependency closure plus pinned author dependencies; Cargo 1.95 offline feature-edge normalization, versions/checksums fixed to public seed"
+    }
+  ],
+  "dependencyNodes": 49,
+  "networkPolicy": "first fetch explicit; subsequent --locked --offline builds must pass"
+}

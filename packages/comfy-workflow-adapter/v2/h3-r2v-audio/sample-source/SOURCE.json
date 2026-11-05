@@ -1,0 +1,17 @@
+{
+  "source": "ComfyUI-API/minimax-h3/video_minimax_h3_r2v_soundtrack.json",
+  "sourceSha256": "1c9d6d0e74e178ec356d40545f2a2ac528dcfabb60bd5dbf652180ddc96d467f",
+  "apiExport": "ComfyUI native Export(API),2026-10-23,unmodified",
+  "apiSha256": "db9841be5ca21a667032b9f60aa1bea7021cdbed0c9f94a152f25de9e33d754c",
+  "mapping": {
+    "images": [
+      "137.image ->136.ref_images.ref_image_0",
+      "139.image ->136.ref_images.ref_image_1"
+    ],
+    "audio": "141.audio ->136.ref_audios.ref_audio_0 AND130.audio",
+    "prompt": "138.value",
+    "timing": "132.value /131 native17k+5 /130.fps24"
+  },
+  "audioSemantics": "Required8s whole original WAV from0, both generation reference condition and final original soundtrack re-encoded by native CreateVideo; NOT joint generated output audio.",
+  "status": "Provenance only. P09A CLI accepted; P09B source checks ongoing, application NOT_ACCEPTED. See README and project PLAN16."
+}

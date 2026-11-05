@@ -1,0 +1,2334 @@
+{
+  "BasicScheduler": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL",
+          {}
+        ],
+        "scheduler": [
+          "COMBO",
+          {
+            "multiselect": false,
+            "options": [
+              "simple",
+              "sgm_uniform",
+              "karras",
+              "exponential",
+              "ddim_uniform",
+              "beta",
+              "normal",
+              "linear_quadratic",
+              "kl_optimal"
+            ]
+          }
+        ],
+        "steps": [
+          "INT",
+          {
+            "default": 20,
+            "min": 1,
+            "max": 10000
+          }
+        ],
+        "denoise": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": 0.0,
+            "max": 1.0,
+            "step": 0.01
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "scheduler",
+        "steps",
+        "denoise"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "SIGMAS"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "SIGMAS"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "BasicScheduler",
+    "display_name": null,
+    "description": "",
+    "python_module": "comfy_extras.nodes_custom_sampler",
+    "category": "model/sampling/schedulers",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": null,
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "CLIPLoader": {
+    "input": {
+      "required": {
+        "clip_name": [
+          [
+            "gemma4-12b-with-proj-ltx-2.5-comfy-int8-convrot.safetensors",
+            "gemma4_e2b_it_int8_convrot.safetensors",
+            "gemma4_e4b_it_fp8_scaled.safetensors",
+            "gemma_3_12B_it_fp4_mixed.safetensors",
+            "mistral_3_small_flux2_bf16.safetensors",
+            "mistral_3_small_flux2_fp8.safetensors",
+            "qwen3.5_9b_qwen_image_2.1_pe_i2i.int8_convrot.safetensors",
+            "qwen3.5_9b_qwen_image_2.1_pe_t2i.int8_convrot.safetensors",
+            "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+            "qwen3vl_4b_fp8_scaled.safetensors",
+            "qwen3vl_8b_fp8_scaled.safetensors",
+            "qwen3vl_8b_int8_convrot.safetensors",
+            "qwen3vl_8b_nvfp4.safetensors",
+            "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+            "qwen_2.5_vl_fp16.safetensors",
+            "qwen_3_4b.safetensors",
+            "umt5_xxl_fp8_e4m3fn_scaled.safetensors"
+          ]
+        ],
+        "type": [
+          [
+            "stable_diffusion",
+            "stable_cascade",
+            "sd3",
+            "stable_audio",
+            "mochi",
+            "ltxv",
+            "pixart",
+            "cosmos",
+            "lumina2",
+            "wan",
+            "hidream",
+            "chroma",
+            "ace",
+            "omnigen2",
+            "qwen_image",
+            "hunyuan_image",
+            "flux2",
+            "ovis",
+            "longcat_image",
+            "cogvideox",
+            "lens",
+            "pixeldit",
+            "ideogram4",
+            "boogu",
+            "krea2",
+            "joyimage",
+            "mage",
+            "minimax",
+            "yue2",
+            "flux3",
+            "moss_image"
+          ]
+        ]
+      },
+      "optional": {
+        "device": [
+          [
+            "default",
+            "cpu"
+          ],
+          {
+            "advanced": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "clip_name",
+        "type"
+      ],
+      "optional": [
+        "device"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "CLIP"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "CLIP"
+    ],
+    "name": "CLIPLoader",
+    "display_name": "Load CLIP",
+    "description": "Recipes:\nsd: clip-l\nstable cascade: clip-g\nsd3: t5 xxl / clip-g / clip-l\nstable audio: t5 base\nmochi: t5 xxl\ncogvideox: t5 xxl (226-token padding)\ncosmos: old t5 xxl\nlumina2: gemma 2 2B\nwan: umt5 xxl\nhidream: llama-3.1 (Recommend) or t5\nomnigen2: qwen vl 2.5 3B\njoyimage: qwen3-vl 8B\nlens: gpt-oss-20b\npixeldit: gemma 2 2B elm\nminimax: MiniMax H3 Qwen3-VL or Music3 Qwen/RVQ\nflux3: qwen3-vl 4B",
+    "python_module": "nodes",
+    "category": "model/loaders",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": []
+  },
+  "CreateVideo": {
+    "input": {
+      "required": {
+        "images": [
+          "IMAGE",
+          {
+            "tooltip": "The images to create a video from."
+          }
+        ],
+        "fps": [
+          "FLOAT",
+          {
+            "default": 30.0,
+            "min": 1.0,
+            "max": 120.0,
+            "step": 1.0
+          }
+        ]
+      },
+      "optional": {
+        "audio": [
+          "AUDIO",
+          {
+            "tooltip": "The audio to add to the video."
+          }
+        ],
+        "bit_depth": [
+          "COMBO",
+          {
+            "tooltip": "Auto uses 8-bit for sRGB and 10-bit for HDR. Explicit 8-bit and 10-bit choices are independent of colorspace.",
+            "default": "auto",
+            "multiselect": false,
+            "options": [
+              "auto",
+              8,
+              10
+            ]
+          }
+        ],
+        "color_space": [
+          "COMBO",
+          {
+            "tooltip": "Colorspace of the input images. HDR selects BT.2020/HLG and HDR PQ selects BT.2020/PQ.",
+            "default": "sRGB",
+            "multiselect": false,
+            "options": [
+              "sRGB",
+              "HDR",
+              "HDR PQ"
+            ]
+          }
+        ],
+        "codec": [
+          "COMBO",
+          {
+            "tooltip": "Optionally encode the video immediately. None keeps the images in tensor form; Auto uses H.264.",
+            "advanced": true,
+            "default": "none",
+            "multiselect": false,
+            "options": [
+              "none",
+              "auto",
+              "h264",
+              "av1"
+            ]
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "images",
+        "fps"
+      ],
+      "optional": [
+        "audio",
+        "bit_depth",
+        "color_space",
+        "codec"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "VIDEO"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "VIDEO"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "CreateVideo",
+    "display_name": "Create Video",
+    "description": "Create a video from images.",
+    "python_module": "comfy_extras.nodes_video",
+    "category": "video",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "images to video"
+    ],
+    "essentials_category": "Video Tools",
+    "has_intermediate_output": false
+  },
+  "H3ContinuumAssembleSeamV34": {
+    "input": {
+      "required": {
+        "images": [
+          "IMAGE"
+        ],
+        "audio": [
+          "AUDIO"
+        ],
+        "assembly_plan": [
+          "H3_CONTINUUM_ASSEMBLY_PLAN"
+        ],
+        "exact_total_duration": [
+          "BOOLEAN",
+          {
+            "default": true,
+            "tooltip": "Adjust the final output to the exact requested total duration."
+          }
+        ],
+        "audio_seam": [
+          [
+            "Off",
+            "Auto"
+          ],
+          {
+            "default": "Auto",
+            "display_name": "Audio Seam",
+            "tooltip": "Auto corrects only decoded audio boundaries; video frames are never altered."
+          }
+        ],
+        "video_seam": [
+          [
+            "Auto 3 (Sustained Tone)",
+            "Auto",
+            "Auto 2",
+            "Analyze Only",
+            "Off"
+          ],
+          {
+            "default": "Auto 3 (Sustained Tone)",
+            "display_name": "Video Seam",
+            "tooltip": "Auto 3 (default) applies guarded transient correction plus bounded, static-background sustained-tone anchoring in qualified continuous shots. It cannot repair spatial zoom or lost detail. Auto and Auto 2 remain selectable."
+          }
+        ],
+        "diagnostics": [
+          [
+            "Basic",
+            "Detailed Report",
+            "Off"
+          ],
+          {
+            "default": "Basic",
+            "display_name": "Report Detail"
+          }
+        ],
+        "image_output_device": [
+          [
+            "Auto",
+            "CUDA",
+            "CPU"
+          ],
+          {
+            "default": "Auto",
+            "display_name": "Image Output Device",
+            "tooltip": "Auto keeps the assembled IMAGE in VRAM when the full output plus conservative headroom fits. CUDA is useful after high-resolution latent upscaling because it avoids a second full-video CPU buffer."
+          }
+        ],
+        "timeline_mode": [
+          [
+            "Preserve audible tail (recommended)",
+            "Exact requested duration (Recommended)",
+            "Strict exact duration (may truncate active audio)",
+            "Natural retained timeline (Refinement)"
+          ],
+          {
+            "default": "Preserve audible tail (recommended)",
+            "display_name": "Timeline Output",
+            "tooltip": "Preserve audible tail normally produces the requested duration but keeps the full synchronized AV when cropping would discard active audio. Strict exact duration always trims, even through speech. Natural retained timeline keeps every frame for downstream refinement."
+          }
+        ]
+      },
+      "optional": {
+        "driving_audio": [
+          "AUDIO",
+          {
+            "tooltip": "Connect the sampler Driving Audio output. When present, generated audio and Audio Seam are bypassed."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "images",
+        "audio",
+        "assembly_plan",
+        "exact_total_duration",
+        "audio_seam",
+        "video_seam",
+        "diagnostics",
+        "image_output_device",
+        "timeline_mode"
+      ],
+      "optional": [
+        "driving_audio"
+      ]
+    },
+    "is_input_list": true,
+    "output": [
+      "IMAGE",
+      "AUDIO",
+      "STRING"
+    ],
+    "output_is_list": [
+      false,
+      false,
+      false
+    ],
+    "output_name": [
+      "images",
+      "audio",
+      "report"
+    ],
+    "name": "H3ContinuumAssembleSeamV34",
+    "display_name": "H3 Continuum Assemble + Seam V3.4",
+    "description": "V3.4 decoded-chunk assembler. Driving Audio bypasses generated audio and Audio Seam while video seam correction remains available.",
+    "python_module": "custom_nodes.ComfyUI-H3-Continuum",
+    "category": "MiniMax H3/Continuum",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": [
+      "H3 seam analysis",
+      "H3 boundary flicker analysis"
+    ]
+  },
+  "H3ContinuumSamplerV34": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL"
+        ],
+        "clip": [
+          "CLIP"
+        ],
+        "video_vae": [
+          "VAE",
+          {
+            "tooltip": "Used only to encode image conditioning. T2VA does not use it; Continuum never decodes with it."
+          }
+        ],
+        "sampler": [
+          "SAMPLER"
+        ],
+        "sigmas": [
+          "SIGMAS"
+        ],
+        "sequence_prompt": [
+          "STRING",
+          {
+            "forceInput": true,
+            "display_name": "Sequence Prompt",
+            "tooltip": "Connect one Text (Multiline) for the complete sequence."
+          }
+        ],
+        "prompt_mode": [
+          [
+            "Auto",
+            "Fixed",
+            "List",
+            "Timeline"
+          ],
+          {
+            "default": "Auto",
+            "display_name": "Prompt Format",
+            "tooltip": "Auto accepts Fixed, list-separated, and timeline prompt styles.",
+            "advanced": true
+          }
+        ],
+        "chunks": [
+          "INT",
+          {
+            "default": 3,
+            "min": 1,
+            "max": 16,
+            "step": 1,
+            "tooltip": "Number of sequential Continuum chunks to generate."
+          }
+        ],
+        "chunk_seconds": [
+          "FLOAT",
+          {
+            "default": 5.0,
+            "min": 4.0,
+            "max": 15.0,
+            "step": 0.1,
+            "tooltip": "Target duration per chunk. Five seconds is the validated default."
+          }
+        ],
+        "width": [
+          "INT",
+          {
+            "default": 1344,
+            "min": 32,
+            "max": 16384,
+            "step": 32,
+            "tooltip": "Output width. Use a multiple of 32."
+          }
+        ],
+        "height": [
+          "INT",
+          {
+            "default": 768,
+            "min": 32,
+            "max": 16384,
+            "step": 32,
+            "tooltip": "Output height. Use a multiple of 32."
+          }
+        ],
+        "continuity": [
+          [
+            "Auto — conservative",
+            "Balanced — 22 frames",
+            "Fast — 5 frames",
+            "Strong — 39 frames",
+            "Strong — 39 frames (Experimental)"
+          ],
+          {
+            "default": "Strong — 39 frames",
+            "tooltip": "Protected previous-chunk context. Native Masked generated-audio continuation requires the exact 39-frame AV boundary; video-only continuation and Guide / Motion Context also support 5 or 22 frames."
+          }
+        ],
+        "base_seed": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 18446744073709551615,
+            "control_after_generate": true,
+            "tooltip": "Base seed used to derive deterministic per-chunk seeds."
+          }
+        ],
+        "audio_continuity": [
+          "BOOLEAN",
+          {
+            "default": true,
+            "advanced": true,
+            "tooltip": "On passes prior audio context into continuation chunks. Turn it off only to isolate or replace generated audio."
+          }
+        ],
+        "diagnostics": [
+          [
+            "Basic",
+            "Detailed Report",
+            "Off"
+          ],
+          {
+            "default": "Basic",
+            "display_name": "Report Detail",
+            "advanced": true
+          }
+        ],
+        "reroll_from_chunk": [
+          [
+            "Auto",
+            "Chunk 1",
+            "Chunk 2",
+            "Chunk 3",
+            "Chunk 4",
+            "Chunk 5",
+            "Chunk 6",
+            "Chunk 7",
+            "Chunk 8",
+            "Chunk 9",
+            "Chunk 10",
+            "Chunk 11",
+            "Chunk 12",
+            "Chunk 13",
+            "Chunk 14",
+            "Chunk 15",
+            "Chunk 16"
+          ],
+          {
+            "default": "Auto",
+            "display_name": "Regenerate From",
+            "advanced": true,
+            "tooltip": "Auto resumes the longest compatible saved prefix. Choosing a chunk reuses earlier chunks and regenerates that chunk and everything after it."
+          }
+        ],
+        "reroll_nonce": [
+          "INT",
+          {
+            "default": 0,
+            "min": 0,
+            "max": 4294967295,
+            "step": 1,
+            "advanced": true,
+            "display_name": "Variation Nonce",
+            "tooltip": "Change only when regenerating an explicit chunk and you want a new variation with otherwise identical settings."
+          }
+        ],
+        "strict_compatibility": [
+          "BOOLEAN",
+          {
+            "default": true,
+            "advanced": true
+          }
+        ],
+        "debug": [
+          "BOOLEAN",
+          {
+            "default": false,
+            "advanced": true
+          }
+        ],
+        "show_preview": [
+          "BOOLEAN",
+          {
+            "default": true,
+            "advanced": true
+          }
+        ],
+        "run_storage": [
+          [
+            "Off",
+            "Save + Auto Resume"
+          ],
+          {
+            "default": "Off",
+            "display_name": "Run Storage",
+            "advanced": true,
+            "tooltip": "Atomically save raw AV chunks and resume a compatible saved run."
+          }
+        ],
+        "run_name": [
+          "STRING",
+          {
+            "default": "",
+            "display_name": "Run Name (Optional Override)",
+            "advanced": true,
+            "tooltip": "Enter a stable name for this saved run. Compatible chunks are selected automatically."
+          }
+        ],
+        "reference_size": [
+          [
+            "Match Output",
+            "Max Identity"
+          ],
+          {
+            "default": "Match Output",
+            "display_name": "Reference Size",
+            "advanced": true,
+            "tooltip": "Match Output is the practical default; Max Identity preserves more reference detail."
+          }
+        ],
+        "project_id": [
+          "STRING",
+          {
+            "default": "",
+            "display_name": "Auto Resume ID Override",
+            "advanced": true,
+            "tooltip": "Optional. Leave blank to derive a stable ID from this sampler node. Run Name remains the explicit override."
+          }
+        ],
+        "video_reference_size": [
+          [
+            "Efficient - 0.4 MP",
+            "Balanced - 0.6 MP",
+            "Match Output"
+          ],
+          {
+            "default": "Efficient - 0.4 MP",
+            "display_name": "Video Reference Size",
+            "tooltip": "Efficient limits Video Reference to about 0.4 MP; Balanced uses about 0.6 MP; Match Output uses the output pixel area. Source aspect ratio is preserved and smaller sources are not enlarged."
+          }
+        ],
+        "continuation_method": [
+          [
+            "Native Masked — exact continuation (Recommended)",
+            "Guide / Motion Context"
+          ],
+          {
+            "default": "Native Masked — exact continuation (Recommended)",
+            "display_name": "Continuation Method",
+            "tooltip": "Native Masked preserves the previous generated H3 latent directly inside the next target and is recommended for exact same-shot continuation. Guide / Motion Context keeps the previous clip as softer H3 guide context."
+          }
+        ],
+        "emit_refine_conditioning": [
+          "BOOLEAN",
+          {
+            "default": false,
+            "advanced": true,
+            "display_name": "Emit Refine State",
+            "tooltip": "Expose exact per-chunk refinement state: a fresh Continuum MODEL wrapper, the exact positive CONDITIONING passed to sampler 1, and the matching native denoise masks on video/audio LATENT outputs. Enable only for downstream learned-latent refinement. If Run Storage reused chunks, regenerate from Chunk 1 or disable Run Storage so every state remains exactly aligned."
+          }
+        ]
+      },
+      "optional": {
+        "first_frame": [
+          "IMAGE",
+          {
+            "tooltip": "Optional. Leave all image inputs disconnected for T2VA."
+          }
+        ],
+        "last_frame": [
+          "IMAGE"
+        ],
+        "reference_image_1": [
+          "IMAGE"
+        ],
+        "reference_image_2": [
+          "IMAGE"
+        ],
+        "reference_image_3": [
+          "IMAGE"
+        ],
+        "managed_prompt_source_json": [
+          "STRING",
+          {
+            "default": "",
+            "advanced": true,
+            "tooltip": "Request-local State Manager prompt provenance. Leave empty for ordinary STRING workflows."
+          }
+        ],
+        "conditioning_lookahead": [
+          "BOOLEAN",
+          {
+            "default": true,
+            "advanced": true,
+            "display_name": "Qwen Lookahead",
+            "tooltip": "Encode the next eligible fixed-geometry chunk while Qwen is resident. Disable for matched hot-run performance comparisons."
+          }
+        ],
+        "reference_image_4": [
+          "IMAGE"
+        ],
+        "reference_image_5": [
+          "IMAGE"
+        ],
+        "reference_image_6": [
+          "IMAGE"
+        ],
+        "reference_image_7": [
+          "IMAGE"
+        ],
+        "reference_image_8": [
+          "IMAGE"
+        ],
+        "reference_video_1": [
+          "IMAGE",
+          {
+            "display_name": "Video Reference",
+            "tooltip": "Optional persistent video reference. Connect an IMAGE frame batch; frames are interpreted at 24 fps and applied to every chunk."
+          }
+        ],
+        "driving_audio": [
+          "AUDIO",
+          {
+            "tooltip": "Optional original audio timeline. It is used as native H3 guide conditioning and selected unchanged for final output."
+          }
+        ],
+        "audio_vae": [
+          "VAE",
+          {
+            "tooltip": "Required only when Driving Audio is connected. Uses the same Audio VAE encode path as ComfyUI Core MiniMax H3 Add Guide."
+          }
+        ]
+      },
+      "hidden": {
+        "prompt": "PROMPT",
+        "unique_id": "UNIQUE_ID"
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "clip",
+        "video_vae",
+        "sampler",
+        "sigmas",
+        "sequence_prompt",
+        "prompt_mode",
+        "chunks",
+        "chunk_seconds",
+        "width",
+        "height",
+        "continuity",
+        "base_seed",
+        "audio_continuity",
+        "diagnostics",
+        "reroll_from_chunk",
+        "reroll_nonce",
+        "strict_compatibility",
+        "debug",
+        "show_preview",
+        "run_storage",
+        "run_name",
+        "reference_size",
+        "project_id",
+        "video_reference_size",
+        "continuation_method",
+        "emit_refine_conditioning"
+      ],
+      "optional": [
+        "first_frame",
+        "last_frame",
+        "reference_image_1",
+        "reference_image_2",
+        "reference_image_3",
+        "managed_prompt_source_json",
+        "conditioning_lookahead",
+        "reference_image_4",
+        "reference_image_5",
+        "reference_image_6",
+        "reference_image_7",
+        "reference_image_8",
+        "reference_video_1",
+        "driving_audio",
+        "audio_vae"
+      ],
+      "hidden": [
+        "prompt",
+        "unique_id"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "LATENT",
+      "LATENT",
+      "H3_CONTINUUM_ASSEMBLY_PLAN",
+      "STRING",
+      "AUDIO",
+      "H3_CONTINUUM_REFINE_STATE"
+    ],
+    "output_is_list": [
+      true,
+      true,
+      false,
+      false,
+      false,
+      true
+    ],
+    "output_name": [
+      "video_latents",
+      "audio_latents",
+      "assembly_plan",
+      "status",
+      "driving_audio",
+      "refine_state"
+    ],
+    "name": "H3ContinuumSamplerV34",
+    "display_name": "H3 Continuum Sampler V3.4",
+    "description": "H3 Continuum V3.4 with native masked AV continuation by default, optional Guide / Motion Context continuation, hybrid First/Last + Reference Image conditioning, Driving Audio, persistent Video Reference, and opt-in exact per-chunk refinement state for learned latent upscaling.",
+    "python_module": "custom_nodes.ComfyUI-H3-Continuum",
+    "category": "MiniMax H3/Continuum",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": [
+      "H3 Continuum Sampler V3.4",
+      "MiniMax H3 Driving Audio",
+      "MiniMax H3 masked continuation"
+    ]
+  },
+  "LoadAudio": {
+    "input": {
+      "required": {
+        "audio": [
+          "COMBO",
+          {
+            "multiselect": false,
+            "options": [
+              "11640a2776904c2a3efbd51f14ef84dcb5677b37d347ffad27186e0d7a0c2fd3.mp4",
+              "1a8747b5ba16dac094e6541e6a9800eb1136b89aa5b4a32255511521a97034da.mp4",
+              "40592b47a0160e28a344e9422899e530c74bb8b85768b1d9f9c1777be3546d4b.wav",
+              "4484e40594f7895a01f2c370850a9fc57f6f7c1506cbbcde87444761b9a886c2.mp4",
+              "4ae7d372fd7f07de6bda66e6d47b45e09cf8d45e86cce4c9dcc35447984fb641.mp4",
+              "50af1f38674caef5cf7aa97bd29819f3126652dad7f775f5e7e214b832685996.mp4",
+              "audio_976606_temp.wav",
+              "bgx_t05_fr_video.mp4",
+              "bgx_t05_upscale.mp4",
+              "bgxiong_aud_0 (1).mp3",
+              "bgxiong_aud_0 (1).wav",
+              "bgxiong_aud_0 (10).mp3",
+              "bgxiong_aud_0 (11).mp3",
+              "bgxiong_aud_0 (12).mp3",
+              "bgxiong_aud_0 (13).mp3",
+              "bgxiong_aud_0 (14).mp3",
+              "bgxiong_aud_0 (15).mp3",
+              "bgxiong_aud_0 (16).mp3",
+              "bgxiong_aud_0 (17).mp3",
+              "bgxiong_aud_0 (18).mp3",
+              "bgxiong_aud_0 (19).mp3",
+              "bgxiong_aud_0 (2).mp3",
+              "bgxiong_aud_0 (2).wav",
+              "bgxiong_aud_0 (20).mp3",
+              "bgxiong_aud_0 (21).mp3",
+              "bgxiong_aud_0 (22).mp3",
+              "bgxiong_aud_0 (3).mp3",
+              "bgxiong_aud_0 (3).wav",
+              "bgxiong_aud_0 (4).mp3",
+              "bgxiong_aud_0 (4).wav",
+              "bgxiong_aud_0 (5).mp3",
+              "bgxiong_aud_0 (6).mp3",
+              "bgxiong_aud_0 (7).mp3",
+              "bgxiong_aud_0 (8).mp3",
+              "bgxiong_aud_0 (9).mp3",
+              "bgxiong_aud_0.mp3",
+              "bgxiong_aud_0.wav",
+              "bgxiong_face_refine_0340bc0497a74183a9b06fa12f1dadf8.mp4",
+              "bgxiong_face_refine_0ade941dfdf0401c9e4a42f500351c2b.mp4",
+              "bgxiong_face_refine_20b356b6f8df42c4908adabf7a5a25ea.mp4",
+              "bgxiong_face_refine_27d913e9592640beb4cf30875509f94c.mp4",
+              "bgxiong_face_refine_2afde171ebf64932ad40be743ef2f4a0.mp4",
+              "bgxiong_face_refine_3a81d07b807640aab695a667190995b0.mp4",
+              "bgxiong_face_refine_681454d4f94d4e538b88b28003e7cb4b.mp4",
+              "bgxiong_upscale_009ae825a60c46659412b9043b5ab889.mp4",
+              "bgxiong_upscale_07a92209a45f40758148e83885787f10.mp4",
+              "bgxiong_upscale_0ab340453b9f4394b42b9f9cae1c94c6.mp4",
+              "bgxiong_upscale_0f95681dbfa145178a774b42b922437a.mp4",
+              "bgxiong_upscale_1b58800cc19344abad5a006a0060587a.mp4",
+              "bgxiong_upscale_1dde2e78b6214de2837fe48f432b3356.mp4",
+              "bgxiong_upscale_2053a7e472b54099932b28b094ed34ab.mp4",
+              "bgxiong_upscale_29a9e91d1521434db07def4092d2de3a.mp4",
+              "bgxiong_upscale_2efba268504140878b1968a2b3bb4e50.mp4",
+              "bgxiong_upscale_3dafdbe0bbd943508eca9a31251ae65c.mp4",
+              "bgxiong_upscale_3ff21474c0d0464580773cf6c9c59fdc.mp4",
+              "bgxiong_upscale_44011753c80f4d0fab301577dc8c2379.mp4",
+              "bgxiong_upscale_440c45016908478cbd52e1c86b28de54.mp4",
+              "bgxiong_upscale_47db91914cb54fffb7662b935c083416.mp4",
+              "bgxiong_upscale_4ad0de4a3a7c4be29c646f770babd791.mp4",
+              "bgxiong_upscale_54ce1b4779524cceaffa9efb5d2fb83e.mp4",
+              "bgxiong_upscale_63eb049094c64a86babfe57dab046c87.mp4",
+              "bgxiong_upscale_6461a06950ca4055af605d20d8c00bba.mp4",
+              "bgxiong_upscale_6a37e1618e8741b39be3f77cb73d85d8.mp4",
+              "bgxiong_upscale_6bebb216f3da4952a1b7a5c9a8ba70a4.mp4",
+              "bgxiong_upscale_6f4cb2538ca04248ae24d1dd5a28ccb4.mp4",
+              "bgxiong_upscale_70536c9c3adc4bc0a0525de8e4873857.mp4",
+              "bgxiong_upscale_72fca6fa75c14f778c6533290f3eb82c.mp4",
+              "bgxiong_upscale_74245e3f7b0f4d8c93ad659cf88d4c80.mp4",
+              "bgxiong_upscale_747f9bffbdf749ed9d2acd989560d5e9.mp4",
+              "bgxiong_upscale_756e5edbff794efbafd0d8166b8d4d14.mp4",
+              "bgxiong_upscale_762fe39a57c245baa432a2a57aa6f803.mp4",
+              "bgxiong_upscale_7fb0ee914ce249769e0e8af6e2f1843e.mp4",
+              "bgxiong_upscale_80104fbdcb08487baf2f06eef53c14cc.mp4",
+              "bgxiong_upscale_804bd3f3bd794e4b9d691bbd550d873d.mp4",
+              "bgxiong_upscale_823dc726dcc441bfbdcfd522f38960a5.mp4",
+              "bgxiong_upscale_82ef56fbb97c474885b09414f773d58f.mp4",
+              "bgxiong_upscale_887032767d8a4a5d91227d9102fa70b3.mp4",
+              "bgxiong_upscale_8a4b6aea12364afd96d72d1016afda17.mp4",
+              "bgxiong_upscale_8b43e4d88b1544b3950aa66409727da1.mp4",
+              "bgxiong_upscale_8bc973bae6d046c6887a81f914af9f4b.mp4",
+              "bgxiong_upscale_8c9a9a1ae37b498d96e9c70f91e9269a.mp4",
+              "bgxiong_upscale_8d9657c3cf3348f496e939b56c228fda.mp4",
+              "bgxiong_upscale_927d927ebf1c4611b42956a17591599a.mp4",
+              "bgxiong_upscale_9d99b077b072471a9a9e86c124a83080.mp4",
+              "bgxiong_upscale_9db448f29667499390e18137b030b7fa.mp4",
+              "bgxiong_upscale_a79de2748cc04b6e964e70cd0b5d7c5e.mp4",
+              "bgxiong_upscale_ac68d37521da4da9ae9a7f4df574949a.mp4",
+              "bgxiong_upscale_af005cde45b947378dab798f15de9788.mp4",
+              "bgxiong_upscale_b4de6d22a6d04deea156277be9cd0058.mp4",
+              "bgxiong_upscale_b8907fe4d08b4221acda5ac603245d7a.mp4",
+              "bgxiong_upscale_b9733fec7ffc4d16b26ef6c36f97155c.mp4",
+              "bgxiong_upscale_c5fe06510be94b2a9fc0d6fe2df6da1c.mp4",
+              "bgxiong_upscale_cdad3c70e89641178f85218729601129.mp4",
+              "bgxiong_upscale_cef69295a18d410c8dc36d8425ca0606.mp4",
+              "bgxiong_upscale_d49377140a094af8973ba681820f097a.mp4",
+              "bgxiong_upscale_de7f852f328c47bc997d738fe4dd6257.mp4",
+              "bgxiong_upscale_dff91974db7e4f4dab2e9e59c2253fa4.mp4",
+              "bgxiong_upscale_e18b970f98ad43df95e8891a87df5856.mp4",
+              "bgxiong_upscale_e1a7e43c5bf744c69559c00bfa8ab0b9.mp4",
+              "bgxiong_upscale_e23f0d4916b8420d939fe3cb6381a29c.mp4",
+              "bgxiong_upscale_f09f90391a65468d8d515aedf23c9731.mp4",
+              "bgxiong_upscale_f7e8ae0bb8c34df6aed8831ca2416769.mp4",
+              "bgxiong_upscale_f9a48a3bdb154bc99cf456256f91f75a.mp4",
+              "bgxiong_upscale_fd8a28b659dc4fd195276d6de8e03e12.mp4",
+              "bgxiong_upscale_fff68ff75fdb4e9ebef118c7c2e9e622.mp4",
+              "drive_doll_street_dance.mp4",
+              "s4_clip.mp4",
+              "s6_clip.mp4",
+              "s6_speech.wav"
+            ],
+            "audio_upload": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "audio"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "AUDIO"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "AUDIO"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "LoadAudio",
+    "display_name": "Load Audio",
+    "description": "",
+    "python_module": "comfy_extras.nodes_audio",
+    "category": "audio",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "import audio",
+      "open audio",
+      "audio file"
+    ],
+    "essentials_category": "Audio",
+    "has_intermediate_output": false
+  },
+  "LoadImage": {
+    "input": {
+      "required": {
+        "image": [
+          [
+            "03fa4e363ee96c9236790dbc29f0337bd032d11007e17e8bbcab6ffcf6ed09cd.png",
+            "5be32aead58dbfb9c2c358bb9a9378806d0f6e5ebd8ba742e265d2efc6aa3fa8.png",
+            "bgx_t05_edit_ref.png",
+            "bgx_t05_first.jpg",
+            "bgx_t05_fr_ref.png",
+            "bgx_t05_last.jpg",
+            "bgx_t05_upscale.png",
+            "bgxiong_face_ref_0 (1).png",
+            "bgxiong_face_ref_0 (2).png",
+            "bgxiong_face_ref_0 (3).png",
+            "bgxiong_face_ref_0.png",
+            "bgxiong_face_ref_1 (1).png",
+            "bgxiong_face_ref_1.png",
+            "bgxiong_face_ref_2 (1).png",
+            "bgxiong_face_ref_2.png",
+            "bgxiong_face_ref_3.png",
+            "bgxiong_image_upscale_02bbae4278364accb2ae873e5c0d830b.png",
+            "bgxiong_image_upscale_0bd4b7f4f7e94044a7563ed4216cee30.png",
+            "bgxiong_image_upscale_0d1905340d654623ad6e556dd49587cc.jpg",
+            "bgxiong_image_upscale_0d51c1ffe01a4a79b73cef6f91263f3e.jpg",
+            "bgxiong_image_upscale_0e1f03cfb5284182b8c6d39fc92d077b.jpg",
+            "bgxiong_image_upscale_134d7bc030a9403a855c444f5e040aa7.png",
+            "bgxiong_image_upscale_148fceaefdd8477881688da1002964b8.png",
+            "bgxiong_image_upscale_1a71b84c9ae54255b015845f5be4d3a7.png",
+            "bgxiong_image_upscale_1cfebfa51b3048c08f1aa8fd1778ea63.png",
+            "bgxiong_image_upscale_330883944c79401fafca0f12d6c7512d.png",
+            "bgxiong_image_upscale_33539ac647514e1294ff8f5e181332eb.png",
+            "bgxiong_image_upscale_3400409d3d1c4457b02600112cf9822d.jpg",
+            "bgxiong_image_upscale_35b69da1334247e6ba1febfce3a88453.png",
+            "bgxiong_image_upscale_37a6adfd23d542d284c2507287c21d84.jpg",
+            "bgxiong_image_upscale_3c4a5f95bdc64c2893ca262a33b9e98c.png",
+            "bgxiong_image_upscale_3c667cfbcafe49c397e1c77001b0cdb1.png",
+            "bgxiong_image_upscale_3dd591c475a34a72bfae0dcfce1508fd.png",
+            "bgxiong_image_upscale_4111512f3fc9466faff0b0ff7faff0dc.jpg",
+            "bgxiong_image_upscale_49ba7fd8f95d4660a2d3f3671010938d.png",
+            "bgxiong_image_upscale_4b035d981a66493aae473d43a3a452b0.png",
+            "bgxiong_image_upscale_4c36a94fd36348c1b9209b314146281e.jpg",
+            "bgxiong_image_upscale_535be371e7424331b6426bd7ec302fce.jpg",
+            "bgxiong_image_upscale_537ae479ac224e7db99ff05bd222a019.jpg",
+            "bgxiong_image_upscale_54cdff8de85b4b1fb1ff33523ac51306.png",
+            "bgxiong_image_upscale_567b44b3999548e49d4a74300aaeae8a.jpg",
+            "bgxiong_image_upscale_5a258d07706741dda8f5667ef9ba670e.jpg",
+            "bgxiong_image_upscale_5ad7f3fb352e452dbe775622dcd1457d.png",
+            "bgxiong_image_upscale_5bc02672679a4b8dbcee6887c71e7516.png",
+            "bgxiong_image_upscale_5daa344002484f1aa68b914a7873c6a2.jpg",
+            "bgxiong_image_upscale_5e24b28f99fe41f48f8f50801532d982.png",
+            "bgxiong_image_upscale_607b104ac57f4d25aeb3d21b20261b57.png",
+            "bgxiong_image_upscale_63f2586e2c424660af1a3fed5382814a.png",
+            "bgxiong_image_upscale_64751c43f4fe4168a04286f5108330f1.jpg",
+            "bgxiong_image_upscale_6726fc0460684de5b24daa8e24deafe2.png",
+            "bgxiong_image_upscale_6d041aad60d54491ae9c9743cbab6e94.png",
+            "bgxiong_image_upscale_6e70e52456434ffab8109f82e2662b38.png",
+            "bgxiong_image_upscale_6ffa7e60116b42b98eb01117a14c1f93.png",
+            "bgxiong_image_upscale_774e8c8521fb42e7b9dcc8eec06b8dfb.png",
+            "bgxiong_image_upscale_7c633457109d4837bd4ed4e7b40d17eb.jpg",
+            "bgxiong_image_upscale_83868064d796468a9d65777dfb4fcaea.png",
+            "bgxiong_image_upscale_8423161dc22f40228a810d2684d00639.png",
+            "bgxiong_image_upscale_88a2b190bd5f445c89c5e2c73040a5f9.png",
+            "bgxiong_image_upscale_8db9ea7787ee46b4988e425fbb71db36.png",
+            "bgxiong_image_upscale_98b91dd5341348fdb4f03ac7c6edd6ef.png",
+            "bgxiong_image_upscale_9fe15cb9b6524837a4362ee1c6f90600.jpg",
+            "bgxiong_image_upscale_a0aff032cb4a4c128f4bb4a1946689bb.png",
+            "bgxiong_image_upscale_a43c96749dfd4af78a0c097f65504187.png",
+            "bgxiong_image_upscale_aab68e56874c427b8d683c284abf2d78.jpg",
+            "bgxiong_image_upscale_ad8b1042f73e4b5fbc22cf3a35c1fb43.png",
+            "bgxiong_image_upscale_ae3dabcba7e443e79af6cc35b563e2ba.png",
+            "bgxiong_image_upscale_b04d2613238b4e11b757f251fb10ab40.png",
+            "bgxiong_image_upscale_bb3293c5bb33400fab13dde235ecb3ab.jpg",
+            "bgxiong_image_upscale_c5178dcdcdee422a9bbe7ec5238ea1c4.png",
+            "bgxiong_image_upscale_c7a4318c376141cd82c46aa2eb3ddd3f.png",
+            "bgxiong_image_upscale_c83882e251054efb82e82d03422c70fc.jpg",
+            "bgxiong_image_upscale_cdb3b3bd47294f719dc2822cf95e1e43.jpg",
+            "bgxiong_image_upscale_d5da427d2b3d44ffb61f9ff4bf2af143.png",
+            "bgxiong_image_upscale_d8486fa1d96f48e297c0f772449c26e3.jpg",
+            "bgxiong_image_upscale_d94aa8a648bb427294b93147c47ad64c.png",
+            "bgxiong_image_upscale_dcbd7e50936144069775a70355be5cc9.png",
+            "bgxiong_image_upscale_dd90550254204e159ba239c4bc2d64af.png",
+            "bgxiong_image_upscale_e1226db428d040e790504d5d8c8c2916.png",
+            "bgxiong_image_upscale_f343b9e508244e6ea032974aa76f3f22.jpg",
+            "bgxiong_image_upscale_f66eab182f3c48c08ee8ade6fd20a699.png",
+            "bgxiong_image_upscale_f819935c1be24cef8e18d96c84581912.png",
+            "bgxiong_image_upscale_fad9067c4a694782ad29683f1da617a9.png",
+            "bgxiong_image_upscale_faddb861695849208d44fc2842f351a1.png",
+            "bgxiong_image_upscale_fc59cac951394838a87dd14151513c97.jpg",
+            "bgxiong_image_upscale_ff4c5d27ab18412d832dde06087c77fd.jpg",
+            "bgxiong_image_upscale_ff4ffad688db44edb358826cd980c1dd.png",
+            "bgxiong_pad_0 (1).jpg",
+            "bgxiong_pad_0 (1).png",
+            "bgxiong_pad_0 (10).jpg",
+            "bgxiong_pad_0 (10).png",
+            "bgxiong_pad_0 (100).png",
+            "bgxiong_pad_0 (101).png",
+            "bgxiong_pad_0 (102).png",
+            "bgxiong_pad_0 (103).png",
+            "bgxiong_pad_0 (104).png",
+            "bgxiong_pad_0 (105).png",
+            "bgxiong_pad_0 (106).png",
+            "bgxiong_pad_0 (107).png",
+            "bgxiong_pad_0 (108).png",
+            "bgxiong_pad_0 (109).png",
+            "bgxiong_pad_0 (11).jpg",
+            "bgxiong_pad_0 (11).png",
+            "bgxiong_pad_0 (110).png",
+            "bgxiong_pad_0 (111).png",
+            "bgxiong_pad_0 (112).png",
+            "bgxiong_pad_0 (113).png",
+            "bgxiong_pad_0 (114).png",
+            "bgxiong_pad_0 (115).png",
+            "bgxiong_pad_0 (116).png",
+            "bgxiong_pad_0 (117).png",
+            "bgxiong_pad_0 (118).png",
+            "bgxiong_pad_0 (119).png",
+            "bgxiong_pad_0 (12).jpg",
+            "bgxiong_pad_0 (12).png",
+            "bgxiong_pad_0 (120).png",
+            "bgxiong_pad_0 (121).png",
+            "bgxiong_pad_0 (122).png",
+            "bgxiong_pad_0 (123).png",
+            "bgxiong_pad_0 (124).png",
+            "bgxiong_pad_0 (13).jpg",
+            "bgxiong_pad_0 (13).png",
+            "bgxiong_pad_0 (14).jpg",
+            "bgxiong_pad_0 (14).png",
+            "bgxiong_pad_0 (15).jpg",
+            "bgxiong_pad_0 (15).png",
+            "bgxiong_pad_0 (16).jpg",
+            "bgxiong_pad_0 (16).png",
+            "bgxiong_pad_0 (17).jpg",
+            "bgxiong_pad_0 (17).png",
+            "bgxiong_pad_0 (18).jpg",
+            "bgxiong_pad_0 (18).png",
+            "bgxiong_pad_0 (19).png",
+            "bgxiong_pad_0 (2).jpg",
+            "bgxiong_pad_0 (2).png",
+            "bgxiong_pad_0 (20).png",
+            "bgxiong_pad_0 (21).png",
+            "bgxiong_pad_0 (22).png",
+            "bgxiong_pad_0 (23).png",
+            "bgxiong_pad_0 (24).png",
+            "bgxiong_pad_0 (25).png",
+            "bgxiong_pad_0 (26).png",
+            "bgxiong_pad_0 (27).png",
+            "bgxiong_pad_0 (28).png",
+            "bgxiong_pad_0 (29).png",
+            "bgxiong_pad_0 (3).jpg",
+            "bgxiong_pad_0 (3).png",
+            "bgxiong_pad_0 (30).png",
+            "bgxiong_pad_0 (31).png",
+            "bgxiong_pad_0 (32).png",
+            "bgxiong_pad_0 (33).png",
+            "bgxiong_pad_0 (34).png",
+            "bgxiong_pad_0 (35).png",
+            "bgxiong_pad_0 (36).png",
+            "bgxiong_pad_0 (37).png",
+            "bgxiong_pad_0 (38).png",
+            "bgxiong_pad_0 (39).png",
+            "bgxiong_pad_0 (4).jpg",
+            "bgxiong_pad_0 (4).png",
+            "bgxiong_pad_0 (40).png",
+            "bgxiong_pad_0 (41).png",
+            "bgxiong_pad_0 (42).png",
+            "bgxiong_pad_0 (43).png",
+            "bgxiong_pad_0 (44).png",
+            "bgxiong_pad_0 (45).png",
+            "bgxiong_pad_0 (46).png",
+            "bgxiong_pad_0 (47).png",
+            "bgxiong_pad_0 (48).png",
+            "bgxiong_pad_0 (49).png",
+            "bgxiong_pad_0 (5).jpg",
+            "bgxiong_pad_0 (5).png",
+            "bgxiong_pad_0 (50).png",
+            "bgxiong_pad_0 (51).png",
+            "bgxiong_pad_0 (52).png",
+            "bgxiong_pad_0 (53).png",
+            "bgxiong_pad_0 (54).png",
+            "bgxiong_pad_0 (55).png",
+            "bgxiong_pad_0 (56).png",
+            "bgxiong_pad_0 (57).png",
+            "bgxiong_pad_0 (58).png",
+            "bgxiong_pad_0 (59).png",
+            "bgxiong_pad_0 (6).jpg",
+            "bgxiong_pad_0 (6).png",
+            "bgxiong_pad_0 (60).png",
+            "bgxiong_pad_0 (61).png",
+            "bgxiong_pad_0 (62).png",
+            "bgxiong_pad_0 (63).png",
+            "bgxiong_pad_0 (64).png",
+            "bgxiong_pad_0 (65).png",
+            "bgxiong_pad_0 (66).png",
+            "bgxiong_pad_0 (67).png",
+            "bgxiong_pad_0 (68).png",
+            "bgxiong_pad_0 (69).png",
+            "bgxiong_pad_0 (7).jpg",
+            "bgxiong_pad_0 (7).png",
+            "bgxiong_pad_0 (70).png",
+            "bgxiong_pad_0 (71).png",
+            "bgxiong_pad_0 (72).png",
+            "bgxiong_pad_0 (73).png",
+            "bgxiong_pad_0 (74).png",
+            "bgxiong_pad_0 (75).png",
+            "bgxiong_pad_0 (76).png",
+            "bgxiong_pad_0 (77).png",
+            "bgxiong_pad_0 (78).png",
+            "bgxiong_pad_0 (79).png",
+            "bgxiong_pad_0 (8).jpg",
+            "bgxiong_pad_0 (8).png",
+            "bgxiong_pad_0 (80).png",
+            "bgxiong_pad_0 (81).png",
+            "bgxiong_pad_0 (82).png",
+            "bgxiong_pad_0 (83).png",
+            "bgxiong_pad_0 (84).png",
+            "bgxiong_pad_0 (85).png",
+            "bgxiong_pad_0 (86).png",
+            "bgxiong_pad_0 (87).png",
+            "bgxiong_pad_0 (88).png",
+            "bgxiong_pad_0 (89).png",
+            "bgxiong_pad_0 (9).jpg",
+            "bgxiong_pad_0 (9).png",
+            "bgxiong_pad_0 (90).png",
+            "bgxiong_pad_0 (91).png",
+            "bgxiong_pad_0 (92).png",
+            "bgxiong_pad_0 (93).png",
+            "bgxiong_pad_0 (94).png",
+            "bgxiong_pad_0 (95).png",
+            "bgxiong_pad_0 (96).png",
+            "bgxiong_pad_0 (97).png",
+            "bgxiong_pad_0 (98).png",
+            "bgxiong_pad_0 (99).png",
+            "bgxiong_pad_0.jpg",
+            "bgxiong_pad_0.png",
+            "bgxiong_pad_1 (1).jpg",
+            "bgxiong_pad_1 (1).png",
+            "bgxiong_pad_1 (10).png",
+            "bgxiong_pad_1 (11).png",
+            "bgxiong_pad_1 (12).png",
+            "bgxiong_pad_1 (13).png",
+            "bgxiong_pad_1 (14).png",
+            "bgxiong_pad_1 (15).png",
+            "bgxiong_pad_1 (16).png",
+            "bgxiong_pad_1 (17).png",
+            "bgxiong_pad_1 (18).png",
+            "bgxiong_pad_1 (19).png",
+            "bgxiong_pad_1 (2).png",
+            "bgxiong_pad_1 (20).png",
+            "bgxiong_pad_1 (21).png",
+            "bgxiong_pad_1 (22).png",
+            "bgxiong_pad_1 (23).png",
+            "bgxiong_pad_1 (24).png",
+            "bgxiong_pad_1 (3).png",
+            "bgxiong_pad_1 (4).png",
+            "bgxiong_pad_1 (5).png",
+            "bgxiong_pad_1 (6).png",
+            "bgxiong_pad_1 (7).png",
+            "bgxiong_pad_1 (8).png",
+            "bgxiong_pad_1 (9).png",
+            "bgxiong_pad_1.jpg",
+            "bgxiong_pad_1.png",
+            "bgxiong_pad_2 (1).png",
+            "bgxiong_pad_2 (10).png",
+            "bgxiong_pad_2 (11).png",
+            "bgxiong_pad_2 (2).png",
+            "bgxiong_pad_2 (3).png",
+            "bgxiong_pad_2 (4).png",
+            "bgxiong_pad_2 (5).png",
+            "bgxiong_pad_2 (6).png",
+            "bgxiong_pad_2 (7).png",
+            "bgxiong_pad_2 (8).png",
+            "bgxiong_pad_2 (9).png",
+            "bgxiong_pad_2.png",
+            "bgxiong_pad_3 (1).png",
+            "bgxiong_pad_3 (2).png",
+            "bgxiong_pad_3.png",
+            "bgxiong_pad_4.png",
+            "e75c18206701a3d06758d4271bb425b882a3eee866ce8fdb806e5af9ac324077.jpg",
+            "example.png",
+            "f2b43c1daec7ca1dffb925294b23276c7554543fde247caef5c99b714a1484c1.png",
+            "p12-native-reference-paper-robot.png",
+            "p12-native-reference-red-panda.png",
+            "qwen_live_ref_0 (1).png",
+            "qwen_live_ref_0.png",
+            "qwen_live_ref_1 (1).png",
+            "qwen_live_ref_1.png",
+            "ref_doll_realistic.png",
+            "s4_face.png",
+            "s6_face.png"
+          ],
+          {
+            "image_upload": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "image"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE",
+      "MASK"
+    ],
+    "output_is_list": [
+      false,
+      false
+    ],
+    "output_name": [
+      "IMAGE",
+      "MASK"
+    ],
+    "name": "LoadImage",
+    "display_name": "Load Image",
+    "description": "",
+    "python_module": "nodes",
+    "category": "image",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": [
+      "load image",
+      "open image",
+      "import image",
+      "image input",
+      "upload image",
+      "read image",
+      "image loader"
+    ],
+    "essentials_category": "Basics"
+  },
+  "MiniMaxH3TurboLoRA": {
+    "input": {
+      "required": {
+        "model": [
+          "MODEL"
+        ],
+        "lora_name": [
+          [
+            "Flux2TurboComfyv2.safetensors",
+            "Flux_2-Turbo-LoRA_comfyui.safetensors",
+            "Qwen-Image-Edit-2509-Lightning-8steps-V1.0-bf16.safetensors",
+            "WanAnimate_relight_lora_fp16.safetensors",
+            "gemma-3-12b-it-abliterated_lora_rank64_bf16.safetensors",
+            "krea2_darkbrush.safetensors",
+            "krea2_style_reference.safetensors",
+            "lightx2v_I2V_14B_480p_cfg_step_distill_rank64_bf16.safetensors",
+            "ltx_2.3_22b_distilled_1.1_lora_dynamic_fro09_avg_rank_111_bf16.safetensors",
+            "minimax_h3_turbo_v4_step600_ema.safetensors",
+            "qingguagua_body_lora.safetensors",
+            "wan2.2_t2v_lightx2v_4steps_lora_v1.1_high_noise.safetensors"
+          ]
+        ],
+        "strength": [
+          "FLOAT",
+          {
+            "default": 1.0,
+            "min": -10.0,
+            "max": 10.0,
+            "step": 0.01
+          }
+        ],
+        "low_vram": [
+          "BOOLEAN",
+          {
+            "default": false,
+            "label_on": "merge (low VRAM, softer)",
+            "label_off": "bypass (sharp, more VRAM)",
+            "tooltip": "OFF (default): apply the LoRA at run time (bypass) — sharpest, but costs extra peak VRAM. ON: merge the LoRA into the weights — lowest VRAM so small GPUs can run, but softer on quantized bases (the delta is partly rounded away). Turn ON only if you OOM."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "model",
+        "lora_name",
+        "strength",
+        "low_vram"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "MODEL"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "MODEL"
+    ],
+    "name": "MiniMaxH3TurboLoRA",
+    "display_name": "MiniMax-H3 Turbo LoRA",
+    "description": "Apply the MiniMax-H3 Turbo LoRA to the H3 diffusion model.",
+    "python_module": "custom_nodes.ComfyUI-MiniMax-H3-Turbo",
+    "category": "MiniMaxH3Turbo",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": []
+  },
+  "MiniMaxH3TurboSampler": {
+    "input": {
+      "required": {}
+    },
+    "input_order": {
+      "required": []
+    },
+    "is_input_list": false,
+    "output": [
+      "SAMPLER"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "SAMPLER"
+    ],
+    "name": "MiniMaxH3TurboSampler",
+    "display_name": "MiniMax-H3 Turbo Sampler (4-step)",
+    "description": "4-step sampler for the MiniMax-H3 Turbo LoRA. Feed into SamplerCustomAdvanced and set the scheduler to 4 steps. Auto-adapts to the ComfyUI version: on recent builds that handle the audio schedule natively (ModelSamplingAV) it steps as a plain single-schedule sampler; on older builds it steps video and audio on their separate clocks.",
+    "python_module": "custom_nodes.ComfyUI-MiniMax-H3-Turbo",
+    "category": "MiniMaxH3Turbo",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": []
+  },
+  "PreviewAny": {
+    "input": {
+      "required": {
+        "source": [
+          "*",
+          {}
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "source"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "STRING"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "STRING"
+    ],
+    "name": "PreviewAny",
+    "display_name": "Preview as Text",
+    "description": "Preview any input value as text.",
+    "python_module": "comfy_extras.nodes_preview_any",
+    "category": "utilities",
+    "output_node": true,
+    "has_intermediate_output": false,
+    "search_aliases": [
+      "preview",
+      "preview text",
+      "show output",
+      "inspect",
+      "debug",
+      "print value",
+      "show text"
+    ]
+  },
+  "PrimitiveInt": {
+    "input": {
+      "required": {
+        "value": [
+          "INT",
+          {
+            "min": -9223372036854775807,
+            "max": 9223372036854775807,
+            "control_after_generate": "fixed"
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "value"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "INT"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "INT"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "PrimitiveInt",
+    "display_name": "Int",
+    "description": "",
+    "python_module": "comfy_extras.nodes_primitive",
+    "category": "utilities/primitive",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": null,
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "PrimitiveStringMultiline": {
+    "input": {
+      "required": {
+        "value": [
+          "STRING",
+          {
+            "multiline": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "value"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "STRING"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "STRING"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "PrimitiveStringMultiline",
+    "display_name": "Text (Multiline)",
+    "description": "",
+    "python_module": "comfy_extras.nodes_primitive",
+    "category": "utilities/primitive",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "text",
+      "string",
+      "text box",
+      "prompt"
+    ],
+    "essentials_category": "Basics",
+    "has_intermediate_output": false
+  },
+  "SaveVideo": {
+    "input": {
+      "required": {
+        "video": [
+          "VIDEO",
+          {
+            "tooltip": "The video to save."
+          }
+        ],
+        "filename_prefix": [
+          "STRING",
+          {
+            "tooltip": "The prefix for the file to save. This may include formatting information such as %date:yyyy-MM-dd% or %Empty Latent Image.width% to include values from nodes.",
+            "default": "video/ComfyUI",
+            "multiline": false
+          }
+        ],
+        "format": [
+          "COMFY_DYNAMICCOMBO_V3",
+          {
+            "tooltip": "The output container. Auto uses MP4 for Auto/H.264 and WebM for AV1. MP4, MKV, and WebM select a specific container.",
+            "options": [
+              {
+                "key": "auto",
+                "inputs": {
+                  "required": {
+                    "codec": [
+                      "COMFY_DYNAMICCOMBO_V3",
+                      {
+                        "tooltip": "The output video codec. Auto preserves a compatible source stream. H.264 and AV1 re-encoding support SDR, HDR (HLG), and HDR PQ.",
+                        "options": [
+                          {
+                            "key": "auto",
+                            "inputs": {
+                              "required": {}
+                            }
+                          },
+                          {
+                            "key": "h264",
+                            "inputs": {
+                              "required": {},
+                              "optional": {
+                                "encoding": [
+                                  "COMFY_DYNAMICCOMBO_V3",
+                                  {
+                                    "display_name": "encoding mode",
+                                    "tooltip": "Automatic preserves compatible H.264 streams. Re-encode applies custom encoding options.",
+                                    "options": [
+                                      {
+                                        "key": "auto",
+                                        "inputs": {
+                                          "required": {}
+                                        }
+                                      },
+                                      {
+                                        "key": "re-encode",
+                                        "inputs": {
+                                          "required": {
+                                            "crf": [
+                                              "FLOAT",
+                                              {
+                                                "tooltip": "Lower values produce higher quality and larger files.",
+                                                "default": 18.0,
+                                                "min": 0.0,
+                                                "max": 51.0,
+                                                "step": 1.0
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "key": "av1",
+                            "inputs": {
+                              "required": {},
+                              "optional": {
+                                "encoding": [
+                                  "COMFY_DYNAMICCOMBO_V3",
+                                  {
+                                    "display_name": "encoding mode",
+                                    "tooltip": "Automatic preserves compatible AV1 streams. Re-encode applies custom encoding options.",
+                                    "options": [
+                                      {
+                                        "key": "auto",
+                                        "inputs": {
+                                          "required": {}
+                                        }
+                                      },
+                                      {
+                                        "key": "re-encode",
+                                        "inputs": {
+                                          "required": {
+                                            "crf": [
+                                              "FLOAT",
+                                              {
+                                                "tooltip": "Lower values produce higher quality and larger files.",
+                                                "default": 24.0,
+                                                "min": 0.0,
+                                                "max": 63.0,
+                                                "step": 1.0
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "key": "mp4",
+                "inputs": {
+                  "required": {
+                    "codec": [
+                      "COMFY_DYNAMICCOMBO_V3",
+                      {
+                        "tooltip": "The output video codec. Auto preserves a compatible source stream. H.264 and AV1 re-encoding support SDR, HDR (HLG), and HDR PQ.",
+                        "options": [
+                          {
+                            "key": "auto",
+                            "inputs": {
+                              "required": {}
+                            }
+                          },
+                          {
+                            "key": "h264",
+                            "inputs": {
+                              "required": {},
+                              "optional": {
+                                "encoding": [
+                                  "COMFY_DYNAMICCOMBO_V3",
+                                  {
+                                    "display_name": "encoding mode",
+                                    "tooltip": "Automatic preserves compatible H.264 streams. Re-encode applies custom encoding options.",
+                                    "options": [
+                                      {
+                                        "key": "auto",
+                                        "inputs": {
+                                          "required": {}
+                                        }
+                                      },
+                                      {
+                                        "key": "re-encode",
+                                        "inputs": {
+                                          "required": {
+                                            "crf": [
+                                              "FLOAT",
+                                              {
+                                                "tooltip": "Lower values produce higher quality and larger files.",
+                                                "default": 18.0,
+                                                "min": 0.0,
+                                                "max": 51.0,
+                                                "step": 1.0
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "key": "av1",
+                            "inputs": {
+                              "required": {},
+                              "optional": {
+                                "encoding": [
+                                  "COMFY_DYNAMICCOMBO_V3",
+                                  {
+                                    "display_name": "encoding mode",
+                                    "tooltip": "Automatic preserves compatible AV1 streams. Re-encode applies custom encoding options.",
+                                    "options": [
+                                      {
+                                        "key": "auto",
+                                        "inputs": {
+                                          "required": {}
+                                        }
+                                      },
+                                      {
+                                        "key": "re-encode",
+                                        "inputs": {
+                                          "required": {
+                                            "crf": [
+                                              "FLOAT",
+                                              {
+                                                "tooltip": "Lower values produce higher quality and larger files.",
+                                                "default": 24.0,
+                                                "min": 0.0,
+                                                "max": 63.0,
+                                                "step": 1.0
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "key": "mkv",
+                "inputs": {
+                  "required": {
+                    "codec": [
+                      "COMFY_DYNAMICCOMBO_V3",
+                      {
+                        "tooltip": "The output video codec. Auto preserves a compatible source stream. H.264 and AV1 re-encoding support SDR, HDR (HLG), and HDR PQ.",
+                        "options": [
+                          {
+                            "key": "auto",
+                            "inputs": {
+                              "required": {}
+                            }
+                          },
+                          {
+                            "key": "h264",
+                            "inputs": {
+                              "required": {},
+                              "optional": {
+                                "encoding": [
+                                  "COMFY_DYNAMICCOMBO_V3",
+                                  {
+                                    "display_name": "encoding mode",
+                                    "tooltip": "Automatic preserves compatible H.264 streams. Re-encode applies custom encoding options.",
+                                    "options": [
+                                      {
+                                        "key": "auto",
+                                        "inputs": {
+                                          "required": {}
+                                        }
+                                      },
+                                      {
+                                        "key": "re-encode",
+                                        "inputs": {
+                                          "required": {
+                                            "crf": [
+                                              "FLOAT",
+                                              {
+                                                "tooltip": "Lower values produce higher quality and larger files.",
+                                                "default": 18.0,
+                                                "min": 0.0,
+                                                "max": 51.0,
+                                                "step": 1.0
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          },
+                          {
+                            "key": "av1",
+                            "inputs": {
+                              "required": {},
+                              "optional": {
+                                "encoding": [
+                                  "COMFY_DYNAMICCOMBO_V3",
+                                  {
+                                    "display_name": "encoding mode",
+                                    "tooltip": "Automatic preserves compatible AV1 streams. Re-encode applies custom encoding options.",
+                                    "options": [
+                                      {
+                                        "key": "auto",
+                                        "inputs": {
+                                          "required": {}
+                                        }
+                                      },
+                                      {
+                                        "key": "re-encode",
+                                        "inputs": {
+                                          "required": {
+                                            "crf": [
+                                              "FLOAT",
+                                              {
+                                                "tooltip": "Lower values produce higher quality and larger files.",
+                                                "default": 24.0,
+                                                "min": 0.0,
+                                                "max": 63.0,
+                                                "step": 1.0
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "key": "webm",
+                "inputs": {
+                  "required": {
+                    "codec": [
+                      "COMFY_DYNAMICCOMBO_V3",
+                      {
+                        "tooltip": "The output video codec. Auto preserves a compatible source stream. H.264 and AV1 re-encoding support SDR, HDR (HLG), and HDR PQ.",
+                        "options": [
+                          {
+                            "key": "auto",
+                            "inputs": {
+                              "required": {}
+                            }
+                          },
+                          {
+                            "key": "av1",
+                            "inputs": {
+                              "required": {},
+                              "optional": {
+                                "encoding": [
+                                  "COMFY_DYNAMICCOMBO_V3",
+                                  {
+                                    "display_name": "encoding mode",
+                                    "tooltip": "Automatic preserves compatible AV1 streams. Re-encode applies custom encoding options.",
+                                    "options": [
+                                      {
+                                        "key": "auto",
+                                        "inputs": {
+                                          "required": {}
+                                        }
+                                      },
+                                      {
+                                        "key": "re-encode",
+                                        "inputs": {
+                                          "required": {
+                                            "crf": [
+                                              "FLOAT",
+                                              {
+                                                "tooltip": "Lower values produce higher quality and larger files.",
+                                                "default": 24.0,
+                                                "min": 0.0,
+                                                "max": 63.0,
+                                                "step": 1.0
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "optional": {
+        "codec": [
+          "COMFY_DYNAMICCOMBO_V3",
+          {
+            "tooltip": "The output video codec. Auto preserves a compatible source stream. H.264 and AV1 re-encoding support SDR, HDR (HLG), and HDR PQ.",
+            "hidden": true,
+            "options": [
+              {
+                "key": "auto",
+                "inputs": {
+                  "required": {}
+                }
+              },
+              {
+                "key": "h264",
+                "inputs": {
+                  "required": {},
+                  "optional": {
+                    "encoding": [
+                      "COMFY_DYNAMICCOMBO_V3",
+                      {
+                        "display_name": "encoding mode",
+                        "tooltip": "Automatic preserves compatible H.264 streams. Re-encode applies custom encoding options.",
+                        "options": [
+                          {
+                            "key": "auto",
+                            "inputs": {
+                              "required": {}
+                            }
+                          },
+                          {
+                            "key": "re-encode",
+                            "inputs": {
+                              "required": {
+                                "crf": [
+                                  "FLOAT",
+                                  {
+                                    "tooltip": "Lower values produce higher quality and larger files.",
+                                    "default": 18.0,
+                                    "min": 0.0,
+                                    "max": 51.0,
+                                    "step": 1.0
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              {
+                "key": "av1",
+                "inputs": {
+                  "required": {},
+                  "optional": {
+                    "encoding": [
+                      "COMFY_DYNAMICCOMBO_V3",
+                      {
+                        "display_name": "encoding mode",
+                        "tooltip": "Automatic preserves compatible AV1 streams. Re-encode applies custom encoding options.",
+                        "options": [
+                          {
+                            "key": "auto",
+                            "inputs": {
+                              "required": {}
+                            }
+                          },
+                          {
+                            "key": "re-encode",
+                            "inputs": {
+                              "required": {
+                                "crf": [
+                                  "FLOAT",
+                                  {
+                                    "tooltip": "Lower values produce higher quality and larger files.",
+                                    "default": 24.0,
+                                    "min": 0.0,
+                                    "max": 63.0,
+                                    "step": 1.0
+                                  }
+                                ]
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "hidden": {
+        "prompt": [
+          "PROMPT"
+        ],
+        "extra_pnginfo": [
+          "EXTRA_PNGINFO"
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "video",
+        "filename_prefix",
+        "format"
+      ],
+      "optional": [
+        "codec"
+      ],
+      "hidden": [
+        "prompt",
+        "extra_pnginfo"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "VIDEO"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "video"
+    ],
+    "output_tooltips": [
+      "The input video, unchanged."
+    ],
+    "output_matchtypes": null,
+    "name": "SaveVideo",
+    "display_name": "Save Video",
+    "description": "Saves the input videos to your ComfyUI output directory.",
+    "python_module": "comfy_extras.nodes_video",
+    "category": "video",
+    "output_node": true,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "export video"
+    ],
+    "essentials_category": "Basics",
+    "has_intermediate_output": false
+  },
+  "UNETLoader": {
+    "input": {
+      "required": {
+        "unet_name": [
+          [
+            "Wan2_2-Animate-14B_fp8_e4m3fn_scaled_KJ.safetensors",
+            "flux2_dev_fp8mixed.safetensors",
+            "ideogram4_fp8_scaled.safetensors",
+            "ideogram4_int8_convrot.safetensors",
+            "ideogram4_nvfp4_mixed.safetensors",
+            "ideogram4_unconditional_fp8_scaled.safetensors",
+            "ideogram4_unconditional_int8_convrot.safetensors",
+            "ideogram4_unconditional_nvfp4_mixed.safetensors",
+            "krea2_style_reference.safetensors",
+            "krea2_turbo_fp8_scaled.safetensors",
+            "krea2_turbo_int8_convrot.safetensors",
+            "ltx-2.5-22b-distilled-transformer-comfy-int8-convrot.safetensors",
+            "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+            "minimax_h3_ref2va_pruned_int8_convrot.safetensors",
+            "omnigen2_fp16.safetensors",
+            "qwen_image_2.1_int8_convrot.safetensors",
+            "qwen_image_edit_2509_fp8_e4m3fn.safetensors",
+            "wan2.2_s2v_14B_fp8_scaled.safetensors",
+            "wan_animate_2_distill_int8_convrot.safetensors",
+            "z_image_turbo_bf16.safetensors"
+          ]
+        ],
+        "weight_dtype": [
+          [
+            "default",
+            "fp8_e4m3fn",
+            "fp8_e4m3fn_fast",
+            "fp8_e5m2"
+          ],
+          {
+            "advanced": true
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "unet_name",
+        "weight_dtype"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "MODEL"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "MODEL"
+    ],
+    "name": "UNETLoader",
+    "display_name": "Load Diffusion Model",
+    "description": "",
+    "python_module": "nodes",
+    "category": "model/loaders",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": []
+  },
+  "VAEDecode": {
+    "input": {
+      "required": {
+        "samples": [
+          "LATENT",
+          {
+            "tooltip": "The latent to be decoded."
+          }
+        ],
+        "vae": [
+          "VAE",
+          {
+            "tooltip": "The VAE model used for decoding the latent."
+          }
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "samples",
+        "vae"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "IMAGE"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "IMAGE"
+    ],
+    "name": "VAEDecode",
+    "display_name": "VAE Decode",
+    "description": "Decodes latent images back into pixel space images.",
+    "python_module": "nodes",
+    "category": "model/latent",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "output_tooltips": [
+      "The decoded image."
+    ],
+    "search_aliases": [
+      "decode",
+      "decode latent",
+      "latent to image",
+      "render latent"
+    ]
+  },
+  "VAEDecodeAudio": {
+    "input": {
+      "required": {
+        "samples": [
+          "LATENT",
+          {}
+        ],
+        "vae": [
+          "VAE",
+          {}
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "samples",
+        "vae"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "AUDIO"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "AUDIO"
+    ],
+    "output_tooltips": [
+      null
+    ],
+    "output_matchtypes": null,
+    "name": "VAEDecodeAudio",
+    "display_name": "VAE Decode Audio",
+    "description": "",
+    "python_module": "comfy_extras.nodes_audio",
+    "category": "model/latent",
+    "output_node": false,
+    "deprecated": false,
+    "experimental": false,
+    "dev_only": false,
+    "api_node": false,
+    "price_badge": null,
+    "search_aliases": [
+      "latent to audio"
+    ],
+    "essentials_category": null,
+    "has_intermediate_output": false
+  },
+  "VAELoader": {
+    "input": {
+      "required": {
+        "vae_name": [
+          [
+            "Wan2.1_VAE.pth",
+            "Wan2_1_VAE_bf16.safetensors",
+            "ae.safetensors",
+            "flux2-vae.safetensors",
+            "full_encoder_small_decoder.safetensors",
+            "ltx-2.5-audio-vae-bf16.safetensors",
+            "ltx-2.5-video-vae-bf16.safetensors",
+            "minimax_h3_audio_vae_fp32.safetensors",
+            "minimax_h3_video_vae_fp16.safetensors",
+            "qwen_image_2.1_vae_bf16.safetensors",
+            "qwen_image_vae.safetensors",
+            "wan_2.1_vae.safetensors",
+            "pixel_space"
+          ]
+        ]
+      }
+    },
+    "input_order": {
+      "required": [
+        "vae_name"
+      ]
+    },
+    "is_input_list": false,
+    "output": [
+      "VAE"
+    ],
+    "output_is_list": [
+      false
+    ],
+    "output_name": [
+      "VAE"
+    ],
+    "name": "VAELoader",
+    "display_name": "Load VAE",
+    "description": "",
+    "python_module": "nodes",
+    "category": "model/loaders",
+    "output_node": false,
+    "has_intermediate_output": false,
+    "search_aliases": []
+  }
+}

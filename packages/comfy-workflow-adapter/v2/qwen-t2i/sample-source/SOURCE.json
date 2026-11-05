@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "sourceWorkflow": "ComfyUI-API/qwen_image_2_1/image_qwen_image_2_1_t2i.json",
+  "sourceSha256": "580b36bef38bda5beba5bb84b3f788d74bc00322c21ac9c3a59c1afbedd25368",
+  "apiPromptOrigin": "docs/dev/reports/comfyui-v2-first-live/comfyui-v2-first-live-20261020T0048+0800/A-api-prompt.json",
+  "apiPromptSha256": "822e4f4e7153b1b28f4a66c8e8338549c9296f94efa00a3f132eccc1b8f4ff41",
+  "notes": "Reuses the archived API prompt that already ran against ComfyUI. No private converter is used by the author build. The source Canvas export is kept for exact workflow association."
+}

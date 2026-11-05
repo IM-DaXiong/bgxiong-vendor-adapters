@@ -1,0 +1,40 @@
+{
+  "artifactSha256": "ca5737a23df8695409024b9cb203dfa22e5ac87f4259efe1bd70234c31f68e4f",
+  "displayName": "H3-r2v",
+  "entry": "adapter.wasm",
+  "language": "rust",
+  "limits": {
+    "fuel": 20000000000,
+    "memoryBytes": 67108864,
+    "outputBytes": 1048576,
+    "wallMs": 180000
+  },
+  "optionalFeatures": [],
+  "pluginId": "local.thirdparty.runninghub-h3-r2v-dynamic",
+  "protocolRange": {
+    "max": 2,
+    "min": 2
+  },
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "allowPrivateNetwork": false,
+    "auth": [
+      "bearer"
+    ],
+    "embeddedHeaders": [],
+    "endpointPolicy": [
+      "userConfigurable"
+    ],
+    "mediaSlots": [
+      "image",
+      "audio",
+      "video"
+    ],
+    "networkHosts": [],
+    "stateBytes": 0
+  },
+  "requiredFeatures": [],
+  "schemaVersion": 2,
+  "version": "1.0.0"
+}

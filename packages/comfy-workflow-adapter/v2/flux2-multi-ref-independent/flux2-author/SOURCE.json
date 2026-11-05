@@ -1,0 +1,115 @@
+{
+  "authorIdentity": "local.independent.flux2-ordered-reference",
+  "version": "1.0.0",
+  "originalFile": "workflow/source.json",
+  "originalSha256": "74d5f42d9535a3c7a8e159536e342b08a997e6e54956a57ff6b05003e1f97ccf",
+  "apiExport": "EXPORTED_BY_NATIVE_COMFYUI_UI",
+  "apiExportFile": "src/workflow-api.json",
+  "apiExportSha256": "ecaaae8c5b1096aa88de5dfdfe1ddabd7f12f2a654bfc8d197f5d1d3f523ecd9",
+  "apiNodeCount": 28,
+  "publicScaffolding": "Installed user-examples/comfy-workflow-authoring-v2/qwen-multi-ref; only generic SDK/HTTP/media/checkpoint/query mechanisms reused. Model graph and mappings are FLUX.2 native.",
+  "sdkCliSha256": "069e379e626cd990332f0dd44691813611532ef3a2c07311208e6d0f3fa1355f",
+  "sdkWorkerSha256": "fbc4db5d865f3b4fa3c4e96c86d83999d6ec7659c8046162359d142a64ec9487",
+  "transformations": [
+    "Bind exact prompt to CLIPTextEncode62:6.text and seed to RandomNoise62:25.noise_seed.",
+    "Bind ordered image_1 to LoadImage42 and image_2 to LoadImage46, retaining both independent resize/VAEEncode/ReferenceLatent paths.",
+    "Explicit output size contract: bind confirmed width/height simultaneously to EmptyFlux2LatentImage62:47 and Flux2Scheduler62:48, replacing both GetImageSize62:66 output links. Reference resize62:45/41 remains native 1MP area.",
+    "Bind explicit advanced.steps directly to Flux2Scheduler62:48.steps, replacing step-switch62:94 link. Model and step counts are independently user-confirmed; changing Turbo does not silently change steps.",
+    "Bind advanced.guidance to FluxGuidance62:26.guidance, advanced.enableTurbo to PrimitiveBoolean62:95.value. Preserve native base/Turbo model switch and fixed model names, Euler sampler, VAE and SaveImage9."
+  ],
+  "nativeGpuPremise": {
+    "status": "PASSED_PARENT_NATIVE_RUN",
+    "promptId": "cee95881-c127-4087-ad73-2a70f62fde61",
+    "receipt": "E:\\CodexWork\\comfy-generation-p12-20261023\\inputs\\native-success.json",
+    "receiptSha256": "4f24b2f2e879948658f39f0becf9e4969eabea1bc78d92f9dd9502b9f18dd011",
+    "output": {
+      "path": "E:\\CodexWork\\comfy-generation-p12-20261023\\inputs\\native-result.png",
+      "bytes": 1686137,
+      "sha256": "e140a19145551c3f72e8d264936f712f2c986e3a6e455ae3e9d351d937e768d0",
+      "width": 1024,
+      "height": 1024,
+      "format": "PNG"
+    },
+    "inputOrder": [
+      "reference-red-panda.png",
+      "reference-paper-robot.png"
+    ],
+    "cachedNodes": [],
+    "mode": "Native base model, enableTurbo=false, original step switch selects20; original size linkage retained. Does not attest author parameterized Turbo8 software execution.",
+    "apiDifferences": [
+      "9.inputs.filename_prefix",
+      "42.inputs.image",
+      "46.inputs.image",
+      "62:6.inputs.text",
+      "62:25.inputs.noise_seed"
+    ]
+  },
+  "verification": {
+    "sdkInit": "PASSED",
+    "lockedDependencyFetch": "PASSED",
+    "nativeBehaviorTests": "PASSED_5_TESTS",
+    "sdkBuildCheckPack": "PASSED_WITH_FIXED_INSTALLED_CLI_WORKER",
+    "cliGpu": "NOT_RUN_BY_AUTHOR",
+    "gui": "PASSED_PARENT_FROZEN_SOFTWARE_REAL_GENERATION_RECOVERY_PREVIEW_ORIGINAL_SAVE",
+    "turboGpu": "NOT_TESTED",
+    "p12RestartRecoveryGpu": "NOT_REPEATED_EXISTING_BASELINE_REUSED"
+  },
+  "authorHints": [
+    "Parent corrected initial broad scalar-location task wording to follow actual installed public examples.",
+    "Parent supplied native API export and highlighted native GetImageSize linkage; author explicitly chose and documented synchronized output size bindings."
+  ],
+  "notZeroHint": true,
+  "runtimeArtifactSha256": "70600be9f92f7d22207131fa1655e282933253bbd23b679050ed4894efe7a583",
+  "documentationInventoryBoundary": "SOURCE/README are author documentation outside the runtime inventory. After standard build/check/pack only these docs were updated. Runtime adapter.wasm, manifest.json, manifest.sha256 and install copies were not modified.",
+  "guiSubmission": {
+    "source": "Parent report; author did not operate GUI or read private host implementation",
+    "state": "PASSED_SOFTWARE_REAL_GENERATION_RECOVERY_PREVIEW_SAVE",
+    "localTaskId": "c1df6e96-22e0-475a-8b4d-ee3b854534bc",
+    "remoteId": "d97bcd1e-612b-4736-9dd7-36a8a7752071",
+    "confirmedInput": {
+      "sizePreset": "1:1",
+      "width": 1024,
+      "height": 1024,
+      "seed": 20261032,
+      "steps": 20,
+      "guidance": 4,
+      "enableTurbo": false,
+      "referenceOrder": [
+        "panda original",
+        "robot original"
+      ]
+    },
+    "payloadMatchesConfirmedRequest": true,
+    "frozenExecutionFiles": true,
+    "outputRecovery": "PASSED_PARENT_FROZEN_SOFTWARE",
+    "localStatus": "done",
+    "remoteStatus": "success",
+    "cachedNodes": [],
+    "executionMs": 141081,
+    "apiNodeCount": 28,
+    "apiChanges": "Only previously documented parameter bindings",
+    "inputOriginalBytesVerified": true,
+    "output": {
+      "vendorFileName": "Flux2_00042_.png",
+      "width": 1024,
+      "height": 1024,
+      "bytes": 1605543,
+      "sha256": "7d3c4515d08db4cd7fb830bbe5833e3300eafb35943e3d8fafcc09ce34311133",
+      "savedOriginal": "E:/CodexWork/comfy-generation-p12-20261023/p12-flux2-two-reference-original.png"
+    },
+    "historyCount": 1,
+    "versionId": "b815e2ab-ddc4-440f-8bd4-2f8a7b326c95",
+    "preview": "PASSED_PARENT_GUI",
+    "originalSave": "PASSED_SAME_SHA256",
+    "normalExitCode": 0,
+    "restartRecovery": "NOT_REPEATED_P12_GPU_EXISTING_BASELINE_RESULT_REUSED",
+    "turboGpu": "NOT_TESTED"
+  },
+  "firstGuiFailure": {
+    "taskIdPrefix": "446aac94",
+    "classification": "ACCEPTANCE_OPERATION_OMITTED_EXPLICIT_SIZE",
+    "remoteId": null,
+    "retained": true,
+    "resolution": "Existing UI select1:1, confirm1024x1024; frozen execution artifacts unchanged."
+  }
+}

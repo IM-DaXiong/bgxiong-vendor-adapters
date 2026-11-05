@@ -1,0 +1,1 @@
+{"type":"object","properties":{"requestId":{"type":"string","minLength":1},"width":{"type":"integer","minimum":256,"maximum":4096},"height":{"type":"integer","minimum":256,"maximum":4096}},"required":["requestId","width","height"],"additionalProperties":false}

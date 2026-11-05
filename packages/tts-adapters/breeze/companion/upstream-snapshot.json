@@ -1,0 +1,195 @@
+{
+  "engine": "breeze",
+  "upstreamRepo": "breezeblue-ai/breeze-tts",
+  "commit": "6eba901d1845353802652c708a4740fdfc5baa75",
+  "modelRepo": "BreezeBlue/Breeze-TTS-2",
+  "modelRevision": "3e28c5151381a722f1d8661b4118c298caa77aa4",
+  "exportedAt": "2026-10-26T06:40:00+08:00",
+  "files": [
+    {
+      "path": "LICENSE",
+      "sha256": "1e143299a45ec5fd9ebe700fc2e8690aafb33865abce6e036944fc6c127148d4",
+      "bytes": 10315
+    },
+    {
+      "path": "README.md",
+      "sha256": "d11b13436e07a8ab3aa87cdf15c9b763646fdcb5de904856dc01be743729d90f",
+      "bytes": 12834
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "02f904387360cb50fcfc31e42ec15a60d1753d8c6dc01db8e4ba3fa6b1ea0052",
+      "bytes": 206
+    },
+    {
+      "path": "infer.py",
+      "sha256": "8fb7eb31aa297e6e661b19d4176d3ed892e6190caae558ce4c12e5dd3e999833",
+      "bytes": 4880
+    },
+    {
+      "path": "configs/fast.json",
+      "sha256": "439b0bdde5de04e96c5650c48116195e4a6b7e3052f414eadcd2e8ee6c0a6557",
+      "bytes": 5630
+    },
+    {
+      "path": "breeze_infer/__init__.py",
+      "sha256": "341c6a263c01f8314221fc6bb93377fc0554920ed65e768c60c742ec9ecc2722",
+      "bytes": 45
+    },
+    {
+      "path": "breeze_infer/api.py",
+      "sha256": "817b45762c1b91d98328de42f9d61edec40eecc07aa6b39a38a2dd798136c721",
+      "bytes": 24652
+    },
+    {
+      "path": "breeze_infer/audio.py",
+      "sha256": "619a8ff1b83cddce02c0f82fb5471e9eab7671b1964949a87c7f73c1f2084c1a",
+      "bytes": 729
+    },
+    {
+      "path": "breeze_infer/batch.py",
+      "sha256": "af9dba97a61f998f717b44794bbdb759b3ef0e901ade573f1d2baf752ee14379",
+      "bytes": 4641
+    },
+    {
+      "path": "breeze_infer/runtime.py",
+      "sha256": "9b9d9912c20b9ba941d6b32f9435d1ed8459f5ca73adf659532e77ef687199f8",
+      "bytes": 3382
+    },
+    {
+      "path": "breeze_infer/templates.py",
+      "sha256": "ae4dced8d6ca0daa3e24f9baa5fc1e740b6213e757ab72eeabb780a64c0b0bd8",
+      "bytes": 12996
+    },
+    {
+      "path": "models/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "models/breeze.py",
+      "sha256": "7b6828f7c68205c001681b4146951f9f105227b4f8d0437425386608f199f536",
+      "bytes": 83920
+    },
+    {
+      "path": "models/breeze_backbone_factory.py",
+      "sha256": "1a0ed3c6e7dc94924ad915f7f5b95dd7481517cb04acc3537a7bcdb7189ff0f2",
+      "bytes": 11697
+    },
+    {
+      "path": "models/breeze_base_config.py",
+      "sha256": "ef84d15e9c46a8ae7d03614609c90ee4ac1a74ec7eac10111a6ab473c6df8802",
+      "bytes": 24573
+    },
+    {
+      "path": "models/breeze_config.py",
+      "sha256": "304e251d968afa2915587b4440f2a75d325afa156339ca1d6903e3dc30c5d610",
+      "bytes": 2097
+    },
+    {
+      "path": "models/cudagraph/__init__.py",
+      "sha256": "f8f91dd4f8d8f7d5a5669f17b14f1e74ce1b692573bd1a9ee7e9f9267e6b1b97",
+      "bytes": 270
+    },
+    {
+      "path": "models/cudagraph/backbone_graph.py",
+      "sha256": "7e6398d449fd0925606c1bae8b5dbfe4f21d64e4b91798b6e2bf3b6f144c39fe",
+      "bytes": 16211
+    },
+    {
+      "path": "models/cudagraph/backbone_prefill_graph.py",
+      "sha256": "06aef798c3c3c9e84a262b50961860f5f97803303300ae904cea12610063470d",
+      "bytes": 9753
+    },
+    {
+      "path": "models/cudagraph/depth_decoder_graph.py",
+      "sha256": "ad7390144e95f5a34fd9a218dd48102732722381b6f3068b4f692a05d3aad144",
+      "bytes": 40228
+    },
+    {
+      "path": "models/cudagraph/sampling.py",
+      "sha256": "74128050d92321e845082c53d9ca0ce4dd1153b7c9b0d3de1bba52bdb6ea0358",
+      "bytes": 3756
+    },
+    {
+      "path": "models/fast_streaming.py",
+      "sha256": "8527d79c8ce47a1aac282ba218405930d8d2a6a40cdc110e19ac5389eac1abdc",
+      "bytes": 39663
+    },
+    {
+      "path": "models/generation_breeze.py",
+      "sha256": "61dda48d4e6bd2b885a7582c395f988a0f2f91f7dd923ca5c62e98f98faeca39",
+      "bytes": 65639
+    },
+    {
+      "path": "models/logits_process.py",
+      "sha256": "f7db294d1c662024621c4c330e0f61306ae2b7e3d251b93e9dc318842dc46efd",
+      "bytes": 2955
+    },
+    {
+      "path": "models/stream_runtime/__init__.py",
+      "sha256": "b95f08bde110f13d44556c9af77f068e2f9bf78e472ae72a71d10913babf296e",
+      "bytes": 301
+    },
+    {
+      "path": "models/stream_runtime/core/__init__.py",
+      "sha256": "c2e75b8ba50564e68c302f403c6d14b6e2c364b4a26ffe96a406244afddaa806",
+      "bytes": 650
+    },
+    {
+      "path": "models/stream_runtime/core/compat.py",
+      "sha256": "7b9ab51e498e7c56b839f94d9d41dbe81ac90a274ad740ef8af89d68e65134cb",
+      "bytes": 1126
+    },
+    {
+      "path": "models/stream_runtime/inference/__init__.py",
+      "sha256": "86c2efe47c32d8efc87dc25105d2ea38e015665d1842e9816497271e5b7b3c76",
+      "bytes": 349
+    },
+    {
+      "path": "models/stream_runtime/stream/__init__.py",
+      "sha256": "fcbf3e3c8029b044e880e8ae1792d99e5686b163433697a1730ac29df4066dfa",
+      "bytes": 373
+    },
+    {
+      "path": "models/stream_runtime/stream/kv_cache.py",
+      "sha256": "817fbd5f2889426f551ff2c3baf8659fbf5509a260c3fd9f47ca0320d921cbb5",
+      "bytes": 3759
+    },
+    {
+      "path": "models/stream_runtime/stream/lane.py",
+      "sha256": "e704540a05a4b9f0f780163a195fc74a0713f7474158ca77962c3a91ad5de231",
+      "bytes": 17068
+    },
+    {
+      "path": "models/stream_runtime/stream/runtime.py",
+      "sha256": "7e00bf6e4bcf2ce7f1ef3ea8ca1ad995cef7ccc5180050e4096e05c7d99fe968",
+      "bytes": 30145
+    },
+    {
+      "path": "models/stream_runtime/stream/state.py",
+      "sha256": "b962e62539c13c9feef9868e0f12917e7e6525d9c0868b679067f119edb51a65",
+      "bytes": 5406
+    },
+    {
+      "path": "models/stream_runtime/stream/workspace.py",
+      "sha256": "82f4cde70a096db9e791b19cdf8fcd5928b3f9d7c97db5ab5308e9c27bec5faf",
+      "bytes": 1782
+    },
+    {
+      "path": "models/t5gemma2_compat.py",
+      "sha256": "e60f73e0b38f73472fa711d4b826b42e350d04eb69a9440a4906bb85f9792960",
+      "bytes": 31182
+    },
+    {
+      "path": "models/text_encoder_graph.py",
+      "sha256": "4a9de5213ecd1fb67fa5a245ca9100ba93eecc32357e07c3f23bd2a81dac55a7",
+      "bytes": 6938
+    },
+    {
+      "path": "models/warmup_profile.py",
+      "sha256": "2ab0cd612ce1a2aa99392abf79433301881945e0629491626e15350d7a2d319b",
+      "bytes": 10447
+    }
+  ]
+}

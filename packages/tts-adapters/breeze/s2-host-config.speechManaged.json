@@ -1,0 +1,11 @@
+{
+    "speechManaged":  {
+                          "storeRoot":  "E:\\BreezeTTS2-assets\\s1-staging\\data\\runtimes\\tts\\_store",
+                          "launcher":  "start-sidecar.ps1",
+                          "healthPath":  "/health",
+                          "managedPython":  "E:\\BreezeTTS2-assets\\s0-staging\\python\\python.exe",
+                          "readyTimeoutSecs":  900,
+                          "schemaVersion":  1,
+                          "runtimeRoot":  "E:\\BreezeTTS2-assets\\s1-staging\\data\\runtimes\\tts\\breeze\\1.0.0"
+                      }
+}

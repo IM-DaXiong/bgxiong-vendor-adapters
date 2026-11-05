@@ -1,0 +1,24 @@
+[package]
+name = "bgx-adapter-v2-tools"
+version = "2.0.2"
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[[bin]]
+name = "bgx-adapter-v2"
+path = "src/main.rs"
+
+[dependencies]
+bgx-adapter-v2-reference-host = { path = "../reference-host" }
+bgx-adapter-v2-validator = { path = "../validator" }
+bgx-adapter-v2-ports = { path = "../ports" }
+bgx-adapter-v2-transport = { path = "../transport" }
+tokio.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+hex.workspace = true
+tempfile.workspace = true
+zeroize.workspace = true
+minisign.workspace = true

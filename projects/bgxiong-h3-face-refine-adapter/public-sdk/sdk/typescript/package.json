@@ -1,0 +1,8 @@
+{
+  "name": "@bgxiong/vendor-adapter-v2-sdk",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": { "check": "tsc --noEmit" },
+  "devDependencies": { "typescript": "5.9.3" }
+}

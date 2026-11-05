@@ -1,0 +1,39 @@
+{
+  "artifactSha256": "3f718535b2259fe27afc3fbaa8184419f0252816a958b11de140f83676a89c6d",
+  "displayName": "H3 Continuum independent driving-audio adapter",
+  "entry": "adapter.wasm",
+  "language": "rust",
+  "limits": {
+    "fuel": 2000000000,
+    "memoryBytes": 134217728,
+    "outputBytes": 1048576,
+    "wallMs": 120000
+  },
+  "optionalFeatures": [],
+  "pluginId": "local.independent.comfy-h3-continuum",
+  "protocolRange": {
+    "max": 2,
+    "min": 2
+  },
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "allowPrivateNetwork": true,
+    "auth": [],
+    "embeddedHeaders": [],
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "mediaSlots": [
+      "image",
+      "audio",
+      "video"
+    ],
+    "networkHosts": [],
+    "stateBytes": 0
+  },
+  "requiredFeatures": [],
+  "schemaVersion": 2,
+  "version": "1.0.0"
+}

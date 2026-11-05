@@ -1,0 +1,35 @@
+[workspace]
+resolver = "2"
+members = ["sdk/rust", "crates/validator", "crates/ports", "crates/runtime", "crates/transport", "crates/reference-host", "crates/tools"]
+exclude = ["templates", "examples"]
+[workspace.package]
+version = "2.0.0"
+edition = "2021"
+license = "LicenseRef-Proprietary"
+
+[workspace.dependencies]
+serde = { version = "=1.0.228", default-features = false, features = ["alloc", "derive"] }
+serde_json = { version = "=1.0.149", default-features = false, features = ["alloc", "arbitrary_precision"] }
+jsonschema = { version = "=0.59.0", default-features = false }
+referencing = { version = "=0.59.0", default-features = false }
+sha2 = "=0.10.9"
+hex = "=0.4.3"
+minisign-verify = "=0.2.5"
+semver = "=1.0.28"
+anyhow = "=1.0.104"
+wasmtime = { version = "=48.0.6", default-features = false, features = ["cranelift", "component-model", "runtime", "anyhow"] }
+tokio = { version = "=1.52.1", features = ["rt-multi-thread", "macros", "process", "io-util", "sync", "time", "net"] }
+tokio-util = { version = "=0.7.18", features = ["rt"] }
+uuid = { version = "=1.23.1", features = ["v4", "serde"] }
+infer = "=0.19.0"
+image = { version = "=0.25.10", default-features = false, features = ["png", "jpeg", "webp", "gif", "bmp", "tiff", "ico", "pnm", "qoi"] }
+tempfile = "=3.27.0"
+reqwest = { version = "=0.13.5", default-features = false, features = ["rustls", "stream", "multipart"] }
+url = "=2.5.8"
+ipnet = "=2.12.0"
+hmac = "=0.12.1"
+base64 = "=0.22.1"
+zeroize = "=1.9.1"
+futures-util = "=0.3.34"
+rusqlite = { version = "=0.39.0", features = ["bundled"] }
+minisign = "=0.10.0"

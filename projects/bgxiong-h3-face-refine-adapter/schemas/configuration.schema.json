@@ -1,0 +1,24 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "endpointBaseUrl"
+  ],
+  "properties": {
+    "endpointBaseUrl": {
+      "type": "string",
+      "minLength": 1
+    },
+    "runtimeRoot": {
+      "type": "string"
+    },
+    "bearerToken": {
+      "type": "string"
+    },
+    "timeoutMs": {
+      "type": "integer",
+      "minimum": 1000,
+      "default": 600000
+    }
+  }
+}

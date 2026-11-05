@@ -1,0 +1,8 @@
+{
+  "prompt": "A small red panda reading a blue book on a wooden bench, soft morning light, detailed illustration",
+  "width": 768,
+  "height": 512,
+  "seed": 20261022,
+  "negativePrompt": "blurry, low quality",
+  "advanced": { "steps": 12 }
+}

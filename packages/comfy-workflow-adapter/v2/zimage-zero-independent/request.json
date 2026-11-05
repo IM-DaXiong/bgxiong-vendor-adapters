@@ -1,0 +1,9 @@
+{
+  "prompt": "A small red panda wearing a blue scarf beside a yellow bicycle in a quiet park, watercolor illustration, no text.",
+  "width": 1024,
+  "height": 1024,
+  "seed": 20261025,
+  "advanced": {
+    "steps": 8
+  }
+}

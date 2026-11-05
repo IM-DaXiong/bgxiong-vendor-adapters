@@ -1,0 +1,137 @@
+{
+  "type": "object",
+  "description": "Exactly two ordered images, one8second original WAV from0, text; audio conditions generation and is reused as native soundtrack. Fixed864x480/24fps/192frames.",
+  "properties": {
+    "prompt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000,
+      "title": "提示词（含所需声音）"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "default": 20261023,
+      "title": "随机种子"
+    },
+    "advanced": {
+      "type": "object",
+      "properties": {
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 20,
+          "title": "采样步数"
+        },
+        "audioUsage": {
+          "type": "string",
+          "enum": [
+            "soundtrack_copy"
+          ],
+          "default": "soundtrack_copy",
+          "title": "原音参与生成条件并复用为成片音轨（从0秒，完整8秒）"
+        }
+      },
+      "required": [
+        "steps",
+        "audioUsage"
+      ],
+      "additionalProperties": false
+    },
+    "width": {
+      "type": "integer",
+      "enum": [
+        864
+      ],
+      "minimum": 864,
+      "maximum": 864,
+      "default": 864
+    },
+    "height": {
+      "type": "integer",
+      "enum": [
+        480
+      ],
+      "minimum": 480,
+      "maximum": 480,
+      "default": 480
+    },
+    "durationSeconds": {
+      "type": "integer",
+      "enum": [
+        8
+      ],
+      "minimum": 8,
+      "maximum": 8,
+      "default": 8
+    },
+    "fps": {
+      "type": "integer",
+      "enum": [
+        24
+      ],
+      "minimum": 24,
+      "maximum": 24,
+      "default": 24
+    },
+    "aspectRatio": {
+      "type": "string",
+      "enum": [
+        "16:9"
+      ],
+      "default": "16:9",
+      "title": "画幅（实际对齐尺寸864×480）"
+    },
+    "referenceImages": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "properties": {
+          "mediaId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "mediaId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "referenceAudios": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "mediaId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "mediaId"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "prompt",
+    "seed",
+    "advanced",
+    "width",
+    "height",
+    "durationSeconds",
+    "fps",
+    "aspectRatio",
+    "referenceImages",
+    "referenceAudios"
+  ],
+  "additionalProperties": false
+}

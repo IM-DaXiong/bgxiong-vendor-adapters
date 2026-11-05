@@ -1,0 +1,36 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "remoteTaskId",
+    "downloadedCount",
+    "appId",
+    "modelId"
+  ],
+  "properties": {
+    "remoteTaskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "downloadedCount": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "appId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "modelId": {
+      "type": "string",
+      "enum": [
+        "h3.r2v.1slot",
+        "h3.r2v.2slot",
+        "h3.r2v.3slot",
+        "h3.r2v.4slot",
+        "h3.i2v.turbo",
+        "h3.fl2va.s20",
+        "h3.soundtrack.1ref"
+      ]
+    }
+  }
+}

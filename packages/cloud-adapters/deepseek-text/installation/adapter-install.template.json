@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "packageDirectory": "package",
+  "manifestSha256": "BUILD_GENERATED_MANIFEST_SHA256",
+  "hostConfig": {
+    "bindingId": "deepseek-text-manual",
+    "bindingRevision": 1,
+    "configurationRef": "deepseek-text-v1",
+    "configuration": {
+      "endpointBaseUrl": "https://api.deepseek.com",
+      "credentialRef": "deepseek-text-user-key"
+    },
+    "network": {
+      "origins": [
+        "https://api.deepseek.com"
+      ],
+      "allowPrivate": false,
+      "allowEmbeddedAuthorization": false,
+      "deniedHosts": [],
+      "deniedNetworks": []
+    },
+    "credentials": [],
+    "trust": {
+      "publishers": [],
+      "revokedPlugins": [],
+      "revokedVersions": [],
+      "revokedKeys": [],
+      "denylistedHosts": [],
+      "isFresh": false,
+      "supportedFeatures": []
+    },
+    "mediaTtlMs": 3600000,
+    "transport": {
+      "handshakeTimeoutMs": 10000,
+      "writeTimeoutMs": 60000,
+      "shutdownTimeoutMs": 10000,
+      "cancelGraceMs": 100
+    },
+    "budgetMs": {
+      "capabilities": 60000,
+      "probe": 60000,
+      "submit": 180000,
+      "query": 180000,
+      "cancel": 60000
+    },
+    "probe": null
+  },
+  "authentication": {
+    "source": "userInput",
+    "fields": [
+      {
+        "reference": "deepseek-text-user-key",
+        "label": "DeepSeek API Key",
+        "mode": "bearer",
+        "origins": [
+        "https://api.deepseek.com"
+        ],
+        "customHeader": null
+      }
+    ]
+  },
+  "managedMediaProbe": true
+}

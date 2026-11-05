@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "imageArtifacts"
+  ],
+  "properties": {
+    "imageArtifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mediaId",
+          "role",
+          "projection"
+        ],
+        "properties": {
+          "mediaId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "role": {
+            "type": "string",
+            "minLength": 1
+          },
+          "projection": {
+            "type": "string",
+            "enum": [
+              "equirectangular360"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

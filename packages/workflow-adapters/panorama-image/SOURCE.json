@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "packageId": "local.thirdparty.comfy-panorama-image",
+  "packageVersion": "1.0.1",
+  "modelId": "panorama-image-single",
+  "operationId": "local.thirdparty.comfy-panorama-image/image-to-panorama",
+  "windowsNote": "workflow/SOURCE.json 与 source.json 在 Windows 大小写不敏感文件系统冲突；溯源放在包根 SOURCE.json，与 RunningHub 动态包一致。",
+  "upstreamWorkflowUrl": "https://raw.githubusercontent.com/nomadoor/ComfyUI-Panorama-Stickers/main/example_workflows/flux-2-klein-4B-360-erp-outpaint.json",
+  "upstreamCustomNodes": "https://github.com/nomadoor/ComfyUI-Panorama-Stickers",
+  "authorSourceLocalCopy": "E:/bgxiong/data/comfyui_workflows/panorama/flux-2-klein-4B-360-erp-outpaint.source.json",
+  "authorSourceSha256": "0f5a7b1b55684694963ffb9e918aafe6842376541b7ee07b1556e4979cb435ee",
+  "frozenUiGraph": "workflow/source.json",
+  "frozenUiGraphSha256": "b7589deda57d38ff297a2e229cd09b9e0193cc8e48e6998d0215558456b4467b",
+  "frozenApiGraph": "workflow/api.json",
+  "frozenApiGraphSha256": "3691c1aef9bd6150bde96e2391af6ab29d1d5a615e832e125a5e93cf41383088",
+  "apiExport": "STRUCTURAL_DERIVATION_WITHOUT_NATIVE_COMFY_EXPORT",
+  "liveC02Proof": "NOT_RUN",
+  "adaptations": [
+    "Add LoadImage for the single reference; wire to PanoramaStickers.sticker_image",
+    "Fix headless sticker_state: yaw=0 pitch=0 roll=0 hFOV=90 (pano_sticker_state v1)",
+    "SaveImage terminal consumes VAEDecode ERP (2:1), not PanoramaCutout rectilinear crop",
+    "Model widget paths use basenames under Comfy models/ (no author Flux.2 prefix)",
+    "Omit Preview/Markdown/Cutout from API prompt; UI source keeps author nodes for inspection"
+  ],
+  "stickerState": {
+    "kind": "pano_sticker_state",
+    "version": 1,
+    "pose": {
+      "yaw_deg": 0.0,
+      "pitch_deg": 0.0,
+      "roll_deg": 0.0,
+      "hFOV_deg": 90.0
+    }
+  },
+  "outputNodeId": "66",
+  "loadImageNodeId": "100",
+  "mappingPoints": {
+    "prompt": "6.inputs.text",
+    "negativePrompt": "33.inputs.text",
+    "seed": "31.inputs.seed",
+    "steps": "31.inputs.steps",
+    "referenceImage": "100.inputs.image",
+    "stickerState": "70.inputs.sticker_state"
+  },
+  "notes": "本机不跑 ComfyUI。api.json 由作者 UI 图结构推导并按计划 3.2 无头贴图合同改写；另一台机器验收时须用原生 Export (API) 复核并更新本摘要。"
+}

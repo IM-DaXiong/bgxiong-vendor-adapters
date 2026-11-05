@@ -1,0 +1,39 @@
+{
+  "artifactSha256": "cf1da565882bac1971e680bc967bf1579ac2436cd4ea72ef39b4b91ffeff65d7",
+  "displayName": "sync-api executable example",
+  "entry": "adapter.wasm",
+  "language": "rust",
+  "limits": {
+    "fuel": 1000000000,
+    "memoryBytes": 67108864,
+    "outputBytes": 1048576,
+    "wallMs": 30000
+  },
+  "optionalFeatures": [],
+  "pluginId": "local.examples.sync",
+  "protocolRange": {
+    "max": 2,
+    "min": 2
+  },
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "allowPrivateNetwork": true,
+    "auth": [
+      "bearer"
+    ],
+    "embeddedHeaders": [],
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "mediaSlots": [],
+    "networkHosts": [],
+    "stateBytes": 0
+  },
+  "requiredFeatures": [
+    "stream-events-v1"
+  ],
+  "schemaVersion": 2,
+  "version": "1.0.0"
+}

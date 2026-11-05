@@ -1,0 +1,90 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "prompt",
+    "outputProjection",
+    "references",
+    "width",
+    "height",
+    "seed",
+    "advanced"
+  ],
+  "properties": {
+    "prompt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000,
+      "title": "提示词原文",
+      "description": "用户确认的完整文字；适配器可追加必要的 ERP outpaint 触发句，原文不丢。"
+    },
+    "outputProjection": {
+      "type": "string",
+      "enum": [
+        "equirectangular360"
+      ],
+      "default": "equirectangular360",
+      "title": "输出投影",
+      "description": "首版仅 equirectangular360（完整 2:1 单目 ERP）。"
+    },
+    "references": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "title": "单张参考图",
+      "description": "恰好 1 张普通透视参考图；2/3 张超出首版能力，提交前拒绝。",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mediaId"
+        ],
+        "properties": {
+          "mediaId": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      }
+    },
+    "width": {
+      "type": "integer",
+      "const": 2048,
+      "default": 2048,
+      "title": "宽度"
+    },
+    "height": {
+      "type": "integer",
+      "const": 1024,
+      "default": 1024,
+      "title": "高度"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "default": 12345,
+      "title": "随机种子"
+    },
+    "advanced": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "steps"
+      ],
+      "default": {
+        "steps": 20
+      },
+      "properties": {
+        "steps": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 50,
+          "default": 20,
+          "title": "采样步数",
+          "description": "映射到 KSampler.steps；作者图默认 20。"
+        }
+      }
+    }
+  }
+}

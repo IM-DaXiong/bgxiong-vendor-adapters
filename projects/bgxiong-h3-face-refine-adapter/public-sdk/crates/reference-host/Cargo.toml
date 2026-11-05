@@ -1,0 +1,32 @@
+[package]
+name = "bgx-adapter-v2-reference-host"
+version = "2.0.2"
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[dependencies]
+bgx-adapter-v2-validator = { path = "../validator" }
+bgx-adapter-v2-ports = { path = "../ports" }
+bgx-adapter-v2-transport = { path = "../transport" }
+serde.workspace = true
+serde_json.workspace = true
+sha2.workspace = true
+hex.workspace = true
+uuid.workspace = true
+infer.workspace = true
+image.workspace = true
+tempfile.workspace = true
+tokio.workspace = true
+reqwest.workspace = true
+url.workspace = true
+ipnet.workspace = true
+hmac.workspace = true
+base64.workspace = true
+zeroize.workspace = true
+futures-util.workspace = true
+tokio-util.workspace = true
+rusqlite.workspace = true
+
+[dev-dependencies]
+bgx-adapter-v2-sdk = { path = "../../sdk/rust" }

@@ -1,0 +1,43 @@
+{
+  "type": "object",
+  "properties": {
+    "model": {
+      "type": "string",
+      "enum": [
+        "deepseek-flash",
+        "deepseek-v4-pro"
+      ]
+    },
+    "providerRequestId": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "finishReason": {
+      "type": "string",
+      "enum": [
+        "stop",
+        "length",
+        "content_filter"
+      ]
+    },
+    "reasoningContent": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "assistantMessageJson": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "model",
+    "providerRequestId",
+    "finishReason",
+    "reasoningContent",
+    "assistantMessageJson"
+  ],
+  "additionalProperties": false
+}

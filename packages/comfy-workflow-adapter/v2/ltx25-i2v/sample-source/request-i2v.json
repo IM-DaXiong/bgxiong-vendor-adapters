@@ -1,0 +1,17 @@
+{
+  "prompt": "The blue book slowly opens on the wooden desk. Gentle camera push in, warm sunlight. Audio: soft paper rustling and quiet room ambience.",
+  "seed": 20261023,
+  "width": 768,
+  "height": 768,
+  "durationSeconds": 8,
+  "fps": 24,
+  "aspectRatio": "1:1",
+  "advanced": {
+    "strength": 0.7
+  },
+  "referenceImages": [
+    {
+      "mediaId": "image-input-1"
+    }
+  ]
+}

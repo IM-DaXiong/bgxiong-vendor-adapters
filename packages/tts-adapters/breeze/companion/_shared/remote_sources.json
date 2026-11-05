@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "providers": {
+    "huggingface": {
+      "baseUrl": "https://huggingface.co/"
+    },
+    "hf_mirror": {
+      "baseUrl": "https://hf-mirror.com/"
+    },
+    "modelscope": {
+      "baseUrl": "https://modelscope.cn/models/"
+    },
+    "pypi": {
+      "indexUrl": "https://pypi.org/simple"
+    },
+    "pypi_tuna": {
+      "indexUrl": "https://pypi.tuna.tsinghua.edu.cn/simple"
+    },
+    "bgx_cdn": {
+      "baseUrl": "https://r.bgxiong.com/client/ai-story/runtimes/"
+    }
+  }
+}

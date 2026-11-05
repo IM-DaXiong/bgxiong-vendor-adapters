@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "sourceCommit": "beb6287e9002de2e44cb008dff822844dd3a9060",
+  "mappingSource": "packages/vendor-adapter-contract/v1/examples/runninghub-minimax-h3@0.7.1",
+  "sdkSource": "Generated mirrors refreshed using the bundled public CLI init; no manual edits to generated files",
+  "newPackage": "1.0.3",
+  "cloudCallsThisRun": 0,
+  "modelCount": 7,
+  "compatibility": "SDK v2 capabilityContracts; managed credentials/media; no host dependency",
+  "latestFix": "LF schema identity, new immutable package version, full reference input declaration; real host install acceptance tracked separately",
+  "version": "1.0.3",
+  "sourceManifestSha256": "af23617c489d29c34028b1cf27090e8f6718c594c4a7c23cc2c4b554467ffcf0",
+  "builtArtifactSha256": "312ccb88dfcb5b4eeddbe8e58151ec16280064217dc77f213e28bf4cf8618171",
+  "currentVerification": {
+    "publicSdkBuildCheckPack": "PASS",
+    "nativeBehaviorTests": {
+      "passed": 7,
+      "failed": 0
+    },
+    "realCloudGeneration": "NOT_RUN",
+    "hostInstallation": "PASS_REAL_SDK_TEMP_DB_AND_CURRENT_APP_COMMITTED"
+  }
+}

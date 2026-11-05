@@ -1,0 +1,37 @@
+{
+  "artifactSha256": "f4f0ac7d6747b794f54a91df6a2c3e3f9017665d4c280bd2dc83abee6414ac09",
+  "displayName": "MiniMax M3 云端文本",
+  "entry": "adapter.wasm",
+  "language": "rust",
+  "limits": {
+    "fuel": 20000000000,
+    "memoryBytes": 268435456,
+    "outputBytes": 1048576,
+    "wallMs": 180000
+  },
+  "optionalFeatures": [],
+  "pluginId": "local.bgx.minimax-m3",
+  "protocolRange": {
+    "max": 2,
+    "min": 2
+  },
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "allowPrivateNetwork": true,
+    "auth": [
+      "bearer"
+    ],
+    "embeddedHeaders": [],
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "mediaSlots": [],
+    "networkHosts": [],
+    "stateBytes": 0
+  },
+  "requiredFeatures": [],
+  "schemaVersion": 2,
+  "version": "1.0.2"
+}

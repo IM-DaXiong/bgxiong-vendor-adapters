@@ -1,0 +1,37 @@
+{
+  "artifactSha256": "70600be9f92f7d22207131fa1655e282933253bbd23b679050ed4894efe7a583",
+  "displayName": "Independent FLUX.2 ordered reference author package",
+  "entry": "adapter.wasm",
+  "language": "rust",
+  "limits": {
+    "fuel": 2000000000,
+    "memoryBytes": 134217728,
+    "outputBytes": 1048576,
+    "wallMs": 120000
+  },
+  "optionalFeatures": [],
+  "pluginId": "local.independent.flux2-ordered-reference",
+  "protocolRange": {
+    "max": 2,
+    "min": 2
+  },
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "allowPrivateNetwork": true,
+    "auth": [],
+    "embeddedHeaders": [],
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "mediaSlots": [
+      "image"
+    ],
+    "networkHosts": [],
+    "stateBytes": 0
+  },
+  "requiredFeatures": [],
+  "schemaVersion": 2,
+  "version": "1.0.0"
+}

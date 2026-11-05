@@ -1,0 +1,15 @@
+{
+  "prompt": "Change the blue book cover to bright red. Keep the red panda, library, composition and lighting unchanged.",
+  "width": 1024,
+  "height": 1024,
+  "seed": 20261023,
+  "negativePrompt": "blurry, low quality",
+  "advanced": {
+    "steps": 12
+  },
+  "referenceImages": [
+    {
+      "mediaId": "image-input-1"
+    }
+  ]
+}

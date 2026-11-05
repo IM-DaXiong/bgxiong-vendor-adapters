@@ -1,0 +1,19 @@
+{
+  "prompt": "Create one friendly storybook illustration showing the paper robot from reference image 1 and the red panda from reference image 2 sitting together at a wooden table in a sunlit workshop. Preserve each character identity and use both references.",
+  "width": 1024,
+  "height": 1024,
+  "seed": 20261023,
+  "advanced": {
+    "steps": 8,
+    "guidance": 4,
+    "enableTurbo": true
+  },
+  "referenceImages": [
+    {
+      "mediaId": "image-input-1"
+    },
+    {
+      "mediaId": "image-input-2"
+    }
+  ]
+}

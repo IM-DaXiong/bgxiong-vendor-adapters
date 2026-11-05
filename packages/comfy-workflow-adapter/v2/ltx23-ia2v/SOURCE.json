@@ -1,0 +1,15 @@
+{
+  "source": "ComfyUI-API/LTX2.3/video_ltx2_3_ia2v.json",
+  "sourceSha256": "b37506c3782638aa6c892c9b2d4a4e85b0951841edd5802ee138c65605683c19",
+  "apiSha256": "b37506c3782638aa6c892c9b2d4a4e85b0951841edd5802ee138c65605683c19",
+  "apiExport": "Unmodified project native API graph;55nodes",
+  "mapping": {
+    "image": "269 ->340:297 ->340:294 ->340:334 ->340:325 AND340:296",
+    "audio": "276 ->340:332 Trim0/8s ->340:328 AudioVAEEncode ->340:327 zero mask ->340:326/287 AV sampler ->340:303 AudioVAEDecode ->340:312.audio",
+    "prompt": "340:319, native rewrite switch340:349=false",
+    "timing": "340:331 seconds8 *340:323 fps24 +1 ->193frames",
+    "dimensions": "340:330/324=768; native half-resolution then x2"
+  },
+  "audioSemantics": "voice_timbre selects native reference/decoded branch, not original soundtrack passthrough. This native graph encodes the complete reference, protects its latent with zero noise mask, and decodes the output audio. No voice-only or lipsync claim.",
+  "status": "P10 development application accepted2026-10-23; fixed P09B host and SDK. Native decoded audio7.970s,193frame video8.041667s. No new NSIS or independent-author acceptance. See README and PLAN18."
+}

@@ -1,0 +1,22 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "workflowId",
+    "remoteTaskId",
+    "downloadedCount"
+  ],
+  "properties": {
+    "workflowId": {
+      "const": "2100758868111486978"
+    },
+    "remoteTaskId": {
+      "type": "string",
+      "minLength": 1
+    },
+    "downloadedCount": {
+      "type": "integer",
+      "minimum": 0
+    }
+  }
+}

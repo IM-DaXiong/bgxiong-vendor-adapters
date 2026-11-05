@@ -1,0 +1,1 @@
+{"$schema":"https://json-schema.org/draft/2020-12/schema","type":"object","additionalProperties":false,"required":["endpointBaseUrl","credentialRef"],"properties":{"endpointBaseUrl":{"type":"string","minLength":1},"credentialRef":{"anyOf":[{"type":"null"},{"type":"string","minLength":1}]}}}

@@ -1,0 +1,12 @@
+.bgx-sdk/
+target/
+dist/
+install/
+__pycache__/
+*.wasm
+.env
+.env.*
+*.private.json
+/build/
+/adapter.wasm
+/manifest.sha256

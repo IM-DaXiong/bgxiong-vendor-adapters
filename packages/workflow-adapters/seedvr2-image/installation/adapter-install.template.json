@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "packageDirectory": "package",
+  "manifestSha256": "BUILD_GENERATED_MANIFEST_SHA256",
+  "hostConfig": {
+    "bindingId": "seedvr2-image-local",
+    "bindingRevision": 1,
+    "configurationRef": "seedvr2-image-v1",
+    "configuration": {
+      "endpointBaseUrl": "http://127.0.0.1:8188",
+      "credentialRef": null
+    },
+    "network": {
+      "origins": [
+        "http://127.0.0.1:8188",
+        "http://localhost:8188"
+      ],
+      "allowPrivate": true,
+      "allowEmbeddedAuthorization": false,
+      "deniedHosts": [],
+      "deniedNetworks": []
+    },
+    "credentials": [],
+    "trust": {
+      "publishers": [],
+      "revokedPlugins": [],
+      "revokedVersions": [],
+      "revokedKeys": [],
+      "denylistedHosts": [],
+      "isFresh": false,
+      "supportedFeatures": [
+        "image-upscale-v1"
+      ]
+    },
+    "mediaTtlMs": 3600000,
+    "transport": {
+      "handshakeTimeoutMs": 10000,
+      "writeTimeoutMs": 60000,
+      "shutdownTimeoutMs": 10000,
+      "cancelGraceMs": 100
+    },
+    "budgetMs": {
+      "capabilities": 60000,
+      "probe": 60000,
+      "submit": 180000,
+      "query": 180000,
+      "cancel": 60000
+    },
+    "probe": null
+  },
+  "authentication": {
+    "source": "none"
+  },
+  "managedMediaProbe": true
+}

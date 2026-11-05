@@ -1,0 +1,40 @@
+{
+  "artifactSha256": "f3cf83b6bb5c47203b98f13e6d854fdfd4a2bea1beda32716b9b5f8d0ab67ef4",
+  "displayName": "Wan Animate 2 角色动画（ComfyUI）",
+  "entry": "adapter.wasm",
+  "language": "rust",
+  "limits": {
+    "fuel": 20000000000,
+    "memoryBytes": 268435456,
+    "outputBytes": 1048576,
+    "wallMs": 180000
+  },
+  "optionalFeatures": [],
+  "pluginId": "local.bgx.wan-animate2",
+  "protocolRange": {
+    "max": 2,
+    "min": 2
+  },
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "allowPrivateNetwork": true,
+    "auth": [
+      "bearer"
+    ],
+    "embeddedHeaders": [],
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "mediaSlots": [
+      "video",
+      "image"
+    ],
+    "networkHosts": [],
+    "stateBytes": 0
+  },
+  "requiredFeatures": [],
+  "schemaVersion": 2,
+  "version": "0.1.1"
+}

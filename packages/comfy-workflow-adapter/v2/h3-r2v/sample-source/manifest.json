@@ -1,0 +1,38 @@
+{
+  "artifactSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "displayName": "ComfyUI H3 two-reference video author example",
+  "entry": "adapter.wasm",
+  "language": "rust",
+  "limits": {
+    "fuel": 2000000000,
+    "memoryBytes": 134217728,
+    "outputBytes": 1048576,
+    "wallMs": 120000
+  },
+  "optionalFeatures": [],
+  "pluginId": "local.example.comfy-h3-r2v",
+  "protocolRange": {
+    "max": 2,
+    "min": 2
+  },
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "allowPrivateNetwork": true,
+    "auth": [],
+    "embeddedHeaders": [],
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "mediaSlots": [
+      "image",
+      "video"
+    ],
+    "networkHosts": [],
+    "stateBytes": 0
+  },
+  "requiredFeatures": [],
+  "schemaVersion": 2,
+  "version": "1.0.0"
+}

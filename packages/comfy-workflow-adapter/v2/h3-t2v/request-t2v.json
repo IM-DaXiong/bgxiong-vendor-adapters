@@ -1,0 +1,12 @@
+{
+  "prompt": "A blue paper boat gently floating on a sunlit pond. Audio: quiet water ripples and soft birdsong.",
+  "seed": 20261023,
+  "width": 864,
+  "height": 480,
+  "durationSeconds": 8,
+  "fps": 24,
+  "advanced": {
+    "steps": 20
+  },
+  "aspectRatio": "16:9"
+}

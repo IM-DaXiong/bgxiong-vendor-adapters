@@ -1,0 +1,119 @@
+# Thin public CLI client: one submit, later query only its original accepted request.
+[CmdletBinding()]
+param(
+    [Parameter(Mandatory)][ValidateSet('caps','probe','submit','query')][string]$Action,
+    [Parameter(Mandatory)][string]$Runtime,
+    [Parameter(Mandatory)][string]$Workspace,
+    [Parameter(Mandatory)][string]$Endpoint,
+    [Parameter(Mandatory)][string]$ProbeExecutable,
+    [string]$RequestFile,
+    [string[]]$ReferenceFiles,
+    [string]$AudioFile,
+    [string]$SubmitRequestId
+)
+$ErrorActionPreference = 'Stop'
+$sdk = Join-Path $PSScriptRoot 'vendor-adapter-v2'
+$cli = Join-Path $sdk 'bin/bgx-adapter-v2.exe'
+$worker = Join-Path $sdk 'bin/bgx-adapter-v2-worker.exe'
+foreach ($path in @($Runtime,$Workspace)) {
+    if (-not [IO.Path]::IsPathFullyQualified($path)) { throw 'Runtime and Workspace must be absolute.' }
+}
+$uri = [uri]$Endpoint
+if (-not $uri.IsAbsoluteUri -or $uri.Scheme -notin @('http','https') -or $uri.Query -or $uri.Fragment -or $uri.UserInfo) {
+    throw 'Endpoint must be an HTTP(S) base URL without credentials, query or fragment.'
+}
+function Read-Json([string]$Path) { Get-Content -LiteralPath $Path -Raw | ConvertFrom-Json -Depth 100 }
+function Save-Json([string]$Path,$Value) {
+    [IO.File]::WriteAllText($Path,($Value | ConvertTo-Json -Depth 100),[Text.UTF8Encoding]::new($false))
+}
+$binding = 'comfy-ltx23-ia2v-author-example'
+$media = @()
+$configuration = @{endpointBaseUrl=$Endpoint.TrimEnd('/')}
+$payload = @{}
+if ($Action -eq 'probe') { $payload = @{schemaVersion=2;kind='connectivity';configuration=$configuration} }
+if ($Action -eq 'submit') {
+    if (-not $RequestFile -or $ReferenceFiles.Count -ne 1) { throw 'submit requires RequestFile and exactly one ReferenceFile.' }
+    if (-not (Test-Path -LiteralPath $Workspace -PathType Container)) { throw 'Run caps first to create the workspace.' }
+    $media = @(); $descriptors = @(); $ordinal = 0
+    foreach ($referencePath in $ReferenceFiles) {
+    if (-not [IO.Path]::IsPathFullyQualified($referencePath) -or -not (Test-Path -LiteralPath $referencePath -PathType Leaf)) { throw 'Each ReferenceFile must be absolute and existing.' }
+    $ordinal++; $mediaId = "image-input-$ordinal"
+    $reference = Get-Item -LiteralPath $referencePath
+    $ext = $reference.Extension.ToLowerInvariant().TrimStart('.')
+    if ($ext -eq 'jpeg') { $ext = 'jpg' }
+    $mime = @{png='image/png';jpg='image/jpeg';webp='image/webp'}[$ext]
+    if (-not $mime) { throw 'The sample accepts PNG, JPEG or WebP original files.' }
+    $digest = (Get-FileHash -LiteralPath $reference.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
+    $sourceDir = Join-Path $Workspace 'originals'
+    New-Item -ItemType Directory -Path $sourceDir -Force | Out-Null
+    $sourceCopy = Join-Path $sourceDir "$digest.$ext"
+    if (Test-Path -LiteralPath $sourceCopy) {
+        if ((Get-FileHash -LiteralPath $sourceCopy -Algorithm SHA256).Hash.ToLowerInvariant() -ne $digest) { throw 'Existing staged original content differs; preserve it and stop.' }
+    } else { Copy-Item -LiteralPath $reference.FullName -Destination $sourceCopy }
+    $media += @{id=$mediaId;path=$sourceCopy;kind='image'}
+    $descriptors += @{id=$mediaId;kind='image';handle='pending';mime=$mime;fileName="$digest.$ext";byteLength=([string]$reference.Length)}
+    }
+    if (-not $AudioFile -or -not [IO.Path]::IsPathFullyQualified($AudioFile) -or -not (Test-Path -LiteralPath $AudioFile -PathType Leaf)) { throw 'Provide an existing absolute8second WAV AudioFile.' }
+    $audio=Get-Item -LiteralPath $AudioFile
+    if ($audio.Extension.ToLowerInvariant() -ne '.wav') { throw 'This declared profile accepts only WAV; measured kind/duration are validated by the package.' }
+    $digest=(Get-FileHash -LiteralPath $AudioFile -Algorithm SHA256).Hash.ToLowerInvariant()
+    $audioCopy=Join-Path $sourceDir "$digest.wav"
+    if (Test-Path -LiteralPath $audioCopy) {
+        if ((Get-FileHash -LiteralPath $audioCopy -Algorithm SHA256).Hash.ToLowerInvariant() -ne $digest) { throw 'Existing audio content differs.' }
+    } else { Copy-Item -LiteralPath $AudioFile -Destination $audioCopy }
+    $media += @{id='audio-input-1';path=$audioCopy;kind='audio'}
+    $descriptors += @{id='audio-input-1';kind='audio';handle='pending';mime='audio/x-wav';fileName="$digest.wav";byteLength=([string]$audio.Length)}
+    $caps = Read-Json (Join-Path $Workspace 'capabilities.json')
+    $contracts = @($caps.capabilityContracts | Where-Object capabilityKey -eq 'video.generate')
+    if ($contracts.Count -ne 1 -or @($contracts[0].operations).Count -ne 1 -or @($contracts[0].modelIds).Count -ne 1) {
+        throw 'Expected one video operation/model; run caps against the same package first.'
+    }
+    $contract=$contracts[0]; $operation=$contract.operations[0]
+    $payload=@{schemaVersion=2;modelId=$contract.modelIds[0];capabilityKey=$contract.capabilityKey
+        operationId=$operation.id;operationVersion=$operation.version;inputSchemaDigest=$operation.inputSchema.digest
+        input=(Read-Json $RequestFile);configuration=$configuration;media=@($descriptors);uploads=@()}
+}
+if ($Action -eq 'query') {
+    if (-not $SubmitRequestId) { throw 'query requires the original SubmitRequestId.' }
+    $request=Read-Json (Join-Path $Workspace "inputs/$SubmitRequestId.json")
+    $original=$request.payloadJson | ConvertFrom-Json -Depth 100
+    $receipt=Read-Json (Join-Path $Workspace "receipts/$SubmitRequestId.json")
+    if ($receipt.error) { throw 'Original submit failed; do not resubmit automatically.' }
+    $accepted=$receipt.dataJson | ConvertFrom-Json -Depth 100
+    if ($accepted.kind -ne 'accepted' -or -not $accepted.vendorTaskId) { throw 'Original submit was not accepted.' }
+    $payload=@{schemaVersion=2;modelId=$original.modelId;capabilityKey=$original.capabilityKey
+        operationId=$original.operationId;operationVersion=$original.operationVersion;configuration=$configuration
+        vendorTaskId=$accepted.vendorTaskId;resumeToken=$accepted.resumeToken}
+}
+$config=@{bindingId=$binding;bindingRevision=1;configurationRef='comfy-ltx23-ia2v-author-v1';configuration=$configuration
+    trust=@{publishers=@();revokedPlugins=@();revokedVersions=@();revokedKeys=@();denylistedHosts=@();isFresh=$false;supportedFeatures=@()}
+    network=@{origins=@($uri.GetLeftPart([UriPartial]::Authority));allowPrivate=$true;allowEmbeddedAuthorization=$false;deniedHosts=@();deniedNetworks=@()}
+    credentials=@();media=$media;mediaTtlMs=3600000
+    transport=@{handshakeTimeoutMs=10000;writeTimeoutMs=60000;shutdownTimeoutMs=10000;cancelGraceMs=100}}
+if (-not [IO.Path]::IsPathFullyQualified($ProbeExecutable) -or -not (Test-Path -LiteralPath $ProbeExecutable -PathType Leaf)) { throw 'ProbeExecutable must be an existing absolute ffprobe path.' }
+$config.probe=@{executable=$ProbeExecutable;timeoutMs=30000;frameTimestamps=$false}
+$create=-not (Test-Path -LiteralPath $Workspace)
+$inputRoot="$Workspace-inputs"
+New-Item -ItemType Directory -Path $inputRoot -Force | Out-Null
+$requestId="ltx23-ia2v-$Action-$([guid]::NewGuid().ToString('N'))"
+$configFile=Join-Path $inputRoot "$requestId-config.json"
+$inputFile=Join-Path $inputRoot "$requestId.json"
+$output=Join-Path $Workspace "receipts/$requestId.json"
+Save-Json $configFile $config
+Save-Json $inputFile @{protocolVersion=2;operation=$(if($Action -eq 'caps'){'capabilities'}else{$Action})
+    profileId=$binding;capabilitySlot=$(if($Action -eq 'caps'){'generic'}else{'video'});requestId=$requestId;budgetMs=120000
+    payloadJson=($payload | ConvertTo-Json -Depth 100 -Compress);bindingId=$binding;negotiatedVersion=2;enabledFeatures=@()}
+$cliArgs=@($Action,'--sdk',$sdk,'--worker',$worker,'--package',$Runtime,'--workspace',$Workspace,'--config',$configFile,'--input',$inputFile,'--output',$output)
+if ($create) { $cliArgs+='--create-workspace' }
+if ($Action -eq 'query') { $cliArgs+=@('--request-id',$SubmitRequestId) }
+& $cli @cliArgs
+if ($LASTEXITCODE -ne 0) { throw "SDK $Action failed; inspect $inputRoot and $Workspace/cli. No automatic retry." }
+$response=Read-Json $output
+if ($response.error) { throw "SDK $Action returned $($response.error.code); inspect $output. No automatic retry." }
+New-Item -ItemType Directory -Path (Join-Path $Workspace 'inputs') -Force | Out-Null
+Copy-Item -LiteralPath $inputFile -Destination (Join-Path $Workspace "inputs/$requestId.json")
+if ($Action -eq 'caps') { Save-Json (Join-Path $Workspace 'capabilities.json') ($response.dataJson | ConvertFrom-Json -Depth 100) }
+$appConfig=$config.Clone(); $appConfig.Remove('media')
+$appConfig.budgetMs=@{capabilities=60000;probe=60000;submit=120000;query=120000;cancel=60000}
+Save-Json (Join-Path $Workspace 'host-config.app.json') $appConfig
+[pscustomobject]@{requestId=$requestId;receipt=$output;result=($response.dataJson | ConvertFrom-Json -Depth 100)} | ConvertTo-Json -Depth 20

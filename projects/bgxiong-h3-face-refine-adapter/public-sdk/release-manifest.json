@@ -1,0 +1,1298 @@
+{
+  "schemaVersion": 1,
+  "sdkRelease": "2.0.0",
+  "projectLicense": "LicenseRef-Proprietary",
+  "purpose": "Exact candidate source/assets allowlist. Null is pending generation, never a successful hash. Export refuses null/missing/changed inputs; refresh hashes only for these already enumerated exact paths.",
+  "binaryInputs": {
+    "cli": "bin/bgx-adapter-v2",
+    "worker": "bin/bgx-adapter-v2-worker"
+  },
+  "generatedOutputs": [
+    "release-files.json",
+    "THIRD-PARTY/index.json",
+    "THIRD-PARTY/licenses/rust/NAME/VERSION/EXACT_INVENTORIED_PATH",
+    "THIRD-PARTY/licenses/npm/typescript/VERSION/EXACT_INVENTORIED_PATH",
+    "OWNER-LICENSE.txt only from explicit --owner-license",
+    "THIRD-PARTY/cargo-vendor/EXACT_INVENTORIED_PATH only from explicit --cargo-vendor and --cargo-vendor-inventory",
+    "release-lock.json",
+    "RELEASE-STATUS.json"
+  ],
+  "generatedOutputPolicy": "Typed placeholders describe explicit dynamic inputs, never source discovery. release-files.json measures all concrete static source/artifact targets including release-manifest.json; excludes itself and generated release-lock.json/RELEASE-STATUS.json. These two acyclic governance outputs have separately returned SHA256 identities and never attest runtime or legal readiness.",
+  "externalPrerequisites": [
+    "Selected OS must be validated with the actual explicit CLI/worker binaries; exporter does not execute them.",
+    "Rust toolchain/target from rust-toolchain.toml and OS linker/SDK must be supplied to build. Cargo.lock is not an offline source archive.",
+    "No user cache/environment/config scan or source fetch. Optional explicit cargo-vendor only stores verified extracted bytes, without implicit .cargo/config; offline source-override builds remain NOT_VALIDATED.",
+    "Node/TypeScript 5.9.3 are development prerequisites for form rebuilding; exact built browser assets are allowlisted for local serving, browser acceptance remains separate.",
+    "Python 3.11+ standard library runs exporter/services/conformance; optional validate_design requires exact requirements-design.txt packages not bundled by this export.",
+    "ffmpeg/ffprobe are external explicitly configured developer ProbeTools, not SDK-default/PATH discovered runtimes or bundled payload.",
+    "Standalone full-candidate export does not establish product adoption. The application preview supports scoped workflow package installation; see DEVELOPER-PREVIEW.zh-CN.md. No production database, credentials or implicit trust is included."
+  ],
+  "files": [
+    {
+      "source": "AUTHOR-TASK.zh-CN.md",
+      "target": "AUTHOR-TASK.zh-CN.md",
+      "sha256": "d32a1566101bfe8b48d580942065a92808645ee191596f110ddbc3928095201e",
+      "required": true
+    },
+    {
+      "source": "AUTHORING.zh-CN.md",
+      "target": "AUTHORING.zh-CN.md",
+      "sha256": "62a66dfddd6ae2d2d82fbca74c69c399cd901d19d5d881f862bf24ffea29adbd",
+      "required": true
+    },
+    {
+      "source": "CHANGELOG.md",
+      "target": "CHANGELOG.md",
+      "sha256": "ce850f38ae739dfd7a076044d95bd2511123b82e43e27d66a4529d0c9d049a5b",
+      "required": true
+    },
+    {
+      "source": "CONFORMANCE.zh-CN.md",
+      "target": "CONFORMANCE.zh-CN.md",
+      "sha256": "8269bc606d07631ff7b60b824e96b547b6fb91f286fd8f3fc263436843a2cba4",
+      "required": true
+    },
+    {
+      "source": "CONTRACT-DECISIONS.md",
+      "target": "CONTRACT-DECISIONS.md",
+      "sha256": "f4f3de821bf24ef12f5c53d8b71d16137f474a03d0f0f9a6fad2fc4c85f96a7a",
+      "required": true
+    },
+    {
+      "source": "Cargo.lock",
+      "target": "Cargo.lock",
+      "sha256": "98bca224e371f07a87b6094e31a5e5c6a9eaa9500672e33612af2bf8e947d385",
+      "required": true
+    },
+    {
+      "source": "Cargo.toml",
+      "target": "Cargo.toml",
+      "sha256": "a709d989ffa9bd46b74311499679003570734a07cc63e7ffec074dc53c3183a0",
+      "required": true
+    },
+    {
+      "source": "HOST-ADOPTION-CHECKLIST.zh-CN.md",
+      "target": "HOST-ADOPTION-CHECKLIST.zh-CN.md",
+      "sha256": "eb81567799f7a3b0b605eed65a6a0932b3a96404e1117fb6a010d5d53109b52a",
+      "required": true
+    },
+    {
+      "source": "HOST-INTEGRATION.zh-CN.md",
+      "target": "HOST-INTEGRATION.zh-CN.md",
+      "sha256": "d3537ed997714b731d3c012657ba4385dfb1836a0dff4de8317450de5cb6f376",
+      "required": true
+    },
+    {
+      "source": "OPEN-STANDARD.zh-CN.md",
+      "target": "OPEN-STANDARD.zh-CN.md",
+      "sha256": "aff34fb79594d7656e250b790f3893a23433f81a753b860f000d83617f0d2fa3",
+      "required": true
+    },
+    {
+      "source": "README.md",
+      "target": "README.md",
+      "sha256": "bfbcf7fd28cff551044fa3b275596a1fec3d2c87ffa7eb2fa8b19dfa734c99d2",
+      "required": true
+    },
+    {
+      "source": "SDK-CONTRACT.zh-CN.md",
+      "target": "SDK-CONTRACT.zh-CN.md",
+      "sha256": "c3b394a707dd9279b79866920a444ee3c0ad3e640e60eacaeef8e71124053ff5",
+      "required": true
+    },
+    {
+      "source": "crates/ports/Cargo.toml",
+      "target": "crates/ports/Cargo.toml",
+      "sha256": "a4ecc80ff0077af38d08f41d38a20938bbfa241554e296d2778d0e0908ad3df5",
+      "required": true
+    },
+    {
+      "source": "crates/ports/src/generated.rs",
+      "target": "crates/ports/src/generated.rs",
+      "sha256": "1c686d660c458b46f83e99a2cbce214f8755dc7def456808fb4258ebe46d611f",
+      "required": true
+    },
+    {
+      "source": "crates/ports/src/lib.rs",
+      "target": "crates/ports/src/lib.rs",
+      "sha256": "5f5a47c4e8a55746142c76c2ac9f4344a23e55470ce54a8cc1b7da6630245d6c",
+      "required": true
+    },
+    {
+      "source": "crates/ports/tests/abi.rs",
+      "target": "crates/ports/tests/abi.rs",
+      "sha256": "75a8133d283c268a49ad313a0c02a79b05b855831bfbaabb69acc9196d2edb05",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/Cargo.toml",
+      "target": "crates/reference-host/Cargo.toml",
+      "sha256": "85be8f647be75dc2b51a74d172e567d22eb936d83a93c69e2bacf6eb35940afb",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/cancel.rs",
+      "target": "crates/reference-host/src/cancel.rs",
+      "sha256": "be20f3b2dab032fe7c4b04a791053e7df40f893fdf852b1f5405baf9d1e8d311",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/checkpoint.rs",
+      "target": "crates/reference-host/src/checkpoint.rs",
+      "sha256": "85e2da3ca00d06d594e40e04fd7e80e60dedd9a3f3301f291746b9d41244d934",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/config.rs",
+      "target": "crates/reference-host/src/config.rs",
+      "sha256": "7fdeee5e0956f60f0d98210e8880b5599d2e99df54c444afb76f34794dcef249",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/credential.rs",
+      "target": "crates/reference-host/src/credential.rs",
+      "sha256": "2c981d1b9d69f49f6f89524e78db593d146b156a194c23765d3040780c03d666",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/dispatch.rs",
+      "target": "crates/reference-host/src/dispatch.rs",
+      "sha256": "e7015f941b942223b939737813cf3195e20791d36b7ad7caadd6503de4a08cd0",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/events.rs",
+      "target": "crates/reference-host/src/events.rs",
+      "sha256": "00a9b7d7d3a69266dc6262e83fa1f23f843f22c9066ecc6247b84588e50d089e",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/http.rs",
+      "target": "crates/reference-host/src/http.rs",
+      "sha256": "d0298111339c282462f6a4489a382b9048ac0fed92967089b0f509e1ffd9ea5e",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/http_stream.rs",
+      "target": "crates/reference-host/src/http_stream.rs",
+      "sha256": "6eee3e007b067305601708aa388aacba46178888a22edd37eb3b5e00665c00a2",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/lib.rs",
+      "target": "crates/reference-host/src/lib.rs",
+      "sha256": "db255850cd73d7db9893c820683c11aebb38d3a04227cba09b4f359b1c7af8c2",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/media.rs",
+      "target": "crates/reference-host/src/media.rs",
+      "sha256": "940dac946b84aaaab62385a22d41d97d906ec2d509881935bf6ed50864f2e536",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/policy.rs",
+      "target": "crates/reference-host/src/policy.rs",
+      "sha256": "e1b03902e8536d8b0f07cc4a91e4762276be07a12375cc875626c4d01681a02d",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/profile.rs",
+      "target": "crates/reference-host/src/profile.rs",
+      "sha256": "0d101d5a1cb727ae43dab1973709431e5515aaefc583f0c9dfacf3f8d025730e",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/session.rs",
+      "target": "crates/reference-host/src/session.rs",
+      "sha256": "cab9d31bbd78b5acee707a2067779c5bd9db13c5d39f497be2ec838ea2bbedf1",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/tests/cancel.rs",
+      "target": "crates/reference-host/tests/cancel.rs",
+      "sha256": "07ffa80588ef745141402668b7bb2a76b00cb4d6a6a827411187e818b7143913",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/tests/events.rs",
+      "target": "crates/reference-host/tests/events.rs",
+      "sha256": "18afca6cb44a4751a256c70375bc675040cac876ab96f59539998e6672a46a16",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/tests/http_stream.rs",
+      "target": "crates/reference-host/tests/http_stream.rs",
+      "sha256": "1319ee66b3ce5e78447677af5a74a4f4e6355b23f310f9ccd3000696ecd7f120",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/tests/media.rs",
+      "target": "crates/reference-host/tests/media.rs",
+      "sha256": "0a6f976aa707c46786ea457ee0936bacdd436c405fa8967ccfec0911dbf81b7f",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/tests/policy.rs",
+      "target": "crates/reference-host/tests/policy.rs",
+      "sha256": "8f51b0fdcfc23bfeb6f63beb3c27c08210653aae81176a96a5ec8b4e8c006639",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/tests/profile.rs",
+      "target": "crates/reference-host/tests/profile.rs",
+      "sha256": "bdbbc99d3414b26b85bfad2b9299e8d50f64ae2a48ffdc758b3a7427b8d4ffc3",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/tests/recovery.rs",
+      "target": "crates/reference-host/tests/recovery.rs",
+      "sha256": "0cb467a5ef78085e7913ab1b98838c1abdf9412e94af4ac6105221ab76538c77",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/tests/six_operations.rs",
+      "target": "crates/reference-host/tests/six_operations.rs",
+      "sha256": "8b74a5b0d0a681878d97c75fb96d160e1804ce9e8745b712f1763997ab712b55",
+      "required": true
+    },
+    {
+      "source": "crates/runtime/Cargo.toml",
+      "target": "crates/runtime/Cargo.toml",
+      "sha256": "333a884e48be63bca5cdb73ae44b2263927cb96eac85893c663c467d32ccd87c",
+      "required": true
+    },
+    {
+      "source": "crates/runtime/src/bin/bgx-adapter-v2-worker.rs",
+      "target": "crates/runtime/src/bin/bgx-adapter-v2-worker.rs",
+      "sha256": "af6f20a8a8c763facd08b3b415e489409f2e098ad8b913217f6043ebde60080c",
+      "required": true
+    },
+    {
+      "source": "crates/runtime/src/engine.rs",
+      "target": "crates/runtime/src/engine.rs",
+      "sha256": "1b3a1a8c017615c44d2cf02ac53ad6bc4f6b1195ba4a7ebb1948abb2d67b57c6",
+      "required": true
+    },
+    {
+      "source": "crates/runtime/src/guest.rs",
+      "target": "crates/runtime/src/guest.rs",
+      "sha256": "8abd785ba59ffe5868dbddb0a094858e7b1de878158731f24fc49335bc5c4f61",
+      "required": true
+    },
+    {
+      "source": "crates/runtime/src/lib.rs",
+      "target": "crates/runtime/src/lib.rs",
+      "sha256": "1384f062887958734a17c25f14c62d98662b735c02b34ab613be2922bb24acb3",
+      "required": true
+    },
+    {
+      "source": "crates/runtime/src/server.rs",
+      "target": "crates/runtime/src/server.rs",
+      "sha256": "fac2f659e838eee789270c5207b241b893d4f5a31fb4328c23564b7f39b04dce",
+      "required": true
+    },
+    {
+      "source": "crates/runtime/tests/sandbox.rs",
+      "target": "crates/runtime/tests/sandbox.rs",
+      "sha256": "517bd70b922622ffc74ba02aae6c6a031e1729d9cdb0e2ff824d2b21098c7962",
+      "required": true
+    },
+    {
+      "source": "crates/tools/Cargo.toml",
+      "target": "crates/tools/Cargo.toml",
+      "sha256": "4aed0771b0a48a8979af543eeb5de172c536cd98a3c16f2c394587d61c58d561",
+      "required": true
+    },
+    {
+      "source": "crates/tools/src/author.rs",
+      "target": "crates/tools/src/author.rs",
+      "sha256": "45ae628618b4df70a538bb218f2bb49b9323294d04ac269f5d53d147b8af800d",
+      "required": true
+    },
+    {
+      "source": "crates/tools/src/conform.rs",
+      "target": "crates/tools/src/conform.rs",
+      "sha256": "ca40d1902f3eebf0aec41f28eef36b70ef070debbfff877519ce6c50a33659e2",
+      "required": true
+    },
+    {
+      "source": "crates/tools/src/main.rs",
+      "target": "crates/tools/src/main.rs",
+      "sha256": "5e97dc765faf64954189265474815f414c1c63ecc8f3c49e20d8b74ad8d438bf",
+      "required": true
+    },
+    {
+      "source": "crates/tools/src/package.rs",
+      "target": "crates/tools/src/package.rs",
+      "sha256": "1ca10846c8e8d389f9e45eb71e78068508574fe45371876245d72cd90ad4b5d8",
+      "required": true
+    },
+    {
+      "source": "crates/tools/src/run.rs",
+      "target": "crates/tools/src/run.rs",
+      "sha256": "9cc5bf03d91decfb70dc6e7bb914dec2f925aa37804b99650ba2bfb833b04806",
+      "required": true
+    },
+    {
+      "source": "crates/tools/src/transcript.rs",
+      "target": "crates/tools/src/transcript.rs",
+      "sha256": "1eab0d09c4a23613a8dc7621cf9c2ea098b289aaec3ccf8c427ebf2590c0adf3",
+      "required": true
+    },
+    {
+      "source": "crates/tools/src/workspace.rs",
+      "target": "crates/tools/src/workspace.rs",
+      "sha256": "fefabaf8cafcb017fe085d08d2a226334eca0dad54a212e677dd2b0cb44f062b",
+      "required": true
+    },
+    {
+      "source": "crates/tools/tests/author.rs",
+      "target": "crates/tools/tests/author.rs",
+      "sha256": "088a6295daeae94dd7eb62ec4694097bdfdbc486b0518e5be7bae8c8195fc5d6",
+      "required": true
+    },
+    {
+      "source": "crates/tools/tests/replay.rs",
+      "target": "crates/tools/tests/replay.rs",
+      "sha256": "dbe7acfe42eb9fd990e64c49cd39ea3a109d769a0fa6923c1d6f25e1d4fc200c",
+      "required": true
+    },
+    {
+      "source": "crates/tools/tests/run.rs",
+      "target": "crates/tools/tests/run.rs",
+      "sha256": "c727e7f4817b53161d76e9e46548cbc74c344795a3db62ebe94dc9582c91045a",
+      "required": true
+    },
+    {
+      "source": "crates/transport/Cargo.toml",
+      "target": "crates/transport/Cargo.toml",
+      "sha256": "6c5caa33e4a6f024bd70efc7690aa8305578274ad1ddde26ce9ed96a568fa0b6",
+      "required": true
+    },
+    {
+      "source": "crates/transport/src/client.rs",
+      "target": "crates/transport/src/client.rs",
+      "sha256": "51f334f79a52b4ca0252eb7a3fb929699f0cb48af82e7f68df76dba04bce80df",
+      "required": true
+    },
+    {
+      "source": "crates/transport/src/framing.rs",
+      "target": "crates/transport/src/framing.rs",
+      "sha256": "afcc7e719d583d0904c9f691e0f32dec3c41dd2ddaba31ebea66e741e0271925",
+      "required": true
+    },
+    {
+      "source": "crates/transport/src/lib.rs",
+      "target": "crates/transport/src/lib.rs",
+      "sha256": "f85ad3c9d1672fdf3a1c70e5634cb2d08220f65f2f08fac0b93271dffc1ff4be",
+      "required": true
+    },
+    {
+      "source": "crates/transport/src/process.rs",
+      "target": "crates/transport/src/process.rs",
+      "sha256": "fc1ebad46a7bd4ff7f0cd84e77465302e8aed754bc3464bfca4af4f1b093cde6",
+      "required": true
+    },
+    {
+      "source": "crates/transport/tests/lifecycle.rs",
+      "target": "crates/transport/tests/lifecycle.rs",
+      "sha256": "e8eca698d094e4233c09cef1fcfe0f232ee52ef1f0ff844575fc5f8784245df5",
+      "required": true
+    },
+    {
+      "source": "crates/validator/Cargo.toml",
+      "target": "crates/validator/Cargo.toml",
+      "sha256": "088a39fcc5dfd9054c1ae264c4e27f78b4e0c74789648f8fef7b05fe70171d85",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/capabilities.rs",
+      "target": "crates/validator/src/capabilities.rs",
+      "sha256": "e8ca1fca07f611206ccd85dcab917224199ab99a5f316f442b6eae98cc1a29b3",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/context.rs",
+      "target": "crates/validator/src/context.rs",
+      "sha256": "586474ef5c24b2a7b6ac2782c5eeb892f6e88f816c9d48c21243c96e3ac7a596",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/identity.rs",
+      "target": "crates/validator/src/identity.rs",
+      "sha256": "46abb0e053de515a8f262d07d4757960f098559fae3e749cdd0635c0ea9dbfaa",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/input.rs",
+      "target": "crates/validator/src/input.rs",
+      "sha256": "36df36d4fb0244a11cce51983348ed5fd824e8d120903228cb22f0dcd372d935",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/interaction.rs",
+      "target": "crates/validator/src/interaction.rs",
+      "sha256": "c65ac2906075234fdffd42b1e450f342b170dee84ba2e80a3cd79c42a2139fab",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/lib.rs",
+      "target": "crates/validator/src/lib.rs",
+      "sha256": "96d1af50bd9d4f7745613de143b3eb9883fa7d694af0a556b63ff099a7464c3c",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/media.rs",
+      "target": "crates/validator/src/media.rs",
+      "sha256": "f99212d658d639fffe8247cc8081f6d327e2373084952aa630e3fda64066385b",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/package.rs",
+      "target": "crates/validator/src/package.rs",
+      "sha256": "2b2c47eb95ad90bc40e82c677642e662466ed2aa654eaf5991317b52d3b5785d",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/result.rs",
+      "target": "crates/validator/src/result.rs",
+      "sha256": "fb2fc45e292fbb53385eec0950e6eba2a55fe0df5ec5a554663d5790d99a7178",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/schema_registry.rs",
+      "target": "crates/validator/src/schema_registry.rs",
+      "sha256": "20df159035332eb360e4046758ad18111a9a28005e4a7b7567ef3647450155c5",
+      "required": true
+    },
+    {
+      "source": "crates/validator/src/usage.rs",
+      "target": "crates/validator/src/usage.rs",
+      "sha256": "fc76f23996171e0d50111e04ddd96657157bd495ff4292c75b00ce7a31fcaa38",
+      "required": true
+    },
+    {
+      "source": "crates/validator/tests/capability_registry.rs",
+      "target": "crates/validator/tests/capability_registry.rs",
+      "sha256": "c4368383df74d79c3f140a566de4ec3ca775bfc6c6529dc99884914f641d9ed0",
+      "required": true
+    },
+    {
+      "source": "crates/validator/tests/media_geometry.rs",
+      "target": "crates/validator/tests/media_geometry.rs",
+      "sha256": "7dea90a46fc4948399ccdc1fcb44a0a257da3c3876adb7bfab243abf6665148d",
+      "required": true
+    },
+    {
+      "source": "crates/validator/tests/package_identity.rs",
+      "target": "crates/validator/tests/package_identity.rs",
+      "sha256": "ff8d55bd0341c75a14734d88bfa2bb802025320e348070fc9bc564a002dc4221",
+      "required": true
+    },
+    {
+      "source": "crates/validator/tests/results.rs",
+      "target": "crates/validator/tests/results.rs",
+      "sha256": "973d718ababa37af50bae1abb9cf6e30d3bb751564f199fe099693cb5a6cce03",
+      "required": true
+    },
+    {
+      "source": "crates/validator/tests/strict_contract.rs",
+      "target": "crates/validator/tests/strict_contract.rs",
+      "sha256": "42eeece91f1f94ca8cbf39ff53e53a028ca68ffed64d659e14e95a6d7f11f1c9",
+      "required": true
+    },
+    {
+      "source": "examples/authoring-lock.json",
+      "target": "examples/authoring-lock.json",
+      "sha256": "b9534469605ff057177be6675a212ee43a854b87945bc5d4aba5a0ce84354d8b",
+      "required": true
+    },
+    {
+      "source": "examples/capabilities.json",
+      "target": "examples/capabilities.json",
+      "sha256": "af33181bbfaba34a444ea79111641f526d6ff7fa2ec1e9941c2c19007c639360",
+      "required": true
+    },
+    {
+      "source": "examples/cloud-task/Cargo.lock",
+      "target": "examples/cloud-task/Cargo.lock",
+      "sha256": "351aa53af06a3b5c2415d807f1a3b78fbe342df760a9e3fa8c5ff184db657a61",
+      "required": true
+    },
+    {
+      "source": "examples/cloud-task/Cargo.toml",
+      "target": "examples/cloud-task/Cargo.toml",
+      "sha256": "89480a0b836cf40cf17578270fa81c80a538513c5b9710f9a7b2069426e0bcd7",
+      "required": true
+    },
+    {
+      "source": "examples/cloud-task/adapter.wasm",
+      "target": "examples/cloud-task/adapter.wasm",
+      "sha256": "13a5e1d7e10a3893a797288d4eca5a5dd08f5a8bfe7a118e0a1b60fe766690c3",
+      "required": true
+    },
+    {
+      "source": "examples/cloud-task/manifest.json",
+      "target": "examples/cloud-task/manifest.json",
+      "sha256": "a4203babe2e13739af6904de8e1e1c4168ed313076819f8a8162dbbd8be78bb7",
+      "required": true
+    },
+    {
+      "source": "examples/cloud-task/manifest.sha256",
+      "target": "examples/cloud-task/manifest.sha256",
+      "sha256": "17336974072ec4f50b0d4ce6bee070e730583eb66fb5756c118cf976693e1329",
+      "required": true
+    },
+    {
+      "source": "examples/cloud-task/src/lib.rs",
+      "target": "examples/cloud-task/src/lib.rs",
+      "sha256": "5f65f24617f184606ea7f2fb8fab2ee5ac78285c594c770f5210d04e58127588",
+      "required": true
+    },
+    {
+      "source": "examples/coverage-capabilities.json",
+      "target": "examples/coverage-capabilities.json",
+      "sha256": "0ce1952a21b3c4d23c8c9b8c17101688e7ecebb74d83552f77deb9b354e9c773",
+      "required": true
+    },
+    {
+      "source": "examples/payloads.json",
+      "target": "examples/payloads.json",
+      "sha256": "e50561ddd22397d20990de74cd85b48c6d4df69b7130737a30d23c50a8ddde42",
+      "required": true
+    },
+    {
+      "source": "examples/sync-api/Cargo.lock",
+      "target": "examples/sync-api/Cargo.lock",
+      "sha256": "3dffe475621c97ba95a87fc5698ec91937a439f1b579d238829aab2124fbe789",
+      "required": true
+    },
+    {
+      "source": "examples/sync-api/Cargo.toml",
+      "target": "examples/sync-api/Cargo.toml",
+      "sha256": "bfc4c11b180f029d28abad5f6b467d134fdee01fe5faca8f5b4aede6071079ae",
+      "required": true
+    },
+    {
+      "source": "examples/sync-api/adapter.wasm",
+      "target": "examples/sync-api/adapter.wasm",
+      "sha256": "cf1da565882bac1971e680bc967bf1579ac2436cd4ea72ef39b4b91ffeff65d7",
+      "required": true
+    },
+    {
+      "source": "examples/sync-api/manifest.json",
+      "target": "examples/sync-api/manifest.json",
+      "sha256": "47ca5b7c48cfd7a0d94c1e2d1677dd22af59529f67d5bf4da462146913f79351",
+      "required": true
+    },
+    {
+      "source": "examples/sync-api/manifest.sha256",
+      "target": "examples/sync-api/manifest.sha256",
+      "sha256": "ea8fcfb44c98214693ae8f8da32b79906ae348659ffdfdbcfd4416e39b414061",
+      "required": true
+    },
+    {
+      "source": "examples/sync-api/src/lib.rs",
+      "target": "examples/sync-api/src/lib.rs",
+      "sha256": "9e17e5e29cf9b3f87cd1d7514c01f6fef6e5551d4de36bec2a8ec26afbe19c4d",
+      "required": true
+    },
+    {
+      "source": "examples/workflow/Cargo.lock",
+      "target": "examples/workflow/Cargo.lock",
+      "sha256": "0b272899fc1e80be400e6fe9cf443a982fc858eecb71b79878e23f13bebe1eec",
+      "required": true
+    },
+    {
+      "source": "examples/workflow/Cargo.toml",
+      "target": "examples/workflow/Cargo.toml",
+      "sha256": "5423eec8a973ac02a168db206ff7966e9a724c03969193aad3ba3fe9f8df5d4f",
+      "required": true
+    },
+    {
+      "source": "examples/workflow/adapter.wasm",
+      "target": "examples/workflow/adapter.wasm",
+      "sha256": "41b8fc68afb54d5c526f16f5d293bb89baeb444bebaf6c1b2ef16a4146787b18",
+      "required": true
+    },
+    {
+      "source": "examples/workflow/manifest.json",
+      "target": "examples/workflow/manifest.json",
+      "sha256": "925d0a4be6ddcbbaf97d63213935eb6803acd97887db9bfb6b62b56603f72b32",
+      "required": true
+    },
+    {
+      "source": "examples/workflow/manifest.sha256",
+      "target": "examples/workflow/manifest.sha256",
+      "sha256": "9d257ea423e36d33ae2535f06dfefbacbe957ec3653723602d506862531517be",
+      "required": true
+    },
+    {
+      "source": "examples/workflow/src/lib.rs",
+      "target": "examples/workflow/src/lib.rs",
+      "sha256": "5bbe0f1189ee4b434b6b2a71d4cf5439eeeba74d39dfc3510e75911b8e2b7a7a",
+      "required": true
+    },
+    {
+      "source": "fixtures/conformance/cases.json",
+      "target": "fixtures/conformance/cases.json",
+      "sha256": "fd6454d95e5f0178231fb283c985305c2d642c09b74db71b2bee459cc73bbea8",
+      "required": true
+    },
+    {
+      "source": "fixtures/conformance/expected.json",
+      "target": "fixtures/conformance/expected.json",
+      "sha256": "fae973c0f62c8040c5aa7e5deb9915aa5384d2c7d5301c81d69890a6acfe8e92",
+      "required": true
+    },
+    {
+      "source": "fixtures/services/async_api.py",
+      "target": "fixtures/services/async_api.py",
+      "sha256": "bd3c3f583c699199b99c62bdd4eae2ab404ae1dad1f702a12fdf1e17f17b9d40",
+      "required": true
+    },
+    {
+      "source": "fixtures/services/scenarios.json",
+      "target": "fixtures/services/scenarios.json",
+      "sha256": "98a3863f31b08abe91c7c9372b321710b2e2d9980cd77da9d4108512dc51e0e6",
+      "required": true
+    },
+    {
+      "source": "fixtures/services/sync_api.py",
+      "target": "fixtures/services/sync_api.py",
+      "sha256": "413c5a65f4d841efeedb530d157333f43e36d33c4822c06156de4d94bdc54a5a",
+      "required": true
+    },
+    {
+      "source": "fixtures/services/workflow_api.py",
+      "target": "fixtures/services/workflow_api.py",
+      "sha256": "2e9c4270ec0f0f2c7fe232122f938f0fb8390d5ffcf2e7e1fd26b29547c75a90",
+      "required": true
+    },
+    {
+      "source": "operation-contracts.json",
+      "target": "operation-contracts.json",
+      "sha256": "bb24548a52dabe9906aeeb761865cf66c160bb9f7aad0f9046855487cad652d2",
+      "required": true
+    },
+    {
+      "source": "protocol/conformance-cases.json",
+      "target": "protocol/conformance-cases.json",
+      "sha256": "0c61a2fb6f401601379c8ac0bc7cb314a5a7a4d5e6c4289d0ed65fe5ed932e5d",
+      "required": true
+    },
+    {
+      "source": "protocol/host-feature-catalog.json",
+      "target": "protocol/host-feature-catalog.json",
+      "sha256": "6f8efbaa79c0624561c06b0466cdf02e5122e8c976d7731e3be3c0c899efbb93",
+      "required": true
+    },
+    {
+      "source": "protocol/profile-semantics.json",
+      "target": "protocol/profile-semantics.json",
+      "sha256": "43f1eeee5976a4c8d06a59a26dab8f9226e9da96b15d51fe22b3699321fbbd72",
+      "required": true
+    },
+    {
+      "source": "protocol/schema-policy.json",
+      "target": "protocol/schema-policy.json",
+      "sha256": "b693c26b60a27c6d34b21902ebc52f33309564ff973770a0f3d2fec45834e280",
+      "required": true
+    },
+    {
+      "source": "protocol/vendor-adapter-protocol.json",
+      "target": "protocol/vendor-adapter-protocol.json",
+      "sha256": "e095c5da10baefbb48e2aa381399c011e6aa83a2555f61aa627afbf1cf195948",
+      "required": true
+    },
+    {
+      "source": "rust-toolchain.toml",
+      "target": "rust-toolchain.toml",
+      "sha256": "7f624468e2ce33c9fcd7864cd92954445a9b5168b1b7d73fd55795966ecf97dc",
+      "required": true
+    },
+    {
+      "source": "schemas/adoption-evidence.schema.json",
+      "target": "schemas/adoption-evidence.schema.json",
+      "sha256": "ab699224cf97e1be789430027d2d35f9fe7d28d208db3960842ecade04e44c4a",
+      "required": true
+    },
+    {
+      "source": "schemas/capability-contract.schema.json",
+      "target": "schemas/capability-contract.schema.json",
+      "sha256": "e1d91f24647c8266652f984e910c66757f18b3e95e475cbc1144a277713dced5",
+      "required": true
+    },
+    {
+      "source": "schemas/checkpoint.schema.json",
+      "target": "schemas/checkpoint.schema.json",
+      "sha256": "f1bc388b15779e715b43acc0ab01ed218d101be630f578cc2dac27cf63cc087a",
+      "required": true
+    },
+    {
+      "source": "schemas/control-operations.schema.json",
+      "target": "schemas/control-operations.schema.json",
+      "sha256": "4fa09e7891ded8f488fd8f1ada43949eed58c2a94b63006bb14a8da6a25d0672",
+      "required": true
+    },
+    {
+      "source": "schemas/host-ports.schema.json",
+      "target": "schemas/host-ports.schema.json",
+      "sha256": "56986bc8254cd1657ec118a5da2a5db73a31d07a34b2af1825de7d7829dc0ab4",
+      "required": true
+    },
+    {
+      "source": "schemas/interaction-values.schema.json",
+      "target": "schemas/interaction-values.schema.json",
+      "sha256": "e42f1c0f5593f905b1568632528fad88e791cd7781c343502d6028dbd8d089c9",
+      "required": true
+    },
+    {
+      "source": "schemas/invocation.schema.json",
+      "target": "schemas/invocation.schema.json",
+      "sha256": "9201c8ed0770415a0b639efda5010c976bbaf515e379141ba82104dde6dfc5bd",
+      "required": true
+    },
+    {
+      "source": "schemas/manifest.schema.json",
+      "target": "schemas/manifest.schema.json",
+      "sha256": "d72b828da1885d6a0c2391b6f404de0883f597d3118b2022b444a0cfd55899a1",
+      "required": true
+    },
+    {
+      "source": "schemas/media-input.schema.json",
+      "target": "schemas/media-input.schema.json",
+      "sha256": "91a984fb5c773e4a133d6512ae8f7fa60ccd0beedc5f025a6add8c76b3a7276f",
+      "required": true
+    },
+    {
+      "source": "schemas/operation-payload.schema.json",
+      "target": "schemas/operation-payload.schema.json",
+      "sha256": "2a89e38e8637c4335e792bd3284276a7f68cc836abe5375ff191b03dad206266",
+      "required": true
+    },
+    {
+      "source": "schemas/policy.schema.json",
+      "target": "schemas/policy.schema.json",
+      "sha256": "b63c36d72d764c91eedf0d8a9408f31245ecd8597b11fcb5de2b543b1a7d5e65",
+      "required": true
+    },
+    {
+      "source": "schemas/profile.schema.json",
+      "target": "schemas/profile.schema.json",
+      "sha256": "e5b26b402d8bd79f1b0132862f996feee1c9a0a26cb339347301527a3a063629",
+      "required": true
+    },
+    {
+      "source": "schemas/response.schema.json",
+      "target": "schemas/response.schema.json",
+      "sha256": "fe542a645ffe1f503ca3d414e9faf35d0ba1174ebd6b77ef5b149c722d3a9c9b",
+      "required": true
+    },
+    {
+      "source": "schemas/result.schema.json",
+      "target": "schemas/result.schema.json",
+      "sha256": "4d8a8520b24bd9f4d45229526ff2d374a41723ba31d88e86c8060cddcc57f60f",
+      "required": true
+    },
+    {
+      "source": "schemas/stream-event.schema.json",
+      "target": "schemas/stream-event.schema.json",
+      "sha256": "48a4eca57ab8785c3f5f53b3f79573e28ce44f576f4e4cea7b70d7265849ee1c",
+      "required": true
+    },
+    {
+      "source": "schemas/ui-schema.schema.json",
+      "target": "schemas/ui-schema.schema.json",
+      "sha256": "e767568299d6c295fc14e9b34ad3efdc938ab1c3ec7e6591d545fcec995c2f2b",
+      "required": true
+    },
+    {
+      "source": "schemas/usage.schema.json",
+      "target": "schemas/usage.schema.json",
+      "sha256": "ab56e4090ce3825385f43a083b242afabc4919f343a468330198d3fbed8e79fc",
+      "required": true
+    },
+    {
+      "source": "schemas/worker-envelope.schema.json",
+      "target": "schemas/worker-envelope.schema.json",
+      "sha256": "17c10c6c390e76594de98c348197b1760175ff02c0be2bf05c51b6dafe69b194",
+      "required": true
+    },
+    {
+      "source": "sdk/rust/Cargo.toml",
+      "target": "sdk/rust/Cargo.toml",
+      "sha256": "e4d3ba95334cb800ddfa1c4ed9c67f67029d22f40ad6195ac2862a3985ddc4e7",
+      "required": true
+    },
+    {
+      "source": "sdk/rust/src/generated.rs",
+      "target": "sdk/rust/src/generated.rs",
+      "sha256": "3da973606bdfdc0c4bd02a09c53c02b1bd3d4d1b3c050c5234a710e6e3056b19",
+      "required": true
+    },
+    {
+      "source": "sdk/rust/src/guest.rs",
+      "target": "sdk/rust/src/guest.rs",
+      "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8",
+      "required": true
+    },
+    {
+      "source": "sdk/rust/src/host.rs",
+      "target": "sdk/rust/src/host.rs",
+      "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067",
+      "required": true
+    },
+    {
+      "source": "sdk/rust/src/lib.rs",
+      "target": "sdk/rust/src/lib.rs",
+      "sha256": "b7815e04d21b98e2f0261eb014160a52c02e806e793f100ae0f240d7d61ee7d7",
+      "required": true
+    },
+    {
+      "source": "sdk/rust/tests/compile_guest.rs",
+      "target": "sdk/rust/tests/compile_guest.rs",
+      "sha256": "d7b925657e4874cd77de6cc1686834abe9c382428d61011f5f3873e1b6e3534e",
+      "required": true
+    },
+    {
+      "source": "sdk/rust/tests/native_host.rs",
+      "target": "sdk/rust/tests/native_host.rs",
+      "sha256": "2a257f04bb6c7d3f3981bcbd4b36b1a8140ef5b65a88351c66fc78be3596bccb",
+      "required": true
+    },
+    {
+      "source": "sdk/typescript/package-lock.json",
+      "target": "sdk/typescript/package-lock.json",
+      "sha256": "607aefd4215ba61259179875a1705d9c2f725db49a2a973d2f024805d3f1f604",
+      "required": true
+    },
+    {
+      "source": "sdk/typescript/package.json",
+      "target": "sdk/typescript/package.json",
+      "sha256": "805ad1915c7578af90bfb4b18a18343f86ba10f06413992d6f299c6c21d15f08",
+      "required": true
+    },
+    {
+      "source": "sdk/typescript/src/generated.ts",
+      "target": "sdk/typescript/src/generated.ts",
+      "sha256": "70b8aa317241604a6daa82946786146c886a3fec1ecd28e389708332855952eb",
+      "required": true
+    },
+    {
+      "source": "sdk/typescript/src/index.ts",
+      "target": "sdk/typescript/src/index.ts",
+      "sha256": "7812917fb61e9f54bdaac66a585d7b0d3cdab9f9ceb91936a4069ecddcaa470b",
+      "required": true
+    },
+    {
+      "source": "sdk/typescript/tsconfig.json",
+      "target": "sdk/typescript/tsconfig.json",
+      "sha256": "602cc07988dfc105aefc259848b2809e6f055212a66c9ff754f27bb57438b127",
+      "required": true
+    },
+    {
+      "source": "templates/profile/manifest.json",
+      "target": "templates/profile/manifest.json",
+      "sha256": "d8de2d49b0512653f40b0130fbfe7858a5dd0e7ca84a628b5f4af967946c8ee2",
+      "required": true
+    },
+    {
+      "source": "templates/profile/profile.json",
+      "target": "templates/profile/profile.json",
+      "sha256": "27ca8abd8c6066da47753ffbf60e0b1a929100f69d014075825afa49f246474c",
+      "required": true
+    },
+    {
+      "source": "templates/rust/Cargo.lock",
+      "target": "templates/rust/Cargo.lock",
+      "sha256": "92ae08ed467aff3fe8374bc4fd3128edb762b39738a029d9399d50691e2744d9",
+      "required": true
+    },
+    {
+      "source": "templates/rust/Cargo.toml",
+      "target": "templates/rust/Cargo.toml",
+      "sha256": "e3401a4921440d34a15887e753af20cf39db3577efef90d14ce149532aaadc8b",
+      "required": true
+    },
+    {
+      "source": "templates/rust/README.md",
+      "target": "templates/rust/README.md",
+      "sha256": "6e19e0002777b297f92f3c84814d3be2b94496325184e98a693f3d776992bf35",
+      "required": true
+    },
+    {
+      "source": "templates/rust/manifest.json",
+      "target": "templates/rust/manifest.json",
+      "sha256": "a8bc2389612cbed6e840c45ad0c8ca3de57eaa23383d6bc65a96ddf08931ad42",
+      "required": true
+    },
+    {
+      "source": "templates/rust/src/lib.rs",
+      "target": "templates/rust/src/lib.rs",
+      "sha256": "aa5853cbad3721f30663d1bc676679c2bed53cdf414b026b1fcbfd112ed6235d",
+      "required": true
+    },
+    {
+      "source": "templates/rust/template-lock.json",
+      "target": "templates/rust/template-lock.json",
+      "sha256": "a3b80944aee27f09e08d864e59b02359a4f476654672dadced42ca7ddafca5bc",
+      "required": true
+    },
+    {
+      "source": "templates/rust/vendor-sdk/sdk/rust/Cargo.toml",
+      "target": "templates/rust/vendor-sdk/sdk/rust/Cargo.toml",
+      "sha256": "e6113f4af6d805589b02401f00b31bf74ebe7d4fbb9f89f8b4504972ea3ce18d",
+      "required": true
+    },
+    {
+      "source": "templates/rust/vendor-sdk/sdk/rust/src/generated.rs",
+      "target": "templates/rust/vendor-sdk/sdk/rust/src/generated.rs",
+      "sha256": "3da973606bdfdc0c4bd02a09c53c02b1bd3d4d1b3c050c5234a710e6e3056b19",
+      "required": true
+    },
+    {
+      "source": "templates/rust/vendor-sdk/sdk/rust/src/guest.rs",
+      "target": "templates/rust/vendor-sdk/sdk/rust/src/guest.rs",
+      "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8",
+      "required": true
+    },
+    {
+      "source": "templates/rust/vendor-sdk/sdk/rust/src/host.rs",
+      "target": "templates/rust/vendor-sdk/sdk/rust/src/host.rs",
+      "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067",
+      "required": true
+    },
+    {
+      "source": "templates/rust/vendor-sdk/sdk/rust/src/lib.rs",
+      "target": "templates/rust/vendor-sdk/sdk/rust/src/lib.rs",
+      "sha256": "b7815e04d21b98e2f0261eb014160a52c02e806e793f100ae0f240d7d61ee7d7",
+      "required": true
+    },
+    {
+      "source": "templates/rust/vendor-sdk/wit/vendor-adapter.wit",
+      "target": "templates/rust/vendor-sdk/wit/vendor-adapter.wit",
+      "sha256": "c1bf96aa89f35378f05684919c5e0ecac740092761066ce222dde4267b2d892a",
+      "required": true
+    },
+    {
+      "source": "templates/template-lock.json",
+      "target": "templates/template-lock.json",
+      "sha256": "a3b80944aee27f09e08d864e59b02359a4f476654672dadced42ca7ddafca5bc",
+      "required": true
+    },
+    {
+      "source": "tools/check_adoption_manifest.py",
+      "target": "tools/check_adoption_manifest.py",
+      "sha256": "832946cd1eed3dabc97d93e26c0177a9ec2e4d3b87e985640ebf4d4b1b433c5e",
+      "required": true
+    },
+    {
+      "source": "tools/check_author_evidence.py",
+      "target": "tools/check_author_evidence.py",
+      "sha256": "e9460de2555dd97dc6ab66858576d10a879a015c8e89e2a041bb2b32a69c0c37",
+      "required": true
+    },
+    {
+      "source": "tools/conformance_proofs.py",
+      "target": "tools/conformance_proofs.py",
+      "sha256": "dcaaa9509201e3bf655842c7519950e44da54b5917ae72658a818707e9b75645",
+      "required": true
+    },
+    {
+      "source": "tools/export_sdk.py",
+      "target": "tools/export_sdk.py",
+      "sha256": "9f01ddc60c44fba43a8ca1bbf7646beb2de01961d66cf74598962106ce2ff0b7",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/dist/protocol/schema-policy.json",
+      "target": "tools/form-reference/dist/protocol/schema-policy.json",
+      "sha256": "e3babab9efa010336786dae19ed76c59f08639b1288ed8237e386461bbe0fb30",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/dist/schemas/interaction-values.schema.json",
+      "target": "tools/form-reference/dist/schemas/interaction-values.schema.json",
+      "sha256": "e2b64360ab2acf418c4f817e7e29c258f91314bb33086cd99828c1e6b3a899f6",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/dist/sdk/typescript/src/generated.js",
+      "target": "tools/form-reference/dist/sdk/typescript/src/generated.js",
+      "sha256": "8e609bb71c20b858c77f0e9f90bb1319db8477b13f9f965f1a1e18524bf50881",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/dist/tools/form-reference/src/index.js",
+      "target": "tools/form-reference/dist/tools/form-reference/src/index.js",
+      "sha256": "365e8524005edd2f5c333bcad8b44202082fe49d83bee98f4387b3a89594a98d",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/dist/tools/form-reference/src/media.js",
+      "target": "tools/form-reference/dist/tools/form-reference/src/media.js",
+      "sha256": "0c0f0cb2722ece23a34a06942be047658965f8f1a3b1634a79d3e2ec3efaa34d",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/dist/tools/form-reference/src/renderer.js",
+      "target": "tools/form-reference/dist/tools/form-reference/src/renderer.js",
+      "sha256": "07e15ed2678a40eac344459c2f67d1b54d5ae358af01ce2b1780783bcc1e61b3",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/index.html",
+      "target": "tools/form-reference/index.html",
+      "sha256": "43b6a24a3cffc757918bd4f787c818307bb79231286bec2c3b04f0a1707abd9b",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/package-lock.json",
+      "target": "tools/form-reference/package-lock.json",
+      "sha256": "9f380d7a8dd6d78800e28fc5dc78ca6f313d18df55a567c46251925a3f86547a",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/package.json",
+      "target": "tools/form-reference/package.json",
+      "sha256": "67dbaf21ca5e39c67125395e26f9a09edfd668d098b3bb8210ac0296ff70da65",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/src/index.ts",
+      "target": "tools/form-reference/src/index.ts",
+      "sha256": "8c032c600ba52ba4fdbf96ab6dd8d3800aa60884aaf1ea0b450ae176f1851363",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/src/media.ts",
+      "target": "tools/form-reference/src/media.ts",
+      "sha256": "58b622330072b0c29f76115b3fb6365e72583d4a60d3c477179aa0c650452745",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/src/renderer.ts",
+      "target": "tools/form-reference/src/renderer.ts",
+      "sha256": "de04c7bfaefee8441d44cb2f3ef3f1403a2094ef13946065471655ab4c1794da",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/tests/forms.test.ts",
+      "target": "tools/form-reference/tests/forms.test.ts",
+      "sha256": "3e4cdf648e582533f40f03a9facb6a2c156caca8d596120d7e8cdd2e780e1a18",
+      "required": true
+    },
+    {
+      "source": "tools/form-reference/tsconfig.json",
+      "target": "tools/form-reference/tsconfig.json",
+      "sha256": "34b32274f2dd08a8151285dad20babe39354b3733ae1818090b0e52da6a24739",
+      "required": true
+    },
+    {
+      "source": "tools/generate_contracts.py",
+      "target": "tools/generate_contracts.py",
+      "sha256": "078b6120ddaa46ca7a569d3b804158a928201146b38b5e194f1002d899808193",
+      "required": true
+    },
+    {
+      "source": "tools/generate_wit.py",
+      "target": "tools/generate_wit.py",
+      "sha256": "690a59a60440120d7e81052aaced7607161fa875fe90616f00286b4342e823f1",
+      "required": true
+    },
+    {
+      "source": "tools/requirements-design.txt",
+      "target": "tools/requirements-design.txt",
+      "sha256": "9cba6d4508d006391ab899893990d5ac5d03b4811a0f71f152c5883897ee8120",
+      "required": true
+    },
+    {
+      "source": "tools/run_conformance.py",
+      "target": "tools/run_conformance.py",
+      "sha256": "d6faa48b94ef315bb74e06de5964c0e44bc2918c08b1d3c80694d9fd54df245a",
+      "required": true
+    },
+    {
+      "source": "tools/sync_templates.py",
+      "target": "tools/sync_templates.py",
+      "sha256": "2463c593ed10e0995dda7f82781aaa10836d5e3e9b8a564cef19995fd15bda7d",
+      "required": true
+    },
+    {
+      "source": "tools/validate_design.py",
+      "target": "tools/validate_design.py",
+      "sha256": "0ec69f78ba6ed70408b49e5c77b7a309360840171cb36a96832715628cba79b8",
+      "required": true
+    },
+    {
+      "source": "tools/verify_release.py",
+      "target": "tools/verify_release.py",
+      "sha256": "23b9d99cec23da18fbafb8eff6784d996c28cad4abf33e9a3553ab82048c21d8",
+      "required": true
+    },
+    {
+      "source": "wit/vendor-adapter.wit",
+      "target": "wit/vendor-adapter.wit",
+      "sha256": "c1bf96aa89f35378f05684919c5e0ecac740092761066ce222dde4267b2d892a",
+      "required": true
+    },
+    {
+      "source": "DEVELOPER-PREVIEW.zh-CN.md",
+      "target": "DEVELOPER-PREVIEW.zh-CN.md",
+      "sha256": "18d3d6d1d7dccb1c5fb3deb7fc3f357a7c8d06285a9042f1ba6213da955aeeb6",
+      "required": true
+    },
+    {
+      "source": "crates/reference-host/src/before_send.rs",
+      "target": "crates/reference-host/src/before_send.rs",
+      "sha256": "592c61162992c351059e69f195873ca993d39f400f60b18053aed85ed98b9b3c",
+      "required": true
+    },
+    {
+      "source": "crates/tools/src/host_channel.rs",
+      "target": "crates/tools/src/host_channel.rs",
+      "sha256": "206f1dadfb60ed2e775498f140ded424928ad297f24b2cd8b04c9f30b96017d5",
+      "required": true
+    },
+    {
+      "source": "schemas/host-channel-v1.schema.json",
+      "target": "schemas/host-channel-v1.schema.json",
+      "sha256": "722a552b7a01af4fc62fad2108f486df2b605d5db0c2044c11843725c94e610f",
+      "required": true
+    },
+    {
+      "source": "profiles/local-runtime-v1/bundle.schema.json",
+      "target": "profiles/local-runtime-v1/bundle.schema.json",
+      "sha256": "609a263f6019f161738a8b6d3249bdcf92c5e669782a21501575c55d0928f888",
+      "required": true
+    },
+    {
+      "source": "profiles/local-runtime-v1/control.schema.json",
+      "target": "profiles/local-runtime-v1/control.schema.json",
+      "sha256": "601925c0cc07ebb29d8bd96b0d300371e0f27a1692dd476fe9abb75691a9c079",
+      "required": true
+    },
+    {
+      "source": "profiles/local-runtime-v1/runtime.schema.json",
+      "target": "profiles/local-runtime-v1/runtime.schema.json",
+      "sha256": "3565842c5def5aeca665082ecb04274c15308f5c0f1f1e21812bd1a288149197",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/batch.input.schema.json",
+      "target": "profiles/speech-v1/batch.input.schema.json",
+      "sha256": "22277bf9604cb68141e8c7abc32255d806597da9fb89c5306fef158bed4e7fb6",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/batch.output.schema.json",
+      "target": "profiles/speech-v1/batch.output.schema.json",
+      "sha256": "83a0860e46ceaef4244d356e716fb89fea6a3dd93085fa045ac767942211dbcf",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/configuration.schema.json",
+      "target": "profiles/speech-v1/configuration.schema.json",
+      "sha256": "9b53c939bfb1f0e518553edbbdec9a89eaef93817feaa654f1e19b7972131ccc",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/descriptor.schema.json",
+      "target": "profiles/speech-v1/descriptor.schema.json",
+      "sha256": "948a8edfe48bb2e48d09bd6027eff5af024bbd34c2ceb331d069b18e018996ef",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/host.schema.json",
+      "target": "profiles/speech-v1/host.schema.json",
+      "sha256": "45df9da350919b2063677c67476d5800c1652ae2d9d1455f4dba2e0a8cbfd247",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/README.md",
+      "target": "profiles/speech-v1/README.md",
+      "sha256": "90ffe44f1ab65e19d83a48b3099fd5b59145400430586c9e28c7740f3f2cec1a",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/resume.schema.json",
+      "target": "profiles/speech-v1/resume.schema.json",
+      "sha256": "98a2bc32dca85855e3ddbb0ded417b4d7947f93c7a904eeec6af879b51e7de2a",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/synthesize.input.schema.json",
+      "target": "profiles/speech-v1/synthesize.input.schema.json",
+      "sha256": "f51eacb5d1d76023638e8c66646132abca32a5be4599d115f2c5102b822360c2",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/synthesize.output.schema.json",
+      "target": "profiles/speech-v1/synthesize.output.schema.json",
+      "sha256": "cbd129c6647b61410af5db349d8cd810ba76381c72c5ee8cc8e7c554fc4c2479",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/voices.input.schema.json",
+      "target": "profiles/speech-v1/voices.input.schema.json",
+      "sha256": "a350197633901794aa2c50ba6d6d06c8995bda981793ec0d84164d7dcdcf3888",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/voices.output.schema.json",
+      "target": "profiles/speech-v1/voices.output.schema.json",
+      "sha256": "0bb81be3f27adf72e1d82b03accff9937c5befb733dded062c1c6ffe193bcc8b",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/fixtures/capability.json",
+      "target": "profiles/speech-v1/fixtures/capability.json",
+      "sha256": "323c084fd90458c553d24a38a2ed600c77a11d6913d44862be43e3a7801e0027",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/fixtures/clone.json",
+      "target": "profiles/speech-v1/fixtures/clone.json",
+      "sha256": "fe27574333a21384336f5b486b75b646b16f7b2d86f3c6470b8309af4d0e450d",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/fixtures/minimal.json",
+      "target": "profiles/speech-v1/fixtures/minimal.json",
+      "sha256": "b2d80b665a1083e6dbfdd56004ad1bbf8baf987b54049b09ddfa7848728c203d",
+      "required": true
+    },
+    {
+      "source": "profiles/speech-v1/fixtures/optional.json",
+      "target": "profiles/speech-v1/fixtures/optional.json",
+      "sha256": "2a91cb88ed3780a21addf9ddbbaeed3be66f7a8474f46416743c2ce8a688d4a1",
+      "required": true
+    },
+    {
+      "source": "templates/tts-adapter/manifest.json",
+      "target": "templates/tts-adapter/manifest.json",
+      "sha256": "5a599c23d3f3ae9041594966ac8e58cff364a564ec72e1b3588542d1f7e82a9b",
+      "required": true
+    },
+    {
+      "source": "templates/tts-adapter/README.md",
+      "target": "templates/tts-adapter/README.md",
+      "sha256": "8950ce7e7cf0e73657734a023f42702c5fb18ac8efb59a00b307a228009c6b55",
+      "required": true
+    },
+    {
+      "source": "templates/tts-adapter/src/capabilities.json",
+      "target": "templates/tts-adapter/src/capabilities.json",
+      "sha256": "09ee430c043653355d1d16fe3c95114bd8f8a2af5d695090a7798067f05361dd",
+      "required": true
+    },
+    {
+      "source": "templates/tts-adapter/src/lib.rs",
+      "target": "templates/tts-adapter/src/lib.rs",
+      "sha256": "b507e7146aa7157f48b6e19a701095bca8041d604d9a14dc28420fda161870b3",
+      "required": true
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "packageId": "local.thirdparty.runninghub-h3-spectrum-dynamic",
+  "version": "1.0.1",
+  "sdkRelease": "2.0.0",
+  "sourceOrigin": "repository packages/cloud-adapters/runninghub-h3-spectrum-dynamic",
+  "sourceManifestSha256": "2a538f2c36f0630d3f701fa9082bca926924553c2c3b51b953f7aca8c894c101",
+  "notes": [
+    "Spectrum quality twin of runninghub-h3-dynamic 1.2.4; workflowId 2116576147646533634.",
+    "MODEL=runninghub-h3-r2v-spectrum-dynamic; build_graph identical to Turbo twin.",
+    "Frozen Turbo workflowId 2100758868111486978 must stay untouched.",
+    "SDK 2.0.0 mirror vendored; native cargo test is the gate for 1.0.0."
+  ],
+  "sourceFiles": [
+    {
+      "path": ".gitignore",
+      "sha256": "85372753687f7b7a5e7e50b9e226f32cd38cb9c7e76b0d2b78d5681217f3ffa9"
+    },
+    {
+      "path": "Build.ps1",
+      "sha256": "910e19ff969902668ce1165b7b8cb44948e94857432fe95f1a4e95e284e4a767"
+    },
+    {
+      "path": "Cargo.lock",
+      "sha256": "b9be1368a0782488791eeac47952b9adf4b1f07f3816c1354ab14969ee3bb39d"
+    },
+    {
+      "path": "Cargo.toml",
+      "sha256": "c5eb2cb295fb2bb5e5a4e9e8e3e420dc384ac5931dd3bba4d3ee7f7d4be06e73"
+    },
+    {
+      "path": "README.md",
+      "sha256": "dd55da986aa2affd0a8eb7c84cc74eca3792681299071c2bba1a8704f3662add"
+    },
+    {
+      "path": "fixtures/sdk-managed-video-ebml.json",
+      "sha256": "929f55193b63702ea8fc1b9fd47190b80ed502ce61ab015806068ccd249a7d5c"
+    },
+    {
+      "path": "fixtures/sdk-managed-video-mp4.json",
+      "sha256": "048b949756d2b159a4a52f55fda8114f845be92f19e5f597a17c3d73a60a0ac9"
+    },
+    {
+      "path": "fixtures/sdk-managed-video-quicktime.json",
+      "sha256": "8ee30d2121887ff06fcfe1a8587236a37361d9c21f8e4c65d8e485a016926554"
+    },
+    {
+      "path": "installation/adapter-install.template.json",
+      "sha256": "c5f667cba3e503d27ec9cf903e82078a26af64105ed84c6b6da343e4c85b578a"
+    },
+    {
+      "path": "manifest.json",
+      "sha256": "2a538f2c36f0630d3f701fa9082bca926924553c2c3b51b953f7aca8c894c101"
+    },
+    {
+      "path": "manifest.sha256",
+      "sha256": "0e2a8f4f4324a9828f5b59398c3bdb74180083d802d9dc5f5daf8f76cbe66c81"
+    },
+    {
+      "path": "schemas/config.json",
+      "sha256": "47b3c13262c8b418f95dfe814e8b64ca810addfdecf769d78d246a237a77e738"
+    },
+    {
+      "path": "schemas/input.json",
+      "sha256": "a39dfd71b6f475a053a1a614ba6d1836fdc6dce3cbdaf931a307980f589bc097"
+    },
+    {
+      "path": "schemas/output.json",
+      "sha256": "4a56d4b95035866b4be190510c6bb91aff7bd9e5e82e119a3dfa91591a5e08fa"
+    },
+    {
+      "path": "schemas/resume.json",
+      "sha256": "9ce10d4ced5d82429e24512cd4e0f4401fe5b04d5619896f2cbe5fedda766c18"
+    },
+    {
+      "path": "src/lib.rs",
+      "sha256": "68f48de07b8bbdc660481d1d1bfdba8e9ea5ea3f998453973eca292e5fbbc331"
+    },
+    {
+      "path": "src/tests.rs",
+      "sha256": "104f557e2a37ed965fd16dc955369458b5bc57b08452b6362484d701b567c3ae"
+    },
+    {
+      "path": "src/workflow-api.json",
+      "sha256": "1308af763c1822685eb547f42d8997788cc7a509d1a70ba41b547cda7f244cd1"
+    },
+    {
+      "path": "template-lock.json",
+      "sha256": "dd05c5c2ce912eb87544acc11a815cc7f6c9ae36a4d640e8a469fc0355c542c0"
+    },
+    {
+      "path": "vendor-sdk/sdk/rust/Cargo.toml",
+      "sha256": "e6113f4af6d805589b02401f00b31bf74ebe7d4fbb9f89f8b4504972ea3ce18d"
+    },
+    {
+      "path": "vendor-sdk/sdk/rust/src/generated.rs",
+      "sha256": "ec08bd56de652ddb67bf861107d523ebe209dab7e569b2e271d3fbc3e32b670b"
+    },
+    {
+      "path": "vendor-sdk/sdk/rust/src/guest.rs",
+      "sha256": "4e40cb630952253b446c84feff110bf1a772df11292fa872259ff727c67e25a8"
+    },
+    {
+      "path": "vendor-sdk/sdk/rust/src/host.rs",
+      "sha256": "c6af2d4db6f54645c3b21a5477f835ad0ebc7aa1fb59e7b45fec53e8c9629067"
+    },
+    {
+      "path": "vendor-sdk/sdk/rust/src/lib.rs",
+      "sha256": "b81d939cf51c023ac473f78d5fb4a4da330963e773c161d00ac620ba2f46b4c3"
+    },
+    {
+      "path": "vendor-sdk/wit/vendor-adapter.wit",
+      "sha256": "c1bf96aa89f35378f05684919c5e0ecac740092761066ce222dde4267b2d892a"
+    }
+  ],
+  "repositoryValidation": {
+    "jsonAndCredentials": "PASS_NO_EMBEDDED_CREDENTIAL_FINDINGS",
+    "cargoMetadata": "PASS_LOCKED_OFFLINE_SINGLE_MEMBER_WORKSPACE",
+    "buildScriptSyntax": "COPIED_FROM_TURBO_TWIN",
+    "nativeBehaviorTests": {
+      "passed": 8,
+      "failed": 0,
+      "ignored": 0
+    },
+    "nativeBuildTarget": "outside host workspace target",
+    "cloudGeneration": "NOT_RUN",
+    "standardSdkBuildCheckPackThisPublishingStep": "NOT_RUN"
+  },
+  "baseVersion": "1.2.4",
+  "baseSourceOrigin": "packages/cloud-adapters/runninghub-h3-dynamic",
+  "builtArtifactSha256": "96e4a844d180c91896d454a8611e1d5a69103f18ac7aa6b7609bbce13f1b0ef9",
+  "sdkSource": "Generated mirrors refreshed using the bundled public CLI init; no manual edits to generated files",
+  "latestFix": "LF schema identity, new immutable package version, full reference input declaration; real host install acceptance tracked separately",
+  "currentVerification": {
+    "publicSdkBuildCheckPack": "PASS",
+    "nativeBehaviorTests": {
+      "passed": 9,
+      "failed": 0
+    },
+    "realCloudGeneration": "NOT_RUN",
+    "hostInstallation": "PASS_REAL_SDK_TEMP_DB_AND_CURRENT_APP_COMMITTED"
+  }
+}

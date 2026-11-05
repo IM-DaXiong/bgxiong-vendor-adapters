@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/control-operations.schema.json",
+  "$defs": {
+    "capabilitiesInput": {
+      "type": "object",
+      "properties": {},
+      "required": [],
+      "additionalProperties": false
+    },
+    "runtimeCaps": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 2
+        },
+        "pluginId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "pluginVersion": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capabilityContracts": {
+          "type": "array",
+          "items": {
+            "$ref": "https://bgxiong.local/vendor-adapter/v2/capability-contract.schema.json"
+          }
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "pluginId",
+        "pluginVersion",
+        "capabilityContracts"
+      ],
+      "additionalProperties": false
+    },
+    "probeInput": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 2
+        },
+        "kind": {
+          "enum": [
+            "package_validation",
+            "connectivity"
+          ]
+        },
+        "configuration": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "kind",
+        "configuration"
+      ],
+      "additionalProperties": false
+    },
+    "probeResult": {
+      "type": "object",
+      "properties": {
+        "packageValid": {
+          "type": "boolean"
+        },
+        "connection": {
+          "enum": [
+            "not_checked",
+            "ready",
+            "failed"
+          ]
+        },
+        "authentication": {
+          "enum": [
+            "not_checked",
+            "ready",
+            "failed"
+          ]
+        },
+        "resources": {
+          "enum": [
+            "not_checked",
+            "ready",
+            "failed"
+          ]
+        },
+        "issues": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "code": {
+                "enum": [
+                  "INVALID_PACKAGE",
+                  "INVALID_CONFIGURATION",
+                  "CONNECTION_FAILED",
+                  "AUTHENTICATION_FAILED",
+                  "RESOURCE_UNAVAILABLE"
+                ]
+              },
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "code",
+              "message"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "packageValid",
+        "connection",
+        "authentication",
+        "resources",
+        "issues"
+      ],
+      "additionalProperties": false
+    },
+    "uploadInput": {
+      "type": "object",
+      "properties": {
+        "schemaVersion": {
+          "const": 2
+        },
+        "modelId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "capabilityKey": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operationId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "operationVersion": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "role": {
+          "type": "string",
+          "minLength": 1
+        },
+        "media": {
+          "$ref": "https://bgxiong.local/vendor-adapter/v2/media-input.schema.json"
+        },
+        "configuration": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "schemaVersion",
+        "modelId",
+        "capabilityKey",
+        "operationId",
+        "operationVersion",
+        "role",
+        "media",
+        "configuration"
+      ],
+      "additionalProperties": false
+    },
+    "uploadResult": {
+      "type": "object",
+      "properties": {
+        "mediaId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "uploadRef": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "mediaId",
+        "uploadRef"
+      ],
+      "additionalProperties": false
+    },
+    "cancelResult": {
+      "type": "object",
+      "properties": {
+        "outcome": {
+          "enum": [
+            "remote_requested",
+            "remote_confirmed",
+            "local_only",
+            "unsupported"
+          ]
+        }
+      },
+      "required": [
+        "outcome"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

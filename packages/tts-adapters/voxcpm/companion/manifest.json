@@ -1,0 +1,88 @@
+{
+    "version":  "2.0.12",
+    "entry":  "start-sidecar.ps1",
+    "bootstrapTimeoutSec":  1800,
+    "requiredFiles":  [
+                          "manifest.json",
+                          "start-sidecar.ps1",
+                          "start-sidecar.sh",
+                          "sidecar_server.py",
+                          "requirements.txt",
+                          "_shared/bgx_remote_fetch.py",
+                          "_shared/bgx_sidecar_common.py",
+                          "_shared/remote_sources.json"
+                      ],
+    "description":  "VoxCPM2 TTS sidecar (pip + FastAPI · openbmb/VoxCPM2 · INV-REMOTE-DL)",
+    "minVramGb":  8,
+    "healthEndpoint":  "/health",
+    "speechEndpoint":  "/v1/audio/speech",
+    "defaultModel":  "openbmb/VoxCPM2",
+    "remoteArtifacts":  [
+                            {
+                                "id":  "pip_voxcpm2",
+                                "kind":  "pip_requirements",
+                                "file":  "requirements.txt",
+                                "sources":  [
+                                                {
+                                                    "provider":  "bgx_cdn",
+                                                    "kind":  "wheelhouse",
+                                                    "archiveUrl":  "https://r.bgxiong.com/client/ai-story/runtimes/VoxCPM2/voxcpm-windows-x64-deps-2.0.7.zip",
+                                                    "sha256":  "3b90117d027b22d5a0a10a4cfa7cc4badb357801a0b07e73f127cb3d99a77d71",
+                                                    "totalBytes":  375514302
+                                                },
+                                                {
+                                                    "provider":  "pypi"
+                                                },
+                                                {
+                                                    "provider":  "pypi_tuna"
+                                                }
+                                            ],
+                                "manualInstall":  {
+                                                      "guideAnchor":  "§八.2",
+                                                      "commands":  [
+                                                                       "cd {runtime_root}",
+                                                                       ".venv\\Scripts\\pip install -r requirements.txt"
+                                                                   ]
+                                                  }
+                            },
+                            {
+                                "id":  "voxcpm2_checkpoints",
+                                "kind":  "huggingface_repo",
+                                "repoId":  "openbmb/VoxCPM2",
+                                "localRelativeDir":  "checkpoints",
+                                "requiredMarkers":  [
+                                                        "config.json",
+                                                        "model.safetensors"
+                                                    ],
+                                "sources":  [
+                                                {
+                                                    "provider":  "bgx_cdn",
+                                                    "kind":  "zip",
+                                                    "archiveUrl":  "https://r.bgxiong.com/client/ai-story/runtimes/VoxCPM2/voxcpm-windows-x64-model-2.0.7.zip",
+                                                    "sha256":  "997cf30b6d9836defbd8c42eabe2dd5f86e71378838079e9ade09dbf3c0935b0",
+                                                    "totalBytes":  3975447953
+                                                },
+                                                {
+                                                    "provider":  "huggingface",
+                                                    "repoId":  "openbmb/VoxCPM2"
+                                                },
+                                                {
+                                                    "provider":  "hf_mirror",
+                                                    "repoId":  "openbmb/VoxCPM2"
+                                                },
+                                                {
+                                                    "provider":  "modelscope",
+                                                    "modelId":  "OpenBMB/VoxCPM2"
+                                                }
+                                            ],
+                                "manualInstall":  {
+                                                      "guideAnchor":  "§八.3",
+                                                      "targetDirTemplate":  "{store_root}/checkpoints/",
+                                                      "verify":  [
+                                                                     "config.json",
+                                                                     "model.safetensors"
+                                                                 ]
+                                                  }
+                            }
+                        ]
+}

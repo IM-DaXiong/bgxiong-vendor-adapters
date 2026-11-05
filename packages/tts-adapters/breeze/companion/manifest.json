@@ -1,0 +1,108 @@
+{
+  "version": "1.0.2",
+  "entry": "start-managed.ps1",
+  "bootstrapTimeoutSec": 3600,
+  "requiredFiles": [
+    "manifest.json",
+    "start-sidecar.ps1",
+    "start-sidecar.sh",
+    "sidecar_server.py",
+    "request_map.py",
+    "breeze_runtime.py",
+    "requirements.txt",
+    "requirements.lock.txt",
+    "CONTRACT.md",
+    "upstream-snapshot.json",
+    "upstream/infer.py",
+    "upstream/breeze_infer/api.py",
+    "upstream/breeze_infer/runtime.py",
+    "upstream/breeze_infer/templates.py",
+    "upstream/models/fast_streaming.py",
+    "_shared/bgx_remote_fetch.py",
+    "_shared/bgx_sidecar_common.py",
+    "_shared/remote_sources.json",
+    "start-managed.ps1"
+  ],
+  "description": "Breeze TTS 2 sidecar (pip + FastAPI · BreezeBlue/Breeze-TTS-2 · shared TtsSidecarManager)",
+  "minVramGb": 12,
+  "healthEndpoint": "/health",
+  "speechEndpoint": "/v1/audio/speech",
+  "batchEndpoint": "/v1/audio/speech/batch",
+  "modelEndpoint": "/v1/model",
+  "defaultModel": "BreezeBlue/Breeze-TTS-2",
+  "pythonAbi": "cp312",
+  "attnImplementation": "eager",
+  "sampleRate": 24000,
+  "remoteArtifacts": [
+    {
+      "id": "pip_breeze2",
+      "kind": "pip_requirements",
+      "file": "requirements.txt",
+      "sources": [
+        {
+          "provider": "bgx_cdn",
+          "kind": "wheelhouse",
+          "archiveUrl": "https://r.bgxiong.com/client/ai-story/runtimes/BreezeTTS/breeze-deps-cp312-cu128-1.0.1.zip",
+          "sha256": "a03d55e2f3d1c9b1936dca8d49eab2aa50e980b167e6991da1bead7bab0a0b2a",
+          "totalBytes": 3111774941
+        },
+        {
+          "provider": "pypi"
+        },
+        {
+          "provider": "pypi_tuna"
+        }
+      ],
+      "manualInstall": {
+        "guideAnchor": "S0",
+        "commands": [
+          "cd {runtime_root}",
+          ".venv\\Scripts\\pip install --no-index --find-links {store_root}/wheelhouse -r requirements.txt"
+        ]
+      }
+    },
+    {
+      "id": "breeze2_checkpoints",
+      "kind": "huggingface_repo",
+      "repoId": "BreezeBlue/Breeze-TTS-2",
+      "revision": "3e28c5151381a722f1d8661b4118c298caa77aa4",
+      "localRelativeDir": "checkpoints",
+      "requiredMarkers": [
+        "config.json",
+        "generation_config.json",
+        "model.safetensors.index.json",
+        "model-00001-of-00002.safetensors",
+        "model-00002-of-00002.safetensors",
+        "audio_tokenizer/config.json",
+        "audio_tokenizer/model.safetensors"
+      ],
+      "sources": [
+        {
+          "provider": "bgx_cdn",
+          "kind": "zip",
+          "archiveUrl": "https://r.bgxiong.com/client/ai-story/runtimes/BreezeTTS/breeze-model-3e28c515-1.zip",
+          "sha256": "c9e5bbd07c1ccf2789e5f470814f2ab7e9baa24bbd4d5aecdf45a0e9f3622034",
+          "totalBytes": 7683548724
+        },
+        {
+          "provider": "huggingface",
+          "repoId": "BreezeBlue/Breeze-TTS-2"
+        },
+        {
+          "provider": "hf_mirror",
+          "repoId": "BreezeBlue/Breeze-TTS-2"
+        }
+      ],
+      "manualInstall": {
+        "guideAnchor": "S0",
+        "targetDirTemplate": "{store_root}/checkpoints/",
+        "verify": [
+          "config.json",
+          "model.safetensors.index.json",
+          "model-00001-of-00002.safetensors",
+          "model-00002-of-00002.safetensors"
+        ]
+      }
+    }
+  ]
+}

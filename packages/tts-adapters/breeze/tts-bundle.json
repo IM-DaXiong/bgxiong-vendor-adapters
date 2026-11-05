@@ -1,0 +1,149 @@
+{
+  "schemaVersion": 1,
+  "packageId": "local.tts.breeze",
+  "version": "1.0.0-d",
+  "displayName": "Breeze TTS 2 (plain / voice_design / reference_clone)",
+  "adapter": {
+    "path": "dist-pack-d/adapter.wasm",
+    "sha256": "07b18217f4f5cf03fd18668cc80944cc108534f7f55eecf4e8496d636e053d08"
+  },
+  "runtimes": [
+    {
+      "id": "breeze-companion-windows-x64",
+      "version": "1.0.2",
+      "os": "windows",
+      "arch": "x86_64",
+      "code": {
+        "path": "companion/files.json",
+        "sha256": "945cca6afb08ffbc40cb71941b05bc2586d71611e836f1ddcf60d359fbd398ec"
+      },
+      "executable": {
+        "source": "code",
+        "path": "start-sidecar.ps1"
+      }
+    }
+  ],
+  "models": [
+    {
+      "modelId": "BreezeBlue/Breeze-TTS-2",
+      "runtimeId": "breeze-companion-windows-x64",
+      "revision": "3e28c5151381a722f1d8661b4118c298caa77aa4",
+      "resourceIds": [
+        "breeze2_checkpoints",
+        "pip_breeze2"
+      ],
+      "speech": {
+        "schemaVersion": 1,
+        "modes": [
+          {
+            "mode": "plain",
+            "support": "supported"
+          },
+          {
+            "mode": "voice_design",
+            "support": "supported"
+          },
+          {
+            "mode": "reference_clone",
+            "support": "supported"
+          }
+        ],
+        "fields": [
+          {
+            "pointer": "/text",
+            "support": "supported"
+          },
+          {
+            "pointer": "/mode",
+            "support": "supported"
+          },
+          {
+            "pointer": "/seed",
+            "support": "supported",
+            "numericRange": {
+              "min": 0,
+              "max": 4294967295
+            }
+          },
+          {
+            "pointer": "/voiceDesign/controlPrompt",
+            "support": "supported"
+          },
+          {
+            "pointer": "/reference/audio",
+            "support": "supported"
+          },
+          {
+            "pointer": "/reference/promptText",
+            "support": "supported"
+          },
+          {
+            "pointer": "/reference/styleControl",
+            "support": "supported"
+          },
+          {
+            "pointer": "/emotionControl/mode",
+            "support": "supported"
+          },
+          {
+            "pointer": "/emotionControl/text",
+            "support": "supported"
+          },
+          {
+            "pointer": "/emotionControl/audio",
+            "support": "unsupported"
+          },
+          {
+            "pointer": "/emotionControl/vector",
+            "support": "unsupported"
+          },
+          {
+            "pointer": "/emotionControl/alpha",
+            "support": "unsupported"
+          },
+          {
+            "pointer": "/language",
+            "support": "unsupported"
+          },
+          {
+            "pointer": "/rate",
+            "support": "unsupported"
+          },
+          {
+            "pointer": "/voiceId",
+            "support": "unsupported"
+          }
+        ],
+        "requirements": [
+          {
+            "mode": "reference_clone",
+            "field": "/reference/audio",
+            "reason": "model_requires_reference"
+          },
+          {
+            "mode": "reference_clone",
+            "field": "/reference/promptText",
+            "reason": "model_requires_transcript"
+          }
+        ],
+        "languages": [
+          "zh",
+          "en"
+        ],
+        "references": {
+          "mimeTypes": [
+            "audio/wav",
+            "audio/mpeg",
+            "audio/flac",
+            "audio/ogg",
+            "audio/mp4"
+          ],
+          "requiresTranscript": true
+        },
+        "outputMimeTypes": [
+          "audio/wav"
+        ]
+      }
+    }
+  ]
+}

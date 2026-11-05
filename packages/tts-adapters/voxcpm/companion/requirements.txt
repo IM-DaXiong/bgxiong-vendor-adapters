@@ -1,0 +1,5 @@
+voxcpm==2.0.3
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+soundfile==0.13.1
+pydantic==2.10.4

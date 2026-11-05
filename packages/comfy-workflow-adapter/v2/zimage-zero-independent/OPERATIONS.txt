@@ -1,0 +1,59 @@
+独立作者安装与提交说明（0.6.1028）
+作者包：local.zeroauthor.comfy-zimage-turbo@1.0.1
+操作：local.zeroauthor.comfy-zimage-turbo/zimage-t2i，operationVersion=1
+模型：zimage-turbo-t2i；能力：image.generate
+
+成果入口：
+- zimage-author/：完整 Rust 作者源码、Cargo.lock、密封 vendor-sdk、schema 与用户原始图。
+- build-1/runtime/：标准 pack 输出；build-1/install/：软件安装目录（另带 workflow-templates.json）。
+- live/host-config.app.json：本次安装填写的完整非秘密配置，匿名局域网，HTTP origin 仅 http://192.168.18.8:8188。
+- zimage-turbo.source.json：逐字保留的目标原件，sha256 dd33fb15abea565b7d0bcde6112c840115c880ec70a4b7d234b829ee9529c446。
+- software-saved-original.png：从软件预览里的“另存图片”保存的原图。
+- result-check.json、software-task.json、software-resources.json、remote-history.json：真实结果。
+
+独立构建：
+1. 按 commands.ps1 里的实际命令调用公开 New-ComfyExample.ps1 初始化仓外目录。
+2. 本作者从公开 Qwen T2I 源码改写 package/plugin/model/operation 身份与版本；用用户原始 API 图替换 workflow/source.json 与 src/workflow-api.json。
+3. 显式映射 CLIPTextEncode 57:27.text、EmptySD3LatentImage 57:13.width/height、KSampler 57:3.seed/steps；回收只读 SaveImage 9 的一张 PNG。保留其余模型、采样器及图连接。目标没有负面词输入，因此没有发布可调负面词字段。
+4. 执行公开 Build-ComfyExample.ps1，包含标准 build、check、pack、packed check。build-check-pack.log 与 zimage-author/.bgx-sdk/logs/build.log 为原始日志。未复制已有 adapter.wasm。
+5. 使用作者 Cargo home 执行 --lib --locked --offline 三个行为测试，author-tests.log 为原始日志。
+6. 公开 CLI caps/probe 只探测包与服务，不提交生成；原始回执在 live/receipts。
+
+实际软件操作：
+1. 设置 → 本机 → ComfyUI 工作流 → 局域网算力机，填写 http://192.168.18.8:8188，失焦后保存；测试连接成功。
+2. 导入工作流 → 导入工作流，选择 author-work/zimage-turbo.source.json；基础导入，不调用整理模型。等待显示“已就绪，可生成”，自动加入文生图。
+3. 设置 → 创作 → 第三方适配器 → SDK v2 适配包；把 live/host-config.app.json 全文填写到“宿主配置”，点击“安装适配包”，选择 build-1/install。等待出现 local.zeroauthor.comfy-zimage-turbo 1.0.1。
+4. 返回工作流库 → 目标原件的“详情” → “关联适配器”；选择 Z Image Turbo text to image (local.zeroauthor.comfy-zimage-turbo 1.0.1)，点击关联，等待“已关联…可以使用”。
+5. 自由画布 → 新建项目，使用自动创建的图片节点“生成”打开生图工作台。选择文生图通道和 zimage-turbo.source 工作流。
+6. 将提示词完整填入：A small red panda wearing a blue scarf beside a yellow bicycle in a quiet park, watercolor illustration, no text.
+7. 确认 1:1 / 1024×1024，seed 20261025，采样步数 8。UI 自动化的部分 accessibility value 缓存仍回显旧值，最终以实际截图、文本输入与远端原图中的输入回执核对。仅点一次“开始生成”。
+8. 工作台自动关闭；图片节点随后显示“已完成”和新图。双击图像预览 → 另存图片 → author-work/software-saved-original.png。
+9. AI任务页可看已完成；另用公开 Creator MCP stdio 的 task.get 与 resource.get 只读收据，保存原始 JSON。没有直接读写数据库。
+
+身份与验真：
+软件 task：6ce9d4c8-7481-4e46-a38a-8ed278a197e1
+远端 prompt：e22e8853-dd42-4b04-aa0e-fa8b8d7ed070
+项目：2218f9e1-e80c-44df-9222-d5f41646bf2a
+图片节点：fci:67e88498-db45-42da-9433-6549f9289ee7
+图像版本：25965c3d-be2b-4bfd-901c-bab79fd97d97
+远端 PNG：z-image-turbo_00147_.png
+结果：1,306,603 bytes，PNG 1024×1024，sha256 b4d6b2149671b8a409fdc29a27b06a7cab700b6b7e3135523fa0c6698a742d6b。
+软件受管原图、软件另存原图、远端原图三份同哈希。远端 history 的 execution_cached 未列 KSampler 57:3，seed=20261025，实际新采样。
+
+边界：
+本次只验一个新工作流的一次正式软件生成；未另做 CLI 生成或重启续办，不冒充其通过。
+公开 task.get 回执只返回任务状态，没有回显包身份；包安装和关联身份以 ui-install.txt、ui-association.txt 为证，没有从私有数据库推导。
+正式 build/check/pack 失败 0 次；正式软件生成失败 0 次；自助定向修正 0 次。初期作者改写脚本有 1 次 Windows 默认 GBK 读 UTF-8 schema 的错误，使用 python -X utf8 执行未完成部分后完成；它发生在首次正式 build 前。工具缓存/原生下拉列表点击有数次输入失败，重新观察后使用键盘/坐标导航，没有修改 SDK/宿主。
+SDK/宿主未改；未读主仓源码或内部验收报告；没有父智能体提供的技术方案/诊断提示。
+开始上限固定 03:11:56–06:11:56（Asia/Shanghai），实际构建约 03:17–03:18；生成 03:26:16–03:26:24；约 03:32 完成交付。
+
+实际读取资料：
+public-kit/user-examples/comfy-workflow-authoring-v2/README.zh-CN.md
+public-kit/user-examples/comfy-workflow-authoring-v2/qwen-t2i/README.zh-CN.md
+同目录 New-ComfyExample.ps1、Build-ComfyExample.ps1、Invoke-QwenExample.ps1、sample-source 源码/manifest/schema/templates
+public-kit/user-examples/vendor-adapter-v2/HOST-INTEGRATION.zh-CN.md
+public-kit/creator-client/README.zh-CN.md、clients/python/client.py、contracts/creator-control-plane.json、creator-tool-catalog.json、creator-comfy-workflow-actions.schema.json、creator-resource-resolve.schema.json
+author-input/requirements.json、workflow.source.json、node-definitions.json、native-run.json
+Open-Acceptance.ps1（仅隔离环境设置）
+新产生的 host-data/logs/frontend-2026-10-24-031524.log；后端同会话日志为空，已原样保留。
+工具文档：computer-use SKILL.md 及 guidance/api/confirmations。

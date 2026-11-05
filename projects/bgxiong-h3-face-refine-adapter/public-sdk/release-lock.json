@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "kind": "SDK_RELEASE_LOCK_V1",
+  "sdkRelease": "2.0.0",
+  "status": "NOT_RUN",
+  "sealed": false,
+  "sdkReady": false,
+  "sourceDigests": null,
+  "candidateInventories": [],
+  "builds": [],
+  "byteIdentical": null,
+  "binaryDifferences": [],
+  "gates": null,
+  "candidateTests": [],
+  "G06": "NOT_RUN",
+  "moduleIntegration": "NOT_ADOPTED",
+  "note": "Unsealed full-candidate governance initializer, not a current product availability list. Preview workflow integration is described separately in RELEASE-STATUS.json developerPreview. No two-build/G00-G06 evidence is attested here.",
+  "scope": "STANDALONE_SDK_FULL_CONFORMANCE"
+}

@@ -1,0 +1,77 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "inputMode",
+    "prompt",
+    "referenceImages",
+    "durationSeconds",
+    "fps",
+    "aspectRatio",
+    "resolution"
+  ],
+  "properties": {
+    "inputMode": {
+      "type": "string",
+      "const": "multi_image_to_video",
+      "default": "multi_image_to_video"
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1
+    },
+    "referenceImages": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "mediaId"
+        ],
+        "properties": {
+          "mediaId": {
+            "type": "string",
+            "minLength": 1
+          }
+        }
+      },
+      "title": "2张有序参考图"
+    },
+    "durationSeconds": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 15,
+      "default": 5
+    },
+    "fps": {
+      "type": "integer",
+      "const": 24,
+      "default": 24,
+      "description": "模型原生24fps，不把CreateVideo封装帧率冒充生成帧率。"
+    },
+    "aspectRatio": {
+      "type": "string",
+      "enum": [
+        "1:1",
+        "16:9",
+        "9:16",
+        "4:3"
+      ],
+      "default": "16:9"
+    },
+    "resolution": {
+      "type": "string",
+      "enum": [
+        "mp:0.25",
+        "mp:0.4",
+        "mp:0.6",
+        "mp:1"
+      ],
+      "default": "mp:0.4",
+      "title": "清晰度（MP）",
+      "description": "本工作流的四个固定百万像素档位，不支持任意连续MP值。"
+    }
+  }
+}

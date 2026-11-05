@@ -1,0 +1,29 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "endpointBaseUrl",
+    "credentialRef",
+    "instanceType"
+  ],
+  "properties": {
+    "endpointBaseUrl": {
+      "type": "string",
+      "enum": [
+        "https://www.runninghub.cn"
+      ]
+    },
+    "credentialRef": {
+      "type": "string",
+      "minLength": 1
+    },
+    "instanceType": {
+      "type": "string",
+      "enum": [
+        "default",
+        "plus",
+        "ultra"
+      ]
+    }
+  }
+}

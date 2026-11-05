@@ -1,0 +1,23 @@
+{
+  "prompt": "A red panda reads a blue book beside a sunny library window. The panda gently turns a page and moves naturally with the supplied reference audio. Warm sunlight, subtle motion, slow camera push in.",
+  "seed": 20261026,
+  "width": 768,
+  "height": 768,
+  "durationSeconds": 8,
+  "fps": 24,
+  "aspectRatio": "1:1",
+  "advanced": {
+    "strength": 0.7,
+    "audioUsage": "voice_timbre"
+  },
+  "referenceImages": [
+    {
+      "mediaId": "image-input-1"
+    }
+  ],
+  "referenceAudios": [
+    {
+      "mediaId": "audio-input-1"
+    }
+  ]
+}

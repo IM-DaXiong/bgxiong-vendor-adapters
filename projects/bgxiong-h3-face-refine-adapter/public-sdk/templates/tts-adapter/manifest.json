@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 2,
+  "pluginId": "local.sdk.speech",
+  "displayName": "Speech author template (runtime not implemented)",
+  "version": "1.0.0",
+  "protocolRange": {
+    "min": 2,
+    "max": 2
+  },
+  "requiredFeatures": [],
+  "optionalFeatures": [],
+  "language": "rust",
+  "entry": "adapter.wasm",
+  "artifactSha256": "0000000000000000000000000000000000000000000000000000000000000000",
+  "publisherId": null,
+  "publisherKeyId": null,
+  "requestedCapabilities": {
+    "endpointPolicy": [
+      "userConfigurable",
+      "allowPrivateNetwork"
+    ],
+    "networkHosts": [],
+    "allowPrivateNetwork": true,
+    "auth": [
+      "bearer",
+      "none"
+    ],
+    "mediaSlots": [
+      "audio"
+    ],
+    "stateBytes": 0,
+    "embeddedHeaders": []
+  },
+  "limits": {
+    "memoryBytes": 33554432,
+    "fuel": 100000000,
+    "wallMs": 30000,
+    "outputBytes": 1048576
+  }
+}

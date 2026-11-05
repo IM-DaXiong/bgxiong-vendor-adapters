@@ -1,0 +1,16 @@
+{
+  "base": "ComfyUI-API\\qwen_image_2_1\\image_qwen_image_2_1_image_edit.json",
+  "baseSha256": "f3c2c1d3d72989971650f8701c777595b2ce773e956cca8584411ea347acac49",
+  "singleImageVariant": "workflow/source.json",
+  "variantSha256": "e86a6b4fb204e844761eebe0c5fd77b784e2c1b537bde4614d318db001d4115b",
+  "changes": [
+    "Remove outer LoadImage 475 and link 728; second optional image port disconnected, never duplicate image 1",
+    "Disable prompt rewrite and select declared custom output dimensions",
+    "Fixed editor example text and seed; runtime author operation will explicitly bind confirmed user values"
+  ],
+  "apiExport": "EXPORTED_BY_NATIVE_COMFYUI_UI",
+  "apiExportFile": "src/workflow-api.json",
+  "apiExportSha256": "e904111333275272187f86dd7e1b7b452ebf072ca55b1035a5fb47d0d101263f",
+  "uiPreparationIssue": "First export event wait timed out while native filename dialog was still open; inspected dialog and confirmed filename, export succeeded. No generation was submitted.",
+  "notes": "API graph exported with the native ComfyUI Export (API) command after disconnecting the second image. No private converter."
+}

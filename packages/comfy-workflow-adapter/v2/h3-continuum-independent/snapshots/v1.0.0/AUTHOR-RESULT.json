@@ -1,0 +1,68 @@
+{
+  "softwareAcceptance": "PENDING_PARENT",
+  "frozenPublicSdk": {
+    "files": 200,
+    "vendorSdkValidatedByStandardCheck": true,
+    "cliWorkerUnchanged": true,
+    "allHashesUnchanged": true
+  },
+  "at": "2026-10-23T16:56:02.9257721+08:00",
+  "guiStarted": false,
+  "readScope": "Installed public user-examples and authorized P13 inputs only",
+  "behaviorTests": {
+    "log": "logs/04-behavior-tests.log",
+    "failed": 0,
+    "passed": 4
+  },
+  "businessDatabaseWritten": false,
+  "runtimeCheck": "VALIDATED",
+  "sourceCheck": "VALIDATED",
+  "standardBuild": "PASSED_ON_FIRST_ATTEMPT_NEW_LOCKED_ONLINE_CACHE",
+  "status": "AUTHOR_PACKAGE_READY_SOFTWARE_PENDING_PARENT",
+  "limitations": [
+    "One5second chunk; no multi-chunk continuation proof",
+    "Synthetic non-speech test tone; no lip-sync proof",
+    "Other profiles expressly rejected",
+    "Unsigned local package; standard trust policy",
+    "Workflow template sidecar outside runtime inventory signature"
+  ],
+  "identity": {
+    "pluginId": "local.independent.comfy-h3-continuum",
+    "version": "1.0.0",
+    "operation": "local.independent.comfy-h3-continuum/continuum-driving-audio",
+    "inputSchemaDigest": "1982faffcca849fb0da801f518af61b233d4a79854b10e0b3a37e271e962d0be"
+  },
+  "hashes": {
+    "author/src/workflow-api.json": "e4b40e9c62f9b911cd112aa2fc70a84931d46f66fb462336fa2fb0160a8019e7",
+    "author/schemas/input.json": "1982faffcca849fb0da801f518af61b233d4a79854b10e0b3a37e271e962d0be",
+    "author/src/tests.rs": "2294a4a36af2660e6d5a88bab32e9c3016f2c90676864876c9c10237f636b454",
+    "build-1/install/workflow-templates.json": "2212931ba83956ad6fe3b78aee52af0363b4c164d03aabe65bc27121710f4c67",
+    "build-1/runtime/adapter.wasm": "3f718535b2259fe27afc3fbaa8184419f0252816a958b11de140f83676a89c6d",
+    "author/workflow/source.json": "79013e52c63efd4cd11e497615f751e54ecb25572d431203ed6e4c1843438b12",
+    "build-1/runtime/manifest.sha256": "65b1ab69977be14fc1f8070239c40069d167be4430e111949710da15cd67e6c9",
+    "host-config.app.json": "8b0f209da43780f8d904197ad15f9cd2b8502ffb02ffb5a4954fd4e64cdfe892",
+    "author/manifest.json": "d08b59240cfadb5f52dbfec65b00a145bec29daf5d806d3a3ae469a968cef0c1",
+    "build-1/runtime/manifest.json": "d08b59240cfadb5f52dbfec65b00a145bec29daf5d806d3a3ae469a968cef0c1",
+    "author/Cargo.lock": "139377efe6a9466e50c0e175df4d1872192bfcba01181011bc97cc1a35f75054",
+    "author/src/lib.rs": "531ab7665ae54f7a1cd8fc779171a750f6cb811ff405f56c446d7a368ebdb2c0"
+  },
+  "failures": [
+    {
+      "stage": "Preparation script command parsing",
+      "minimalFix": "Write script using apply_patch",
+      "record": "logs/00-preparation-first-failure.log",
+      "effect": "No script or source mutation",
+      "exitCode": 1
+    }
+  ],
+  "writes": "P13 author-work only",
+  "pack": "PACKED",
+  "cli": {
+    "capabilities": "PASSED",
+    "gpuSubmitCount": 0,
+    "authentication": "not_checked",
+    "connectivity": "ready",
+    "resources": "not_checked"
+  },
+  "providedOriginalsMutated": false
+}

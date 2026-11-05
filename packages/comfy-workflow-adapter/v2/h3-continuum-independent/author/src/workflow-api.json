@@ -1,0 +1,322 @@
+{
+  "3": {
+    "inputs": {
+      "image": "transparent_rgb_gaming_mouse.png"
+    },
+    "class_type": "LoadImage",
+    "_meta": {
+      "title": "人物第一帧／定妆照（替换此图）"
+    }
+  },
+  "4": {
+    "inputs": {
+      "audio": ""
+    },
+    "class_type": "LoadAudio",
+    "_meta": {
+      "title": "完整口播音频（替换为 WAV/MP3）"
+    }
+  },
+  "5": {
+    "inputs": {
+      "value": "A continuous locked-off medium close-up interview / talking-head performance. The adult presenter in <Picture 1> is the only visible speaker. Preserve the exact person's facial identity, age, hairstyle, outfit, skin texture, studio background, framing, lens perspective, light direction and white balance through the entire sequence. A single unbroken camera take; no cuts, no zooms, no change of room or wardrobe. Natural human posture, breathing, occasional blinks, subtle head motions and restrained realistic gestures. The lips and facial performance should follow the provided Driving Audio at each corresponding time; do not invent dialogue or another voice. No subtitles, captions, logos or mouth obstruction. Maintain spatial, lighting and motion continuity across every generated chunk."
+    },
+    "class_type": "PrimitiveStringMultiline",
+    "_meta": {
+      "title": "所有片段共用的口播风格 Prompt"
+    }
+  },
+  "6": {
+    "inputs": {
+      "value": 480
+    },
+    "class_type": "PrimitiveInt",
+    "_meta": {
+      "title": "Width · 输出宽（32 的倍数）"
+    }
+  },
+  "7": {
+    "inputs": {
+      "value": 832
+    },
+    "class_type": "PrimitiveInt",
+    "_meta": {
+      "title": "Height · 输出高（32 的倍数）"
+    }
+  },
+  "8": {
+    "inputs": {
+      "unet_name": "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+      "weight_dtype": "default"
+    },
+    "class_type": "UNETLoader",
+    "_meta": {
+      "title": "H3 FL2VA · 现有模型"
+    }
+  },
+  "9": {
+    "inputs": {
+      "clip_name": "qwen3vl_32b_minimax_h3_nvfp4_awq.safetensors",
+      "type": "minimax",
+      "device": "default"
+    },
+    "class_type": "CLIPLoader",
+    "_meta": {
+      "title": "Qwen3VL 32B · 现有编码器"
+    }
+  },
+  "10": {
+    "inputs": {
+      "vae_name": "minimax_h3_video_vae_fp16.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "H3 Video VAE · 现有模型"
+    }
+  },
+  "11": {
+    "inputs": {
+      "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+    },
+    "class_type": "VAELoader",
+    "_meta": {
+      "title": "H3 Audio VAE · 现有模型"
+    }
+  },
+  "12": {
+    "inputs": {
+      "lora_name": "minimax_h3_turbo_v4_step600_ema.safetensors",
+      "strength": 1,
+      "low_vram": false,
+      "model": [
+        "8",
+        0
+      ]
+    },
+    "class_type": "MiniMaxH3TurboLoRA",
+    "_meta": {
+      "title": "复用现有 H3 Turbo V4 LoRA"
+    }
+  },
+  "13": {
+    "inputs": {},
+    "class_type": "MiniMaxH3TurboSampler",
+    "_meta": {
+      "title": "采样器 · Turbo 6 steps"
+    }
+  },
+  "14": {
+    "inputs": {
+      "scheduler": "simple",
+      "steps": 6,
+      "denoise": 1,
+      "model": [
+        "12",
+        0
+      ]
+    },
+    "class_type": "BasicScheduler",
+    "_meta": {
+      "title": "Sigmas / Steps"
+    }
+  },
+  "15": {
+    "inputs": {
+      "prompt_mode": "Fixed",
+      "chunks": 3,
+      "chunk_seconds": 5,
+      "width": [
+        "6",
+        0
+      ],
+      "height": [
+        "7",
+        0
+      ],
+      "continuity": "Strong — 39 frames",
+      "base_seed": 123456,
+      "audio_continuity": true,
+      "diagnostics": "Basic",
+      "reroll_from_chunk": "Auto",
+      "reroll_nonce": 0,
+      "strict_compatibility": false,
+      "debug": false,
+      "show_preview": true,
+      "run_storage": "Save + Auto Resume",
+      "run_name": "talking_head_001",
+      "reference_size": "Match Output",
+      "project_id": "p13-independent-continuum-author-v1",
+      "video_reference_size": "Balanced - 0.6 MP",
+      "continuation_method": "Native Masked — exact continuation (Recommended)",
+      "emit_refine_conditioning": false,
+      "managed_prompt_source_json": "",
+      "conditioning_lookahead": true,
+      "model": [
+        "12",
+        0
+      ],
+      "clip": [
+        "9",
+        0
+      ],
+      "video_vae": [
+        "10",
+        0
+      ],
+      "sampler": [
+        "13",
+        0
+      ],
+      "sigmas": [
+        "14",
+        0
+      ],
+      "sequence_prompt": [
+        "5",
+        0
+      ],
+      "first_frame": [
+        "3",
+        0
+      ],
+      "reference_image_1": [
+        "3",
+        0
+      ],
+      "driving_audio": [
+        "4",
+        0
+      ],
+      "audio_vae": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "H3ContinuumSamplerV34",
+    "_meta": {
+      "title": "H3 多段续接控制器 · 主节点"
+    }
+  },
+  "16": {
+    "inputs": {
+      "samples": [
+        "15",
+        0
+      ],
+      "vae": [
+        "10",
+        0
+      ]
+    },
+    "class_type": "VAEDecode",
+    "_meta": {
+      "title": "逐段解码视频 Latent"
+    }
+  },
+  "17": {
+    "inputs": {
+      "samples": [
+        "15",
+        1
+      ],
+      "vae": [
+        "11",
+        0
+      ]
+    },
+    "class_type": "VAEDecodeAudio",
+    "_meta": {
+      "title": "逐段解码音频 Latent"
+    }
+  },
+  "18": {
+    "inputs": {
+      "exact_total_duration": true,
+      "audio_seam": "Auto",
+      "video_seam": "Auto 3 (Sustained Tone)",
+      "diagnostics": "Basic",
+      "image_output_device": "Auto",
+      "timeline_mode": "Preserve audible tail (recommended)",
+      "images": [
+        "16",
+        0
+      ],
+      "audio": [
+        "17",
+        0
+      ],
+      "assembly_plan": [
+        "15",
+        2
+      ],
+      "driving_audio": [
+        "15",
+        4
+      ]
+    },
+    "class_type": "H3ContinuumAssembleSeamV34",
+    "_meta": {
+      "title": "画面接缝 + 原音频保留 + 最终合成"
+    }
+  },
+  "19": {
+    "inputs": {
+      "fps": 24,
+      "bit_depth": 8,
+      "color_space": "sRGB",
+      "codec": "none",
+      "images": [
+        "18",
+        0
+      ],
+      "audio": [
+        "18",
+        1
+      ]
+    },
+    "class_type": "CreateVideo",
+    "_meta": {
+      "title": "24 FPS + 精确保留原始口播轨"
+    }
+  },
+  "20": {
+    "inputs": {
+      "filename_prefix": "video/P13_Independent_H3_Continuum",
+      "format": "auto",
+      "format.codec": "auto",
+      "codec": "auto",
+      "video": [
+        "19",
+        0
+      ]
+    },
+    "class_type": "SaveVideo",
+    "_meta": {
+      "title": "成品完整视频 · 只输出一次"
+    }
+  },
+  "21": {
+    "inputs": {
+      "source": [
+        "15",
+        3
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "生成日志 / 状态"
+    }
+  },
+  "22": {
+    "inputs": {
+      "source": [
+        "18",
+        2
+      ]
+    },
+    "class_type": "PreviewAny",
+    "_meta": {
+      "title": "续长拼接报告"
+    }
+  }
+}

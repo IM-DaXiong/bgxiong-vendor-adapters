@@ -7,3 +7,45 @@
 
 # Explicit locally built SDK worker for package validation.
 /contract/v2/bin/
+
+# Local migration, runtime artifacts and historical working trees are never implicit public inputs.
+/artifacts/
+/records/
+/sources/
+/build/
+/logs/
+/discovered-manifests.json
+/discovery-extra.txt
+/extra-candidates.json
+/finalize-migration.py
+/migration-plan.json
+/migration-report.md
+/moves.jsonl
+/verification.json
+/worktrees-before.txt
+# Build and installed copies are preserved locally, not source publication inputs.
+**/target-face-b/
+**/verification/out/
+**/install-*/
+**/install/
+**/dist/
+**/dist-pack*/
+**/_dist/
+**/runs/
+**/workspace/
+**/install-config-verification/
+**/.env
+**/.env.*
+**/*.private.json
+*.zip
+*.mp4
+*.mov
+*.mp3
+*.wav
+*.pt
+*.pth
+*.safetensors
+/projects/autodl-h3-author-20261027/reference-comfyui-autodl-api/
+/projects/runninghub-legacy-upgrades-20261028/
+*.wasm
+/projects/bgxiong-h3-face-refine-adapter/verification/

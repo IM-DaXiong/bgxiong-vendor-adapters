@@ -1,0 +1,23 @@
+{
+  "source": {"mediaId": "source"},
+  "sourceRange": {"mediaId": "source", "startMs": 0, "endMs": 3000},
+  "replacement": {"mediaId": "replacement"},
+  "prompt": "a person performing the motion from the source video",
+  "negativePrompt": "",
+  "width": 640,
+  "height": 640,
+  "fps": 24,
+  "audio": "none",
+  "advanced": {
+    "windowFrames": 77,
+    "overlapFrames": 5,
+    "seed": 42,
+    "steps": 6,
+    "cfg": 1,
+    "sampler": "euler",
+    "scheduler": "simple",
+    "samplingShift": 8,
+    "distillLoraStrength": 1,
+    "relightLoraStrength": 1
+  }
+}

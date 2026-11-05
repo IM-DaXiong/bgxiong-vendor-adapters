@@ -1,0 +1,26 @@
+{
+  "referenceImages": [
+    {
+      "mediaId": "image-input-1"
+    }
+  ],
+  "aspectRatio": "1:1",
+  "height": 512,
+  "referenceAudios": [
+    {
+      "mediaId": "audio-input-1"
+    }
+  ],
+  "prompt": "The red panda in <Picture 1> reads its blue book by the sunny library window in one continuous shot. Preserve its appearance and the window lighting, with subtle breathing, blinking and gentle head movement. Use the provided audio as the driving timeline.",
+  "durationSeconds": 5,
+  "advanced": {
+    "runName": "p13-independent-software-20261023",
+    "audioUsage": "soundtrack_copy",
+    "chunkSeconds": 5,
+    "chunks": 1,
+    "steps": 6
+  },
+  "fps": 24,
+  "width": 512,
+  "seed": 2026102313
+}

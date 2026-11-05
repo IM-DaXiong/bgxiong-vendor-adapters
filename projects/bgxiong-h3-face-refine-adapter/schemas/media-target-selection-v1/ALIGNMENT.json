@@ -1,0 +1,5 @@
+{
+  "alignedFrom": "packages/vendor-adapter-contract/v2/profiles/media-target-selection-v1",
+  "laneACommit": "3b6a7e738",
+  "note": "Sibling mirrors public profile from Lane A; prefer reading public tree when building inside monorepo."
+}

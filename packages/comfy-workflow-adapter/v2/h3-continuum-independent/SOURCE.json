@@ -1,0 +1,98 @@
+{
+  "implementation": "New independent Continuum graph and fixed profile; reuses public host HTTP/media/checkpoint/query pattern only",
+  "profile": {
+    "width": 512,
+    "chunks": 1,
+    "audioUsage": "soundtrack_copy",
+    "steps": 6,
+    "audioSeconds": 5,
+    "fps": 24,
+    "chunkSeconds": 5,
+    "height": 512
+  },
+  "pluginId": "local.independent.comfy-h3-continuum",
+  "schemaVersion": 1,
+  "workflow": {
+    "embeddedGraphSha256": "e4b40e9c62f9b911cd112aa2fc70a84931d46f66fb462336fa2fb0160a8019e7",
+    "nativeApiSource": "inputs/continuum.api.json",
+    "nativeApiSha256": "8abd8f129d53161a52a622342066d473e52540a0512b5e3fb64955d3572e77ca",
+    "embeddedGraph": "src/workflow-api.json",
+    "nodeCount": 20,
+    "sha256": "79013e52c63efd4cd11e497615f751e54ecb25572d431203ed6e4c1843438b12",
+    "allConditionDecoderAssemblyEdgesPreserved": true,
+    "source": "workflow/source.json",
+    "constantChanges": {
+      "20.filename_prefix": "video/P13_Independent_H3_Continuum",
+      "15.project_id": "p13-independent-continuum-author-v1"
+    }
+  },
+  "nativePrerequisite": {
+    "status": "PASSED_NATIVE_ONLY_NOT_PACKAGE_SOFTWARE",
+    "cachedNodes": [],
+    "promptId": "24514a98-64ac-4ba0-ace1-40ae92d090e8",
+    "generatedChunks": 1,
+    "receipt": "inputs/native-success.json",
+    "reusedChunks": 0
+  },
+  "publicKit": "installed/user-examples/comfy-workflow-authoring-v2/h3-r2v-audio",
+  "version": "1.0.1",
+  "softwareAcceptance": "PASSED_PARENT_GUI_SEPARATE_AUTHORIZED_NEW_ATTEMPT",
+  "limits": "One chunk, synthetic non-speech tone; no multi-chunk/lip-sync proof",
+  "inputProvenance": {
+    "inputs": [
+      {
+        "file": "reference-red-panda.png",
+        "bytes": 4667705,
+        "sha256": "f2b43c1daec7ca1dffb925294b23276c7554543fde247caef5c99b714a1484c1"
+      },
+      {
+        "file": "reference-test-tone-5s.wav",
+        "bytes": 960044,
+        "sha256": "2bba4bf363873e37199a48b4f6848ae81793b73b7319e280303bdc2c006d3c73"
+      }
+    ],
+    "audioDurationSeconds": 5,
+    "sampleRate": 48000,
+    "channels": 2,
+    "sampleWidth": 2,
+    "audioProvenance": "Fresh synthesized test tone; not speech, no lip-sync semantics claim",
+    "imageProvenance": "Previously accepted generated red panda test original; unmodified bytes"
+  },
+  "frozenSdkFiles": 200,
+  "testsAreOffline": true,
+  "revision": "Only explicit finite runName enum/default/parser and UI control; no graph/profile/SDK changes",
+  "softwareEvidenceSource": "Parent acceptance feedback; no additional private file reads",
+  "softwareRun": {
+    "taskId": "426d0665-9458-43a7-bee4-6e81f8498e52",
+    "vendorTaskId": "4bf1159d-e9ba-4f98-b6bc-606f96b9a38c",
+    "state": "done",
+    "outputsRecovered": true,
+    "originalSaveExact": true,
+    "videoDurationSeconds": 5,
+    "sha256": "9989204960b54b5422b52ab0c95e9078c28c7794899317a46b105d4bd5ce5fa0",
+    "oldTaskRecovered": false
+  },
+  "consumerLimitation": "Old failed workflow capability snapshot required normal host restart; I2V and all parameters then projected correctly, no host/SDK edits",
+  "sourceArchive": "Current author/ is frozen1.0.1 source, build-2 retained, first source in snapshots/v1.0.0 and build-1 retained",
+  "softwareAcceptanceHistory": {
+    "softwareAcceptance": "NOT_PASSED_NETWORK_FAILURE_AFTER_REMOTE_ACCEPTANCE",
+    "softwareRun": {
+      "outputsRecovered": false,
+      "pluginVersion": "1.0.1",
+      "failureObservation": "LAN timeouts from software and independent20s/5s connection checks",
+      "vendorTaskId": "b932d40e-23b6-4ce7-adfa-9fd7c145acad",
+      "seed": 20261036,
+      "frozenPayloadMatched": true,
+      "remoteExecutionOutcome": "UNKNOWN_AWAITING_ORIGINAL_ID_GET",
+      "localTaskId": "8b0c2646-ea8f-4669-8734-0e6339450f01",
+      "error": "RESOURCE_UNAVAILABLE",
+      "runName": "p13-independent-software-v101-20261023",
+      "reusedChunksVerified": false,
+      "status": "failed",
+      "submissionCount": 1,
+      "promptCharacters": 255,
+      "elapsedToFailureMs": 28638
+    }
+  },
+  "finalEvidenceActor": "Parent software acceptance; independent author original history retained"
+}

@@ -1,0 +1,7 @@
+{
+  "workflowSource": "author-input/workflow.source.json",
+  "sha256": "dd33fb15abea565b7d0bcde6112c840115c880ec70a4b7d234b829ee9529c446",
+  "basis": "Public Qwen T2I source adapted for supplied Z Image Turbo graph; no prebuilt WASM copied.",
+  "nativeSeed": 20261024,
+  "softwareSeed": 20261025
+}

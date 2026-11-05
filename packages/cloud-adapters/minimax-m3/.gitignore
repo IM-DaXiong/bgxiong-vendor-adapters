@@ -1,0 +1,5 @@
+/target/
+/.bgx-sdk/
+/adapter.wasm
+/manifest.sha256
+/build/

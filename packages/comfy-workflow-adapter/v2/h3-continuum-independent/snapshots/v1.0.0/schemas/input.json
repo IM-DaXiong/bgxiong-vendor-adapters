@@ -1,0 +1,169 @@
+{
+  "type": "object",
+  "description": "One original image as first frame and identity reference, complete5second WAV as Driving Audio and soundtrack. Fixed512x512/24fps/one5second chunk,6steps. No lip-sync claim.",
+  "properties": {
+    "prompt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 8000,
+      "title": "连续镜头提示词（原文提交）"
+    },
+    "seed": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991,
+      "default": 2026102313,
+      "title": "随机种子"
+    },
+    "advanced": {
+      "type": "object",
+      "properties": {
+        "chunkSeconds": {
+          "enum": [
+            5
+          ],
+          "minimum": 5,
+          "title": "每段秒数（本包固定5）",
+          "default": 5,
+          "type": "integer",
+          "maximum": 5
+        },
+        "steps": {
+          "enum": [
+            6
+          ],
+          "minimum": 6,
+          "title": "采样步数（固定6）",
+          "default": 6,
+          "type": "integer",
+          "maximum": 6
+        },
+        "chunks": {
+          "enum": [
+            1
+          ],
+          "minimum": 1,
+          "title": "段数（本包固定1）",
+          "default": 1,
+          "type": "integer",
+          "maximum": 1
+        },
+        "audioUsage": {
+          "enum": [
+            "soundtrack_copy"
+          ],
+          "type": "string",
+          "default": "soundtrack_copy",
+          "title": "完整5秒驱动音频参与条件并保留成片音轨"
+        },
+        "runName": {
+          "type": "string",
+          "minLength": 1,
+          "title": "原生运行存储名称（新生成使用新名称）",
+          "maxLength": 128
+        }
+      },
+      "required": [
+        "steps",
+        "chunks",
+        "chunkSeconds",
+        "audioUsage",
+        "runName"
+      ],
+      "additionalProperties": false
+    },
+    "width": {
+      "type": "integer",
+      "enum": [
+        512
+      ],
+      "minimum": 512,
+      "maximum": 512,
+      "default": 512
+    },
+    "height": {
+      "type": "integer",
+      "enum": [
+        512
+      ],
+      "minimum": 512,
+      "maximum": 512,
+      "default": 512
+    },
+    "durationSeconds": {
+      "type": "integer",
+      "enum": [
+        5
+      ],
+      "minimum": 5,
+      "maximum": 5,
+      "default": 5
+    },
+    "fps": {
+      "type": "integer",
+      "enum": [
+        24
+      ],
+      "minimum": 24,
+      "maximum": 24,
+      "default": 24
+    },
+    "aspectRatio": {
+      "type": "string",
+      "enum": [
+        "1:1"
+      ],
+      "default": "1:1",
+      "title": "画幅512×512"
+    },
+    "referenceImages": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "mediaId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "mediaId"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "referenceAudios": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "mediaId": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "required": [
+          "mediaId"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "prompt",
+    "seed",
+    "advanced",
+    "width",
+    "height",
+    "durationSeconds",
+    "fps",
+    "aspectRatio",
+    "referenceImages",
+    "referenceAudios"
+  ],
+  "additionalProperties": false
+}

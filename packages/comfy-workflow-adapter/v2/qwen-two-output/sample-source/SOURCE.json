@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "sourceWorkflow": "ComfyUI-API/qwen_image_2_1/image_qwen_image_2_1_two_output_author.json",
+  "sourceSha256": "2b4246077bc07eb2499b43a280fa579cb778b15e7b9efb7fca09085e3101c03b",
+  "baseWorkflow": "ComfyUI-API/qwen_image_2_1/image_qwen_image_2_1_t2i.json",
+  "baseSha256": "580b36bef38bda5beba5bb84b3f788d74bc00322c21ac9c3a59c1afbedd25368",
+  "apiPromptOrigin": "ComfyUI 0.42.1 native Export(API), 2026-10-23",
+  "apiPromptSha256": "9fff843de4283427f9e0c4a92ec899da0a8b808b407723cfd8fd3ae2582f5c30",
+  "notes": "One EmptyLatentImage batch_size=2; one POST, exactly two ordered saved PNG outputs. No private converter."
+}

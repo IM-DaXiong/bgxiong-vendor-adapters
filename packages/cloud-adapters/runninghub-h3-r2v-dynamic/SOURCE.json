@@ -1,0 +1,15 @@
+{
+  "packageId": "local.thirdparty.runninghub-h3-r2v-dynamic",
+  "version": "1.0.0",
+  "sdkRelease": "2.0.0",
+  "sourceOrigin": "repository packages/cloud-adapters/runninghub-h3-r2v-dynamic",
+  "notes": [
+    "Base MiniMax H3 reference-to-video dynamic package.",
+    "workflowId 2117100865147457537.",
+    "MODEL=runninghub-h3-r2v-dynamic. Graph has no Turbo or Spectrum accelerator nodes; scheduler and guider read UNET 127.",
+    "Frozen siblings: runninghub-h3-dynamic workflow 2100758868111486978 and runninghub-h3-spectrum-dynamic workflow 2116576147646533634.",
+    "Source graph: user-uploaded video_minimax_h3_r2v.json converted to API prompt format.",
+    "Native cargo test: 9 passed. Public SDK build, source check, pack, and packed check passed.",
+    "Installable directory: artifacts/runninghub-h3-r2v-dynamic/1.0.0. Host installation was not written."
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "prompt": "Use <Picture 1> as the red panda identity and <Picture 2> as the paper robot identity. Both sit together at a sunny library table. The panda turns a page while the paper robot gently waves in rhythm with the supplied soundtrack. Slow camera push in.",
+  "seed": 20261023,
+  "width": 864,
+  "height": 480,
+  "durationSeconds": 8,
+  "fps": 24,
+  "aspectRatio": "16:9",
+  "advanced": {
+    "steps": 20,
+    "audioUsage": "soundtrack_copy"
+  },
+  "referenceImages": [
+    {
+      "mediaId": "image-input-1"
+    },
+    {
+      "mediaId": "image-input-2"
+    }
+  ],
+  "referenceAudios": [
+    {
+      "mediaId": "audio-input-1"
+    }
+  ]
+}

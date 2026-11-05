@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/batch.output.schema.json",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "oneOf": [
+          {
+            "type": "object",
+            "properties": {
+              "itemId": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^\\u0000]+$"
+              },
+              "status": {
+                "const": "succeeded"
+              },
+              "mediaId": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^\\u0000]+$"
+              },
+              "data": {
+                "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/SpeechData"
+              }
+            },
+            "required": [
+              "itemId",
+              "status",
+              "mediaId"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "itemId": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^\\u0000]+$"
+              },
+              "status": {
+                "const": "failed"
+              },
+              "error": {
+                "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/Error"
+              },
+              "data": {
+                "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/SpeechData"
+              }
+            },
+            "required": [
+              "itemId",
+              "status",
+              "error"
+            ],
+            "additionalProperties": false
+          },
+          {
+            "type": "object",
+            "properties": {
+              "itemId": {
+                "type": "string",
+                "minLength": 1,
+                "pattern": "^[^\\u0000]+$"
+              },
+              "status": {
+                "const": "cancelled"
+              },
+              "data": {
+                "$ref": "https://bgxiong.local/vendor-adapter/v2/profiles/speech-v1/synthesize.input.schema.json#/$defs/SpeechData"
+              }
+            },
+            "required": [
+              "itemId",
+              "status"
+            ],
+            "additionalProperties": false
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "items"
+  ],
+  "additionalProperties": false
+}
