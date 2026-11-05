@@ -1,3 +1,7 @@
 *.json text eol=lf
 *.py text eol=lf
 *.wasm -text
+*.rs text eol=lf
+*.toml text eol=lf
+*.lock text eol=lf
+*.wit text eol=lf

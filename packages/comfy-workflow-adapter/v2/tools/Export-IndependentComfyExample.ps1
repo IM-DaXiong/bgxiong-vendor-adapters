@@ -10,7 +10,9 @@ param(
 $ErrorActionPreference = 'Stop'
 if (-not [IO.Path]::IsPathFullyQualified($OutputDirectory)) { throw 'OutputDirectory must be absolute.' }
 if (Test-Path -LiteralPath $OutputDirectory) { throw 'Preserve the previous output; use a new directory.' }
-$repo = 'L:/00Dev/bgxiong-ai-story'
+. (Join-Path $PSScriptRoot '../../../../scripts/resolve-development-roots.ps1')
+$roots = Get-AdapterDevelopmentRoots $PSScriptRoot
+$repo = $roots.HostRoot
 $sdk = Join-Path $repo 'packages/vendor-adapter-contract/v2'
 foreach ($file in @($Cli, $Worker, (Join-Path $SourceDirectory "$ProjectDirectory/manifest.json"))) {
     if (-not (Test-Path -LiteralPath $file -PathType Leaf)) { throw "Missing input: $file" }

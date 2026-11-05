@@ -6,9 +6,11 @@ param(
     [Parameter(Mandatory)][string]$Worker
 )
 $ErrorActionPreference = 'Stop'
-$repo = 'L:/00Dev/bgxiong-ai-story'
+. (Join-Path $PSScriptRoot '../../../scripts/resolve-development-roots.ps1')
+$roots = Get-AdapterDevelopmentRoots $PSScriptRoot
+$repo = $roots.HostRoot
 $sdk = Join-Path $repo 'packages/vendor-adapter-contract/v2'
-$source = Join-Path 'L:/00Dev/bgxiong-third-party-adapters/sources/main' 'packages/workflow-adapters/wan22-animate'
+$source = Join-Path $roots.AdapterRoot 'packages/workflow-adapters/wan22-animate'
 $workflow = Join-Path $repo 'ComfyUI-API/wan2.2/video_wan2_2_14B_animate.json'
 $out = [IO.Path]::GetFullPath($OutputDirectory)
 if (-not [IO.Path]::IsPathFullyQualified($OutputDirectory)) { throw 'OutputDirectory must be absolute.' }
@@ -37,7 +39,7 @@ $newId = 'local.example.comfy-wan22'
 $capabilityPath = Join-Path $seed 'src/capability.rs'
 Save $capabilityPath ([IO.File]::ReadAllText($capabilityPath).Replace($oldId, $newId))
 $comfyPath = Join-Path $seed 'src/comfy.rs'
-Save $comfyPath ([IO.File]::ReadAllText($comfyPath).Replace('../../../vendor-adapter-contract/v2/protocol/schema-policy.json', '../protocol/schema-policy.json'))
+Save $comfyPath ([IO.File]::ReadAllText($comfyPath).Replace('../../../../contract/v2/protocol/schema-policy.json', '../protocol/schema-policy.json').Replace('../../../vendor-adapter-contract/v2/protocol/schema-policy.json', '../protocol/schema-policy.json'))
 $manifest = Get-Content -LiteralPath (Join-Path $source 'manifest.json') -Raw | ConvertFrom-Json
 $manifest.pluginId = $newId
 $manifest.version = '1.0.0'
