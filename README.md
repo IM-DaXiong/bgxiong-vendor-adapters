@@ -8,7 +8,7 @@
 
 2026-11-05统一：本目录为开发和Git唯一根，公开仓库 https://github.com/IM-DaXiong/bgxiong-third-party-adapters 。
 
-- packages/：已合并主线包源码；Wan22以较新0.2.12及原未提交修改为准，其他包从原sources/main/packages合入。
+- packages/：已合并主线包源码；Wan22合并时以0.2.12及原未提交修改为基线，当前版本见下表及release/current.json，其他包从原sources/main/packages合入。
 - projects/：独立工程及其唯一 owner（清单见 `projects/README.md`）。
 - artifacts/：发行产物；records/：保全与核查证据；这两类本机资料不自动发布。
 - contract/、examples/：公开合同与教学材料。
@@ -123,7 +123,7 @@ community/
 
 | 路径 | 说明 | pluginId | 当前版本 |
 |------|------|----------|----------|
-| [`packages/workflow-adapters/wan22-animate`](./packages/workflow-adapters/wan22-animate) | Wan 2.2 Animate 人物替换（ComfyUI） | `local.bgx.wan22-animate` | `0.2.12` |
+| [`packages/workflow-adapters/wan22-animate`](./packages/workflow-adapters/wan22-animate) | Wan 2.2 Animate 人物替换（ComfyUI） | `local.bgx.wan22-animate` | `0.2.13` |
 | [`packages/workflow-adapters/wan-animate2`](./packages/workflow-adapters/wan-animate2) | Wan Animate 2 角色动画（ComfyUI） | `local.bgx.wan-animate2` | `0.1.1` |
 | [`packages/workflow-adapters/seedvr2-image`](./packages/workflow-adapters/seedvr2-image) | SeedVR2 单张图片高清放大 | `local.bgx.seedvr2-image` | `1.0.2` |
 | [`packages/workflow-adapters/panorama-image`](./packages/workflow-adapters/panorama-image) | 本地 ComfyUI 单图扩展全景（ERP） | `local.thirdparty.comfy-panorama-image` | `1.0.2` |
