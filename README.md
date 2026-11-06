@@ -74,18 +74,83 @@ community/
 
 ---
 
-## 案例
+## 案例与适配器目录
 
-| 案例 | 说明 |
+仓库首页若只看下面原来的 6 行，会误以为第三方适配器只有这些。那 6 个是 `examples/` 里的**教学标本**，不是全部已做适配器。
+
+- 教学标本：[`examples/`](./examples/)
+- 产品级适配器：[`packages/`](./packages/)（清单见 [`packages/README.zh-CN.md`](./packages/README.zh-CN.md)）
+- 独立工程（含 H3 人脸精修）：[`projects/`](./projects/)（清单见 [`projects/README.md`](./projects/README.md)）
+
+版本以各包 `manifest.json` 为准；人脸精修同时见该工程的 `SOURCE.json`。
+
+### 教学标本（`examples/`）
+
+| 路径 | 说明 |
 |------|------|
-| `examples/comfyui-lan-minimax-h3` | 局域网 ComfyUI + MiniMax H3 标本 |
-| `examples/comfyui-lan-z-image-turbo` | 局域网 ComfyUI + Z-Image Turbo 标本 |
-| `examples/lan-openai-compat-text` | 局域网 OpenAI 兼容文本标本 |
-| `examples/runninghub-minimax-h3-r2v` | RunningHub + MiniMax H3 R2V 视频标本 |
-| `examples/runninghub-workflow` | RunningHub 工作流类适配标本 |
-| `examples/video-reference-media-probe` | 视频参考媒体探活标本 |
+| [`examples/comfyui-lan-minimax-h3`](./examples/comfyui-lan-minimax-h3) | 局域网 ComfyUI + MiniMax H3 标本 |
+| [`examples/comfyui-lan-z-image-turbo`](./examples/comfyui-lan-z-image-turbo) | 局域网 ComfyUI + Z-Image Turbo 标本 |
+| [`examples/lan-openai-compat-text`](./examples/lan-openai-compat-text) | 局域网 OpenAI 兼容文本标本 |
+| [`examples/runninghub-minimax-h3-r2v`](./examples/runninghub-minimax-h3-r2v) | RunningHub + MiniMax H3 R2V 视频标本 |
+| [`examples/runninghub-workflow`](./examples/runninghub-workflow) | RunningHub 工作流类适配标本 |
+| [`examples/video-reference-media-probe`](./examples/video-reference-media-probe) | 视频参考媒体探活标本 |
 
 标本仅供对照，**不是**标准本身；标准以 `HOST_PAYLOAD` + `wit` + `schemas` 为准。
+
+### 独立工程：H3 人脸精修
+
+| 路径 | 说明 | pluginId | 当前版本 |
+|------|------|----------|----------|
+| [`projects/bgxiong-h3-face-refine-adapter`](./projects/bgxiong-h3-face-refine-adapter) | H3 人脸精修适配器（Rust 源码、配套节点与工作流都在这里）。[`packages/third-party/h3-face-refine-adapter`](./packages/third-party/h3-face-refine-adapter) 只是指向本工程的指针，不是另一份源码。 | `local.thirdparty.h3-face-refine` | `1.0.0-a30` |
+
+`projects/` 里还有 RunningHub / AutoDL 作者材料与接线冒烟工程，见 [`projects/README.md`](./projects/README.md)，它们不是独立发行的适配器包。
+
+### 产品级适配器（`packages/`）
+
+#### 云端
+
+| 路径 | 说明 | pluginId | 当前版本 |
+|------|------|----------|----------|
+| [`packages/cloud-adapters/deepseek-text`](./packages/cloud-adapters/deepseek-text) | DeepSeek 云端文本 | `local.bgx.deepseek-text` | `1.0.0` |
+| [`packages/cloud-adapters/minimax-m3`](./packages/cloud-adapters/minimax-m3) | MiniMax M3 云端文本 | `local.bgx.minimax-m3` | `1.0.2` |
+| [`packages/cloud-adapters/seedream-image`](./packages/cloud-adapters/seedream-image) | Seedream 5.0 Pro 独立图片预览 | `local.bgx.seedream-image` | `1.0.5` |
+| [`packages/cloud-adapters/runninghub-h3-dynamic`](./packages/cloud-adapters/runninghub-h3-dynamic) | RunningHub H3-r2v-turbo | `local.thirdparty.runninghub-h3-dynamic` | `1.2.6` |
+| [`packages/cloud-adapters/runninghub-h3-r2v-dynamic`](./packages/cloud-adapters/runninghub-h3-r2v-dynamic) | RunningHub H3-r2v | `local.thirdparty.runninghub-h3-r2v-dynamic` | `1.0.0` |
+| [`packages/cloud-adapters/runninghub-h3-spectrum-dynamic`](./packages/cloud-adapters/runninghub-h3-spectrum-dynamic) | RunningHub H3-r2v-spectrum | `local.thirdparty.runninghub-h3-spectrum-dynamic` | `1.0.1` |
+| [`packages/cloud-adapters/runninghub-minimax-h3`](./packages/cloud-adapters/runninghub-minimax-h3) | RunningHub H3-多参 | `local.example.runninghub-minimax-h3` | `1.0.3` |
+
+#### 本地工作流
+
+| 路径 | 说明 | pluginId | 当前版本 |
+|------|------|----------|----------|
+| [`packages/workflow-adapters/wan22-animate`](./packages/workflow-adapters/wan22-animate) | Wan 2.2 Animate 人物替换（ComfyUI） | `local.bgx.wan22-animate` | `0.2.12` |
+| [`packages/workflow-adapters/wan-animate2`](./packages/workflow-adapters/wan-animate2) | Wan Animate 2 角色动画（ComfyUI） | `local.bgx.wan-animate2` | `0.1.1` |
+| [`packages/workflow-adapters/seedvr2-image`](./packages/workflow-adapters/seedvr2-image) | SeedVR2 单张图片高清放大 | `local.bgx.seedvr2-image` | `1.0.2` |
+| [`packages/workflow-adapters/panorama-image`](./packages/workflow-adapters/panorama-image) | 本地 ComfyUI 单图扩展全景（ERP） | `local.thirdparty.comfy-panorama-image` | `1.0.2` |
+
+#### 语音
+
+| 路径 | 说明 | pluginId | 当前版本 |
+|------|------|----------|----------|
+| [`packages/tts-adapters/breeze`](./packages/tts-adapters/breeze) | Breeze TTS（plain / voice_design / reference_clone） | `local.tts.breeze` | `1.0.0-d` |
+| [`packages/tts-adapters/voxcpm`](./packages/tts-adapters/voxcpm) | VoxCPM 材料包（独立 SDK 分发策略见包内说明） | `local.tts.voxcpm` | `1.0.0-a` |
+
+#### Comfy 工作流作者包（`packages/comfy-workflow-adapter/v2/`）
+
+| 路径 | 说明 | pluginId | 当前版本 |
+|------|------|----------|----------|
+| [`h3-r2v`](./packages/comfy-workflow-adapter/v2/h3-r2v) | ComfyUI H3 双参考视频 | `local.example.comfy-h3-r2v` | `1.0.0` |
+| [`h3-r2v-audio`](./packages/comfy-workflow-adapter/v2/h3-r2v-audio) | ComfyUI H3 双参考 + 音频 | `local.example.comfy-h3-r2v-audio` | `1.0.0` |
+| [`h3-t2v`](./packages/comfy-workflow-adapter/v2/h3-t2v) | ComfyUI H3 文生视频 | `local.example.comfy-h3-t2v` | `1.0.0` |
+| [`ltx23-ia2v`](./packages/comfy-workflow-adapter/v2/ltx23-ia2v) | ComfyUI LTX2.3 图 + 参考音频 | `local.example.comfy-ltx23-ia2v` | `1.0.0` |
+| [`ltx25-i2v`](./packages/comfy-workflow-adapter/v2/ltx25-i2v) | ComfyUI LTX2.5 图生视频 | `local.example.comfy-ltx25-i2v` | `1.0.0` |
+| [`qwen-t2i`](./packages/comfy-workflow-adapter/v2/qwen-t2i) | ComfyUI Qwen Image 2.1 文生图 | `local.example.comfy-qwen-t2i` | `1.0.0` |
+| [`qwen-i2i`](./packages/comfy-workflow-adapter/v2/qwen-i2i) | ComfyUI Qwen Image 2.1 图生图 | `local.example.comfy-qwen-i2i` | `1.0.0` |
+| [`qwen-multi-ref`](./packages/comfy-workflow-adapter/v2/qwen-multi-ref) | ComfyUI Qwen Image 2.1 多参考 | `local.example.comfy-qwen-multi-ref` | `1.0.0` |
+| [`qwen-two-output`](./packages/comfy-workflow-adapter/v2/qwen-two-output) | ComfyUI Qwen Image 2.1 双输出 | `local.example.comfy-qwen-two-output` | `1.0.0` |
+| [`h3-continuum-independent`](./packages/comfy-workflow-adapter/v2/h3-continuum-independent) | H3 Continuum 独立驱动音频 | `local.independent.comfy-h3-continuum` | `1.0.2` |
+| [`flux2-multi-ref-independent`](./packages/comfy-workflow-adapter/v2/flux2-multi-ref-independent) | FLUX.2 有序参考 | `local.independent.flux2-ordered-reference` | `1.0.1` |
+| [`zimage-zero-independent`](./packages/comfy-workflow-adapter/v2/zimage-zero-independent) | Z Image Turbo | `local.zeroauthor.comfy-zimage-turbo` | `1.0.2` |
 
 ---
 
