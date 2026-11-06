@@ -125,7 +125,7 @@ fn submit(h: &mut dyn Host, request: &Invocation, payload: &Value) -> Result<Val
     let base = text(config,"endpointBaseUrl").map_err(|_| invalid("Explicit endpointBaseUrl is required"))?;
     let credential = text(config,"credentialRef").map_err(|_| invalid("Explicit credentialRef is required"))?;
     if credential.is_empty() { return Err(invalid("credentialRef must not be empty")); }
-    let policy: Value = serde_json::from_str(include_str!("../../../vendor-adapter-contract/v2/protocol/schema-policy.json")).expect("published SDK policy");
+    let policy: Value = serde_json::from_str(include_str!("../../../../contract/v2/protocol/schema-policy.json")).expect("published SDK policy");
     let args = json!({"plan":{"method":"POST","url":format!("{}/chat/completions",base.trim_end_matches('/')),
         "headers":[{"name":"Content-Type","value":"application/json"}],
         "generatedHeaders":[{"kind":"bearer","name":"Authorization","targetField":"Authorization"}],

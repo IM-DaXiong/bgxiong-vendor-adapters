@@ -3,10 +3,17 @@
 2026-11-05统一：本目录为开发和Git唯一根，公开仓库 https://github.com/IM-DaXiong/bgxiong-third-party-adapters 。
 
 - packages/：已合并主线包源码；Wan22以较新0.2.12及原未提交修改为准，其他包从原sources/main/packages合入。
-- projects/：独立工程及其唯一owner。
+- projects/：独立工程及其唯一 owner（清单见 `projects/README.md`）。
 - artifacts/：发行产物；records/：保全与核查证据；这两类本机资料不自动发布。
 - contract/、examples/：公开合同与教学材料。
 - 用户分发目录统一名称bgxiong-third-party-adapters；实际新发行落盘和安装验收另记，目录合并不等于全包构建通过。
+
+## 公开同步台账（2026-11-06）
+
+- 开源远程：`https://github.com/IM-DaXiong/bgxiong-third-party-adapters`（原 `bgxiong-vendor-adapters` 已更名指向同一仓库）。
+- 主线包 SDK 依赖改为本仓 `contract/v2`，去掉对本机 `bgxiong-ai-story` / `L:/00Dev/...` 的硬编码路径。
+- 纳入 RunningHub H3 作者材料、seed 接线冒烟工程，以及 AutoDL 作者占位规范；本机安装验收目录与 AutoDL 参考 API 副本仍不入库。
+- 发行产物与核查证据仍在本机 `artifacts/`、`records/`，不随公开同步。
 
 ## 原公开仓说明（名称已统一）
 
