@@ -146,85 +146,75 @@
     },
     {
       "pluginId": "local.bgx.wan22-animate",
-      "version": "0.2.12",
+      "version": "0.2.13",
       "kind": "installable",
       "validation": "sdk_package_and_install_envelope_validated",
       "sourceManifest": "packages/workflow-adapters/wan22-animate/manifest.json",
       "files": [
         {
           "path": "adapter-install.json",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/adapter-install.json",
-          "sha256": "a4d227090bd98112c36b1ffc18e53754295390d46ae5da9c901cc0c8eb951a38"
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/adapter-install.json",
+          "sha256": "2de8d6ed45757a7180b8e6123c9a492641001c247f8a5da002026c145e12cb2b"
         },
         {
           "path": "ASSETS.zh-CN.md",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/ASSETS.zh-CN.md",
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/ASSETS.zh-CN.md",
           "sha256": "d9509feb8426523246e2c9cc6eff56182e251e29680eb4cc85102f26ae930247"
         },
         {
           "path": "comfy-nodes/BGXAnimateTracking/__init__.py",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/comfy-nodes/BGXAnimateTracking/__init__.py",
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/comfy-nodes/BGXAnimateTracking/__init__.py",
           "sha256": "dfb9106fb7febf6af0cae884a1717a8d92ab2b666c52c337841bcd31e62a3995"
         },
         {
           "path": "comfy-nodes/BGXAnimateTracking/reference.py",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/comfy-nodes/BGXAnimateTracking/reference.py",
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/comfy-nodes/BGXAnimateTracking/reference.py",
           "sha256": "88d620f7e388d7ae0eb535cdb2ea9e1a66a089518133baf876e4ba3c7fc43e63"
         },
         {
           "path": "comfy-nodes/BGXAnimateTracking/sequence.py",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/comfy-nodes/BGXAnimateTracking/sequence.py",
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/comfy-nodes/BGXAnimateTracking/sequence.py",
           "sha256": "28d5d768c843eb9ca9dd130f7691de9e88b1c286169fba28f1b0b256e9b39ccf"
         },
         {
           "path": "comfy-nodes/BGXAnimateTracking/tracking.py",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/comfy-nodes/BGXAnimateTracking/tracking.py",
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/comfy-nodes/BGXAnimateTracking/tracking.py",
           "sha256": "dac4faf0e7138fca496a9685c0215f1fb47001d2f97126d191914642a7a59587"
         },
         {
           "path": "comfy-nodes/BGXAnimateTracking/tracking_artifacts.py",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/comfy-nodes/BGXAnimateTracking/tracking_artifacts.py",
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/comfy-nodes/BGXAnimateTracking/tracking_artifacts.py",
           "sha256": "e6254f4b43758a42f7c31a364a15287238ed9f24d52834e6aeff66fe17d38c6e"
         },
         {
           "path": "LICENSE",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/LICENSE",
-          "sha256": "f939456c603e3edcd629bf51e09bfd8e980e6b20ed778545bb09ff3b6620f5a1"
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/LICENSE",
+          "sha256": "167618679a782bcde34af87d1f7c45afa2d11677d8c5d9f3ff540d4e5935a504"
         },
         {
           "path": "package/adapter.wasm",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/package/adapter.wasm",
-          "sha256": "d8a99b7274204b4d6267dd1017a3d59d68086ca8a948987444edffa00fe46bd1"
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/package/adapter.wasm",
+          "sha256": "5597d6e997fdae14bc6442184231f41d46f7602794ec062b8fe81ae4009a0be8"
         },
         {
           "path": "package/manifest.json",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/package/manifest.json",
-          "sha256": "0600d9da51c37154eb17f8ee6524adbe22fe281aa5bf4b920b97d5e326c47ee2"
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/package/manifest.json",
+          "sha256": "0ea9bf1840e623e1c9b411cfb7edb927b990fb47abb6d1a071e175f7b5cba150"
         },
         {
           "path": "package/manifest.sha256",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/package/manifest.sha256",
-          "sha256": "1244d792045e0ece9e57e7b64262050ce31c4b024108b1176da25ebeb2963608"
-        },
-        {
-          "path": "README.txt",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/README.txt",
-          "sha256": "2bd59b83c100e070d802479080ffe45e8eb0b4a5da35a8b6e93bae6f2836961d"
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/package/manifest.sha256",
+          "sha256": "f8baa88ce043165bc00ad733f77aa5cf884f930ddcf68f681427c56782972c12"
         },
         {
           "path": "README.zh-CN.md",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/README.zh-CN.md",
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/README.zh-CN.md",
           "sha256": "18d6da7a15b95d082be862105669d110676cea67f9159155103901c9e347be8a"
         },
         {
           "path": "SHA256SUMS.txt",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/SHA256SUMS.txt",
-          "sha256": "e393c9406c0ed5821d7c123ce3a57213f015c2eb025b1663aac86c7e0f220bc2"
-        },
-        {
-          "path": "安装说明.txt",
-          "source": "artifacts/releases/1b602d2f122145bf9374ccd2d8559572/local.bgx.wan22-animate/0.2.12/安装说明.txt",
-          "sha256": "0baa197c6210f045c3babccc21d5065d5bbace62fc988c82001ad7aecc3cdf5f"
+          "source": "artifacts/releases/20261106-wan-rejection/local.bgx.wan22-animate/0.2.13/SHA256SUMS.txt",
+          "sha256": "c50af316bf4d8d2947277636dad1494a743d8269e6f914c5de3ae0caa019ae7d"
         }
       ]
     },
