@@ -1,5 +1,11 @@
 # bgxiong-third-party-adapters / 比格熊第三方适配器
 
+本仓库是比格熊第三方适配器的独立开源真源，与主程序仓 `bgxiong-ai-story` 分开维护。适配器的文档、SDK、合同、模板、案例和更新以本仓库为准；主程序只按契约导入并运行插件。不要把适配器开发写回主程序仓库。
+
+现名 `bgxiong-third-party-adapters`；公开地址 https://github.com/IM-DaXiong/bgxiong-third-party-adapters 。旧名 `bgxiong-vendor-adapters` 已更名并指向本仓库，不要再当成另一份产品。
+
+许可见 [LICENSE](./LICENSE)（不是 MIT）：个人使用和在自有项目/产品中商用都可以；禁止将本仓库内容原样或改造后作为独立商业产品、付费包或付费适配器库出售。
+
 2026-11-05统一：本目录为开发和Git唯一根，公开仓库 https://github.com/IM-DaXiong/bgxiong-third-party-adapters 。
 
 - packages/：已合并主线包源码；Wan22以较新0.2.12及原未提交修改为准，其他包从原sources/main/packages合入。
