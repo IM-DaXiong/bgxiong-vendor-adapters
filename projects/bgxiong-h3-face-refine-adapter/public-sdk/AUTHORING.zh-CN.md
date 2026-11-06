@@ -190,7 +190,7 @@ Save-Json $EvidenceManifest @{schemaVersion=1;cases=$Cases}
 if ($LASTEXITCODE -eq 0) { throw '缺证据不应返回成功' }
 ~~~
 
-command/exitCode 是证据声明，conform 不代替你执行所写命令；EVIDENCE_DECLARATION 与实际重放的 ACTUALLY_EXECUTED 必须区分。C28 必须有真正执行的匹配 tape。即使完整性/重放检查通过，也不能把声明字段当完整 36 case 的实际测试或独立作者证明。[完整验收条件](CONFORMANCE.zh-CN.md)还要求真实故障矩阵、隔离作者和候选复现材料。
+command/exitCode 是证据声明，conform 不代替你执行所写命令；EVIDENCE_DECLARATION 与实际重放的 ACTUALLY_EXECUTED 必须区分。C28 必须有真正执行的匹配 tape。即使完整性/重放检查通过，也不能把声明字段当完整 36 case 的实际测试或独立作者证明。[完整验收条件](../../../contract/v2/CONFORMANCE.zh-CN.md)还要求真实故障矩阵、隔离作者和候选复现材料。本子集未复制该文。
 
 ## 7 发行与许可边界
 

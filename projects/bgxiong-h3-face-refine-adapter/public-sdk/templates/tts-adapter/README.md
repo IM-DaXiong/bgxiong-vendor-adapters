@@ -7,6 +7,6 @@
 
 **尚未接入模型。** submit 明确返回 `RESOURCE_UNAVAILABLE`，不会用静音 WAV 冒充合成成功。作者在 `src/lib.rs` 的 submit 中完成包内转换，通过现有 `host::call` / HTTP 媒体端口调用自己的 companion，产出真实音频，返回 `completed`、一个 `role=audio` 输出；没有附加信息时 `data=null` 即可。请求正文在宿主 HTTP 出站前自动持久化。
 
-普通输入只有 `{"schemaVersion":1,"text":"你好。"}`。省略 mode 为 plain，省略 execution.delivery 为 complete。选填风格、情绪、时长或附件不支持时，保留原始输入并给未应用提示；不能以缺能力拒绝普通合成。显式选择的模式、声音身份、runtimeProfile 或 stream 不能静默替换。输出附件独立解析，坏附件不能丢弃有效音频。详细合同见 SDK 的 `profiles/speech-v1/README.md`。
+普通输入只有 `{"schemaVersion":1,"text":"你好。"}`。省略 mode 为 plain，省略 execution.delivery 为 complete。选填风格、情绪、时长或附件不支持时，保留原始输入并给未应用提示；不能以缺能力拒绝普通合成。显式选择的模式、声音身份、runtimeProfile 或 stream 不能静默替换。输出附件独立解析，坏附件不能丢弃有效音频。详细合同见 SDK 的 [speech-v1](../../profiles/speech-v1/README.md)。
 
 S0 不提供 companion、模型权重或主程序安装功能。source/manifest 中 `local.sdk.speech` 是开发身份，发布自己的包时需同时修改这两处身份。生成源 `capabilities.json` 中的 pluginVersion 要与 Cargo.toml、manifest.json 一致。

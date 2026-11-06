@@ -14,7 +14,7 @@
 
 导入原 proof 时，selector.file.root 对应的已授权目录成为原 proof 内部 `root=evidence` 的局部解释。它不取 proof 文件的父目录，不按文件是否存在推断根，也不受外层同名 evidence 文件影响。pointer 选择子对象不改变这一上下文。其他显式 alias 保持调用方原有授权，不自动重命名或扩大范围。
 
-例如原 proof 位于某个授权根的 `subdir/proof.json`，内部 `root=evidence,path=stdout.bin` 仍指向该授权根下的 stdout.bin；不是 subdir/stdout.bin。两个作者可各用局部 evidence 名，但它们的导入 selector 必须明确选择各自的根。若两份原件使用同名显式 alias 指向不同目录，调用方须分别提供明确的上下文，不能让 JSON 自行覆盖授权。
+例如原 proof 位于某个授权根的子目录中，内部 root=evidence 仍指向该授权根下的 stdout.bin，而不是 proof 所在子目录。两个作者可各用局部 evidence 名，但它们的导入 selector 必须明确选择各自的根。若两份原件使用同名显式 alias 指向不同目录，调用方须分别提供明确的上下文，不能让 JSON 自行覆盖授权。
 
 ## 新组合索引
 

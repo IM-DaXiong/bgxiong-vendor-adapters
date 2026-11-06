@@ -1,6 +1,6 @@
 # RunningHub H3 Spectrum 动态多参独立适配器
 
-当前权威源码：**1.0.1**；公开 SDK：**V2 2.0.0**。本目录与 `packages/cloud-adapters/` 内其他厂商包同级，具有自己的 Cargo workspace，不加入宿主或 SDK workspace，不参与主程序编译。厂商工作流、HTTP 组装及响应解释只在本目录实现。
+当前权威源码：**1.0.1**；公开 SDK：**V2 2.0.0**（开发者预览，见 [SDK V2 文档](../../../contract/v2/README.md)）。本目录与 `packages/cloud-adapters/` 内其他厂商包同级，具有自己的 Cargo workspace，不加入宿主或 SDK workspace，不参与主程序编译。厂商工作流、HTTP 组装及响应解释只在本目录实现。
 
 本包是 Turbo 动态包 `runninghub-h3-dynamic` 的 **Spectrum 质量优先** 孪生：同一套 `build_graph`（删 LoadImage/LoadAudio、注入 1000+/2000+、接线 136、SaveVideo 92→9000），底图与 workflowId 换成 Spectrum。
 
@@ -28,7 +28,6 @@ cargo test --manifest-path packages/cloud-adapters/runninghub-h3-spectrum-dynami
 
 ## 文档
 
-- 计划：`docs/dev/plans/20261101-PLAN-RunningHub-H3-spectrum-动态多参工作流.md`
-- 指南：`docs/dev/guides/20261101-GUIDE-RunningHub-H3-spectrum-动态多参发布与适配.md`
+公开说明就是本 README，以及同目录 schema、`Build.ps1` 和 [SDK V2 文档](../../../contract/v2/README.md)（开发者预览）。迁入前的宿主计划与发布指南不在本仓库，本次未能读取产品仓原文，没有另写一份替代稿。
 
 本次修复：schemaJson与摘要生成前统一LF；新版本不得覆盖已安装旧版本。生成的SDK镜像由当前公开CLI init恢复，不手改镜像或锁；包检查通过仍须安装与工作台提交验收。

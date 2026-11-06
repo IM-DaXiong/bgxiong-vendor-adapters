@@ -27,7 +27,7 @@ powershell -NoProfile -File scripts/verify-runtime-cdn.ps1 -Runtime breeze-h1
 - `cdnUploaded=false` until ops upload + verify PASS (no fake downloadable links).
 
 ## T23 Author
-See kit `AUTHOR.md` and `packages/vendor-adapter-contract/v2/templates/tts-adapter/`.
+See kit `AUTHOR.md` and [contract/v2/templates/tts-adapter/](../../../contract/v2/templates/tts-adapter/).
 Authors must not need private `src-tauri` sources.
 
 ## T24 Handoff

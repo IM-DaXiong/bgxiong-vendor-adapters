@@ -11,11 +11,11 @@
 | C dist-pack-c/ | 1.0.0-c | 0362d786bafcc80d3df2c6ee8a74114394373ad0724a774c5a1a67eb27a70a56 |
 
 ## Host bridge (T18)
-`adapter_host/v2/process.rs` collects SDK `workspace/cli/sha256(requestId)/events.jsonl` and mirrors `stream-events.jsonl`; `run_with_host` returns events.
+adapter_host/v2/process.rs collects SDK `workspace/cli/sha256(requestId)/events.jsonl` and mirrors `stream-events.jsonl`; `run_with_host` returns events.
 
 ## Product entries
-- `speech/tts_streaming.rs` / `installed_speech::synthesize_stream`
-- `speech/tts_batch.rs` / `installed_speech::synthesize_batch`
+- speech/tts_streaming.rs / `installed_speech::synthesize_stream`
+- speech/tts_batch.rs / `installed_speech::synthesize_batch`
 
 ## Prove
 ```powershell

@@ -34,6 +34,6 @@ CI must **not** write "LAN LLM is connected".
 ## After you edit
 
 ```text
-cargo test --manifest-path packages/vendor-adapter-contract/v1/examples/lan-openai-compat-text/Cargo.toml
+cargo test --manifest-path contract/v1/examples/lan-openai-compat-text/Cargo.toml
 cd ui && npm run check:affected
 ```

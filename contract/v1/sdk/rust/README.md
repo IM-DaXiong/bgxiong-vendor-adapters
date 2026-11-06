@@ -1,9 +1,9 @@
 # Vendor Adapter Rust SDK
 
 > **Field contract (required) / 字段契约（必读）**
-> - 中文: [`../HOST_PAYLOAD.zh-CN.md`](../HOST_PAYLOAD.zh-CN.md)
-> - English: [`../HOST_PAYLOAD.en.md`](../HOST_PAYLOAD.en.md)
-> - Index: [`../HOST_PAYLOAD.md`](../HOST_PAYLOAD.md)
+> - 中文: [HOST_PAYLOAD.zh-CN.md](../../HOST_PAYLOAD.zh-CN.md)
+> - English: [HOST_PAYLOAD.en.md](../../HOST_PAYLOAD.en.md)
+> - Index: [HOST_PAYLOAD.md](../../HOST_PAYLOAD.md)
 >
 > Those documents are the project external standard for host `payloadJson` and guest responses. This README is crate usage only.
 > 上述文档是本仓对外标准。本 README 只讲 crate 用法。
@@ -13,7 +13,7 @@ TypeScript / TinyGo are 暂不支持 (see their READMEs).
 
 `bgx-vendor-adapter-sdk` covers the JSON envelope that crosses the host boundary and the
 payload builders for `submit` / `query`. The WIT world lives in
-[`../../wit/vendor-adapter.wit`](../../wit/vendor-adapter.wit) and is generated in your own
+[vendor-adapter.wit](../../wit/vendor-adapter.wit) and is generated in your own
 crate with `wit-bindgen`; this SDK stays free of `wit-bindgen` so the same code compiles for
 host-side tests and for `bgx-adapter dev`.
 
@@ -25,7 +25,8 @@ read host `app-contracts`, so you can copy `sdk/rust` out of the repo.
 
 ```toml
 [dependencies]
-bgx-vendor-adapter-sdk = { path = "../bgxiong-ai-story/packages/vendor-adapter-contract/v1/sdk/rust" }
+# 路径相对于当前 crate 的 Cargo.toml。下面假定该 crate 在本仓库根目录。
+bgx-vendor-adapter-sdk = { path = "contract/v1/sdk/rust" }
 ```
 
 ```rust

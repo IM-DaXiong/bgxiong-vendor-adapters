@@ -4,7 +4,7 @@
 
 ## 开始使用
 
-从安装目录 `user-examples/comfy-workflow-authoring-v2/README.zh-CN.md` 和 `GENERATION-EXAMPLES.zh-CN.md` 选择接近目标的完整样例，将整个目录复制到可写位置，再交给智能体其中的 `AGENT-TASK.zh-CN.md`、用户已跑通的真实工作流、节点定义、依赖名称、输入素材和输出要求。无需主仓源码、内部报告或开发者机器路径。
+仓库里的对应说明是 [Comfy 作者包 README](../../../packages/comfy-workflow-adapter/v2/README.zh-CN.md) 和 [生成样例索引](../../../packages/comfy-workflow-adapter/v2/GENERATION-EXAMPLES.zh-CN.md)。安装到应用之后，这些材料会出现在应用的 user-examples 目录；那个安装副本不在本 Git 树里。把选中的完整样例复制到可写位置，再交给智能体其中的作者任务书、用户已跑通的真实工作流、节点定义、依赖名称、输入素材和输出要求。无需主仓源码、内部报告或开发者机器路径。
 
 作者使用Rust1.95.0、wasm32-wasip2目标、Windows MSVC工具链及PowerShell7。工具链、模型、节点、FFmpeg/ffprobe不包含在作者包中；首次构建需显式联网取得锁定依赖，之后缓存齐备才可离线编译。不得删除用户已有Cargo配置绕过检查，改用无隐式配置的独立作者目录。
 

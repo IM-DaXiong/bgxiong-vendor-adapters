@@ -5,13 +5,12 @@ TypeScript / TinyGo are 暂不支持; the installer includes Rust SDK code only.
 
 `bgx-vendor-adapter-sdk` covers the JSON envelope that crosses the host boundary and the
 payload builders for `submit` / `query`. The WIT world lives in
-[`../wit/vendor-adapter.wit`](../wit/vendor-adapter.wit) and is generated in your own
+[vendor-adapter.wit](../wit/vendor-adapter.wit) and is generated in your own
 crate with `wit-bindgen`; this SDK stays free of `wit-bindgen` so the same code compiles for
 host-side tests and for `bgx-adapter dev`.
 
 Closed sets are read from the crate-local `src/vendor-adapter-protocol.json` at compile
-time. Keep that file with `src/lib.rs` when you copy this crate. The supported field contract,
-schemas and upgrade notes are in the enclosing `vendor-adapter-v1/` package.
+time. Keep that file with `src/lib.rs` when you copy this crate. The supported field contract, schemas and upgrade notes in this repository are under [contract/v1](../../../contract/v1).
 
 ## Use
 

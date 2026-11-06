@@ -11,7 +11,7 @@
 
 ## Why independent project
 
-Author trees must not relative-reference the product monorepo for source ownership. `packages/third-party/...` stays a pointer; build and install envelopes live with the project.
+Author trees must not relative-reference the product monorepo for source ownership. This `packages/third-party/` entry stays a pointer; build and install envelopes live with the project.
 
 ## A03
 
@@ -19,7 +19,7 @@ Generic local-runtime isolation via companion `extra_model_paths` — **no globa
 
 ## A02 dependency
 
-Package mirrors `schemas/media-target-selection-v1/` for independent builds. Product contract SSOT remains in the host repo under `packages/vendor-adapter-contract/v2/profiles/media-target-selection-v1/`.
+The package mirror for independent builds is [media-target-selection-v1](../../../projects/bgxiong-h3-face-refine-adapter/schemas/media-target-selection-v1/). The public contract in this repository is [media-target-selection-v1](../../../contract/v2/profiles/media-target-selection-v1/). The host repository path is not published here.
 
 ## Build / install (acceptance)
 
@@ -29,4 +29,4 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\Build.ps1 -Jobs 2
 # Then Package-Install.ps1; prepare runtime with companion\scripts\prepare-runtime.ps1
 ```
 
-See project `README.md`, `harness/OPS-CHECKLIST.md`, and install envelope notes beside accepted builds.
+See the project [README.md](../../../projects/bgxiong-h3-face-refine-adapter/README.md), [harness/OPS-CHECKLIST.md](../../../projects/bgxiong-h3-face-refine-adapter/harness/OPS-CHECKLIST.md), and install envelope notes beside accepted builds.

@@ -142,7 +142,7 @@ if ($LASTEXITCODE -ne 0) { throw 'submit failed' }
 
 制作 `video.generate` 包时，先读 [profiles/video-generation-v1/README.zh-CN.md](profiles/video-generation-v1/README.zh-CN.md)。该目录固定工作台需要的字段语义与单位：模型/操作身份、`inputMode`（每操作一个 `const`）、`prompt`、可选 `negativePrompt`、`durationSeconds`、`fps`、`aspectRatio`、尺寸三选一（`width`/`height` 或 `resolution` 或 `resolutionValue`）、`seed`、按角色声明的 `mediaSlots`，以及 `advanced` 标量闭集（含 `audioUsage` / 生成音频等）。宿主侧草稿 `vendorFeatureDraft` 只能落入已声明字段，不能静默丢弃或重复发送。
 
-中立输入示例 [`profiles/video-generation-v1/input.example.schema.json`](profiles/video-generation-v1/input.example.schema.json) 展示固定/枚举/范围、可选负面提示词、像素尺寸表示与首尾帧/参考音角色；可按包支持面裁剪，但不得改公开字段名或混用两种尺寸表示。平台图、平台限制和字段换算留在作者包内。用既有 SchemaRegistry 对示例/包内 schema 做 digest 与严格校验即可，不新增组合解释器。
+中立输入示例 [input.example.schema.json](profiles/video-generation-v1/input.example.schema.json) 展示固定/枚举/范围、可选负面提示词、像素尺寸表示与首尾帧/参考音角色；可按包支持面裁剪，但不得改公开字段名或混用两种尺寸表示。平台图、平台限制和字段换算留在作者包内。用既有 SchemaRegistry 对示例/包内 schema 做 digest 与严格校验即可，不新增组合解释器。
 
 ## 4 Profile：安全解释器的明确子集
 

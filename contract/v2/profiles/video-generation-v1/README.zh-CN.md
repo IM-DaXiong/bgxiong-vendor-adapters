@@ -4,9 +4,9 @@
 
 权威形状：
 
-- 能力与操作：[`schemas/capability-contract.schema.json`](../../schemas/capability-contract.schema.json)
+- 能力与操作：[capability-contract.schema.json](../../schemas/capability-contract.schema.json)
 - 本示例输入：[`input.example.schema.json`](input.example.schema.json)
-- UI 控件：[`schemas/ui-schema.schema.json`](../../schemas/ui-schema.schema.json)
+- UI 控件：[ui-schema.schema.json](../../schemas/ui-schema.schema.json)
 - 媒体引用字节：既有受控媒体通道；input 内只放 `mediaId`
 
 SDK 只做：公开字段合同、读取声明、透传标准值、既有执行通信。SDK **不懂**平台业务，不判断厂商尺寸组合是否合法，不计算平台帧格，不替适配器修参数。平台限制、节点图、URL、错误码换算全部留在仓外适配器。

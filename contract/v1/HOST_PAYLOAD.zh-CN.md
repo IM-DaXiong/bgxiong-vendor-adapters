@@ -3,21 +3,19 @@
 > **本仓对外开发契约（给人读的字段辞典）**  
 > 第三方适配器作者实现插件前**必读**。  
 > Wire 字段名一律 **camelCase**。  
-> 闭集（operations、capabilitySlots、errorCodes 等）见 `protocol/vendor-adapter-protocol.json`（Rust SDK 内嵌该文件）。宿主信任路径与 providerKinds 仍在 `packages/app-contracts/v1/vendor-adapter.json`。  
+> 闭集（operations、capabilitySlots、errorCodes 等）见 [vendor-adapter-protocol.json](protocol/vendor-adapter-protocol.json)（Rust SDK 内嵌该文件）。宿主信任路径与 providerKinds 在产品仓，不在本仓库。  
 > English edition: [`HOST_PAYLOAD.en.md`](HOST_PAYLOAD.en.md)
 
 ## 权威地图
 
 | 角色 | 路径 |
 |------|------|
-| **本文（中文字段辞典）** | `packages/vendor-adapter-contract/v1/HOST_PAYLOAD.zh-CN.md` |
-| 英文版 | `HOST_PAYLOAD.en.md` |
-| WIT 世界与 Host 导入 | `wit/vendor-adapter.wit` |
-| 信封与回包辅助类型 | `sdk/rust`（`Invocation`、`Response`、`SubmitResult`、`QueryResult`、`Output`） |
-| Manifest / 运行时能力 Schema | `schemas/manifest.schema.json`、`schemas/runtime-caps.schema.json` |
-| 宿主实现对照（防漂移） | `src-tauri/src/vendor_adapter_gateway/bridge/*_provider.rs` |
-| 能力投影 | `src-tauri/src/vendor_adapter_gateway/bridge/caps_adapter.rs` |
-| RCD 校验 | `src-tauri/src/vendor_adapter_gateway/domain/runtime_caps.rs` |
+| **本文（中文字段辞典）** | [HOST_PAYLOAD.zh-CN.md](HOST_PAYLOAD.zh-CN.md) |
+| 英文版 | [`HOST_PAYLOAD.en.md`](HOST_PAYLOAD.en.md) |
+| WIT 世界与 Host 导入 | [vendor-adapter.wit](wit/vendor-adapter.wit) |
+| 信封与回包辅助类型 | [rust](sdk/rust)（`Invocation`、`Response`、`SubmitResult`、`QueryResult`、`Output`） |
+| Manifest / 运行时能力 Schema | [manifest.schema.json](schemas/manifest.schema.json)、[runtime-caps.schema.json](schemas/runtime-caps.schema.json) |
+| 宿主实现对照 | 产品仓源码，不在本公开仓库；本次未能读取产品仓核验 |
 
 `examples/` **只是标本**，不是字段标准。标准 = 本文（或英文版）+ WIT + schemas + SDK 类型。
 

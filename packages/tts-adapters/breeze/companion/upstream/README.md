@@ -1,5 +1,8 @@
 <div align="center">
-  <a href="https://breezeblue.ai/"><img src="assets/breezeblue-logo.png" alt="BreezeBlue" width="35%"></a>
+
+
+> 本镜像未包含上游 README 引用的图片文件，没有重制。
+  <a href="https://breezeblue.ai/">(upstream image not in this mirror: assets/breezeblue-logo.png)</a>
   <br><br>
   <a href="https://huggingface.co/BreezeBlue/breeze-tts-2"><img src="https://img.shields.io/badge/Hugging%20Face-breeze--tts--2-FFD21E" alt="Hugging Face"></a>
   <a href="https://breezeblue.ai/breeze-tts-2"><img src="https://img.shields.io/badge/Blog-Breeze%20TTS%202-2563EB" alt="Blog"></a>
@@ -21,7 +24,7 @@
 Breeze TTS 2 is an open-weight text-to-speech model built for real-time interaction. It ranks #1 among open-weight models on the Artificial Analysis TTS leaderboard, while outperforming frontier proprietary systems. Its open-ended natural-language instruction-following capability supports reference-free voice design and reference-guided voice direction, while ultra-low-latency streaming enables responsive, expressive interaction.
 
 <div align="center">
-  <img src="assets/tts-elo-leaderboard.svg" alt="Text-to-speech models ranked by Artificial Analysis Elo score" width="100%">
+  (upstream image not in this mirror: assets/tts-elo-leaderboard.svg)
 </div>
 
 ## ✨ Highlights
