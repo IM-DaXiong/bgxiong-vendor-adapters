@@ -225,8 +225,11 @@ pub fn parse(input: &Value, mode: Mode) -> Result<Request, Failure> {
     let a = field(input, "advanced")?;
     let window_frames = int(a, "windowFrames", 5, u64::MAX)?;
     let overlap_frames = int(a, "overlapFrames", 1, u64::MAX)?;
-    if !aligned(window_frames) || !aligned(overlap_frames) {
-        return Err(invalid("windowFrames and overlapFrames must be 4n+1"));
+    if !aligned(window_frames) {
+        return Err(invalid("每段帧数 windowFrames 必须为 4n+1（如 73、77），请修改该字段或恢复默认值 77"));
+    }
+    if !aligned(overlap_frames) {
+        return Err(invalid("重叠帧数 overlapFrames 必须为 4n+1（如 1、5），请修改该字段或恢复默认值 5"));
     }
     if overlap_frames >= window_frames {
         return Err(invalid("overlapFrames must be smaller than windowFrames"));

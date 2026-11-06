@@ -569,3 +569,14 @@ mod rejection_tests {
         assert_eq!(host.checkpoint["submissionRejection"]["basis"], "before_submission");
     }
 }
+
+
+#[cfg(test)]
+mod rejection_declaration_tests {
+    #[test]
+    fn parameter_rejection_feature_is_required_by_the_package() {
+        let manifest: serde_json::Value = serde_json::from_str(include_str!("../manifest.json")).unwrap();
+        assert!(manifest["requiredFeatures"].as_array().unwrap().iter()
+            .any(|feature| feature == bgx_adapter_v2_sdk::submission_rejection::FEATURE));
+    }
+}
