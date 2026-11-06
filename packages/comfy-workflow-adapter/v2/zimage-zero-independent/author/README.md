@@ -1,4 +1,6 @@
-Zero Author Z Image Turbo 1.0.1
+Zero Author Z Image Turbo 1.0.2
+
+版本以同目录 `manifest.json` 为准。下文保留 0.6.1028 / 1.0.1 归档时的验收范围，不把版本号变化写成新的出图验收。
 
 完整安装、构建、提交与验真说明见 ../OPERATIONS.txt。
 本源码从 0.6.1028 实际安装公开 Qwen T2I 作者源码独立改写，使用 author-input/workflow.source.json 新图，未修改 vendor-sdk 或软件。

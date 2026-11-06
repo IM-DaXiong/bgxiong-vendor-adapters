@@ -1,6 +1,6 @@
 # Wan Animate 2（蒸馏版）角色动画适配包 — 资产说明
 
-认证原件：`ComfyUI-API/Wan-Animate-2/video_wan_animate2_distilled.json`（画布 JSON，SHA-256 `e08670cf0a14f4648e97283e4d7c78fe945015d5b11e4550e94b636a1f79324f`，与 `workflow-templates.json` 一致）。工作流库里导入的必须是这份原件（逐字节一致）才能关联本包。
+认证画布不在本仓库。摘要钉在 [workflow-templates.json](workflow-templates.json)，SHA-256 `e08670cf0a14f4648e97283e4d7c78fe945015d5b11e4550e94b636a1f79324f`。工作流库里导入的必须与该摘要逐字节一致才能关联本包。
 
 ## 用法
 

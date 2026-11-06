@@ -5,20 +5,19 @@ TypeScript / TinyGo are 暂不支持 (see their READMEs).
 
 `bgx-vendor-adapter-sdk` covers the JSON envelope that crosses the host boundary and the
 payload builders for `submit` / `query`. The WIT world lives in
-[`../../wit/vendor-adapter.wit`](../../wit/vendor-adapter.wit) and is generated in your own
+[vendor-adapter.wit](../../../contract/v1/wit/vendor-adapter.wit) and is generated in your own
 crate with `wit-bindgen`; this SDK stays free of `wit-bindgen` so the same code compiles for
 host-side tests and for `bgx-adapter dev`.
 
 Closed sets (`protocolHostMajor`, `operations`, `capabilitySlots`) are read from
-`packages/app-contracts/v1/vendor-adapter.json` at compile time, so the SDK cannot drift from
-the client. Keep this crate inside the repo tree, or vendor that JSON at the same relative
-path when you copy the crate out.
+crate-local `src/vendor-adapter-protocol.json` at compile time. This copy does not read host
+app-contracts (that file is not in this repository).
 
 ## Use
 
 ```toml
 [dependencies]
-bgx-vendor-adapter-sdk = { path = "../bgxiong-ai-story/packages/vendor-adapter-contract/v1/sdk/rust" }
+bgx-vendor-adapter-sdk = { path = "contract/v1/sdk/rust" }
 ```
 
 ```rust

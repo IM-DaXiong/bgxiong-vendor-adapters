@@ -13,13 +13,15 @@
 
 ## 必读顺序
 
-1. `contract/README.md`
-2. `contract/v1/HOST_PAYLOAD.zh-CN.md`（英文用 `.en.md`）
-3. `contract/v1/wit/vendor-adapter.wit`
-4. `contract/v1/schemas/manifest.schema.json` + 其它 schemas
-5. `contract/v1/sdk/rust/README.md`
-6. `contract/v1/templates/rust/`（从这里复制开工）
-7. 选一个最接近的 `examples/*` 作对照（不要整文件抄业务私货）
+1. [README.md](contract/README.md)
+2. [HOST_PAYLOAD.zh-CN.md](contract/v1/HOST_PAYLOAD.zh-CN.md)（英文用 [HOST_PAYLOAD.en.md](contract/v1/HOST_PAYLOAD.en.md)）
+3. [vendor-adapter.wit](contract/v1/wit/vendor-adapter.wit)
+4. [manifest.schema.json](contract/v1/schemas/manifest.schema.json) + 同目录其它 schemas
+5. [README.md](contract/v1/sdk/rust/README.md)（Python / TypeScript / TinyGo 见各自 README，状态是暂不支持）
+6. [rust](contract/v1/templates/rust/)（从这里复制开工）
+7. 选一个最接近的 [examples](examples/) 作对照（不要整文件抄业务私货）
+
+SDK V2 在 [README.md](contract/v2/README.md)，目前是开发者预览：[`release-lock.json`](contract/v2/release-lock.json) 的 `sdkReady` 为 false。不要把预览文档当成已稳定发布的唯一接口。产品级适配器清单见 [README.zh-CN.md](packages/README.zh-CN.md)。
 
 ## 推荐实现步骤
 

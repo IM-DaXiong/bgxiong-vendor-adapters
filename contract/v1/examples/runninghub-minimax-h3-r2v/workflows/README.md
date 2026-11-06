@@ -1,6 +1,6 @@
 # Workflow dumps (author input)
 
-OpenAPI V2 AI App graphs. Node tables in `src/config.rs` are frozen from these
+OpenAPI V2 AI App graphs. Node tables in `../src/config.rs` are frozen from these
 UI dumps + the official `/openapi/v2/run/ai-app/{id}` apiCallDemo.
 
 | modelId | APP_ID | dump |

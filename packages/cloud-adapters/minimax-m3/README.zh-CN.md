@@ -26,4 +26,4 @@
 
 外层使用SDK公开submit信封，modelId为`MiniMax-M3`，capabilityKey为`text.generate`，operationId为`local.bgx.minimax-m3/complete`，operationVersion为1，inputSchemaDigest取当前capabilities原值，media/uploads均空数组。每次调用使用独立requestId。
 
-2026-10-25，1.0.2已通过固定SDK的真实厂商调用；0.6.1101开发版还完成软件标准安装、加入普通文本模型、选择此包及普通聊天真实回复。软件使用隔离验收profile和显式短期凭据，测试后已删除密钥文件并恢复临时DNS调整；这不代表生产账号自动绑定或新安装器已验。实际构建、HTTP夹具、厂商实跑和软件验收回执见[主计划](../../../docs/dev/plans/20261025-PLAN-SDKv2云端文本模型独立适配与MiniMaxM3接入.md)。
+2026-10-25，1.0.2已通过固定SDK的真实厂商调用；0.6.1101开发版还完成软件标准安装、加入普通文本模型、选择此包及普通聊天真实回复。软件使用隔离验收profile和显式短期凭据，测试后已删除密钥文件并恢复临时DNS调整；这不代表生产账号自动绑定或新安装器已验。宿主侧计划与验收回执不在本公开仓库，本次未能读取产品仓原文，因此不转载。上面这段是迁入时已写明的公开结论。

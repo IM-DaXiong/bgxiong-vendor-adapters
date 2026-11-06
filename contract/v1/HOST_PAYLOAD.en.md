@@ -3,21 +3,19 @@
 > **Project external developer standard (human-readable field dictionary)**  
 > Third-party adapter authors **must** read this before implementing a plugin.  
 > Wire field names are always **camelCase**.  
-> Closed sets (operations, capabilitySlots, errorCodes, …) live in `protocol/vendor-adapter-protocol.json` (the Rust SDK embeds that file next to `lib.rs`). Host trust paths and providerKinds stay in `packages/app-contracts/v1/vendor-adapter.json`.  
+> Closed sets (operations, capabilitySlots, errorCodes, …) live in [vendor-adapter-protocol.json](protocol/vendor-adapter-protocol.json) (the Rust SDK embeds that file next to `lib.rs`). Host trust paths and providerKinds stay in the product repository and are not published here.  
 > 中文版: [`HOST_PAYLOAD.zh-CN.md`](HOST_PAYLOAD.zh-CN.md)
 
 ## Authority map
 
 | Role | Path |
 |------|------|
-| **This document (English field dictionary)** | `packages/vendor-adapter-contract/v1/HOST_PAYLOAD.en.md` |
-| Chinese edition | `HOST_PAYLOAD.zh-CN.md` |
-| WIT world + host imports | `wit/vendor-adapter.wit` |
-| Envelope & response helpers | `sdk/rust` (`Invocation`, `Response`, `SubmitResult`, `QueryResult`, `Output`) |
-| Manifest & runtime-caps schemas | `schemas/manifest.schema.json`, `schemas/runtime-caps.schema.json` |
-| Host implementation cross-check | `src-tauri/src/vendor_adapter_gateway/bridge/*_provider.rs` |
-| Capability projection | `src-tauri/src/vendor_adapter_gateway/bridge/caps_adapter.rs` |
-| RCD validation | `src-tauri/src/vendor_adapter_gateway/domain/runtime_caps.rs` |
+| **This document (English field dictionary)** | [HOST_PAYLOAD.en.md](HOST_PAYLOAD.en.md) |
+| Chinese edition | [`HOST_PAYLOAD.zh-CN.md`](HOST_PAYLOAD.zh-CN.md) |
+| WIT world + host imports | [vendor-adapter.wit](wit/vendor-adapter.wit) |
+| Envelope & response helpers | [rust](sdk/rust) (`Invocation`, `Response`, `SubmitResult`, `QueryResult`, `Output`) |
+| Manifest & runtime-caps schemas | [manifest.schema.json](schemas/manifest.schema.json), [runtime-caps.schema.json](schemas/runtime-caps.schema.json) |
+| Host implementation cross-check | product repository only; not published here and not re-read for this pass |
 
 `examples/` are **specimens only**, not the field standard. Standard = this document (or the Chinese edition) + WIT + schemas + SDK types.
 

@@ -8,7 +8,7 @@
 
 P01—P13的代表性编译、安装关联、真实生成和回收结论按原基线复用；0.6.1028另有新Z-Image工作流零外部技术提示独立作者闭环。该新目标包未收进本安装包，也没有据此证明新视频、所有工作流或所有操作系统。本次0.6.1030沿用这些已有证据，资料一致性及实际安装检查以本版发行回执为准，不把旧实跑写成本次新实跑。
 
-`RELEASE-STATUS.json` 中 `scope` 明确旧G00—G06、`sdkReady=false`、`moduleIntegration`等字段属于独立SDK完整候选治理，不是当前应用功能否定清单。`developerPreview`单独记录本次有限交付；尚未完成的完整SDK验收仍保持未验。v1厂商插件原有接口继续见 `user-examples/vendor-adapter-v1/`；本预览版不承诺所有厂商/业务槽已接入v2。
+`RELEASE-STATUS.json` 中 `scope` 明确旧G00—G06、`sdkReady=false`、`moduleIntegration`等字段属于独立SDK完整候选治理，不是当前应用功能否定清单。`developerPreview`单独记录本次有限交付；尚未完成的完整SDK验收仍保持未验。v1 厂商插件在应用安装目录里仍可能放在名为 user-examples 的文件夹，该文件夹不在本 Git 树。本仓库的 V1 入口是 [contract/v1](../../../contract/v1)。本预览版不承诺所有厂商/业务槽已接入 v2。
 
 软件只提供一套平台无关的接入标准。官方 API、自建服务、云端聚合服务、ComfyUI 工作流，都通过同一个适配器接口接入；“官方”只表示包的作者和发布来源，不代表专用执行通道。用户的智能体只凭公开资料制作包，软件导入后发现其能力、显示参数并执行，无须项目方为每个服务修改主程序。
 
@@ -18,7 +18,7 @@ P01—P13的代表性编译、安装关联、真实生成和回收结论按原�
 
 1. [开放标准](OPEN-STANDARD.zh-CN.md)：责任边界、配置、能力、参数扩展、执行与版本。
 2. [SDK 接口规范](SDK-CONTRACT.zh-CN.md)：包结构、调用字段、Rust/WASM 接口与生命周期。
-3. [标准验证和发布条件](CONFORMANCE.zh-CN.md)：什么证据才能证明标准可独立使用。
+3. [标准验证和发布条件](../../../contract/v2/CONFORMANCE.zh-CN.md)：什么证据才能证明标准可独立使用。本目录是合同子集，该文件在仓库的 `contract/v2/`，没有在这里复制一份。
 4. [能力声明 schema](schemas/capability-contract.schema.json)、[调用 schema](schemas/operation-payload.schema.json)、[事件 schema](schemas/stream-event.schema.json)、[示例](examples/capabilities.json)。这些及同目录的信封、响应、结果、媒体、用量和 UI schema 是公开合同；纯 schema 校核不替代真实运行验收。
 
 已有的 worker、沙箱、媒体、凭据、权限、任务、恢复和包安装系统继续作为实现基础；升级它们消费同一标准，不新建并列运行内核。标准字段不绑定平台，平台端点、鉴权报文、工作流节点、参数编码和厂商错误映射只在适配包中。
@@ -30,8 +30,8 @@ P01—P13的代表性编译、安装关联、真实生成和回收结论按原�
 
 [请求/回执分派表](operation-contracts.json)固定六类传输操作；[跨领域能力样例](examples/coverage-capabilities.json)涵盖文字、文件分析、自定义能力和同模型多视频能力。标准要求完整的外部独立作者验证，设计样例不能替代它。
 
-作者从 [AUTHORING.zh-CN.md](AUTHORING.zh-CN.md) 开始；参考宿主见 [HOST-INTEGRATION.zh-CN.md](HOST-INTEGRATION.zh-CN.md)。[独立作者任务](AUTHOR-TASK.zh-CN.md) 与 [模块接入清单](HOST-ADOPTION-CHECKLIST.zh-CN.md) 分别约束外部可用性和后续模块接入。发布候选的许可库存不授予新的所有者许可或外部分发授权。
+作者从 [AUTHORING.zh-CN.md](AUTHORING.zh-CN.md) 开始；参考宿主见 [HOST-INTEGRATION.zh-CN.md](HOST-INTEGRATION.zh-CN.md)。[独立作者任务](../../../contract/v2/AUTHOR-TASK.zh-CN.md) 与 [模块接入清单](../../../contract/v2/HOST-ADOPTION-CHECKLIST.zh-CN.md) 分别约束外部可用性和后续模块接入，这两份在仓库 `contract/v2/`，没有随本子集复制。发布候选的许可库存不授予新的所有者许可或外部分发授权。
 
 ## Native 媒体消费工具候选
 
-协议/WIT/author SDK 2.0.0 保持不变；native tools/reference-host 2.0.1 的只读 inspect/export 候选见 [受管媒体工具](RETAINED-MEDIA.zh-CN.md)。原已验执行工具独立保留，新工具的通过范围不等于整体发行通过。
+协议/WIT/author SDK 2.0.0 保持不变；native tools/reference-host 2.0.1 的只读 inspect/export 候选见 [受管媒体工具](../../../contract/v2/RETAINED-MEDIA.zh-CN.md)。原已验执行工具独立保留，新工具的通过范围不等于整体发行通过。该文在 `contract/v2/`，没有随本子集复制。

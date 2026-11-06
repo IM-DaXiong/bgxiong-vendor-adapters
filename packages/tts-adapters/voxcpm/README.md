@@ -8,7 +8,8 @@
 - companion: 自 `runtimes/tts/voxcpm` 拷贝；启动依赖本机 checkpoints + wheelhouse（见 manifest remoteArtifacts）。
 
 ## 构建
-见仓库 `scripts/build-tts-adapter-package.ps1`；产物 `dist-pack/`。
+
+本仓库没有独立的 VoxCPM 打包脚本。当前公开内容是材料包：`tts-bundle.json`、`resources.json` 和 `companion/start-sidecar.ps1`。生成目录不入库。缺权重时 plain 合成仍是未验，见下一节。
 
 ## 真实合成前提
 - 已准备 VoxCPM2 checkpoints（`config.json` + `model.safetensors`）与 pip 环境
