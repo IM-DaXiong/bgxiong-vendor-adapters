@@ -1,14 +1,14 @@
 # HOST_MAPPING · LAN ComfyUI Z-Image-Turbo
 
-字段 SSOT：`packages/vendor-adapter-contract/v1/HOST_PAYLOAD.zh-CN.md`（槽 `image`）。  
-字节 SSOT：本 crate `workflows/z.turbo.api.json` + `config.rs` SHA pin。  
+字段 SSOT：[HOST_PAYLOAD.zh-CN.md](../../../contract/v1/HOST_PAYLOAD.zh-CN.md)（槽 `image`）。  
+字节 SSOT：本 crate `../workflows/z.turbo.api.json` + `config.rs` SHA pin。  
 禁止猜节点号；换图须对照本表与钉文件。
 
 ## 模型
 
 | modelId | 钉文件 | 尺寸 |
 |---|---|---|
-| `z.turbo` | `workflows/z.turbo.api.json` | 10 档 enum（`payload.size` ↔ RCD `resolution` ↔ `appliedParams.resolution`） |
+| `z.turbo` | `../workflows/z.turbo.api.json` | 10 档 enum（`payload.size` ↔ RCD `resolution` ↔ `appliedParams.resolution`） |
 
 默认 `1920x1088`（2K 16:9）。画幅是 option 元数据 `aspectRatio`，不另声明 RCD `aspect`。
 

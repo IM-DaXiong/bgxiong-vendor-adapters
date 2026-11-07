@@ -7,10 +7,7 @@ The job runs on **RunningHub cloud**. This crate does not start local ComfyUI.
 
 ## Release / NSIS ships a reference copy (placeholder Key)
 
-The installer does **not** copy the whole `packages/` tree. `build-before` syncs a slice into
-`user-examples/vendor-adapter-v1/` (this crate + WIT + rust SDK + rust template) so users can
-copy **this crate folder** (must include `wit/` and `vendor-sdk/`, not only `src/`) to a writable
-disk and import that root. `API_KEY` in the shipped copy must stay the placeholder.
+The installer does **not** copy the whole `packages/` tree. A product installer may place a slice in an application folder named user-examples; that folder is not a directory in this git repository. In this repository the same material is under [contract/v1](../../contract/v1) and this example. Copy **this crate folder** (must include `wit/` and `vendor-sdk/`, not only `src/`) to a writable disk and import that root. `API_KEY` in the shipped copy must stay the placeholder.
 A live Key belongs only in the user's own copy, never in Program Files.
 
 This folder is also the git SSOT for authors.
@@ -79,7 +76,7 @@ Optional CLI (same compile SSOT):
 
 ```text
 cargo test
-cargo run --bin bgx-adapter -- build packages/vendor-adapter-contract/v1/examples/runninghub-workflow
+cargo run --bin bgx-adapter -- build examples/runninghub-workflow
 ```
 
 Without a real Key, only mapper unit tests and anonymous Gateway tests are valid.

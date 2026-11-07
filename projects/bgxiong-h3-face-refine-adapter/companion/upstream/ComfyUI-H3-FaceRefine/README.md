@@ -1,5 +1,8 @@
 # ComfyUI-H3-FaceRefine
 
+
+> 本仓库镜像未包含 `screenshots/` 演示媒体，也没有重制这些图片。 下面用文件名代替原来的图片链接。
+
 **A ComfyUI custom node set to refine and improve the quality of small faces in MiniMax H3 video.**
 
 MiniMax H3 renders faces poorly when the head occupies a small fraction of the frame. This is a property
@@ -16,21 +19,21 @@ adapted from stills to video.
 
 Source on the left, refined on the right:
 
-![source vs refined, side by side](screenshots/COMPARISON.gif)
+（演示图未纳入本镜像：COMPARISON.gif）
 
 Single frame at full resolution:
 
 | Source | Refined |
 |---|---|
-| ![source frame](screenshots/INPUT_00001.png) | ![refined frame](screenshots/REFINED_00001.png) |
+| （演示图未纳入本镜像：INPUT_00001.png） | （演示图未纳入本镜像：REFINED_00001.png） |
 
 The reason it works is what H3 is handed. Instead of a distant head a few dozen pixels tall, it
 gets the face tracked and normalized to fill the canvas:
 
 | Crop in: what H3 sees | Crop out: what H3 returns |
 |---|---|
-| ![input crop](screenshots/CROPS_INPUT_00001.gif) | ![refined crop](screenshots/CROPS_00001.gif) |
-| [full-res still](screenshots/CROPS_INPUT_00001.png) | [full-res still](screenshots/CROPS_00001.png) |
+| （演示图未纳入本镜像：CROPS_INPUT_00001.gif） | （演示图未纳入本镜像：CROPS_00001.gif） |
+| （演示图未纳入本镜像：CROPS_INPUT_00001.png） | （演示图未纳入本镜像：CROPS_00001.png） |
 
 These two are what to watch for temporal behaviour: the box has to sit still on a moving subject,
 or the refined face boils.
@@ -124,7 +127,7 @@ Restart ComfyUI. The nodes appear under **MiniMax H3/Face Refine**.
 
 | | |
 |---|---|
-| ComfyUI with MiniMax H3 support | H3's own nodes are **core** (`comfy_extras/nodes_minimax_h3.py`), not an add-on, you just need a build recent enough to have them |
+| ComfyUI with MiniMax H3 support | H3's own nodes are **core** (ComfyUI file comfy_extras/nodes_minimax_h3.py, not vendored here), not an add-on, you just need a build recent enough to have them |
 | a face detector | e.g. `face_yolov8m.pt` in `models/ultralytics/bbox/`. The one thing you must supply yourself. For anime, use an anime face model instead. The **nodes** find it there on their own; the **example workflows** additionally need the folder registration described below, because their stored detector values carry its `bbox\` prefix |
 
 Python packages (`ultralytics`, `scipy`, `insightface`, `scenedetect`) install automatically
@@ -243,7 +246,7 @@ templates' detector values use the model-folder naming its subpack registers.
 
 Both are installed as ComfyUI **workflow templates**. Open them from
 **Workflow → Browse Templates** once the pack is installed, no file hunting required.
-They also live in [`example_workflows/`](example_workflows) if you would rather load the JSON
+They also live in [example_workflows](example_workflows) if you would rather load the JSON
 directly.
 
 ### Common to both
@@ -341,7 +344,7 @@ the stitch can put each refined face back exactly where it belongs.
 
 ## H3 Load Video + Face Select
 
-<img src="screenshots/H3%20Load%20Video%20%2B%20Face%20Select.png" alt="H3 Load Video + Face Select" width="380">
+（演示图未纳入本镜像：H3%20Load%20Video%20%2B%20Face%20Select.png）
 
 Loads a video, finds every face and every hard cut in one pass, and decides which face is the
 subject **before the graph runs**. Optional: without it the tracker detects and ranks exactly as it
@@ -398,7 +401,7 @@ know that, so you tell it.
 every shot with each face outlined and numbered, and writes your answer — one index per shot —
 into `confirmed_pick`.
 
-<img src="screenshots/Pick%20Faces%20UI.png" alt="The Pick faces dialogue" width="640">
+（演示图未纳入本镜像：Pick%20Faces%20UI.png）
 
 Under each frame is a chip per detected face, plus **not in this shot**. The green chip is the
 current pick, and the numbers on the chips are the numbers drawn on the boxes.
@@ -411,7 +414,7 @@ and the node ignores it entirely, because your pick already names the face.
 frames keep their original pixels instead of the tracker settling on somebody else. It is the
 hand-picked equivalent of `absent_shots` on the tracker.
 
-<img src="screenshots/Pick%20Faces%20UI%20-%20Multiple%20Faces.png" alt="Choosing between four faces" width="640">
+（演示图未纳入本镜像：Pick%20Faces%20UI%20-%20Multiple%20Faces.png）
 
 **Across a cut the numbering is not stable.** A cut renumbers everyone, so the person who was face
 `1` before it may be face `3` after. That is the whole reason the dialogue asks per shot rather than
@@ -419,7 +422,7 @@ once: it is where you say *"these differently-numbered faces are the same person
 ranking rule can work out for itself. The row along the top keeps your picks side by side so you
 can check them against each other.
 
-<img src="screenshots/Pick%20Faces%20UI%20-%20Multiple%20Scenes.png" alt="One pick per shot across three shots" width="640">
+（演示图未纳入本镜像：Pick%20Faces%20UI%20-%20Multiple%20Scenes.png）
 
 | Control | Does |
 |---|---|
@@ -442,7 +445,7 @@ faces that have been renumbered underneath it.
 Once picked, the button on the node names the choice, so the graph stays readable without
 reopening the dialogue:
 
-<img src="screenshots/H3%20Load%20Video%20%2B%20Face%20Select%20-%20Multiple%20Scenes.png" alt="Picks named on the node" width="340">
+（演示图未纳入本镜像：H3%20Load%20Video%20%2B%20Face%20Select%20-%20Multiple%20Scenes.png）
 
 ### Preview coordinates
 
@@ -450,7 +453,7 @@ reopening the dialogue:
 numbers landed. **Preview coordinates** renders `frame_index` with a crosshair at your `X`, `Y`,
 every face outlined, and the nearest one highlighted:
 
-<img src="screenshots/H3%20Load%20Video%20%2B%20Face%20Select%20-%20XY%20Preview.png" alt="The X, Y coordinate preview" width="340">
+（演示图未纳入本镜像：H3%20Load%20Video%20%2B%20Face%20Select%20-%20XY%20Preview.png）
 
 The caption states what it resolved to — `frame 0 · 2 face(s) · nearest is face 0` — so the
 point can be confirmed against the person you meant before anything is rendered.
@@ -463,7 +466,7 @@ read as a second way of choosing a face by hand, which `manual` already is.
 
 ## H3 Face Track + Crop
 
-<img src="screenshots/H3%20Face%20Track%20%2B%20Crop.png" alt="H3 Face Track + Crop" width="380">
+（演示图未纳入本镜像：H3%20Face%20Track%20%2B%20Crop.png）
 
 Detects the face on every frame, fills gaps where detection fails, smooths the trajectory, and
 emits a constant-size batch of crops plus the `transform` needed to paste results back.
@@ -685,7 +688,7 @@ and their own refs on the H3 node, then chain them, feeding run 1's stitched out
 
 ## H3 Inject Video Latent (img2img)
 
-<img src="screenshots/H3%20Inject%20Video%20Latent%20(img2img).png" alt="H3 Inject Video Latent (img2img)" width="380">
+（演示图未纳入本镜像：H3%20Inject%20Video%20Latent%20(img2img).png）
 
 Encodes real frames into the **video** stream of H3's joint audio-video latent, leaving the audio
 stream intact. This is the missing img2img path: H3's stock nodes always build a zeros latent, because
@@ -709,7 +712,7 @@ It has no widgets. Strength is set downstream by `BasicScheduler`'s `denoise`, *
 
 ## H3 Per-Frame Denoise
 
-<img src="screenshots/H3%20Per-Frame%20Denoise.png" alt="H3 Per-Frame Denoise" width="380">
+（演示图未纳入本镜像：H3%20Per-Frame%20Denoise.png）
 
 Varies denoise strength along the temporal axis via the latent's noise mask, so one sampling pass
 covers a shot that goes from distant to close.
@@ -780,7 +783,7 @@ hide.
 
 ## H3 Face Mask (SAM)
 
-<img src="screenshots/H3%20Face%20Mask%20(SAM).png" alt="H3 Face Mask (SAM)" width="380">
+（演示图未纳入本镜像：H3%20Face%20Mask%20(SAM).png）
 
 Produces true face-shaped paste masks instead of a rectangle, temporally smoothed. Optional, and
 requires Impact Pack for `SAMLoader`.
@@ -815,7 +818,7 @@ the seam in hair and background where it reads far less. Try the rect workflow f
 
 ## H3 Face Stitch Back
 
-<img src="screenshots/H3%20Face%20Stitch%20Back.png" alt="H3 Face Stitch Back" width="380">
+（演示图未纳入本镜像：H3%20Face%20Stitch%20Back.png）
 
 Warps each refined crop back onto the exact float box it came from, colour-matches it, feathers the
 edge and composites. A single batched `grid_sample` does the warp, so a trajectory smoothed to
@@ -847,7 +850,7 @@ sub-pixel precision is not re-quantized on the way home.
 
 ## H3 Face Transform Info
 
-<img src="screenshots/H3%20Face%20Transform%20Info.png" alt="H3 Face Transform Info" width="380">
+（演示图未纳入本镜像：H3%20Face%20Transform%20Info.png）
 
 A debug node. Prints the per-frame boxes so you can sanity-check tracking before spending time on a
 sampling pass.

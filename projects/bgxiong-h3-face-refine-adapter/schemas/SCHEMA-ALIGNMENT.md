@@ -1,10 +1,10 @@
 ﻿# Schema alignment (Lane A)
 
-Public profile path (host monorepo):
+Public profile in this repository:
 
-`packages/vendor-adapter-contract/v2/profiles/media-target-selection-v1/`
+[media-target-selection-v1](../../../contract/v2/profiles/media-target-selection-v1/)
 
-This package mirrors those files under `schemas/media-target-selection-v1/` for independent-author builds.
+This package mirrors those files under [media-target-selection-v1/](media-target-selection-v1/) for independent-author builds. The host repository copy is not published here and was not re-read for this note.
 
 ## Frozen pointers (2026-10-30)
 

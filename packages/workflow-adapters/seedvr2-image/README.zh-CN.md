@@ -2,7 +2,7 @@
 
 基于固定的 SDK 2.0.0 用户预览版，仅用于一张原图到一张放大图片。声明已有 `imageUpscale` 传输槽；能力使用 SDK 正式支持的命名空间扩展 `local.bgx.seedvr2-image/upscale`，不声称尚未发布的 `image.upscale` 标准键。软件消费按传输槽和操作声明判断，不按包名分派。
 
-源工作流为仓内认证文件 `ComfyUI-API/SeedVR2/image_seedvr2_simple_upscale.json` 的原始字节副本 `workflow/source.json`；`workflow-templates.json` 固定其摘要。`src/workflow-api.json` 是作者对该图的显式 API 投影，保留原图中 alpha/torch-compile 的 Bypass：一张 LoadImage，连接的 DiT/VAE，单帧 SeedVR2，唯一 SaveImage。模型、节点、字段、HTTP和输出选择均在此包内，不进入SDK。
+上游画布文件名是 image_seedvr2_simple_upscale.json，该路径不在本仓库。仓内原始字节副本是 [workflow/source.json](workflow/source.json)；[workflow-templates.json](workflow-templates.json) 固定其摘要。`src/workflow-api.json` 是作者对该图的显式 API 投影，保留原图中 alpha/torch-compile 的 Bypass：一张 LoadImage，连接的 DiT/VAE，单帧 SeedVR2，唯一 SaveImage。模型、节点、字段、HTTP和输出选择均在此包内，不进入SDK。
 
 支持当前图片工作台的短边/最长边、种子、增强模型、颜色、噪声、VAE分块、换出与卸载参数。PNG没有视频CRF，此操作对 `writerCrf` 明确拒绝，不能静默忽略。任务须由标准SDK上传原图、提交、保存受理checkpoint，再按原远端任务号查询；不自动重提，不调用ComfyUI全局interrupt。
 
@@ -16,4 +16,4 @@
 
 ## 验收边界
 
-标准构建、包检查和打包已执行；软件链路与最终测试状态以 `docs/dev/reports/seedvr2-image-v2/20261025-SCOPE.md` 的实际记录为准。CLI/软件/安装发行分开记录，不因此修改SDK_READY或宣称全SDK正式封存。
+标准构建、包检查和打包已执行。软件链路与最终测试的宿主记录不在本公开仓库，本次未能读取产品仓原文，不能把缺失记录改写成已通过。CLI、软件和安装发行仍然分开；不因此修改 SDK_READY，也不宣称全 SDK 正式封存。

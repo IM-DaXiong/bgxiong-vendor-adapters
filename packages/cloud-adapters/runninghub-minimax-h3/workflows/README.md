@@ -1,6 +1,6 @@
 # Workflow dumps (author input)
 
-OpenAPI V2 AI App graphs. Node tables in `src/config.rs` are frozen from these
+OpenAPI V2 AI App graphs. Node tables in `../src/config.rs` are frozen from these
 UI dumps + the official `/openapi/v2/run/ai-app/{id}` apiCallDemo.
 
 | modelId | APP_ID | dump |
@@ -17,7 +17,7 @@ UI dumps + the official `/openapi/v2/run/ai-app/{id}` apiCallDemo.
 
 Do not copy LAN Comfy H3 pins into cloud tables. Do not guess renumbered nodes.
 
-Weight pin tables in `src/config.rs` are frozen from these dumps plus the
+Weight pin tables in `../src/config.rs` are frozen from these dumps plus the
 official `/openapi/v2/run/ai-app/{id}` apiCallDemo. i2v turbo UNet is **fl2va**;
 `h3.r2v.1slot` and 2/3/4-slot UNet is **ref2va**. 1-slot does not pin CLIP type/device
 and has no adjustable fps node; the v2 package declares native 24fps as a fixed value. Mapped submit always sends those pins; omitting

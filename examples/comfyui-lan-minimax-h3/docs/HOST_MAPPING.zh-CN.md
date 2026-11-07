@@ -5,9 +5,9 @@ UI source (sibling pack, may differ by machine):
 
 Runtime pins (this crate):
 
-- `h3.t2v` → `workflows/h3.t2v.api.json` (`WORKFLOW_PIN`)
-- `h3.i2v.turbo` → `workflows/h3.i2v.turbo.api.json` (`WORKFLOW_PIN_I2V_TURBO`)
-- `h3.r2v.turbo` → `workflows/h3.r2v.turbo.api.json` (`WORKFLOW_PIN_R2V_TURBO`)
+- `h3.t2v` → `../workflows/h3.t2v.api.json` (`WORKFLOW_PIN`)
+- `h3.i2v.turbo` → `../workflows/h3.i2v.turbo.api.json` (`WORKFLOW_PIN_I2V_TURBO`)
+- `h3.r2v.turbo` → `../workflows/h3.r2v.turbo.api.json` (`WORKFLOW_PIN_R2V_TURBO`)
 
 Unknown `model` is an error.
 

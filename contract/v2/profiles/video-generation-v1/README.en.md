@@ -4,9 +4,9 @@ This directory is the public consumption contract for `video.generate`: how adap
 
 Authoritative shapes:
 
-- Capability/operation: [`schemas/capability-contract.schema.json`](../../schemas/capability-contract.schema.json)
+- Capability/operation: [capability-contract.schema.json](../../schemas/capability-contract.schema.json)
 - This example input: [`input.example.schema.json`](input.example.schema.json)
-- UI controls: [`schemas/ui-schema.schema.json`](../../schemas/ui-schema.schema.json)
+- UI controls: [ui-schema.schema.json](../../schemas/ui-schema.schema.json)
 - Media bytes: existing controlled media channel; only `mediaId` appears in input
 
 The SDK publishes field contracts, reads declarations, forwards standard values, and reuses existing execution messaging. The SDK does **not** understand vendor business rules, does not validate vendor size combinations, does not compute vendor frame grids, and does not repair parameters for adapters. Platform limits, graphs, URLs, and error-code mapping stay in out-of-repo adapters.

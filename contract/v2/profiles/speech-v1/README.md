@@ -1,6 +1,6 @@
 # Speech v1：S0 冻结候选
 
-本目录是三层语音合同的机器表示。语义依据项目 `docs/dev/specs/20261026-SPEC-TTS三层对外合同与SDK接入要求.md`。公开协议仍为 V2 / WIT 2.0.0；本次 CLI、参考宿主为 2.0.2。它是 S0 开发候选，不能代表主程序已经支持 TTS 包或完整 SDK 发行验收已完成。
+本目录是三层语音合同的机器表示。公开语义以本目录 schema 为准。宿主规格说明不在本公开仓库，本次未能读取产品仓原文。公开协议仍为 V2 / WIT 2.0.0；本次 CLI、参考宿主为 2.0.2。它是 S0 开发候选，不能代表主程序已经支持 TTS 包或完整 SDK 发行验收已完成。
 
 - 主程序—语音模块：`host.schema.json`，包含领域输入、输出及 `Reply`；这里只发布数据形状，没有 IPC/Creator 实现。
 - 语音模块—adapter：`synthesize.*`、`batch.*`、`voices.*`、`resume`、`descriptor`、`configuration`。

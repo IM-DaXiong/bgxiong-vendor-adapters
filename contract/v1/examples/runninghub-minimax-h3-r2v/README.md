@@ -47,6 +47,6 @@ L2 hello green is **not** generation. Live: each picker row submits its own
 "RunningHub is connected".
 
 ```text
-cargo test --manifest-path packages/vendor-adapter-contract/v1/examples/runninghub-minimax-h3-r2v/Cargo.toml
+cargo test --manifest-path contract/v1/examples/runninghub-minimax-h3-r2v/Cargo.toml
 cd ui && npm run check:affected
 ```

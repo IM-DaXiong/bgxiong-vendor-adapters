@@ -1,6 +1,6 @@
 # Wan 2.2 Animate 工作流资产说明（W01 离线部分）
 
-认证原件：`ComfyUI-API/wan2.2/video_wan2_2_14B_animate.json`（画布 JSON，57 节点、108 连线，83,597 字节，SHA-256 `80b11e45d14419579126ff9861f523120d9519412a6dae73f34982c6dd78adf5`），与计划附件逐字节一致。以后先改此认证源，再同步 `../bgxiong-ComfyUI/API/wan2.2/`。
+认证画布不在本仓库。摘要钉在 [workflow-templates.json](workflow-templates.json)：57 节点、108 连线，83,597 字节，SHA-256 `80b11e45d14419579126ff9861f523120d9519412a6dae73f34982c6dd78adf5`。同级 ComfyUI 目录不在本公开仓库，本次未能核对那份副本。
 
 运行图不嵌入作者示例值：`src/graph.rs` 按请求快照逐节点构造 API 图，原件只作为作者资产与模板版本锚点（`src/mapping.rs` 记录摘要和画布节点到运行角色的对应）。仓内画布→API 编译器（`src-tauri/src/comfyui/workflow/*`）依赖实机 `/object_info` 决定 widget→输入名，不能离线运行，所以离线阶段没有产出编译后的 API 图；W05 前由实机编译一次并与 `graph.rs` 输出比对。
 

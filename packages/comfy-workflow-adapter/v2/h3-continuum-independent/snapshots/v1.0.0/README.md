@@ -2,7 +2,7 @@
 
 身份 `local.independent.comfy-h3-continuum@1.0.0`，操作 `local.independent.comfy-h3-continuum/continuum-driving-audio`，能力 `video.generate`。这是新的 Continuum 图，不是既有 H3 R2V 或 LTX 包改名；只复用公开样例的 SDK 端口、HTTP 和异步回收代码。
 
-仅依赖已安装公开作者资料、用户提供的原件、ComfyUI 原生 API 导出和节点定义。没有读取宿主实现、仓库或其他阶段 QA；没有修改公开 SDK、CLI、worker、封存 vendor-sdk。实际阅读清单在 `logs/reading-list.txt`，冻结 SDK 全部文件摘要在 `logs/frozen-public-sdk.json`。
+仅依赖已安装公开作者资料、用户提供的原件、ComfyUI 原生 API 导出和节点定义。没有读取宿主实现、仓库或其他阶段 QA；没有修改公开 SDK、CLI、worker、封存 vendor-sdk。当时的阅读清单和冻结 SDK 摘要没有随本仓库发布。
 
 ## 支持范围与音频语义
 
@@ -23,9 +23,9 @@ $Root = 'E:/CodexWork/comfy-generation-p13-20261023/author-work'
 & "$Root/Build-Continuum.ps1" -Project "$Root/author" -OutputDirectory "$Root/build-1"
 ```
 
-脚本依次执行标准 build、check、pack、packed runtime check。输出必须尚不存在。有效结果不重复重建。`build-1/runtime` 是严格 SDK runtime；`build-1/install` 另外旁置 `workflow-templates.json`，不得把它当严格 runtime 根检查。旁置模板清单不在 runtime inventory 签名范围内。`author/workflow/source.json` 保留用户原件字节，安装关联认其真实 SHA-256。
+脚本依次执行标准 build、check、pack、packed runtime check。输出必须尚不存在。有效结果不重复重建。`build-1/runtime` 是严格 SDK runtime；`build-1/install` 另外旁置 `workflow-templates.json`，不得把它当严格 runtime 根检查。旁置模板清单不在 runtime inventory 签名范围内。当前树里的用户原件是 [author/workflow/source.json](../../author/workflow/source.json)，安装关联认其真实 SHA-256。本快照目录里的副本是 [workflow/source.json](workflow/source.json)。
 
-设置→第三方适配器→SDK v2，填写完整 `host-config.app.json`，安装 `build-1/install`；在工作流库导入 `author/workflow/source.json` 并关联准确身份、版本和操作。在自由画布视频工作台选此工作流，一张原图和完整 5 秒 WAV，显式确认原音用途、runName 与固定档位后提交。`request-continuum.json` 是同一字段示例。参数默认显示不等于后端补值，缺失必填字段仍拒绝。
+设置→第三方适配器→SDK v2，填写完整 host-config.app.json，安装 build-1/install；在工作流库导入 author 工程里的 workflow/source.json 并关联准确身份、版本和操作。当前仓库中的该文件是 [author/workflow/source.json](../../author/workflow/source.json)。在自由画布视频工作台选此工作流，一张原图和完整 5 秒 WAV，显式确认原音用途、runName 与固定档位后提交。`request-continuum.json` 是同一字段示例。参数默认显示不等于后端补值，缺失必填字段仍拒绝。
 
 ## 公开 CLI 与软件验收边界
 

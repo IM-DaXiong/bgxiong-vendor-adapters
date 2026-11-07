@@ -2,7 +2,7 @@
 
 身份：`local.independent.flux2-ordered-reference@1.0.0`。能力 `image.generate`；操作 `local.independent.flux2-ordered-reference/flux2-multi-ref`；模型标识 `flux2-dev-ordered-two-reference`。固定使用安装公开 SDK/CLI/worker，通用上传、checkpoint与query机制来自公开Qwen双图样例，实际模型图为ComfyUI原生导出的FLUX.2 API图，保留两条独立参考条件链。
 
-输入必须恰好两张不同媒体身份的有序原图和文字。本包容量为2，来自目标图的两个LoadImage，不代表SDK的统一上限。不拼图、不截掉第二图、不改成单图。`workflow/source.json`是用户原件的原始字节，`src/workflow-api.json`是父智能体用ComfyUI原生“导出(API)”取得的28节点图；来源摘要及明确参数化在SOURCE.json。
+输入必须恰好两张不同媒体身份的有序原图和文字。本包容量为2，来自目标图的两个LoadImage，不代表SDK的统一上限。不拼图、不截掉第二图、不改成单图。[flux2-author/workflow/source.json](flux2-author/workflow/source.json) 是用户原件的原始字节，[flux2-author/src/workflow-api.json](flux2-author/src/workflow-api.json) 是父智能体用 ComfyUI 原生“导出(API)”取得的 28 节点图；来源摘要及明确参数化在 SOURCE.json。
 
 ## 输入与界面
 
@@ -60,7 +60,7 @@ $Endpoint = 'http://YOUR-COMFY-HOST:8188'
 
 目标服务需原生节点及四个确切权重：`flux2_dev_fp8mixed.safetensors`、`mistral_3_small_flux2_fp8.safetensors`、`flux2-vae.safetensors`、`Flux2TurboComfyv2.safetensors`。无模型自动下载、替换或降级。SOURCE及logs如实区分原生前提、作者构建、CLI与软件；不将构建绿灯称为用户端可用。
 
-阅读范围仅限安装user-examples公开树和P12 inputs。已收到父智能体纠正初始“所有标量放advanced”的过宽任务文字，并收到原生API及尺寸链提示；不是零提示盲验。实际阅读文件、复制的公开SDK文件和每次正式失败记录在`logs/read-and-failure-register.json`。未读取主仓、宿主私有实现或P01–P11私有QA。
+阅读范围仅限安装user-examples公开树和P12 inputs。已收到父智能体纠正初始“所有标量放advanced”的过宽任务文字，并收到原生API及尺寸链提示；不是零提示盲验。实际阅读文件、复制的公开 SDK 文件和每次正式失败的登记没有随本仓库发布。未读取主仓、宿主私有实现或 P01–P11 私有 QA。
 
 ## 本次实测记录
 

@@ -1,6 +1,6 @@
 # ComfyUI 作者开发包：图片、视频生成与视频编辑
 
-开发者预览版随安装发行0.6.1030交付；状态与使用边界见 [预览版说明](vendor-adapter-v2/DEVELOPER-PREVIEW.zh-CN.md)。SDK合同2.0.0和执行工具未变；主程序修复与本版实际验收以0.6.1030发行回执为准。当前完整输入模式与P01–P13最终边界请先读[生成作者索引](GENERATION-EXAMPLES.zh-CN.md)，包含P12 FLUX2与P13 H3 Continuum独立作者新图。下文保留Wan编辑样例操作指南。
+开发者预览版随安装发行0.6.1030交付；状态与使用边界见 [预览版说明](../../../contract/v2/DEVELOPER-PREVIEW.zh-CN.md)。SDK合同2.0.0和执行工具未变；主程序修复与本版实际验收以0.6.1030发行回执为准。当前完整输入模式与P01–P13最终边界请先读[生成作者索引](GENERATION-EXAMPLES.zh-CN.md)，包含P12 FLUX2与P13 H3 Continuum独立作者新图。下文保留Wan编辑样例操作指南。
 
 图片生成作者请先看 [Qwen Image 2.1 文生图样例](qwen-t2i/README.zh-CN.md)。它使用同一公开 SDK；图片工作台消费范围与下方视频编辑表单分别说明。
 
@@ -10,7 +10,7 @@
 
 **离线编译、包检查、CLI 出片、软件内安装关联与实际运行须分别验收。重开回收和实际安装版交付也须各有实测记录；仅构建或包检查通过不能代替软件可用。**
 
-普通工作流若已经可由工作流库导入、映射、发布和绑定使用，直接复用该路径；需要独立构图/操作逻辑时才参考本样例。这里没有新的 Canvas 转换器或节点自动猜测。`sample-source/workflow/source.json` 是保留原始字节的认证来源画布，实际 API 图由包内 `src/graph.rs` 构造。
+普通工作流若已经可由工作流库导入、映射、发布和绑定使用，直接复用该路径；需要独立构图/操作逻辑时才参考本样例。这里没有新的 Canvas 转换器或节点自动猜测。样例里的 [sample-source/workflow/source.json](qwen-t2i/sample-source/workflow/source.json) 是保留原始字节的认证来源画布。本目录没有统一的 src/graph.rs；API 图在各样例自己的源码里构造。
 
 ## 1. 目录和环境
 
@@ -40,7 +40,7 @@ SDK 的通用输入 schema 不等于应用视频编辑表单能消费任意字�
 
 ## 2. 离线检查参数确实进入图
 
-生成工程保留原行为测试，覆盖参数拒绝、分段、连线、Move/Mix差异。`examples/inspect.rs` 使用同一 parser/planner/builder 输出实际 Move API 图，不复制业务规则。
+生成工程保留原行为测试，覆盖参数拒绝、分段、连线、Move/Mix差异。[inspect.rs](resources/inspect.rs) 使用同一 parser/planner/builder 输出实际 Move API 图，不复制业务规则。它在本仓库的 `resources/`，不是仓库根上的 `examples/`。
 
 ```powershell
 # 在作者目录执行，显式使用已经由 SDK build 获取的缓存；仅影响当前命令进程环境。

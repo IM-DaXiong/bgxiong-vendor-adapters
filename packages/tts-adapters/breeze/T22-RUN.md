@@ -22,7 +22,7 @@ powershell -NoProfile -File scripts/publish-breeze-h1-kit.ps1 -Force -AttemptUpl
 
 | Item | Value |
 |------|-------|
-| Zip | `packages/tts-adapters/breeze/dist-offline-h1/breeze-tts-h1-1.0.0-a.zip` |
+| Zip | packages/tts-adapters/breeze/dist-offline-h1/breeze-tts-h1-1.0.0-a.zip |
 | Sha256 | `6dcfb05e6773f2924c66e392f4304c68eeee2ea2172761a17d741f27e60ebd13` |
 | Bytes | 371503 |
 | A wasm | `40570a1ead1b92bc233d1650d9feeeff518eede5b6c75b20fbcc8bcd60074a3f` (frozen) |
@@ -34,11 +34,11 @@ Also staged:
 - `dist/offline/tts/breeze-h1/` (build out; gitignored)
 - `data/offline-drop/BreezeTTS/` (product scan root; under `data/` gitignored)
 - `D:\00Dev\UPLOAD_TEMP\client\ai-story\runtimes\BreezeTTS\`
-- `runtimes/manifests/breeze-tts-h1-1.0.0-a.json`
-- `src-tauri/resources/runtime-manifests/breeze-tts-h1-1.0.0-a.json`
+- runtimes/manifests/breeze-tts-h1-1.0.0-a.json
+- src-tauri/resources/runtime-manifests/breeze-tts-h1-1.0.0-a.json
 
 ## CDN layout
-- `runtimes/cdn-object-layout.json`: stem `breeze-tts-h1` → `BreezeTTS`; prefix `breeze-tts-h1-`
+- runtimes/cdn-object-layout.json: stem `breeze-tts-h1` → `BreezeTTS`; prefix `breeze-tts-h1-`
 - Contract URLs (not downloadable until ops upload):
   - https://r.bgxiong.com/client/ai-story/runtimes/BreezeTTS/breeze-tts-h1-1.0.0-a.zip
   - https://r.bgxiong.com/client/ai-story/runtimes/BreezeTTS/breeze-tts-h1-1.0.0-a.json

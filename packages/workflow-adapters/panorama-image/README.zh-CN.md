@@ -1,4 +1,6 @@
-# 本地 ComfyUI 单图扩展全景适配包（1.0.1）
+# 本地 ComfyUI 单图扩展全景适配包（1.0.2）
+
+版本以 `manifest.json` 的 1.0.2 为准。下文若仍出现更早的工程描述，不把标题改版写成一次新的实机验收。实跑状态仍以本文「不跑 Comfy 实机 / NOT_RUN」为准。
 
 包 ID：`local.thirdparty.comfy-panorama-image`  
 模型：`panorama-image-single`  
@@ -16,7 +18,7 @@
 
 参考 RunningHub 动态包：独立 Cargo workspace、官方 `bgx-adapter-v2 init` 生成的 `vendor-sdk/` + `template-lock.json`（作者 SDK **2.0.0**）、标准 `Build.ps1`、`installation/adapter-install.template.json`。
 
-> Windows 注意：`workflow/source.json` 与 `workflow/SOURCE.json` 在大小写不敏感磁盘上冲突；溯源摘要放在包根 **`SOURCE.json`**。
+> Windows 注意：工作流文件是 [workflow/source.json](workflow/source.json)。不要再放一份只差大小写的溯源文件。溯源摘要在包根 [SOURCE.json](SOURCE.json)。
 
 ## 模型（不入 git）
 
